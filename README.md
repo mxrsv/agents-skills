@@ -1,85 +1,85 @@
 # Agents & Skills
 
-Bộ **custom agents** và **skills** cá nhân cho [Claude Code](https://claude.com/claude-code), tích luỹ qua quá trình dùng hàng ngày. Repo này là bản backup công khai — không chứa session, memory, hay bất kỳ config nhạy cảm nào (xem `.gitignore`).
+A personal set of **custom agents** and **skills** for [Claude Code](https://claude.com/claude-code), built up through daily use. This repo is a public backup — it contains no sessions, memory, or sensitive config (see `.gitignore`).
 
-## Cấu trúc
+## Structure
 
 ```
-agents/     — subagent chuyên biệt (review, planning, research...)
-skills/     — skill có thể invoke qua Skill tool hoặc slash command
-commands/   — slash command tuỳ biến
-rules/      — coding style / pattern áp dụng theo ngôn ngữ hoặc dùng chung
+agents/     — specialized subagents (review, planning, research...)
+skills/     — skills invokable via the Skill tool or slash commands
+commands/   — custom slash commands
+rules/      — coding style / patterns, per-language or shared
 ```
 
-## Cách dùng
+## Usage
 
-Copy thư mục tương ứng vào `~/.claude/` (global) hoặc `.claude/` trong project (local):
+Copy the folders you want into `~/.claude/` (global) or `.claude/` inside a project (local):
 
 ```bash
 git clone https://github.com/mxrsv/agents-skills.git
-cp -r agents-skills/agents  ~/.claude/agents
-cp -r agents-skills/skills  ~/.claude/skills
+cp -r agents-skills/agents   ~/.claude/agents
+cp -r agents-skills/skills   ~/.claude/skills
 cp -r agents-skills/commands ~/.claude/commands
-cp -r agents-skills/rules   ~/.claude/rules
+cp -r agents-skills/rules    ~/.claude/rules
 ```
 
-Claude Code tự nhận diện agent (qua `Agent` tool) và skill (qua `Skill` tool) dựa trên `description` trong frontmatter — không cần cấu hình thêm.
+Claude Code automatically discovers agents (via the `Agent` tool) and skills (via the `Skill` tool) from the `description` in each file's frontmatter — no extra configuration needed.
 
 ## Agents
 
-| Agent                       | Vai trò                                                                                                |
-| --------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `analyst`                   | Research, market/competitive analysis, brainstorming facilitation — ra draft document cho người review |
-| `architect`                 | Thiết kế kiến trúc hệ thống, quyết định kỹ thuật khi lên plan feature/refactor lớn                     |
-| `planner`                   | Lên kế hoạch chi tiết cho feature/refactor phức tạp                                                    |
-| `plan-reviewer`             | Review plan có khớp với codebase hiện tại không (Gate 2) — read-only                                   |
-| `code-reviewer`             | Review code sau khi implement — findings-first, báo hết lỗi trước khi sửa (Gate 3)                     |
-| `engineering-code-reviewer` | Review code tập trung correctness/maintainability/security/performance, bỏ qua style cá nhân           |
-| `typescript-reviewer`       | Review chuyên sâu TypeScript/JS — type safety, async correctness, security                             |
-| `react-reviewer`            | Review chuyên sâu React/JSX — hook correctness, render performance, a11y                               |
-| `database-reviewer`         | Review PostgreSQL — query optimization, schema design, best practice Supabase                          |
-| `security-reviewer`         | Phát hiện lỗ hổng bảo mật — OWASP Top 10, secrets, injection, SSRF                                     |
-| `performance-optimizer`     | Tìm bottleneck, tối ưu runtime, giảm bundle size                                                       |
-| `silent-failure-hunter`     | Săn lỗi bị nuốt âm thầm — swallowed error, fallback tệ, thiếu error propagation                        |
-| `refactor-cleaner`          | Dọn dead code, trùng lặp — chạy knip/depcheck/ts-prune rồi xoá an toàn                                 |
-| `doc-updater`               | Cập nhật codemap và tài liệu (README, docs/CODEMAPS)                                                   |
+| Agent                       | Role                                                                                               |
+| --------------------------- | -------------------------------------------------------------------------------------------------- |
+| `analyst`                   | Research, market/competitive analysis, brainstorming facilitation — produces draft docs for review |
+| `architect`                 | System architecture design and technical decisions for large feature/refactor planning             |
+| `planner`                   | Detailed planning for complex features and refactors                                               |
+| `plan-reviewer`             | Verifies a plan is executable against the current codebase (Gate 2) — read-only                    |
+| `code-reviewer`             | Reviews implemented code — findings-first, reports all issues before any fixes (Gate 3)            |
+| `engineering-code-reviewer` | Reviews code for correctness/maintainability/security/performance, not style preferences           |
+| `typescript-reviewer`       | Deep TypeScript/JS review — type safety, async correctness, security                               |
+| `react-reviewer`            | Deep React/JSX review — hook correctness, render performance, accessibility                        |
+| `database-reviewer`         | PostgreSQL review — query optimization, schema design, Supabase best practices                     |
+| `security-reviewer`         | Detects security vulnerabilities — OWASP Top 10, secrets, injection, SSRF                          |
+| `performance-optimizer`     | Finds bottlenecks, optimizes runtime, reduces bundle size                                          |
+| `silent-failure-hunter`     | Hunts silent failures — swallowed errors, bad fallbacks, missing error propagation                 |
+| `refactor-cleaner`          | Cleans up dead code and duplication — runs knip/depcheck/ts-prune, then safely removes it          |
+| `doc-updater`               | Updates codemaps and documentation (README, docs/CODEMAPS)                                         |
 
 ## Skills
 
-| Skill                           | Dùng khi nào                                                          |
-| ------------------------------- | --------------------------------------------------------------------- |
-| `brainstorm`                    | Trước khi build feature mới — clarify → đề xuất hướng → chốt spec     |
-| `write-plan` / `planning`       | Sau khi rõ scope — viết plan thực thi từ spec                         |
-| `plan-review`                   | Sau khi có plan, trước khi code — verify tính khả thi                 |
-| `test-driven-development`       | Trước khi code logic mới — bắt buộc Red-Green-Refactor                |
-| `code-review`                   | Sau khi implement, trước khi ship — verdict APPROVE/WARNING/BLOCK     |
-| `review`                        | Review tổng quát spec/plan/code, findings-first                       |
-| `verification`                  | Trước khi claim "đã xong/đã fix" — cần evidence thật                  |
-| `finish`                        | Khi implementation xong — verify lại, tóm tắt, đề xuất bước tiếp theo |
-| `security-review`               | Khi thêm auth, xử lý input, secrets, payment                          |
-| `e2e-testing`                   | Viết/khắc phục Playwright test, POM pattern                           |
-| `codebase-onboarding`           | Vào codebase lạ — dựng architecture map nhanh                         |
-| `improve-codebase-architecture` | Tìm cơ hội refactor/deepen kiến trúc                                  |
-| `deep-research`                 | Research đa nguồn có trích dẫn (firecrawl + exa)                      |
-| `grill-with-docs`               | Stress-test plan so với domain model / ADR hiện có                    |
-| `explain`                       | Giải thích khái niệm/bug/quyết định thiết kế theo phong cách sư phạm  |
-| `frontend-design-bar`           | Build/reshape UI web — đảm bảo trông "được thiết kế", không generic   |
-| `frontend-design-direction`     | Định hướng thiết kế frontend cho sản phẩm cụ thể                      |
-| `html-artifact`                 | Tạo HTML artifact tự chứa (chỉ khi gọi tường minh)                    |
-| `prototype`                     | Dựng prototype nháp để thử design/data model trước khi commit         |
-| `manim-video`                   | Dựng video giải thích kỹ thuật bằng Manim                             |
-| `content-engine`                | Tạo content đa nền tảng (X, LinkedIn, TikTok, newsletter...)          |
-| `create-doc`                    | Tạo document theo template (PRD, research report, brief)              |
-| `git-workflow`                  | Pattern branching, commit convention, merge/rebase                    |
-| `github-ops`                    | Vận hành GitHub qua `gh` — issue/PR/CI/release                        |
-| `team-agent-orchestration`      | Điều phối squad nhiều agent — work item, ownership, merge gate        |
-| `role-routing`                  | Map vai trò analyst/developer/reviewer sang Codex-style subagent      |
-| `hand-off`                      | Nén hội thoại hiện tại thành handoff doc cho agent khác               |
-| `teach`                         | Dạy user một khái niệm/kỹ năng mới trong workspace                    |
-| `context-budget`                | Audit token usage của agents/skills/MCP/CLAUDE.md                     |
+| Skill                           | When to use                                                                |
+| ------------------------------- | -------------------------------------------------------------------------- |
+| `brainstorm`                    | Before building a new feature — clarify → propose approaches → lock spec   |
+| `write-plan` / `planning`       | Once scope is clear — write an execution plan from a spec                  |
+| `plan-review`                   | After a plan exists, before coding — verify feasibility                    |
+| `test-driven-development`       | Before writing new logic — enforces Red-Green-Refactor                     |
+| `code-review`                   | After implementation, before shipping — verdict APPROVE/WARNING/BLOCK      |
+| `review`                        | General findings-first review of specs/plans/code                          |
+| `verification`                  | Before claiming work is "done/fixed" — requires real evidence              |
+| `finish`                        | When implementation is complete — re-verify, summarize, suggest next steps |
+| `security-review`               | When adding auth, handling input, secrets, or payments                     |
+| `e2e-testing`                   | Writing/fixing Playwright tests, Page Object Model                         |
+| `codebase-onboarding`           | Entering an unfamiliar codebase — build a fast architecture map            |
+| `improve-codebase-architecture` | Find refactoring/deepening opportunities in architecture                   |
+| `deep-research`                 | Multi-source research with citations (firecrawl + exa)                     |
+| `grill-with-docs`               | Stress-test a plan against the existing domain model / ADRs                |
+| `explain`                       | Explain a concept/bug/design decision in a deliberate teaching style       |
+| `frontend-design-bar`           | Build/reshape web UI — make sure it looks designed, not generic            |
+| `frontend-design-direction`     | Set a product-specific frontend design direction                           |
+| `html-artifact`                 | Create a self-contained HTML artifact (only when explicitly invoked)       |
+| `prototype`                     | Build a throwaway prototype to test a design/data model before committing  |
+| `manim-video`                   | Build technical explainer videos with Manim                                |
+| `content-engine`                | Create multi-platform content (X, LinkedIn, TikTok, newsletters...)        |
+| `create-doc`                    | Create documents from templates (PRD, research report, brief)              |
+| `git-workflow`                  | Branching patterns, commit conventions, merge/rebase                       |
+| `github-ops`                    | GitHub operations via `gh` — issues/PRs/CI/releases                        |
+| `team-agent-orchestration`      | Orchestrate a multi-agent squad — work items, ownership, merge gates       |
+| `role-routing`                  | Map analyst/developer/reviewer roles onto Codex-style subagents            |
+| `hand-off`                      | Compact the current conversation into a handoff doc for another agent      |
+| `teach`                         | Teach the user a new skill or concept within the workspace                 |
+| `context-budget`                | Audit token usage across agents/skills/MCP/CLAUDE.md                       |
 
 ## Rules
 
-- `rules/context7.md` — luôn ưu tiên tra doc qua Context7 MCP khi làm việc với library/framework
-- `rules/common/` — coding style, pattern React, pattern chung áp dụng mọi ngôn ngữ
-- `rules/typescript/` — coding style và pattern riêng cho TypeScript
+- `rules/context7.md` — always prefer looking up docs via the Context7 MCP when working with libraries/frameworks
+- `rules/common/` — coding style, React patterns, and general patterns shared across languages
+- `rules/typescript/` — coding style and patterns specific to TypeScript
