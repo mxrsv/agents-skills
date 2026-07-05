@@ -1,0 +1,22 @@
+# Whitelist approach — safe for PUBLIC repo.
+# Chặn tất cả mặc định, chỉ mở lại đúng những gì muốn share.
+# Thêm entry mới KHÔNG tự động bị commit trừ khi khai báo ở đây.
+
+/*
+
+# Cho phép các folder/file muốn share công khai
+!/agents/
+!/skills/
+!/commands/
+!/rules/
+!/README.md
+!/.gitignore
+
+# OS junk có thể lọt vào các folder được whitelist ở trên
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.*.swp
+*.bak
