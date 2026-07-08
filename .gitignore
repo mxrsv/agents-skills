@@ -12,6 +12,11 @@
 !/README.md
 !/.gitignore
 
+# Docs: chỉ share design docs của workflow-pipeline, phần docs/ còn lại vẫn chặn
+!/docs/
+/docs/*
+!/docs/workflow-pipeline/
+
 # OS junk có thể lọt vào các folder được whitelist ở trên
 .DS_Store
 Thumbs.db
