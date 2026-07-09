@@ -20,8 +20,14 @@ version: 1                       # CHỈ REQUIREMENTS (+ doc versioned) dùng; d
 ```
 
 ### `hash`
-- = `sha256(body)` — body là toàn bộ nội dung **dưới** khối frontmatter.
+- = `sha256(body)` — body = **mọi byte SAU dòng `---` đóng frontmatter** (kể cả newline cuối). Byte-range cố định này để hash tái lập y hệt mỗi lần.
 - **Không tính frontmatter** → re-stamp `from_hash` (đường `reviewed-valid`, xem `hash-cascade`) **KHÔNG** đổi `hash`. Đúng: nội dung không đụng ⇒ integrity giữ nguyên.
+- **BẮT BUỘC tính bằng TOOL — KHÔNG "tính bằng đầu"** (H1). LLM không băm sha256 được; bịa hash ⇒ toàn bộ integrity + cascade thành rác. Tách body rồi hash bằng Bash, vd:
+  ```bash
+  # body = mọi dòng sau dòng '---' thứ 2 (đóng frontmatter), rồi sha256
+  awk 'NR==1&&/^---$/{fm=1;next} fm&&/^---$/{fm=0;b=1;next} b' doc.md | shasum -a 256 | cut -d' ' -f1
+  ```
+  Tương đương: `git hash-object --stdin` trên body. Điểm cốt: **deterministic + tool-computed**.
 
 ### `from_hash` (map)
 - id → hash hiện tại của **mọi** nguồn upstream mà doc này distill ra, snapshot tại lúc freeze.
@@ -37,7 +43,7 @@ Chạy khi phase skill kết một artifact:
 
 1. **Completeness-check pass** (gate rule 4): (a) đủ section cấu trúc **VÀ** (b) khớp `PRINCIPLES.md`. Chưa đạt → **KHÔNG mời freeze**.
 2. **Người confirm** "freeze?" — không auto-freeze.
-3. **Compute `hash`** = sha256 body markdown.
+3. **Compute `hash`** = sha256(body) **bằng tool** (§ `hash` — tách body sau frontmatter rồi `shasum -a 256` / `git hash-object`). KHÔNG tự bịa hash.
 4. **Snapshot `from_hash`** = map hash hiện tại của mọi upstream (đọc frontmatter `hash` của từng upstream).
 5. **Ghi frontmatter** vào doc (`frozen: true`, `hash`, `from_hash`, `version` nếu áp dụng).
 6. **Update lock**: `docs[<id>].status = active`; advance `phase` (nếu là phase skill).
@@ -50,11 +56,19 @@ Chạy khi phase skill kết một artifact:
 | --- | --- | --- |
 | (a) tồn tại | file `docs[].path` có không? | thiếu doc → chặn, báo |
 | (b) frozen | frontmatter `frozen: true`? | chưa freeze → chặn |
-| (c) integrity | recompute `sha256(body)` == frontmatter `hash`? | body bị sửa ngoài luồng → cảnh báo tamper |
+| (c) integrity | recompute `sha256(body)` **bằng tool, cùng byte-range** == frontmatter `hash`? | body bị sửa ngoài luồng → cảnh báo tamper |
 | (d) upstream valid | mỗi `from_hash[U]` == `hash` hiện tại của `U`? | **STALE** (upstream đổi → xem `hash-cascade`) |
 
 - **(d) fail = STALE** — không tự sửa; route theo `hash-cascade` (re-gate / reviewed-valid / defer).
 - Cross-check này là lý do state không cần "block chữ": mọi thứ suy-ra-được từ hash + lock.
+
+## Manifest cross-check ADR (M2 — bắt buộc từ khi grill chạy inline)
+
+Cùng lúc gate cross-check trên, **mọi command trước khi hành động** verify `decisions/` bất biến:
+
+- Với mỗi `id` trong `adr_manifest` (`PIPELINE.lock`): recompute `sha256(body ADR)` **bằng tool** == giá trị đã lưu?
+- Lệch ⇒ một ADR cũ bị sửa lén (vi phạm append-only) → **chặn + báo**. Chỉ được **append id MỚI**, không đổi id cũ.
+- Đây là backstop chính cho `decisions/` khi grill chạy **inline** (không còn tool-sandbox) — xem `elicitation-contract` § safety net.
 
 ## Ghi chú
 

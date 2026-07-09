@@ -25,7 +25,7 @@ docs-pipeline/
 │   ├── pipeline-lock-schema.md #   state machine-readable (PIPELINE.lock) — nguồn state DUY NHẤT
 │   ├── freeze-protocol.md      #   frontmatter hash/from_hash + gate cross-check
 │   ├── hash-cascade.md         #   STALE detection + cascade arbitration (topo-order + re-scan)
-│   └── elicitation-contract.md #   hợp đồng gọi 2 engine (grill = subagent chỉ-đề-xuất)
+│   └── elicitation-contract.md #   hợp đồng gọi 2 engine (grill INLINE propose-only)
 ├── kickoff/       SKILL.md      # phase 0 → freeze PRINCIPLES
 ├── product/       SKILL.md      # phase 1 → freeze PRD + BUSINESS-FLOW
 ├── architecture/  SKILL.md      # phase 2 → freeze ARCHITECTURE (+ UX-DESIGN có điều kiện)
@@ -52,7 +52,7 @@ Docs pipeline (`docs/…`, `PIPELINE.lock`) được skill ghi vào **repo mà u
 2. State một chỗ, machine-readable — `PIPELINE.lock`; CONTEXT = prose thuần.
 3. Ba lớp quyền ghi — frozen (chỉ `/reconcile`|`/pivot`) · living · append-only immutable.
 4. Gate = người + completeness-check (đủ section VÀ khớp PRINCIPLES) trước freeze.
-5. Elicitation = tái dùng + custom mỏng; enforce reuse bằng cấu trúc + backstop hash ADR.
+5. Elicitation = tái dùng + custom mỏng; grill INLINE propose-only → hàng rào = hash cross-check + ADR manifest backstop (bắt buộc chạy thật).
 6. Cuối phase 4 việc — freeze · update lock · compact CONTEXT (archive-not-delete) · nhắc `/adr`.
 7. UX = sub-artifact có điều kiện — KHÔNG phải phase; `/architecture` VẪN bắt buộc.
 8. FR/NFR viết một lần — narrative PRD, atomic REQUIREMENTS.

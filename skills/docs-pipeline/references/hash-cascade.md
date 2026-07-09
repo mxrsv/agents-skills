@@ -16,6 +16,7 @@ Doc `D` **STALE** ⟺ ∃ upstream `U ∈ D.from_hash` mà `current_hash(U) ≠ 
 
 - Suy-ra-được từ hash; **KHÔNG lưu** state STALE thô vào lock.
 - Chỉ **quyết-định-người** `defer` mới ghi `docs[D].status = stale-deferred`.
+- `current_hash(U)` + mọi hash ở đây **tính bằng tool** (`freeze-protocol` § hash — H1), không bịa.
 
 ## Cascade arbitration
 
