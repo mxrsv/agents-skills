@@ -10,7 +10,7 @@ arguments: title
 
 **Mục đích:** ghi quyết định lý-do/lịch-sử, **append-only immutable**. Đổi ý → ADR mới **supersedes**, KHÔNG sửa file cũ.
 
-Đọc trước: `../references/pipeline-lock-schema.md` · `../references/elicitation-contract.md`.
+Đọc trước: `../../references/pipeline-lock-schema.md` · `../../references/elicitation-contract.md`.
 
 ## Trigger
 

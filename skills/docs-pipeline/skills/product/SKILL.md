@@ -10,7 +10,7 @@ arguments: none
 
 **Mục đích:** MOI intent → `PRD.md` (intent · journey · scope) + `BUSINESS-FLOW.md` (state · rule · invariant).
 
-Đọc trước: `../references/pipeline-lock-schema.md` · `../references/freeze-protocol.md` · `../references/elicitation-contract.md`.
+Đọc trước: `../../references/pipeline-lock-schema.md` · `../../references/freeze-protocol.md` · `../../references/elicitation-contract.md`.
 
 ## Trigger & gate-guard
 

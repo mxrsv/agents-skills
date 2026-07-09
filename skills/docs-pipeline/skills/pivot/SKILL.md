@@ -12,7 +12,7 @@ arguments: target_phase
 
 > **Framing chống-trừng-phạt (fix 3.2 ②):** phơi reframe gốc = hệ thống **THÀNH CÔNG**, KHÔNG phạt. Giá redo là thật nhưng bounded + recorded + rẻ hơn phát hiện sau build. **Không có framing này thì cơ chế vô dụng.**
 
-Đọc trước: `../references/hash-cascade.md` · `../references/pipeline-lock-schema.md` · `../references/freeze-protocol.md` · `../references/elicitation-contract.md`.
+Đọc trước: `../../references/hash-cascade.md` · `../../references/pipeline-lock-schema.md` · `../../references/freeze-protocol.md` · `../../references/elicitation-contract.md`.
 
 ## Trigger
 

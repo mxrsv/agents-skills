@@ -1,0 +1,5 @@
+{
+  "name": "docs-pipeline",
+  "version": "1.0.0",
+  "description": "Linear, freeze-gated docs-bootstrap pipeline (8 skills) that replaces BMad and ends at a frozen REQUIREMENTS.md contract handed off to superpowers:writing-plans. Skills: /kickoff /product /architecture /requirements (phases) + /adr /reconcile /pivot /agent-rules (anytime). Shared references under references/."
+}

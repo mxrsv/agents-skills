@@ -80,18 +80,18 @@ Claude Code automatically discovers agents (via the `Agent` tool) and skills (vi
 
 ### `docs-pipeline` — bộ 8 skill docs-bootstrap (thay BMad)
 
-A linear, freeze-gated docs-bootstrap pipeline that ends at a frozen `REQUIREMENTS.md` contract handed off to `superpowers:writing-plans`. Lives under `skills/docs-pipeline/` with a shared `references/` (single source of truth for the lock schema, freeze protocol, hash-cascade, and elicitation contract). Design source: `docs/workflow-pipeline/SPEC.md`.
+A linear, freeze-gated docs-bootstrap pipeline that ends at a frozen `REQUIREMENTS.md` contract handed off to `superpowers:writing-plans`. Packaged as a **skills-directory plugin** (`skills/docs-pipeline/.claude-plugin/plugin.json`, skills under `skills/docs-pipeline/skills/`) with a shared `references/` (single source of truth for the lock schema, freeze protocol, hash-cascade, and elicitation contract). Skills invoke namespaced, e.g. `/docs-pipeline:kickoff`. Design source: `docs/workflow-pipeline/SPEC.md`.
 
-| Skill           | Role                                                                         |
-| --------------- | ---------------------------------------------------------------------------- |
+| Skill           | Role                                                                           |
+| --------------- | ------------------------------------------------------------------------------ |
 | `/kickoff`      | Phase 0 — scaffold `docs/`, capture + freeze `PRINCIPLES.md` (root hash-graph) |
-| `/product`      | Phase 1 — extract intent → freeze `PRD.md` + `BUSINESS-FLOW.md`              |
-| `/architecture` | Phase 2 — freeze `ARCHITECTURE.md` (+ conditional `UX-DESIGN.md`)            |
-| `/requirements` | Phase 3 (terminal) — distill atomic FR/NFR → freeze `REQUIREMENTS.md`        |
-| `/adr`          | Anytime — append-only immutable decision record                             |
-| `/reconcile`    | Anytime — open a frozen doc for a local gap → re-freeze → cascade STALE       |
-| `/pivot`        | Anytime — escape-hatch for a wrong premise → archive + rewind                |
-| `/agent-rules`  | Standalone — generate a `CLAUDE.md`/`AGENTS.md` (outside the pipeline)       |
+| `/product`      | Phase 1 — extract intent → freeze `PRD.md` + `BUSINESS-FLOW.md`                |
+| `/architecture` | Phase 2 — freeze `ARCHITECTURE.md` (+ conditional `UX-DESIGN.md`)              |
+| `/requirements` | Phase 3 (terminal) — distill atomic FR/NFR → freeze `REQUIREMENTS.md`          |
+| `/adr`          | Anytime — append-only immutable decision record                                |
+| `/reconcile`    | Anytime — open a frozen doc for a local gap → re-freeze → cascade STALE        |
+| `/pivot`        | Anytime — escape-hatch for a wrong premise → archive + rewind                  |
+| `/agent-rules`  | Standalone — generate a `CLAUDE.md`/`AGENTS.md` (outside the pipeline)         |
 
 ## Rules
 

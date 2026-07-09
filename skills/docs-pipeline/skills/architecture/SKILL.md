@@ -10,7 +10,7 @@ arguments: none
 
 **Mục đích:** chốt kiến trúc trên nền frozen product docs. UX là **sub-artifact CÓ ĐIỀU KIỆN** (rule 7) — KHÔNG phải một phase riêng.
 
-Đọc trước: `../references/pipeline-lock-schema.md` · `../references/freeze-protocol.md` · `../references/hash-cascade.md` · `../references/elicitation-contract.md`.
+Đọc trước: `../../references/pipeline-lock-schema.md` · `../../references/freeze-protocol.md` · `../../references/hash-cascade.md` · `../../references/elicitation-contract.md`.
 
 ## Trigger & gate-guard
 

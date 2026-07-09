@@ -10,7 +10,7 @@ arguments: none
 
 **Mục đích:** distill FR/NFR **atomic** + acceptance → `REQUIREMENTS.md` — **contract terminal** handoff sang `superpowers:writing-plans`.
 
-Đọc trước: `../references/pipeline-lock-schema.md` · `../references/freeze-protocol.md` · `../references/hash-cascade.md` · `../references/elicitation-contract.md`.
+Đọc trước: `../../references/pipeline-lock-schema.md` · `../../references/freeze-protocol.md` · `../../references/hash-cascade.md` · `../../references/elicitation-contract.md`.
 
 ## Trigger & gate-guard
 

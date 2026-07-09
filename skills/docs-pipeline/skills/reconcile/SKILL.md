@@ -10,7 +10,7 @@ arguments: target
 
 **Mục đích:** mở 1 frozen doc sửa **gap cục bộ** (framing giữ nguyên) → re-freeze → cascade STALE downstream. Cùng `/pivot` là **hai đường DUY NHẤT** mở frozen doc.
 
-Đọc trước: `../references/freeze-protocol.md` · `../references/hash-cascade.md` · `../references/pipeline-lock-schema.md`.
+Đọc trước: `../../references/freeze-protocol.md` · `../../references/hash-cascade.md` · `../../references/pipeline-lock-schema.md`.
 
 ## Trigger
 

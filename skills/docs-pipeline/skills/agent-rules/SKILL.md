@@ -10,7 +10,7 @@ arguments: filename
 
 **Mục đích:** sinh **1 file luật code cho agent** (kiểu `CLAUDE.md` / `AGENTS.md`), gọi **độc lập** — KHÔNG trong pipeline tuyến tính, KHÔNG trong hash-graph.
 
-Đọc trước: `../references/elicitation-contract.md`.
+Đọc trước: `../../references/elicitation-contract.md`.
 
 ## Trigger
 

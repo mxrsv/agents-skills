@@ -10,7 +10,7 @@ arguments: brief
 
 **Mục đích:** bootstrap scaffold `docs/` + capture non-negotiable của repo + research/brief. Kết bằng **freeze `PRINCIPLES.md`** — root của hash-graph.
 
-Đọc trước: `../references/pipeline-lock-schema.md` · `../references/freeze-protocol.md` · `../references/elicitation-contract.md`.
+Đọc trước: `../../references/pipeline-lock-schema.md` · `../../references/freeze-protocol.md` · `../../references/elicitation-contract.md`.
 
 ## Trigger & guard
 
