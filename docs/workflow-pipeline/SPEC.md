@@ -74,7 +74,7 @@ Dùng chung bởi cả 8 skill. Tách ra `references/` chính là lý do **phả
 
 ### 3.1 `pipeline-lock-schema` — schema `PIPELINE.lock`
 
-Machine-readable (YAML). Là **nguồn state DUY NHẤT** cho con trỏ + quyết định + cờ; hash sống ở frontmatter doc (§3.2), KHÔNG nhân đôi vào đây.
+Machine-readable (YAML). Là **nguồn state DUY NHẤT** cho con trỏ + quyết định + cờ; hash sống ở frontmatter doc (§3.2), KHÔNG nhân đôi vào đây. _(Extension 2026-07-09: thêm field `project_type: greenfield|brownfield` — xem §9.)_
 
 ```yaml
 lock_version: 1 # schema version của chính lock
@@ -182,6 +182,8 @@ Mỗi skill: **mục đích · trigger · input đọc · output ghi · gate · 
 > **Post-phase 4 việc (rule 6):** cuối mỗi phase skill tự làm — (a) freeze artifact · (b) update `PIPELINE.lock` · (c) compact CONTEXT (đẩy phần kết tinh → `CONTEXT-archive.md`, **archive-not-delete**, conservative) · (d) nhắc `/adr` nếu vừa nảy quyết định lớn.
 
 ### 4.1 `/kickoff` — Phase 0
+
+> **Brownfield (extension 2026-07-09):** `/kickoff` có mode brownfield — detect existing code → recon read-only → CONTEXT buckets. Chi tiết: §9.
 
 - **Mục đích:** bootstrap scaffold `docs/` + capture non-negotiable repo + research/brief.
 - **Trigger:** user gõ `/kickoff` (repo mới, chưa có pipeline). Nếu `PIPELINE.lock` đã tồn tại → cảnh báo, không ghi đè.
@@ -303,3 +305,22 @@ Chỉ build tiếp 8 skill khi **pass 2.1**.
 ## 8. Ghi chú traceability về nguồn
 
 SPEC này phủ toàn bộ nửa normative của `WORKFLOW.md`: mục tiêu (dòng 5–18) · pipeline 4 phase (22–29) · update cmd (31–35) · đứng-cạnh (37–39) · tích hợp ecosystem (41–63) · nhịp grill→distill→freeze (65–74) · 10 rule (76–87) · risk divergent/convergent (89–95) · out-of-scope (101–105). Hardening: fix 1.1 (§3.1–3.2) · 1.2 (§3.3) · 1.4 (§4.5–4.6) · 3.2/F12 (§4.7) · 4.1 (§4.4, §7) · contract-reuse/NEW-1 (§3.4) · elicitation table (§3.4). Verification review adversarial (117–159) + design-fixes changelog (161–234) = rationale, KHÔNG normative — đã fold vào các mục trên.
+
+## 9. Brownfield extension (additive, 2026-07-09)
+
+> **Extension có ngày, KHÔNG rewrite frozen core.** WORKFLOW đóng khung greenfield ("repo mới"); brownfield là **quyết định mới** (2026-07-09) thêm vào, không mở lại §1–§8. Là **MODE của `/kickoff`, KHÔNG phải phase mới** — số phase vẫn 4 (củng cố invariant §5).
+
+**Vấn đề:** trên repo đã có code, không skill nào đọc codebase → docs mù, mâu thuẫn thực tại; downstream `writing-plans` đọc code → plan trùng/xung đột, không biết migration.
+
+**Giải:** `/kickoff` phát hiện brownfield → chạy **recon read-only** (subagent, read-isolation, trả TEXT) → parent ghi 3 bucket vào `CONTEXT.md` (living, prose — **KHÔNG frozen doc mới**). Full contract: `references/codebase-recon.md` (shared reference thứ 5, bổ sung §3.4).
+
+**4 quyết định khoá:**
+
+- **Scope:** per-feature / **LIGHT default**; DEEP opt-in scoped theo feature. KHÔNG reverse-document cả hệ thống (bám "discipline không depth" §1 + "PRINCIPLES nhẹ" rule 10).
+- **Detection:** auto-detect heuristic (source/manifest/git-history/toolchain có, mà PRINCIPLES + lock vắng) → **người confirm 1 lần** (override 2 chiều). Không suy mode ngầm (gate = người, rule 4).
+- **Landing:** **CONTEXT-only.** Recon = descriptive scaffolding, không phải contract → không thêm node hash-graph, không đổi cascade. `ARCHITECTURE.md` (§4.3) hấp thụ current-state.
+- **Lock:** thêm `project_type: greenfield|brownfield` (§3.1) — set 1 lần ở `/kickoff` init, immutable, additive (absent ⇒ greenfield, giữ `lock_version: 1`).
+
+**Recon engine:** thin wrapper mượn methodology `codebase-onboarding` (KHÔNG invoke as-is — nó thiếu bucket business-rule) + thêm bucket domain-rules (validation/guard/state-machine/permission/calc rule, quote + `file:line`) + LIGHT/DEEP switch. Subagent read-isolation **không mâu thuẫn** grill-inline (trục khác: read-isolation ≠ write-sandbox); vẫn "engine trả text, parent ghi".
+
+**Bucket → tiêu thụ:** A conventions/constraints → PRINCIPLES (kickoff, chỉ hard-constraint) · B domain rules/invariant → BUSINESS-FLOW (`/product`) · C component/layer/data-flow → ARCHITECTURE (`/architecture`) · Runbook appendix. Compaction cuối kickoff **giữ bucket chưa tiêu thụ**.

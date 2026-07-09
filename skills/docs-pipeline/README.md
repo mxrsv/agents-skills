@@ -27,7 +27,8 @@ docs-pipeline/                      # skills-directory plugin — auto-load qua 
 │   ├── pipeline-lock-schema.md     #   state machine-readable (PIPELINE.lock) — nguồn state DUY NHẤT
 │   ├── freeze-protocol.md          #   frontmatter hash/from_hash + gate cross-check
 │   ├── hash-cascade.md             #   STALE detection + cascade arbitration (topo-order + re-scan)
-│   └── elicitation-contract.md     #   hợp đồng gọi 2 engine (grill INLINE propose-only)
+│   ├── elicitation-contract.md     #   hợp đồng gọi 2 engine (grill INLINE propose-only)
+│   └── codebase-recon.md           #   brownfield: recon read-only → CONTEXT buckets (extension)
 └── skills/
     ├── kickoff/       SKILL.md      # phase 0 → freeze PRINCIPLES
     ├── product/       SKILL.md      # phase 1 → freeze PRD + BUSINESS-FLOW
@@ -48,6 +49,10 @@ Docs pipeline (`docs/…`, `PIPELINE.lock`) được skill ghi vào **repo mà u
 ## Engine tái dùng (ngoài package)
 
 `interview-me` + `grill-with-docs` là engine **ngoài** package — tái dùng, không viết lại (`elicitation-contract`). `brainstorming` **ĐÃ BỎ** (chỉ giữ "2-3 approaches" inline).
+
+## Brownfield mode (extension 2026-07-09)
+
+`/kickoff` detect existing codebase → chạy **recon read-only** (subagent, mượn methodology `codebase-onboarding`) → ghi 3 bucket vào `CONTEXT.md`: conventions/constraints → PRINCIPLES · domain rules/invariant → BUSINESS-FLOW · component/layer/data-flow → ARCHITECTURE (+ runbook). **Không phase mới, không frozen doc mới**; `PIPELINE.lock.project_type = brownfield`. Contract: `references/codebase-recon.md`. Chi tiết: SPEC §9.
 
 ## 10 invariant (checklist)
 

@@ -27,7 +27,7 @@ arguments: none
 
 ## Input đọc
 
-`PRINCIPLES.md` (frozen — nền cho completeness-check + grill) · `CONTEXT.md`.
+`PRINCIPLES.md` (frozen — nền cho completeness-check + grill) · `CONTEXT.md`. **Brownfield** (`project_type: brownfield`): `CONTEXT.md` có **bucket B** (domain rules/invariant từ code) — dùng để inform BUSINESS-FLOW thay vì moi từ đầu.
 
 ## Output ghi
 
@@ -38,6 +38,7 @@ arguments: none
 ## Gate (freeze CẢ HAI)
 
 Completeness-check **từng doc** (rule 4):
+
 - PRD có **intent + journey + scope**?
 - BUSINESS-FLOW có **state + rule + invariant**?
 - **VÀ** khớp PRINCIPLES (không chỉ đủ mục — đúng ràng buộc repo)?
@@ -47,6 +48,7 @@ Completeness-check **từng doc** (rule 4):
 ## Side-effect `PIPELINE.lock`
 
 Sau freeze:
+
 - `docs[PRD].status = active`, `docs[BUSINESS-FLOW].status = active` (thêm entry nếu chưa có).
 - **`phase → architecture`**.
 

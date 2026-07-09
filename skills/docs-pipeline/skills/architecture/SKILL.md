@@ -26,7 +26,7 @@ arguments: none
 
 ## Input đọc
 
-`PRINCIPLES` · `PRD` · `BUSINESS-FLOW` (frozen) · `CONTEXT`.
+`PRINCIPLES` · `PRD` · `BUSINESS-FLOW` (frozen) · `CONTEXT`. **Brownfield** (`project_type: brownfield`): `CONTEXT` có **bucket C** (component/layer/data-flow từ code) — dùng làm current-state baseline cho ARCHITECTURE.
 
 **Hỏi tường minh: "UI phức tạp không?"**
 
@@ -39,7 +39,7 @@ arguments: none
 
 ## ADR-early (guard deadlock)
 
-ADR **đổi-kiến-trúc** ghi *trong* phase này — lúc `ARCHITECTURE.md` **CHƯA frozen** → `/adr` **KHÔNG** set `pending_arch_sync`; ADR đó chỉ **feed vào** `/architecture` như input. (Chỉ set cờ khi ARCHITECTURE đã frozen — xem `/adr`.)
+ADR **đổi-kiến-trúc** ghi _trong_ phase này — lúc `ARCHITECTURE.md` **CHƯA frozen** → `/adr` **KHÔNG** set `pending_arch_sync`; ADR đó chỉ **feed vào** `/architecture` như input. (Chỉ set cờ khi ARCHITECTURE đã frozen — xem `/adr`.)
 
 ## Gate
 
