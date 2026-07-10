@@ -1,0 +1,5 @@
+{
+  "name": "adk",
+  "version": "2.0.0",
+  "description": "ADR-driven kit — docs-bootstrap pipeline + elicitation ecosystem. Phases: adk:kickoff adk:product adk:architecture adk:requirements. Anytime: adk:adr adk:reconcile adk:pivot adk:agent-rules. Elicitation: adk:interview adk:brainstorm adk:grill adk:grill-docs. Shared references under references/."
+}

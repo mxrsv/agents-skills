@@ -1,5 +1,7 @@
 # SPEC — Docs-bootstrap pipeline (bộ 8 skill thay BMad)
 
+> **Đổi tên 2026-07-10:** package `docs-pipeline` → **`adk`** (ADR-driven kit); skill gọi dạng `/adk:<name>`. 4 skill elicitation vệ tinh (`adk:interview`, `adk:brainstorm`, `adk:grill`, `adk:grill-docs`) đã gom vào package. SPEC này đã được sed tên tương ứng; redesign ADR-first (nếu chốt) sẽ có SPEC delta riêng.
+
 > **Nguồn:** dịch trực tiếp từ `WORKFLOW.md` (thiết kế đã khoá qua 3 vòng adversarial review, 2026-07-08→09; copy source đặt cạnh file này). SPEC này **KHÔNG mở lại quyết định** — chỉ chuyển thiết kế đã chốt thành đặc tả cấu trúc để `superpowers:writing-plans` tiêu thụ.
 >
 > **Phạm vi kiến trúc thực thi:** mỗi skill là 1 thư mục trong `~/.claude/skills/` (global). Docs pipeline (`docs/…`, `PIPELINE.lock`) được skill ghi vào **repo mà user đang đứng** khi chạy skill. SPEC + PLAN + WORKFLOW (source) sống ở `~/.claude/docs/workflow-pipeline/` — cùng chỗ với build target global.
@@ -24,7 +26,7 @@ Bộ **8 skill cá nhân thay hẳn BMad** — pipeline docs-bootstrap **tuyến
 ```
 [BỘ NÀY — upstream, freeze-gated docs]
 /kickoff → /product → /architecture → /requirements → REQUIREMENTS.md (frozen contract)
-   ⇧ elicitation: interview-me · grill-with-docs   (brainstorming ĐÃ BỎ)
+   ⇧ elicitation: adk:interview · adk:grill-docs   (brainstorming ĐÃ BỎ)
    ⟳ anytime: /adr · /reconcile · /pivot            + /agent-rules (đứng cạnh)
         │ handoff
         ▼
@@ -147,14 +149,14 @@ Quy tắc bịt lỗ (fix review-2 G4):
 
 ### 3.4 `elicitation-contract` — hợp đồng gọi 2 engine
 
-**Nguyên tắc:** `interview-me` lấp **KHOẢNG TRỐNG** (đầu, chưa có gì) · `grill-with-docs` vắt **VẬT LIỆU** (sau, đã có frozen doc). `brainstorming` **ĐÃ BỎ** (thủ phạm hijack→writing-plans + double-gate + orphan-doc); chỉ giữ kỹ thuật _"propose 2-3 approaches"_ nhét **inline** vào `/product` + `/architecture`.
+**Nguyên tắc:** `adk:interview` lấp **KHOẢNG TRỐNG** (đầu, chưa có gì) · `adk:grill-docs` vắt **VẬT LIỆU** (sau, đã có frozen doc). `brainstorming` **ĐÃ BỎ** (thủ phạm hijack→writing-plans + double-gate + orphan-doc); chỉ giữ kỹ thuật _"propose 2-3 approaches"_ nhét **inline** vào `/product` + `/architecture`.
 
 **Elicitation reuse — grill INLINE propose-only (nới NEW-1 có ý thức, 2026-07-09):**
 
-- **`grill-with-docs` = chạy INLINE, chỉ ĐỀ XUẤT.** Grill chạy _trong chính_ phase skill (KHÔNG spawn subagent), bị chỉ thị cứng: **chỉ trả text đề-xuất; TUYỆT ĐỐI không tự ghi `PIPELINE.lock` / `decisions/` / frozen doc**. Phase skill là bên DUY NHẤT thực ghi.
+- **`adk:grill-docs` = chạy INLINE, chỉ ĐỀ XUẤT.** Grill chạy _trong chính_ phase skill (KHÔNG spawn subagent), bị chỉ thị cứng: **chỉ trả text đề-xuất; TUYỆT ĐỐI không tự ghi `PIPELINE.lock` / `decisions/` / frozen doc**. Phase skill là bên DUY NHẤT thực ghi.
   - **Đây là nới lỏng có ý thức của NEW-1:** bỏ tool-sandbox (subagent không Write/Edit) → suppression hạ từ _cấu trúc-cứng_ xuống _instruction-mềm_. Đổi lấy: đơn giản hơn cho workflow solo (người review mọi lần freeze).
   - **Safety net thay cho sandbox (CRITICAL):** vì grill giờ _về mặt tool_ ghi bậy được, hàng rào thật chuyển sang **hash cross-check (§3.2 gate, kiểm (c) integrity) + ADR manifest backstop (§3.1)** — chúng PHÁT HIỆN nếu frozen doc / ADR bị sửa lén. → grill-inline chỉ an toàn KHI hash tính bằng **tool thật** + manifest-check **thật sự chạy ở gate**. Hai cái này chuyển từ "nên-có" thành **BẮT BUỘC**.
-- **`interview-me`:** output = confirmed intent **trả về** phase skill để distill; **TẮT** cú optional "save to `docs/intent/`" (khỏi đẻ orphan doc). Phase skill quyết intent đi đâu (→ CONTEXT → distill vào frozen).
+- **`adk:interview`:** output = confirmed intent **trả về** phase skill để distill; **TẮT** cú optional "save to `docs/intent/`" (khỏi đẻ orphan doc). Phase skill quyết intent đi đâu (→ CONTEXT → distill vào frozen).
 - **Backstop ADR immutability (NEW-1):** state có hash cross-check, nhưng ADR thì không tự nhiên có → dùng `adr_manifest` (§3.1). Gate/CI check: **không id ADR cũ nào đổi hash** (chỉ được append id mới). Bắt trường hợp ai/grill sửa inline một ADR cũ.
 - **Phase skill (KHÔNG phải engine) sở hữu:** ghi frozen artifact · freeze gate · update `PIPELINE.lock` · stamp hash. Engine chỉ trả text.
 
@@ -162,15 +164,15 @@ Quy tắc bịt lỗ (fix review-2 G4):
 
 | Phase                  | Cường độ                       | Engine chính                                  | Bản chất                             |
 | ---------------------- | ------------------------------ | --------------------------------------------- | ------------------------------------ |
-| `/kickoff` (0)         | 🟢 nhẹ                         | interview-me _nhẹ_ + grill (capture)          | thu brief + research                 |
-| `/product` (1)         | 🔴 **nặng nhất**               | **interview-me** + grill nháp                 | MOI intent — "hỏi liên tục"          |
-| `/architecture` (2)    | 🟠 vừa–cao                     | **grill-with-docs** + "2-3 approaches" inline | THÁCH THỨC phương án trên nền frozen |
-| `/requirements` (3)    | 🟡 thấp tương tác / cao verify | **grill-with-docs** soi gap/consistency       | DISTILL + cross-check; gap → DỪNG    |
+| `/kickoff` (0)         | 🟢 nhẹ                         | adk:interview _nhẹ_ + grill (capture)          | thu brief + research                 |
+| `/product` (1)         | 🔴 **nặng nhất**               | **adk:interview** + grill nháp                 | MOI intent — "hỏi liên tục"          |
+| `/architecture` (2)    | 🟠 vừa–cao                     | **adk:grill-docs** + "2-3 approaches" inline | THÁCH THỨC phương án trên nền frozen |
+| `/requirements` (3)    | 🟡 thấp tương tác / cao verify | **adk:grill-docs** soi gap/consistency       | DISTILL + cross-check; gap → DỪNG    |
 | `/reconcile`           | —                              | grill nhắm đúng gap                           | —                                    |
 | `/pivot`               | —                              | thừa hưởng mode phase đích                    | —                                    |
-| `/adr`, `/agent-rules` | —                              | interview-me nhẹ                              | —                                    |
+| `/adr`, `/agent-rules` | —                              | adk:interview nhẹ                              | —                                    |
 
-**`grill-with-docs` inert khi chưa có ≥1 frozen doc** (kickoff/đầu product chủ yếu capture) — sức challenge scale theo vật liệu frozen (fix 5.3).
+**`adk:grill-docs` inert khi chưa có ≥1 frozen doc** (kickoff/đầu product chủ yếu capture) — sức challenge scale theo vật liệu frozen (fix 5.3).
 
 ---
 
@@ -187,7 +189,7 @@ Mỗi skill: **mục đích · trigger · input đọc · output ghi · gate · 
 
 - **Mục đích:** bootstrap scaffold `docs/` + capture non-negotiable repo + research/brief.
 - **Trigger:** user gõ `/kickoff` (repo mới, chưa có pipeline). Nếu `PIPELINE.lock` đã tồn tại → cảnh báo, không ghi đè.
-- **Input đọc:** user input (interview-me nhẹ). Chưa có frozen doc → grill ở chế độ capture.
+- **Input đọc:** user input (adk:interview nhẹ). Chưa có frozen doc → grill ở chế độ capture.
 - **Output ghi:** tạo `docs/` scaffold · `CONTEXT.md` (brief + research gộp vào, out-of-scope c) · `PIPELINE.lock` (init) · **`PRINCIPLES.md`** (bullet-list non-negotiable, **root hash-graph**, giữ NHẸ — rule 10) → **freeze PRINCIPLES**.
 - **Gate:** completeness-check PRINCIPLES (đủ non-negotiable, coherent) → **người confirm freeze**. Chưa đạt → KHÔNG mời freeze (rule 4).
 - **Side-effect lock:** init toàn bộ (`lock_version`, `phase: kickoff`, `decisions.ux: pending`, `adr_manifest: {}`). Sau freeze PRINCIPLES → `docs[PRINCIPLES].status=active`, **`phase → product`**.
@@ -196,7 +198,7 @@ Mỗi skill: **mục đích · trigger · input đọc · output ghi · gate · 
 
 - **Mục đích:** MOI intent → `PRD.md` (intent · journey · scope) + `BUSINESS-FLOW.md` (state · rule · invariant).
 - **Trigger:** `/product`; gate-guard `phase == product` (PRINCIPLES đã frozen). Sai phase → chặn + báo.
-- **Input đọc:** `PRINCIPLES.md` (frozen, nền cho completeness-check + grill) · `CONTEXT.md`. Elicitation **nặng nhất**: interview-me (moi intent) + grill nháp + "2-3 approaches" inline.
+- **Input đọc:** `PRINCIPLES.md` (frozen, nền cho completeness-check + grill) · `CONTEXT.md`. Elicitation **nặng nhất**: adk:interview (moi intent) + grill nháp + "2-3 approaches" inline.
 - **Output ghi:** `PRD.md` + `BUSINESS-FLOW.md`. Update CONTEXT (parent ghi từ grill-đề-xuất). FR/NFR **viết narrative** ở PRD (atomic để dành REQUIREMENTS — rule 8, KHÔNG sync 2 list).
 - **Gate:** completeness-check **từng doc** — PRD có intent+journey+scope? BUSINESS-FLOW có state+rule+invariant? **VÀ** khớp PRINCIPLES (rule 4) → **người freeze CẢ HAI**.
 - **Side-effect lock:** sau freeze → `docs[PRD].status=active` + `docs[BUSINESS-FLOW].status=active` (stamp `from_hash={PRINCIPLES}`), **`phase → architecture`**. Compact CONTEXT. Nhắc `/adr` nếu có quyết định lớn.
@@ -205,7 +207,7 @@ Mỗi skill: **mục đích · trigger · input đọc · output ghi · gate · 
 
 - **Mục đích:** chốt kiến trúc trên nền frozen product docs; UX là sub-artifact CÓ ĐIỀU KIỆN (rule 7).
 - **Trigger:** `/architecture`; gate-guard `phase == architecture` (PRD+BUSINESS-FLOW frozen).
-- **Input đọc:** `PRINCIPLES` · `PRD` · `BUSINESS-FLOW` (frozen — grill-with-docs vắt vật liệu) · `CONTEXT`. **Hỏi "UI phức tạp không?"**
+- **Input đọc:** `PRINCIPLES` · `PRD` · `BUSINESS-FLOW` (frozen — adk:grill-docs vắt vật liệu) · `CONTEXT`. **Hỏi "UI phức tạp không?"**
 - **Output ghi:**
   - UI phức tạp → sinh `UX-DESIGN.md` (freeze); backend thuần → **ghi dòng skip vào CONTEXT + dồn surface vào ARCHITECTURE** (KHÔNG bỏ phase — rule 7).
   - Luôn `ARCHITECTURE.md` (single source of truth kiến trúc) → **freeze**. ADR sinh trong lúc dựng đi qua `/adr` (§4.5).
@@ -217,7 +219,7 @@ Mỗi skill: **mục đích · trigger · input đọc · output ghi · gate · 
 
 - **Mục đích:** distill FR/NFR atomic + acceptance → `REQUIREMENTS.md` (contract terminal).
 - **Trigger:** `/requirements`; gate-guard `phase == requirements` (ARCHITECTURE frozen) **và** `flags.pending_arch_sync == false`.
-- **Input đọc:** toàn bộ frozen upstream (PRINCIPLES · PRD · BUSINESS-FLOW · ARCHITECTURE · UX nếu có) · CONTEXT. grill-with-docs soi gap/consistency.
+- **Input đọc:** toàn bộ frozen upstream (PRINCIPLES · PRD · BUSINESS-FLOW · ARCHITECTURE · UX nếu có) · CONTEXT. adk:grill-docs soi gap/consistency.
 - **Output ghi:** `REQUIREMENTS.md`:
   - FR/NFR **atomic, đánh số** (`FR-xxx` / `NFR-xxx`), **mỗi dòng link acceptance criteria** = đơn vị nguyên tử của contract (fix 4.1).
   - `epic` (nhóm product-area) / `story` (nhóm feature-slice) = **NHÃN traceability/tổ chức**, KHÔNG phải đơn vị implementation (KHÔNG per-story context doc).
@@ -229,7 +231,7 @@ Mỗi skill: **mục đích · trigger · input đọc · output ghi · gate · 
 
 - **Mục đích:** ghi quyết định lý-do/lịch-sử, **append-only immutable** (đổi ý → ADR mới supersedes, KHÔNG sửa file cũ).
 - **Trigger:** `/adr <title>`, bất kỳ lúc nào.
-- **Input đọc:** CONTEXT + interview-me nhẹ; đọc lock (ARCHITECTURE đã frozen chưa?).
+- **Input đọc:** CONTEXT + adk:interview nhẹ; đọc lock (ARCHITECTURE đã frozen chưa?).
 - **Output ghi:** **file mới** `decisions/NNNN-<slug>.md` (auto-số). Skill **tự phân loại** ADR (đổi-kiến-trúc hay không).
 - **Gate:** — (không freeze). ADR **không** sửa ARCHITECTURE; ARCHITECTURE **không** chép rationale (fix 1.4 option A).
 - **Side-effect lock:** thêm `adr_manifest[NNNN] = hash` (backstop). Nếu ADR **đổi-kiến-trúc** **VÀ** `ARCHITECTURE.md` **đã frozen** → `flags.pending_arch_sync = true` → **CHẶN command kế + gate** cho tới khi `/reconcile ARCHITECTURE` chạy xong (guard deadlock: chưa frozen thì KHÔNG set cờ — §4.3).
@@ -258,7 +260,7 @@ Mỗi skill: **mục đích · trigger · input đọc · output ghi · gate · 
 
 - **Mục đích:** sinh **1 file luật code cho agent** (kiểu `CLAUDE.md`/`AGENTS.md`), gọi **độc lập** — KHÔNG trong pipeline tuyến tính.
 - **Trigger:** `/agent-rules`, bất kỳ lúc nào, **không phụ thuộc phase**.
-- **Input đọc:** CONTEXT + frozen docs nếu có (PRINCIPLES/ARCHITECTURE làm nền) + interview-me nhẹ.
+- **Input đọc:** CONTEXT + frozen docs nếu có (PRINCIPLES/ARCHITECTURE làm nền) + adk:interview nhẹ.
 - **Output ghi:** 1 file ở **repo root** (vd `AGENTS.md` / `CLAUDE.md`) — **NGOÀI** `docs/` pipeline, **KHÔNG** trong hash-graph.
 - **Gate:** — (không freeze).
 - **Side-effect lock:** **KHÔNG** (đứng cạnh — không đụng `PIPELINE.lock`, không advance phase).
@@ -271,7 +273,7 @@ Mỗi skill: **mục đích · trigger · input đọc · output ghi · gate · 
 2. **State một chỗ, machine-readable** — `PIPELINE.lock`; CONTEXT = prose thuần, KHÔNG state.
 3. **Ba lớp quyền ghi** — frozen (chỉ `/reconcile`|`/pivot`) · living · append-only immutable.
 4. **Gate = người + completeness-check** — (a) đủ section **VÀ** (b) khớp PRINCIPLES, TRƯỚC khi mời freeze. Không auto-freeze.
-5. **Elicitation = tái dùng + custom mỏng** — interview-me + grill-with-docs (2 engine); grill chạy **INLINE propose-only** (nới NEW-1) → hàng rào chuyển sang **hash cross-check + ADR manifest backstop** (bắt buộc chạy thật).
+5. **Elicitation = tái dùng + custom mỏng** — adk:interview + adk:grill-docs (2 engine); grill chạy **INLINE propose-only** (nới NEW-1) → hàng rào chuyển sang **hash cross-check + ADR manifest backstop** (bắt buộc chạy thật).
 6. **Cuối phase 4 việc** — freeze · update lock · compact CONTEXT (archive-not-delete) · nhắc `/adr`.
 7. **UX = sub-artifact có điều kiện** — KHÔNG phải phase; `/architecture` + `ARCHITECTURE.md` VẪN bắt buộc; số phase không co.
 8. **FR/NFR viết một lần** — narrative PRD, atomic REQUIREMENTS; KHÔNG sync 2 list.
