@@ -1,59 +1,56 @@
 ---
 name: product
-description: Phase 1 of the docs-bootstrap pipeline. Extract product intent into PRD.md (intent/journey/scope) and BUSINESS-FLOW.md (state/rule/invariant), then freeze both. Heaviest elicitation phase. Fires ONLY when the user types /product and PIPELINE.lock phase == product.
-when_to_use: After /kickoff froze PRINCIPLES. Trigger only on explicit /product. Blocked unless phase == product.
+description: Phase 1 (bootstrap) of the adk ADR-first pipeline. Extract product intent into a batch of product ADRs, then render PRD.md (intent/journey/scope) and BUSINESS-FLOW.md (state/rule/invariant) from the active ADR set. Heaviest elicitation phase. Fires ONLY when the user types /adk:product and PIPELINE.lock phase == product.
+when_to_use: After /adk:kickoff rendered PRINCIPLES. Trigger only on explicit /adk:product. Blocked unless phase == product.
 argument-hint: ""
 arguments: none
 ---
 
-# /product — Phase 1
+# /adk:product — Phase 1 (bootstrap)
 
-**Mục đích:** MOI intent → `PRD.md` (intent · journey · scope) + `BUSINESS-FLOW.md` (state · rule · invariant).
+**Mục đích:** MOI intent → chùm **ADR `product`** → render `PRD.md` (intent · journey · scope) + `BUSINESS-FLOW.md` (state · rule · invariant).
 
-Đọc trước: `../../references/pipeline-lock-schema.md` · `../../references/freeze-protocol.md` · `../../references/elicitation-contract.md`.
+Đọc trước: `../../references/pipeline-lock-schema.md` · `../../references/adr-protocol.md` · `../../references/render-protocol.md` · `../../references/elicitation-contract.md`.
 
 ## Trigger & gate-guard
 
-- Chỉ fire khi user gõ `/product`.
-- **Gate-guard `phase == product`** (PRINCIPLES đã frozen). Sai phase → **chặn + báo** phase hiện tại.
-- Gate cross-check PRINCIPLES (freeze-protocol § cross-check): tồn tại · frozen · integrity.
+- Chỉ fire khi user gõ `/adk:product`.
+- Kiểm `lock_version == 2` (guard, xem `pipeline-lock-schema`) trước mọi thứ khác.
+- **Gate-guard `phase == product`** (PRINCIPLES đã render). Sai phase → chặn + báo phase hiện tại.
 
 ## Elicitation (🔴 nặng nhất)
 
 - **`adk:interview`** (engine chính) — moi intent, "hỏi liên tục" đúng nghĩa.
-- `adk:grill-docs` nháp (đã có PRINCIPLES frozen làm nền → bắt đầu vắt được).
-- **"2-3 approaches" inline** cho các lựa chọn product lớn (KHÔNG kéo skill brainstorming).
-- Engine chỉ trả text; skill này ghi `CONTEXT.md` từ đề-xuất grill (parent-writes).
+- **Wiring cứng:** TRƯỚC khi trình chùm ADR để chốt, invoke skill `adk:grill-docs` qua Skill tool trên bản nháp PRD/BUSINESS-FLOW — đã có PRINCIPLES làm nền để vắt.
+- **"2-3 approaches" inline** cho các lựa chọn product lớn (KHÔNG kéo skill `adk:brainstorm` vào pipeline — đó là ngoại lệ đứng ngoài, SPEC v2 §14.1).
+- Engine chỉ trả text; product ghi `CONTEXT.md` từ đề xuất grill (parent-writes).
 
 ## Input đọc
 
-`PRINCIPLES.md` (frozen — nền cho completeness-check + grill) · `CONTEXT.md`. **Brownfield** (`project_type: brownfield`): `CONTEXT.md` có **bucket B** (domain rules/invariant từ code) — dùng để inform BUSINESS-FLOW thay vì moi từ đầu.
+`PRINCIPLES.md` + ADR active `kind: principle` · `CONTEXT.md`. **Brownfield**: `CONTEXT.md` có **bucket B** (domain rules/invariant từ code) — dùng để inform BUSINESS-FLOW thay vì moi từ đầu.
 
 ## Output ghi
 
-- **`PRD.md`** — intent · journey · scope. FR/NFR viết **narrative** ở đây (atomic để dành `/requirements` — rule 8, **KHÔNG** sync 2 list).
-- **`BUSINESS-FLOW.md`** — state · rule · invariant.
+- **Chùm ADR `kind: product`** — mỗi quyết định intent/scope/journey/state-rule lớn một ADR, `affects` default = `[PRD, BUSINESS-FLOW, ARCHITECTURE, UX-DESIGN, REQUIREMENTS]` (thu hẹp phải kèm lý do — `adr-protocol` §5).
+- **Render `PRD.md`** — intent · journey · scope. FR/NFR viết **narrative** ở đây (atomic để dành `/adk:requirements` — KHÔNG sync 2 list).
+- **Render `BUSINESS-FLOW.md`** — state · rule · invariant.
 - Update `CONTEXT.md` (parent ghi từ grill-đề-xuất).
 
-## Gate (freeze CẢ HAI)
+## Gate (duyệt chùm ADR + render CẢ HAI)
 
-Completeness-check **từng doc** (rule 4):
-
-- PRD có **intent + journey + scope**?
-- BUSINESS-FLOW có **state + rule + invariant**?
-- **VÀ** khớp PRINCIPLES (không chỉ đủ mục — đúng ràng buộc repo)?
-
-Đạt → **người freeze CẢ HAI**. Mỗi doc stamp `from_hash = { PRINCIPLES: <hash> }`.
+1. Sanity-check máy móc chùm nháp (lặp/mâu thuẫn nội bộ + với ADR `principle` active).
+2. Trình **từng ADR** — **DỪNG THẬT** (SPEC v2 §8.2), người duyệt/sửa từng trường.
+3. Ghi ADR đã duyệt (`kind: product`, đọc lại max ID ngay trước ghi).
+4. **Render `PRD.md` + `BUSINESS-FLOW.md`** (`render-protocol` §2) — mỗi doc: file tạm → diff → user confirm riêng → ghi file đích. `derived_from` = ADR active có doc đó trong `affects`.
 
 ## Side-effect `PIPELINE.lock`
 
-Sau freeze:
+Sau render xong cả hai:
 
-- `docs[PRD].status = active`, `docs[BUSINESS-FLOW].status = active` (thêm entry nếu chưa có).
+- Thêm entry `docs[]` cho `PRD` và `BUSINESS-FLOW` (nếu chưa có).
 - **`phase → architecture`**.
 
-## Post-phase (rule 6)
+## Post-phase
 
-- compact `CONTEXT.md` (archive-not-delete).
-- nhắc `/adr` nếu có quyết định lớn.
-- gợi ý bước kế: `/architecture`.
+- Compact `CONTEXT.md` (archive-not-delete).
+- Gợi ý bước kế: `/adk:architecture`.

@@ -1,72 +1,57 @@
-# Reference — `pipeline-lock-schema`
+# Reference — `pipeline-lock-schema` (v2)
 
-Schema của `PIPELINE.lock` — **nguồn state DUY NHẤT** của pipeline (con trỏ phase + quyết định + cờ). Machine-readable (YAML). Dùng chung bởi cả 8 skill.
+Schema của `PIPELINE.lock` — con trỏ **bootstrap** (chạy 1 lần) + registry path của doc dẫn xuất. **Không còn state-machine 8-trường của v1** — nguồn chân lý thật giờ là `docs/decisions/` (xem `adr-protocol`); lock chỉ còn hai việc: (1) biết bootstrap đang ở đâu, (2) biết doc nào tồn tại ở path nào.
 
-> **Invariant 2 (state một chỗ):** state sống ở `PIPELINE.lock`, **KHÔNG** ở `CONTEXT.md`. `CONTEXT.md` = prose working-memory thuần. Bỏ SPOF "block chữ" dễ bị grill mài mòn (fix 1.1).
->
-> **Hash KHÔNG nhân đôi vào đây** — hash sống ở frontmatter mỗi frozen doc (xem `freeze-protocol`). Lock chỉ giữ id/path/status. Single-source: một sự thật, một chỗ.
+> **Compatibility guard bắt buộc:** mọi skill đọc file này phải kiểm `lock_version` TRƯỚC khi làm gì khác. Gặp `lock_version: 1` hoặc field lạ không nhận ra → **DỪNG**, không đoán/không mutate. Báo user: "lock này là v1 (freeze-gated) hoặc không rõ version, adk hiện tại chạy v2 (ADR-first) — cần migrate/re-bootstrap có backup trước khi tiếp tục." v2 **không** tự động chuyển frozen doc v1 thành ADR — đó là quyết định ngữ nghĩa chỉ người mới quyết được.
 
 ## Vị trí
 
-`<repo-đích>/PIPELINE.lock` — ghi vào **repo mà user đang đứng** khi chạy skill, KHÔNG phải repo chứa skill.
+`<repo-đích>/PIPELINE.lock` — ghi vào **repo mà user đang đứng** khi chạy skill.
 
 ## Schema
 
 ```yaml
-lock_version: 1 # schema version của chính lock (bump khi đổi schema này)
+lock_version: 2
 
-phase: kickoff # con trỏ pipeline: kickoff | product | architecture | requirements | done
+phase: kickoff # kickoff | product | architecture | requirements | done
+# CHỈ có ý nghĩa cho BOOTSTRAP (chạy 1 lần, 4 phase tuyến tính).
+# Sau "done", phase KHÔNG đổi nữa — vòng đời tiếp theo là /adk:adr + /adk:docs-check + /adk:pivot, không "chạy lại phase".
 
-project_type:
-  greenfield # greenfield | brownfield — set 1 LẦN ở /kickoff init, IMMUTABLE.
-  # absent ⇒ greenfield (additive back-compat). brownfield ⇒ CONTEXT có recon buckets.
+project_type: greenfield # greenfield | brownfield — set 1 lần ở /adk:kickoff, immutable. Giữ để codebase-recon dùng.
 
-decisions:
-  ux: pending # pending | included | skipped   (set ở /architecture)
-
-flags:
-  pending_arch_sync:
-    false # /adr đổi-kiến-trúc set khi ARCHITECTURE ĐÃ frozen (§ freeze/adr).
-    # true ⇒ CHẶN command kế + gate tới khi /reconcile ARCHITECTURE chạy xong.
-
-docs: # registry — chỉ id/path/status; hash KHÔNG ở đây (single-source)
-  - id: PRINCIPLES
-    path: docs/PRINCIPLES.md
-    status: active # absent | active | stale | stale-deferred
-  - id: PRD
-    path: docs/PRD.md
-    status: active
-  # … BUSINESS-FLOW / ARCHITECTURE / UX-DESIGN / REQUIREMENTS — thêm entry khi doc tồn tại
-
-requirements_version: 0 # bump +1 MỌI lần REQUIREMENTS re-freeze (reconcile-cascade HAY pivot)
-
-adr_manifest: # backstop immutability — id → hash body ADR lúc append
-  "0001": <sha256>
-  "0002": <sha256>
-
-archive_versions: [] # [v1, v2, …] do /pivot tạo (snapshot doc bị lật)
+docs: # registry — CHỈ id + path. derived_from/version đọc từ frontmatter doc, KHÔNG nhân đôi ở đây.
+  - { id: PRINCIPLES, path: docs/PRINCIPLES.md }
+  - { id: PRD, path: docs/PRD.md }
+  - { id: BUSINESS-FLOW, path: docs/BUSINESS-FLOW.md }
+  - { id: ARCHITECTURE, path: docs/ARCHITECTURE.md }
+  # { id: UX-DESIGN, path: docs/UX-DESIGN.md }        — chỉ thêm nếu ADR kiến trúc quyết included
+  # { id: REQUIREMENTS, path: docs/REQUIREMENTS.md }  — chỉ thêm sau /adk:requirements
 ```
 
 ## Từng field
 
-| Field                     | Kiểu | Ai ghi                                                 | Ý nghĩa                                                                                                                              |
-| ------------------------- | ---- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `lock_version`            | int  | init ở `/kickoff`                                      | version schema của lock.                                                                                                             |
-| `phase`                   | enum | phase skill (advance khi qua gate) · `/pivot` (rewind) | con trỏ pipeline hiện tại. `/reconcile` **KHÔNG** rewind.                                                                            |
-| `project_type`            | enum | init ở `/kickoff` (immutable)                          | `greenfield` \| `brownfield` — set 1 lần lúc init, không đổi. brownfield ⇒ CONTEXT có recon buckets; handoff cảnh báo existing-code. |
-| `decisions.ux`            | enum | `/architecture`                                        | `included` (sinh UX-DESIGN.md) hoặc `skipped` (backend thuần).                                                                       |
-| `flags.pending_arch_sync` | bool | `/adr` set · `/reconcile ARCHITECTURE` clear           | guard two-sources ARCHITECTURE↔ADR. Chỉ set NẾU ARCHITECTURE đã frozen (guard deadlock).                                             |
-| `docs[]`                  | list | phase/update skill                                     | registry: `id`, `path`, `status`. Hash KHÔNG ở đây.                                                                                  |
-| `docs[].status`           | enum | phase/update skill                                     | `absent` (chưa có) · `active` (frozen, valid) · `stale` (chỉ khi cần ghi rõ) · `stale-deferred` (người quyết để nguyên STALE).       |
-| `requirements_version`    | int  | `/requirements` · cascade re-freeze                    | bump MỌI lần REQUIREMENTS re-freeze; kèm danh sách FR-ID vừa đổi (ở frontmatter/note REQUIREMENTS).                                  |
-| `adr_manifest`            | map  | `/adr` (append)                                        | `id → sha256(body ADR)`. Gate check: không id cũ nào đổi hash (§ backstop).                                                          |
-| `archive_versions`        | list | `/pivot`                                               | các snapshot version `/pivot` đẩy vào `docs/archive/`.                                                                               |
+| Field          | Kiểu | Ai ghi                                 | Ý nghĩa                                                                                                         |
+| -------------- | ---- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `lock_version` | int  | init ở `/adk:kickoff`                  | version schema của chính lock. Guard bắt buộc — xem trên.                                                       |
+| `phase`        | enum | phase skill (advance khi render xong)  | con trỏ **bootstrap**. `/adk:adr`, `/adk:docs-check`, `/adk:pivot` **KHÔNG** rewind/đổi field này sau `done`.   |
+| `project_type` | enum | init ở `/adk:kickoff` (immutable)      | `greenfield` \| `brownfield` — dùng bởi `codebase-recon`.                                                       |
+| `docs[]`       | list | phase skill lúc render lần đầu tạo doc | registry `id` + `path`. KHÔNG có `status` (không còn active/stale/stale-deferred — hết khái niệm STALE ở lock). |
+
+## Đã BỎ so với v1 (và vì sao)
+
+| Field v1                  | Vì sao bỏ                                                                                                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `decisions.ux`            | Suy trực tiếp từ có/không ADR kiến trúc quyết `UX-DESIGN` ∈ `affects` + doc đó có tồn tại trong registry chưa.                                               |
+| `flags.pending_arch_sync` | Không còn "hai nguồn ARCHITECTURE↔ADR" — ADR LÀ chân lý; ARCHITECTURE chỉ là view. Không có gì để "sync-pending".                                            |
+| `docs[].status`           | Hết khái niệm STALE lưu-trạng-thái — LỆCH được suy trực tiếp từ so-tập-hợp `derived_from` ↔ active-set mỗi lần cần biết (`render-protocol` §3), không cache. |
+| `requirements_version`    | Chuyển vào frontmatter `REQUIREMENTS.md` (`version:`) — single-source, đọc ở đúng file nó thuộc về.                                                          |
+| `adr_manifest`            | Không còn hash tự quản. Đảm bảo mục tiêu = hook best-effort (`adr-protocol` §8) + `git diff`/history + review người — không phải state máy tự tính.          |
+| `archive_versions`        | Không còn `docs/archive/vN/` — lịch sử = git + ADR log; doc dẫn xuất tái sinh được nên không cần bảo tồn bản cũ.                                             |
 
 ## Quy tắc dùng lock (mọi skill)
 
-1. **Đọc lock để GATE** — trước khi hành động, kiểm `phase`, `flags`, `decisions`, `docs[].status`.
-2. **Ghi lock khi QUA GATE** — advance `phase`, set `docs[].status=active`, set `decisions`, v.v.
-3. **Cross-check artifact thật qua hash** — lock nói doc `active` chưa đủ; phải recompute body hash + đối chiếu `from_hash` (xem `freeze-protocol` § gate cross-check). Lock + hash = state suy-ra-được, không SPOF.
-4. **STALE thô KHÔNG lưu** — STALE suy ra từ hash (xem `hash-cascade`); chỉ **quyết-định-người** (`stale-deferred`) mới ghi vào `docs[].status`.
-5. **`CONTEXT.md` KHÔNG chứa state** (fix 1.1).
-6. **`adk:grill-docs` CẤM chạm file này** — grill chạy **inline chỉ đề-xuất text** (xem `elicitation-contract`); chỉ phase/update skill ghi lock theo schema. Backstop: grill lỡ ghi frozen doc/ADR → gate hash + manifest cross-check phát hiện (`freeze-protocol`).
+1. **Kiểm `lock_version` đầu tiên, luôn luôn** — xem compatibility guard ở đầu file.
+2. Đọc `phase` để biết bootstrap đang ở đâu (chỉ liên quan trong lúc bootstrap chạy; sau `done` field này bất động).
+3. Đọc `docs[]` để biết path của doc dẫn xuất — nhưng **muốn biết doc có LỆCH không, phải đọc frontmatter `derived_from` của chính doc đó + quét `docs/decisions/`** (`render-protocol` §3), không suy từ lock.
+4. Ghi lock: chỉ phase skill lúc bootstrap (advance `phase`, thêm entry `docs[]` khi tạo doc mới lần đầu). `adk:adr`/`adk:docs-check`/`adk:pivot`/`adk:router` **không đụng `phase`**; `adk:docs-check`/`adk:pivot` có thể thêm entry `docs[]` nếu render sinh doc mới (ví dụ `UX-DESIGN` lần đầu).
+5. **`adk:grill` / `adk:grill-docs` / `adk:interview` / `adk:router` CẤM ghi file này** — read-only tuyệt đối với lock.

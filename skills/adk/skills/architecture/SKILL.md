@@ -1,58 +1,59 @@
 ---
 name: architecture
-description: Phase 2 of the docs-bootstrap pipeline. Lock the architecture onto frozen product docs into ARCHITECTURE.md (single source of truth), with UX-DESIGN.md as a CONDITIONAL sub-artifact (only when UI is complex). Fires ONLY when the user types /architecture and PIPELINE.lock phase == architecture.
-when_to_use: After /product froze PRD and BUSINESS-FLOW. Trigger only on explicit /architecture. Blocked unless phase == architecture.
+description: Phase 2 (bootstrap) of the adk ADR-first pipeline. Turn architecture decisions into a batch of architecture ADRs, then render ARCHITECTURE.md (single source of truth) from the active ADR set, with UX-DESIGN.md as a CONDITIONAL derived doc (only when UI is complex). Fires ONLY when the user types /adk:architecture and PIPELINE.lock phase == architecture.
+when_to_use: After /adk:product rendered PRD and BUSINESS-FLOW. Trigger only on explicit /adk:architecture. Blocked unless phase == architecture.
 argument-hint: ""
 arguments: none
 ---
 
-# /architecture — Phase 2
+# /adk:architecture — Phase 2 (bootstrap)
 
-**Mục đích:** chốt kiến trúc trên nền frozen product docs. UX là **sub-artifact CÓ ĐIỀU KIỆN** (rule 7) — KHÔNG phải một phase riêng.
+**Mục đích:** chốt kiến trúc trên nền ADR product đã ghi → chùm **ADR `architecture`** → render `ARCHITECTURE.md`. UX là **doc dẫn xuất CÓ ĐIỀU KIỆN** — KHÔNG phải một phase riêng.
 
-Đọc trước: `../../references/pipeline-lock-schema.md` · `../../references/freeze-protocol.md` · `../../references/hash-cascade.md` · `../../references/elicitation-contract.md`.
+Đọc trước: `../../references/pipeline-lock-schema.md` · `../../references/adr-protocol.md` · `../../references/render-protocol.md` · `../../references/elicitation-contract.md`.
 
 ## Trigger & gate-guard
 
-- Chỉ fire khi user gõ `/architecture`.
-- **Gate-guard `phase == architecture`** (PRD + BUSINESS-FLOW frozen). Sai phase → chặn + báo.
-- Gate cross-check PRINCIPLES · PRD · BUSINESS-FLOW.
+- Chỉ fire khi user gõ `/adk:architecture`.
+- Kiểm `lock_version == 2` trước mọi thứ khác.
+- **Gate-guard `phase == architecture`** (PRD + BUSINESS-FLOW đã render). Sai phase → chặn + báo.
 
 ## Elicitation (🟠 vừa–cao)
 
-- **`adk:grill-docs`** (engine chính) — vắt vật liệu từ frozen product docs, thách thức phương án.
-- **"2-3 approaches" inline** cho các quyết định kiến trúc.
-- Engine chỉ trả text; skill này ghi file.
+- **Wiring cứng:** TRƯỚC khi trình chùm ADR để chốt, invoke skill `adk:grill-docs` qua Skill tool trên bản nháp ARCHITECTURE — vắt vật liệu từ ADR `product` active, thách thức phương án.
+- **"2-3 approaches" inline** cho các quyết định kiến trúc lớn.
+- Engine chỉ trả text; architecture ghi file.
 
 ## Input đọc
 
-`PRINCIPLES` · `PRD` · `BUSINESS-FLOW` (frozen) · `CONTEXT`. **Brownfield** (`project_type: brownfield`): `CONTEXT` có **bucket C** (component/layer/data-flow từ code) — dùng làm current-state baseline cho ARCHITECTURE.
+`PRINCIPLES` · `PRD` · `BUSINESS-FLOW` (+ ADR active `principle`/`product`) · `CONTEXT`. **Brownfield**: `CONTEXT` có **bucket C** (component/layer/data-flow từ code) — dùng làm current-state baseline.
 
-**Hỏi tường minh: "UI phức tạp không?"**
+**Hỏi tường minh: "UI phức tạp không?"** — câu trả lời là **1 ADR** (`kind: architecture`), có `## Context`/`## Consequences` giải thích, không phải rubric khách quan (chấp nhận subjective — SPEC v2 §11 Minor A).
 
 ## Output ghi
 
-- **UI phức tạp** → sinh `UX-DESIGN.md` → **freeze** (stamp `from_hash = {PRINCIPLES, PRD, BUSINESS-FLOW}`).
-- **Backend thuần** → **KHÔNG bỏ phase**: ghi **dòng skip vào `CONTEXT.md`** + dồn surface (API/CLI/contract bề mặt) vào `ARCHITECTURE.md`.
-- **Luôn** sinh `ARCHITECTURE.md` (single source of truth kiến trúc hiện tại) → **freeze**.
-- ADR sinh trong lúc dựng đi qua `/adr` (append-only).
+- **Chùm ADR `kind: architecture`** (stack, boundary, data-flow, ADR "UI phức tạp?"). `affects` default = `[ARCHITECTURE, UX-DESIGN, REQUIREMENTS]`; ADR UI-phức-tạp thêm `UX-DESIGN` vào `affects` một cách tường minh nếu quyết là "có".
+- **Render `ARCHITECTURE.md`** (single source of truth kiến trúc hiện tại) — luôn render, kể cả backend thuần.
+- **UI phức tạp = có** → render thêm `UX-DESIGN.md`.
+- **Backend thuần** → KHÔNG bỏ qua bước hỏi; ghi rõ trong `CONTEXT.md` + dồn surface (API/CLI/contract bề mặt) vào `ARCHITECTURE.md`.
 
-## ADR-early (guard deadlock)
+## Gate (duyệt chùm ADR + render)
 
-ADR **đổi-kiến-trúc** ghi _trong_ phase này — lúc `ARCHITECTURE.md` **CHƯA frozen** → `/adr` **KHÔNG** set `pending_arch_sync`; ADR đó chỉ **feed vào** `/architecture` như input. (Chỉ set cờ khi ARCHITECTURE đã frozen — xem `/adr`.)
+1. Sanity-check máy móc chùm nháp (mâu thuẫn nội bộ + với ADR active `principle`/`product`).
+2. Trình từng ADR — **DỪNG THẬT** (SPEC v2 §8.2).
+3. Ghi ADR đã duyệt (`kind: architecture`).
+4. **Render `ARCHITECTURE.md`** (+ `UX-DESIGN.md` nếu ADR quyết included) theo `render-protocol` §2 — file tạm → diff → confirm riêng từng doc.
 
-## Gate
+## ADR đổi-kiến-trúc ghi ngoài bootstrap (sau `phase → done`)
 
-Completeness-check `ARCHITECTURE` (+ UX nếu có) khớp PRINCIPLES / PRD / BUSINESS-FLOW (rule 4) → **người freeze**.
+Sau khi bootstrap xong, một ADR `architecture` mới bất kỳ lúc nào đi qua `/adk:adr` (không qua skill này nữa) — `/adk:adr` tự chạy sanity-check + consistency-check + đề nghị render lại `ARCHITECTURE.md`/`UX-DESIGN.md`/`REQUIREMENTS.md` theo `affects`. Không còn khái niệm `pending_arch_sync` chặn lệnh kế (v1) — mọi thứ chạy qua so-tập-hợp deterministic (`render-protocol` §3).
 
 ## Side-effect `PIPELINE.lock`
 
-- `decisions.ux = included | skipped`.
-- Sau freeze → `docs[ARCHITECTURE].status = active` (+ `docs[UX-DESIGN]` nếu có).
+- Thêm entry `docs[]` cho `ARCHITECTURE` (+ `UX-DESIGN` nếu render).
 - **`phase → requirements`**.
 
-## Post-phase (rule 6)
+## Post-phase
 
-- compact `CONTEXT.md` (archive-not-delete).
-- nhắc `/adr`.
-- gợi ý bước kế: `/requirements`.
+- Compact `CONTEXT.md` (archive-not-delete).
+- Gợi ý bước kế: `/adk:requirements`.

@@ -1,51 +1,52 @@
-# Reference — `elicitation-contract`
+# Reference — `elicitation-contract` (v2)
 
-Hợp đồng gọi 2 engine elicitation (`adk:interview` + `adk:grill-docs`) từ các phase skill. Enforce **bằng cấu trúc, không bằng lời dặn**. Dùng chung bởi cả 8 skill.
+Hợp đồng gọi elicitation từ phase skill + `adk:adr` + `adk:pivot`. **Đổi cơ chế so với v1:** `adk:grill` giờ **bắt buộc spawn subagent** fresh-context (khôi phục epistemic independence), thay vì chạy inline như v1 (an toàn ghi không còn là lý do để bỏ subagent — ba lớp quyền ghi v2 dựa vào hook + git diff, không dựa vào việc grill có sandbox hay không).
 
-> **Nguyên tắc:** `adk:interview` lấp **KHOẢNG TRỐNG** (đầu, chưa có gì) · `adk:grill-docs` vắt **VẬT LIỆU** (sau, đã có frozen doc).
->
-> **`brainstorming` ĐÃ BỎ** (thủ phạm hijack→writing-plans + double-gate + orphan-doc). Chỉ giữ kỹ thuật *"propose 2-3 approaches"* nhét **inline** vào `/product` + `/architecture`. KHÔNG kéo cả skill brainstorming.
+> **Nguyên tắc giữ nguyên từ v1:** `adk:interview` lấp **KHOẢNG TRỐNG** (đầu, chưa có gì) · `adk:grill-docs` vắt **VẬT LIỆU** (sau, đã có ADR/doc dẫn xuất để challenge). `adk:brainstorm` là **ngoại lệ tường minh** đứng ngoài pipeline, giữ semantics gốc Superpowers (`design → spec → writing-plans`) — không dùng trong elicitation-contract này (SPEC v2 §14.1).
 
-## Enforce grill — INLINE propose-only
+## `adk:grill` — BẮT BUỘC spawn subagent
 
-### `adk:grill-docs` = chạy INLINE, chỉ ĐỀ XUẤT
-- Grill chạy **trong chính phase skill** (KHÔNG spawn subagent). Chỉ thị cứng: **chỉ trả text đề-xuất; TUYỆT ĐỐI không tự ghi `PIPELINE.lock` / `decisions/` / frozen doc**.
-- **Phase-skill là bên DUY NHẤT thực ghi file** — đọc đề-xuất grill → tự quyết ghi gì vào `CONTEXT.md`.
-- **Nới NEW-1 có ý thức (2026-07-09):** bỏ tool-sandbox (subagent không Write/Edit) → suppression hạ từ *cấu trúc-cứng* xuống *instruction-mềm*. Đổi lấy đơn giản cho workflow solo (người review mọi lần freeze).
-- **Safety net thay sandbox (CRITICAL):** grill giờ *về mặt tool* ghi bậy được → hàng rào thật chuyển sang **hash cross-check (`freeze-protocol` § gate, kiểm (c) integrity) + ADR manifest cross-check (dưới)**. Chúng PHÁT HIỆN sửa lén frozen doc / ADR *sau khi* xảy ra. → grill-inline chỉ an toàn KHI hai cái đó **chạy thật** (hash bằng tool, manifest-check ở gate).
+- **Lý do đổi:** v1 chạy grill inline vì lo ngại subagent phải Write được thì mới "chốt" được gì — nhưng thực ra subagent grill chưa bao giờ cần ghi, nó chỉ cần **phản biện độc lập**. Chạy inline (cùng context với phase skill) làm grill mất epistemic independence — nó "biết" phase skill đang muốn nghe gì, giảm sức bẻ.
+- **Cách gọi:** phase skill / `adk:grill-docs` spawn subagent (loại `explore` hoặc `generalPurpose`, **read-only tools**, fresh context — không kế thừa lịch sử hội thoại cha) chạy nội dung `adk:grill/SKILL.md` trên doc/nháp cần thử lửa. Subagent **chỉ trả text** — không có quyền Write/Edit trong invocation này.
+- **Không mâu thuẫn với "hook không phải sandbox tuyệt đối" (§8 SPEC):** đây là hai lớp độc lập — subagent read-only là **cấu trúc cứng** (agent framework enforce, không phải instruction), hook trên `docs/decisions/` là **best-effort bổ sung** cho trường hợp ai đó (kể cả con người) ghi qua đường khác.
 
-### `adk:interview`
-- Output = confirmed intent **trả về** phase skill để distill.
-- **TẮT** cú optional "save to `docs/intent/`" → khỏi đẻ orphan doc. Phase skill quyết intent đi đâu (→ `CONTEXT.md` → distill vào frozen).
+## `adk:grill-docs` — wrapper, CẤM ghi ADR
 
-### Backstop ADR immutability
-State có hash cross-check bắt tamper; ADR thì không tự nhiên có. Dùng `adr_manifest` trong `PIPELINE.lock`:
-- `/adr` append → ghi `adr_manifest[NNNN] = sha256(body)`.
-- Gate/CI check: **không id ADR cũ nào đổi hash** (chỉ được append id mới). Bắt trường hợp ai/grill sửa inline một ADR cũ.
+- Chạy `adk:grill` (subagent, xem trên) trên doc/nháp cần challenge → nhận text đề xuất + hướng-đã-loại + lý do loại.
+- **Parent (phase skill / caller) là bên ghi DUY NHẤT** — nhận text từ `adk:grill-docs`, tự quyết ghi kết luận/hướng-đã-loại vào `CONTEXT.md` (living, prose).
+- **CẤM tuyệt đối** `adk:grill-docs` tự ghi `docs/decisions/`, `PIPELINE.lock`, hoặc bất kỳ doc dẫn xuất nào. Phát hiện một quyết định đáng ghi đã kết tinh trong lúc grill → **nhắc user gõ `/adk:adr`**, không tự tạo ADR thay user.
 
-### Phase skill (KHÔNG phải engine) SỞ HỮU
-- ghi frozen artifact · freeze gate · update `PIPELINE.lock` · stamp hash.
-- Engine chỉ trả **text**. Không engine nào vi phạm freeze / three-write-layers.
+## `adk:interview`
 
-## Cường độ theo phase
+- Output = **confirmed intent trả về** caller (phase skill / `/adk:adr` / `/adk:agent-rules`) để distill. Không tự lưu, không tự route downstream (xem `interview/SKILL.md` § Interaction with Other Skills).
+- Không có "save to `docs/intent/`" — tránh đẻ orphan doc. Caller quyết intent đi đâu.
 
-| Phase | Cường độ | Engine chính | Bản chất |
-| --- | --- | --- | --- |
-| `/kickoff` (0) | 🟢 nhẹ | `adk:interview` *nhẹ* + grill (capture) | thu brief + research |
-| `/product` (1) | 🔴 **nặng nhất** | **`adk:interview`** + grill nháp | MOI intent — "hỏi liên tục" |
-| `/architecture` (2) | 🟠 vừa–cao | **`adk:grill-docs`** + "2-3 approaches" inline | THÁCH THỨC phương án trên nền frozen |
-| `/requirements` (3) | 🟡 thấp tương tác / cao verify | **`adk:grill-docs`** soi gap/consistency | DISTILL + cross-check; gap → DỪNG |
-| `/reconcile` | — | grill nhắm đúng gap | — |
-| `/pivot` | — | thừa hưởng mode phase đích | — |
-| `/adr`, `/agent-rules` | — | `adk:interview` nhẹ | — |
+## Phase skill / `adk:adr` / `adk:pivot` (KHÔNG phải engine) SỞ HỮU ghi
 
-## `adk:grill-docs` inert khi chưa có ≥1 frozen doc
+- Ghi ADR (qua đường append hook-compliant) · render doc dẫn xuất (qua `render-protocol`) · update `PIPELINE.lock` (chỉ bootstrap advance-phase).
+- Engine elicitation (`adk:grill`, `adk:grill-docs`, `adk:interview`) chỉ trả **text**. Không engine nào ghi `docs/decisions/`, doc dẫn xuất, hay lock.
 
-grill bản chất "challenge against existing model" → **inert** lúc kickoff / đầu product (chủ yếu capture). Sức challenge **scale theo vật liệu frozen** — càng nhiều frozen doc, grill càng sắc (fix 5.3).
+## Cường độ theo phase (giữ nguyên bảng v1, đổi cơ chế chạy)
 
-## Checklist mỗi lần một phase skill gọi engine
+| Phase                   | Cường độ                       | Engine chính                                   | Bản chất                             |
+| ----------------------- | ------------------------------ | ---------------------------------------------- | ------------------------------------ |
+| `/adk:kickoff` (0)      | 🟢 nhẹ                         | `adk:interview` _nhẹ_ + grill (capture)        | thu brief + research                 |
+| `/adk:product` (1)      | 🔴 **nặng nhất**               | **`adk:interview`** + `adk:grill-docs` nháp    | MOI intent — "hỏi liên tục"          |
+| `/adk:architecture` (2) | 🟠 vừa–cao                     | **`adk:grill-docs`** + "2-3 approaches" inline | THÁCH THỨC phương án trên nền có sẵn |
+| `/adk:requirements` (3) | 🟡 thấp tương tác / cao verify | **`adk:grill-docs`** soi gap/consistency       | DISTILL + cross-check; gap → DỪNG    |
+| `/adk:adr`              | —                              | `adk:interview` nhẹ + sanity-check máy móc     | soạn nháp quyết định                 |
+| `/adk:pivot`            | —                              | thừa hưởng mode phase đích                     | —                                    |
+| `/adk:agent-rules`      | —                              | `adk:interview` nhẹ                            | —                                    |
 
-1. Chạy `adk:grill-docs` **inline** (không subagent) với chỉ thị propose-only → nhận text đề-xuất.
-2. Phase skill đọc đề-xuất → tự quyết ghi gì vào `CONTEXT.md` (living).
-3. Gọi `adk:interview` → nhận confirmed intent (không save orphan) → distill.
-4. Không engine nào chạm `PIPELINE.lock` / `decisions/` / frozen doc — chỉ phase skill.
+**Wiring cứng (không để model "tự nhớ"):** `adk:product` + `adk:architecture` SKILL.md phải chứa chỉ thị nguyên văn _"TRƯỚC khi trình chùm ADR để chốt: invoke skill `adk:grill-docs` qua Skill tool trên bản nháp"_. `adk:kickoff`/`adk:requirements` dùng grill-docs ở mode nhẹ/soi-gap tương ứng bảng trên.
+
+## `adk:grill-docs` inert khi chưa có ≥1 ADR active liên quan
+
+Grill bản chất "challenge against existing model" → inert lúc kickoff / đầu product (chủ yếu capture, chưa có gì để bẻ). Sức challenge scale theo số ADR active đã tích luỹ — càng nhiều quyết định đã chốt, grill càng có vật liệu để tìm mâu thuẫn.
+
+## Checklist mỗi lần một phase skill / `adk:adr` gọi engine
+
+1. Cần challenge → gọi `adk:grill-docs` (which spawns `adk:grill` subagent, xem trên) → nhận text đề xuất + hướng-đã-loại.
+2. Caller đọc đề xuất → tự quyết ghi gì vào `CONTEXT.md`.
+3. Cần lấp khoảng trống intent → gọi `adk:interview` → nhận confirmed intent (không orphan doc) → distill vào nháp ADR / doc.
+4. Không engine nào chạm `PIPELINE.lock` / `docs/decisions/` / doc dẫn xuất — chỉ phase skill / `adk:adr` / `adk:pivot` ghi, và chỉ sau gate DỪNG THẬT (SPEC §8.2).

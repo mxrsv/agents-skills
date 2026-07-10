@@ -3,6 +3,12 @@ name: grill
 description: Grill the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases.
 ---
 
+## Cơ chế BẮT BUỘC khi gọi từ adk (v2)
+
+Khi một skill trong package `adk` (đặc biệt `adk:grill-docs`) cần chạy grill, nó **PHẢI spawn skill này như một subagent riêng** — fresh context (không kế thừa lịch sử hội thoại của caller), read-only tools, chỉ trả text. Xem `../../references/elicitation-contract.md`. **Lý do:** chạy inline (cùng context với caller) làm grill "biết" caller muốn nghe gì → mất epistemic independence, giảm sức bẻ. Subagent nhận nguyên văn doc/nháp cần challenge + chỉ thị "tìm cách BẺ, không tìm cách khen" (nội dung dưới đây là prompt cho subagent đó).
+
+---
+
 Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
 
 Ask the questions one at a time, waiting for feedback on each question before continuing. Asking multiple questions at once is bewildering.
