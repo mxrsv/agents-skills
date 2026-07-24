@@ -13,7 +13,44 @@ rules/      — coding style / patterns, per-language or shared
 
 ## Usage
 
-Copy the folders you want into `~/.claude/` (global) or `.claude/` inside a project (local):
+### CLI install (recommended)
+
+```bash
+git clone https://github.com/mxrsv/agents-skills.git
+cd agents-skills
+
+# Install everything into ~/.claude
+./bin/agents-skills install --all
+
+# Or only what you need
+./bin/agents-skills install --skills
+./bin/agents-skills install --agents
+./bin/agents-skills install --skill brainstorm --skill write-plan
+./bin/agents-skills install --agent planner --agent code-reviewer
+./bin/agents-skills install brainstorm planner   # auto-detect type
+
+# Project-local install (./.claude)
+./bin/agents-skills install --local --all
+
+# Preview / overwrite
+./bin/agents-skills install --dry-run --all
+./bin/agents-skills install --force --skill brainstorm
+
+# List what's available
+./bin/agents-skills list
+./bin/agents-skills list skills
+./bin/agents-skills list agents
+```
+
+Via `npx` (clones this repo on the fly):
+
+```bash
+npx github:mxrsv/agents-skills install --all
+npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
+npx github:mxrsv/agents-skills list
+```
+
+### Manual copy
 
 ```bash
 git clone https://github.com/mxrsv/agents-skills.git
@@ -25,7 +62,7 @@ cp -r agents-skills/rules    ~/.claude/rules
 
 Claude Code automatically discovers agents (via the `Agent` tool) and skills (via the `Skill` tool) from the `description` in each file's frontmatter — no extra configuration needed.
 
-Shared external skills are kept in `~/.agents/skills` and exposed to both Claude Code and Codex through symlinks in `~/.claude/skills` and `~/.codex/skills`. The symlink entries tracked in this repo expect the canonical skill directories to exist under `~/.agents/skills`.
+Shared external skills are kept in `~/.agents/skills` and exposed to both Claude Code and Codex through symlinks in `~/.claude/skills` and `~/.codex/skills`. The symlink entries tracked in this repo expect the canonical skill directories to exist under `~/.agents/skills`. The CLI skips broken symlink skills by default; pass `--with-symlinks` once those targets exist.
 
 ## Agents
 
