@@ -1,6 +1,6 @@
 # Core Patterns (P-rules)
 
-Language-agnostic. TypeScript implementations live in `rules/typescript/patterns.md`.
+Language-agnostic. Language-specific implementations live in `rules/<language>/patterns.md`.
 
 ## Repository Pattern
 
