@@ -9,6 +9,8 @@
 !/skills/
 !/commands/
 !/rules/
+!/templates/
+!/hooks/
 !/README.md
 !/.gitignore
 
