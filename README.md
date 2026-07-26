@@ -8,7 +8,9 @@ A personal set of **custom agents** and **skills** for [Claude Code](https://cla
 agents/     — specialized subagents (review, planning, research...)
 skills/     — skills invokable via the Skill tool or slash commands
 commands/   — custom slash commands
-rules/      — coding style / patterns, per-language or shared
+rules/      — always-loaded core rules + path-scoped per-language rules
+templates/  — AGENTS.md template + canonical project structures
+hooks/      — file-guard (blocks junk filenames, warns on oversized files)
 ```
 
 ## Usage
@@ -118,6 +120,8 @@ A linear, freeze-gated docs-bootstrap pipeline that ends at a frozen `REQUIREMEN
 
 ## Rules
 
-- `rules/context7.md` — always prefer looking up docs via the Context7 MCP when working with libraries/frameworks
-- `rules/common/` — coding style, React patterns, and general patterns shared across languages
-- `rules/typescript/` — coding style and patterns specific to TypeScript
+- `rules/core/` — always-loaded, stack-agnostic rules: file creation (F), workflow (W), docs (D), coding style (C), patterns (P)
+- `rules/typescript/` — TypeScript/JavaScript rules, loaded only when touching `*.ts/tsx/js/jsx` (path-scoped)
+- `rules/react/` — React patterns, loaded only when touching `*.tsx/jsx` (path-scoped)
+- `templates/` — `AGENTS.template.md` (per-project delta rules skeleton) + `project-structure.md` (canonical directory trees)
+- `hooks/file-guard.sh` — PreToolUse blocks junk filenames (`.bak`, `-v2`, `-final`…); PostToolUse warns on oversized or misplaced files
