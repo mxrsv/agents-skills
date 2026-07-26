@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.tsx"
+  - "**/*.jsx"
+---
+
 # React Patterns
 
 ## Khi nào KHÔNG dùng form library
@@ -9,13 +15,17 @@ KHÔNG dùng khi: form < 5 fields AND không có `handleSubmit` AND compute live
 ## Pattern thay thế: useState + touched map + zod
 
 ```ts
-const [values, setValues] = useState<Fields>({ a: '', b: '' });
-const [touched, setTouched] = useState<Record<keyof Fields, boolean>>({ a: false, b: false });
+const [values, setValues] = useState<Fields>({ a: "", b: "" });
+const [touched, setTouched] = useState<Record<keyof Fields, boolean>>({
+  a: false,
+  b: false,
+});
 
-const handleChange = (name: keyof Fields) => (e: ChangeEvent<HTMLInputElement>) => {
-  setValues(v => ({ ...v, [name]: e.target.value }));
-  setTouched(t => t[name] ? t : { ...t, [name]: true });
-};
+const handleChange =
+  (name: keyof Fields) => (e: ChangeEvent<HTMLInputElement>) => {
+    setValues((v) => ({ ...v, [name]: e.target.value }));
+    setTouched((t) => (t[name] ? t : { ...t, [name]: true }));
+  };
 
 const errors = useMemo(() => {
   const r = schema.safeParse(values);
@@ -42,6 +52,7 @@ const [state] = useState(parseUrlParams(searchParams));
 ## Pure parsing functions
 
 Tách URL params / external data parsing thành pure function ở `lib/` (không inline trong component):
+
 - Unit testable, không phụ thuộc React hay Web API.
 - Mock pattern trong test: `{ get: (k: string) => map.get(k) ?? null }` thay vì `new URLSearchParams()`.
 
@@ -50,6 +61,7 @@ Tách URL params / external data parsing thành pure function ở `lib/` (không
 **Trigger**: component > ~400 lines VÀ có ≥ 3 trong số: form state, memoized computation, sub-components, external data parsing.
 
 **Cấu trúc**:
+
 ```
 component-name/
 ├── index.tsx                  # wrapper + Suspense, default export
@@ -62,6 +74,7 @@ component-name/
 Pure functions (parsing, math) → `lib/`, KHÔNG trong folder component.
 
 **Dependency flow — CRITICAL**:
+
 - ALWAYS: `components/ → lib/`
 - NEVER: `lib/ → components/` kể cả type-only import
 
