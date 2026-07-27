@@ -1,0 +1,33 @@
+{
+  "_note": "Các khoá thuộc bộ luật tài liệu (spec 2026-07-27 rev3). settings.json thật không được git track — file này là bản tái lập. Không chứa permissions/env/marketplace.",
+  "plansDirectory": "docs/plans",
+  "skillOverrides": {
+    "brainstorm": "off",
+    "planning": "off"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/file-guard.sh\" block"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/file-guard.sh\" warn"
+          }
+        ]
+      }
+    ]
+  },
+  "_docsRoots": ["/Users/kyantran/Documents/Development/spacevibe-workspace"]
+}

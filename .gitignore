@@ -11,6 +11,7 @@
 !/rules/
 !/templates/
 !/hooks/
+!/scripts/
 !/README.md
 !/.gitignore
 
