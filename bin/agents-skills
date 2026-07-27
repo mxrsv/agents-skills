@@ -7,8 +7,25 @@ set -euo pipefail
 
 VERSION="1.2.0"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+# Resolve the real script path, following symlinks (e.g. npx/npm places a
+# symlink under node_modules/.bin pointing at the real file in the package).
+resolve_script_path() {
+  local src="$1"
+  while [[ -h "$src" ]]; do
+    local dir
+    dir="$(cd -P "$(dirname "$src")" && pwd)"
+    src="$(readlink "$src")"
+    case "$src" in
+      /*) ;;
+      *) src="$dir/$src" ;;
+    esac
+  done
+  echo "$src"
+}
+
+SCRIPT_PATH="$(resolve_script_path "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_PATH")" && pwd)"
+REPO_ROOT="$(cd -P "$SCRIPT_DIR/.." && pwd)"
 
 SRC_AGENTS="$REPO_ROOT/agents"
 SRC_SKILLS="$REPO_ROOT/skills"
