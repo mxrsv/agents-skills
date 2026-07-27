@@ -17,7 +17,16 @@ src/
 ├─ hooks/                   # shared hooks: use-*.ts
 └─ types/                   # shared types
 e2e/                        # Playwright specs
-docs/                       # specs + plans (D-rules)
+docs/                       # tài liệu (D-rules)
+  ARCHITECTURE.md           #   sống — module, luồng dữ liệu, ranh giới (bắt buộc)
+  CONTEXT.md                #   sống — xong gì, đang làm gì, còn treo gì (bắt buộc)
+  CODEMAP.md OPERATIONS.md PRODUCT.md DESIGN.md README.md   # sống, tuỳ chọn
+  specs/YYYY-MM-DD-<topic>-design.md
+  plans/YYYY-MM-DD-<topic>.md
+  review/YYYY-MM-DD-<topic>.md      # + assets/ cho ảnh
+  mockups/YYYY-MM-DD-<topic>.html
+AGENTS.md                   # luật riêng repo — bắt buộc (D5)
+CLAUDE.md                   # dòng đầu `@AGENTS.md` — bắt buộc (D5)
 ```
 
 - Dependency một chiều: `components/ → lib/`; NEVER `lib/ → components/` (kể cả type-only).

@@ -36,3 +36,10 @@ Vị trí khác chuẩn `~/.claude/templates/project-structure.md` (chỉ ghi đ
 
 - Docs/comments: {{Tiếng Việt / English-only}}
 - Commit messages: {{English, conventional commits}}
+
+## Chưa khớp thực tế
+
+| Claim | Ý định | Trạng thái | Bằng chứng |
+| ----- | ------ | ---------- | ---------- |
+
+{{Rỗng thì ghi rõ "Rỗng". KHÔNG bỏ mục (D7).}}
