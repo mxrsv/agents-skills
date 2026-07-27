@@ -12,8 +12,10 @@
 !/templates/
 !/hooks/
 !/scripts/
+!/bin/
 !/README.md
 !/.gitignore
+!/package.json
 
 # Docs: chỉ share design docs của workflow-pipeline, phần docs/ còn lại vẫn chặn
 !/docs/
