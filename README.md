@@ -17,18 +17,15 @@ hooks/      — file-guard (blocks junk filenames, warns on oversized files)
 
 ### CLI install (recommended)
 
-Interactive by default — run the command and pick from the menu:
+**No clone needed** — run it straight from GitHub via `npx`:
 
 ```bash
-git clone https://github.com/mxrsv/agents-skills.git
-cd agents-skills
-
-./bin/agents-skills
-# or
-./bin/agents-skills install
+npx github:mxrsv/agents-skills
+# or straight into the install wizard
+npx github:mxrsv/agents-skills install
 ```
 
-The wizard asks you to:
+Interactive by default — the CLI asks you to:
 
 1. Choose what to install — everything, all skills/agents, or pick specific items (type `1 3 5`, `1-4`, or `a` for all)
 2. Choose platform — **Claude Code**, **Codex**, or **both**
@@ -65,20 +62,21 @@ Codex differences are handled automatically:
 Non-interactive (scripts / CI) still works:
 
 ```bash
-./bin/agents-skills install --all
-./bin/agents-skills install --skills
-./bin/agents-skills install --skill brainstorm --agent planner
-./bin/agents-skills install --local --all
-./bin/agents-skills install --codex --skills --commands   # Codex: skills/ + prompts/
-./bin/agents-skills install --both --skill brainstorm      # both Claude Code and Codex
-./bin/agents-skills list
+npx github:mxrsv/agents-skills install --all
+npx github:mxrsv/agents-skills install --skills
+npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
+npx github:mxrsv/agents-skills install --local --all
+npx github:mxrsv/agents-skills install --codex --skills --commands   # Codex: skills/ + prompts/
+npx github:mxrsv/agents-skills install --both --skill brainstorm      # both Claude Code and Codex
+npx github:mxrsv/agents-skills list
 ```
 
-Via `npx`:
+If you'd rather clone once and reuse the script directly (no `npx` re-fetch each time):
 
 ```bash
-npx github:mxrsv/agents-skills
-npx github:mxrsv/agents-skills install --all
+git clone https://github.com/mxrsv/agents-skills.git
+cd agents-skills
+./bin/agents-skills install
 ```
 
 ### Manual copy
