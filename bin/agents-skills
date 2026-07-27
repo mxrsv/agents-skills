@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# agents-skills — install / list / uninstall Claude Code agents & skills
-# from this repository into ~/.claude (global) or ./.claude (local).
+# agents-skills — interactive installer for Claude Code / Codex agents & skills
+#
+# Written for bash 3.2 (macOS default) compatibility: no `mapfile`,
+# no `declare -A`, no `${var,,}`.
 set -euo pipefail
 
-VERSION="1.0.0"
+VERSION="1.2.0"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -13,69 +15,64 @@ SRC_SKILLS="$REPO_ROOT/skills"
 SRC_COMMANDS="$REPO_ROOT/commands"
 SRC_RULES="$REPO_ROOT/rules"
 
-# Defaults
 TARGET_MODE="global"   # global | local | custom
 TARGET_DIR=""
+PLATFORM="claude"      # claude | codex | both
 FORCE=0
 DRY_RUN=0
 WITH_SYMLINKS=0
-INSTALL_ALL=0
-INSTALL_ALL_SKILLS=0
-INSTALL_ALL_AGENTS=0
-INSTALL_ALL_COMMANDS=0
-INSTALL_ALL_RULES=0
 
 declare -a WANT_SKILLS=()
 declare -a WANT_AGENTS=()
 declare -a WANT_COMMANDS=()
 declare -a WANT_RULES=()
-declare -a BARE_NAMES=()
+
+SELECTION_GIVEN=0
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
 usage() {
   cat <<'EOF'
-agents-skills — install Claude Code agents & skills from this repo
+agents-skills — install Claude Code / Codex agents & skills from this repo
 
 Usage:
-  agents-skills install [options] [name...]
-  agents-skills list [skills|agents|commands|rules|all]
-  agents-skills uninstall [options] [name...]
+  agents-skills              Interactive menu (default)
+  agents-skills install      Interactive install wizard
+  agents-skills list
+  agents-skills uninstall    Interactive uninstall wizard
   agents-skills help
 
-Install examples:
+Interactive flow (no flags needed):
+  1. Choose what to install (all / skills / agents / pick items…)
+  2. Choose platform (Claude Code / Codex / both)
+  3. Choose target (global ~/.claude|~/.codex, or ./  in this project)
+  4. Confirm
+
+Non-interactive (scripts / CI):
   agents-skills install --all
   agents-skills install --skills
   agents-skills install --agents
-  agents-skills install --skill brainstorm --skill write-plan
-  agents-skills install --agent planner --agent code-reviewer
-  agents-skills install brainstorm planner          # auto-detect type
-  agents-skills install --local --all               # into ./.claude
-  agents-skills install --dir /path/to/.claude --all
+  agents-skills install --skill NAME --agent NAME
+  agents-skills install --codex --skills --commands
+  agents-skills install --both --local --all
 
 Options:
-  --all                 Install everything (skills, agents, commands, rules)
-  --skills              Install all skills (real directories; skips broken symlinks)
-  --agents              Install all agents
-  --commands            Install all commands
-  --rules               Install all rules
-  -s, --skill NAME      Install a specific skill (repeatable)
-  -a, --agent NAME      Install a specific agent (repeatable)
-  -c, --command NAME    Install a specific command (repeatable)
-  -r, --rule NAME       Install a specific rule group (repeatable)
-  --global              Target ~/.claude (default)
-  --local               Target ./.claude in the current directory
-  --dir PATH            Custom Claude config directory
-  --force               Overwrite existing files/directories
-  --dry-run             Print actions without writing
-  --with-symlinks       Include symlink skills when their target exists
-  -h, --help            Show help
-  -v, --version         Show version
+  --all                 Install everything
+  --skills|--agents|--commands|--rules
+  -s, --skill NAME      -a, --agent NAME  -c, --command NAME  -r, --rule NAME
+  --claude               Target Claude Code only (~/.claude) [default]
+  --codex                Target Codex only (~/.codex)
+  --both                 Target both Claude Code and Codex
+  --global|--local|--dir PATH
+  --force|--dry-run|--with-symlinks
+  -h, --help  -v, --version
 
 Notes:
-  • Shared external skills (symlinks → ~/.agents/skills/...) are skipped by
-    default. Pass --with-symlinks to link them when the target exists.
-  • Plugin packs like `adk` are installed as a whole skill directory.
+  • Codex stores slash-commands under `prompts/` (not `commands/`); this
+    tool maps that automatically.
+  • Codex has no per-file subagent mechanism like Claude Code's `agents/`
+    Agent tool, so agents are skipped for the Codex target (skills/
+    commands/rules still install normally).
 EOF
 }
 
@@ -83,24 +80,39 @@ die() { echo "error: $*" >&2; exit 1; }
 info() { echo "$*"; }
 warn() { echo "warn: $*" >&2; }
 
-resolve_target() {
-  case "$TARGET_MODE" in
-    global) TARGET_DIR="${HOME}/.claude" ;;
-    local)  TARGET_DIR="$(pwd)/.claude" ;;
-    custom)
-      [[ -n "$TARGET_DIR" ]] || die "--dir requires a path"
-      ;;
-    *) die "unknown target mode: $TARGET_MODE" ;;
-  esac
+# Read a line of user input (works for a real terminal and piped input).
+prompt_read() {
+  local __var="$1"
+  local __reply=""
+  IFS= read -r __reply || true
+  printf -v "$__var" '%s' "$__reply"
 }
 
-is_real_dir() {
-  [[ -d "$1" && ! -L "$1" ]]
+pause_enter() {
+  local _unused
+  printf "Press Enter to continue…"
+  prompt_read _unused
+  echo
 }
 
-is_usable_symlink() {
-  [[ -L "$1" && -e "$1" ]]
+# bash-3.2-safe replacement for `mapfile -t arr < <(cmd)`.
+# Usage: collect_lines out_array_name < <(cmd)
+collect_lines() {
+  local __out="$1"
+  local __arr=()
+  local __line
+  while IFS= read -r __line; do
+    [[ -n "$__line" ]] && __arr+=("$__line")
+  done
+  if [[ ${#__arr[@]} -eq 0 ]]; then
+    eval "$__out=()"
+  else
+    eval "$__out=(\"\${__arr[@]}\")"
+  fi
 }
+
+is_real_dir() { [[ -d "$1" && ! -L "$1" ]]; }
+is_usable_symlink() { [[ -L "$1" && -e "$1" ]]; }
 
 list_skill_names() {
   local entry name
@@ -118,17 +130,13 @@ list_skill_names() {
 list_agent_names() {
   local f
   shopt -s nullglob
-  for f in "$SRC_AGENTS"/*.md; do
-    basename "$f" .md
-  done | sort -u
+  for f in "$SRC_AGENTS"/*.md; do basename "$f" .md; done | sort -u
 }
 
 list_command_names() {
   local f
   shopt -s nullglob
-  for f in "$SRC_COMMANDS"/*.md; do
-    basename "$f" .md
-  done | sort -u
+  for f in "$SRC_COMMANDS"/*.md; do basename "$f" .md; done | sort -u
 }
 
 list_rule_names() {
@@ -142,22 +150,24 @@ list_rule_names() {
 
 skill_exists() {
   local path="$SRC_SKILLS/$1"
-  if is_real_dir "$path"; then
-    return 0
-  fi
-  if [[ $WITH_SYMLINKS -eq 1 ]] && is_usable_symlink "$path"; then
-    return 0
-  fi
-  # Explicit request for a symlink skill: allow if it's a symlink (warn later)
-  if [[ -L "$path" ]]; then
-    return 0
-  fi
+  is_real_dir "$path" && return 0
+  [[ $WITH_SYMLINKS -eq 1 ]] && is_usable_symlink "$path" && return 0
+  [[ -L "$path" ]] && return 0
   return 1
 }
-
 agent_exists() { [[ -f "$SRC_AGENTS/$1.md" ]]; }
 command_exists() { [[ -f "$SRC_COMMANDS/$1.md" ]]; }
 rule_exists() { [[ -e "$SRC_RULES/$1" ]]; }
+
+uniq_array() { awk 'NF && !seen[$0]++'; }
+
+dedupe_var() {
+  # dedupe_var ARRAY_NAME — dedupes in place, preserving order.
+  local __name="$1"
+  local __joined
+  eval "__joined=\$(printf '%s\n' \"\${$__name[@]+\"\${$__name[@]}\"}\" | uniq_array)"
+  collect_lines "$__name" <<<"$__joined"
+}
 
 ensure_dir() {
   local dir="$1"
@@ -172,13 +182,9 @@ copy_tree() {
   local src="$1" dest="$2"
   if [[ -e "$dest" || -L "$dest" ]]; then
     if [[ $FORCE -eq 1 ]]; then
-      if [[ $DRY_RUN -eq 1 ]]; then
-        info "  [dry-run] rm -rf $dest"
-      else
-        rm -rf "$dest"
-      fi
+      if [[ $DRY_RUN -eq 1 ]]; then info "  [dry-run] rm -rf $dest"; else rm -rf "$dest"; fi
     else
-      warn "skip (exists): $dest  (use --force to overwrite)"
+      warn "skip (exists): $dest  (use --force / choose overwrite)"
       return 1
     fi
   fi
@@ -188,20 +194,15 @@ copy_tree() {
   fi
   mkdir -p "$(dirname "$dest")"
   cp -a "$src" "$dest"
-  return 0
 }
 
 copy_file() {
   local src="$1" dest="$2"
   if [[ -e "$dest" || -L "$dest" ]]; then
     if [[ $FORCE -eq 1 ]]; then
-      if [[ $DRY_RUN -eq 1 ]]; then
-        info "  [dry-run] rm -f $dest"
-      else
-        rm -f "$dest"
-      fi
+      if [[ $DRY_RUN -eq 1 ]]; then info "  [dry-run] rm -f $dest"; else rm -f "$dest"; fi
     else
-      warn "skip (exists): $dest  (use --force to overwrite)"
+      warn "skip (exists): $dest  (use --force / choose overwrite)"
       return 1
     fi
   fi
@@ -211,7 +212,6 @@ copy_file() {
   fi
   mkdir -p "$(dirname "$dest")"
   cp -a "$src" "$dest"
-  return 0
 }
 
 remove_path() {
@@ -225,7 +225,421 @@ remove_path() {
     return 0
   fi
   rm -rf "$path"
+}
+
+to_lower() { printf '%s' "$1" | tr '[:upper:]' '[:lower:]'; }
+
+# ── platform mapping ─────────────────────────────────────────────────────────
+# Returns a newline-separated list of platforms to act on, based on $PLATFORM.
+platform_list() {
+  case "$PLATFORM" in
+    claude) echo "claude" ;;
+    codex)  echo "codex" ;;
+    both)   printf 'claude\ncodex\n' ;;
+    *) die "unknown platform: $PLATFORM" ;;
+  esac
+}
+
+platform_label() {
+  case "$1" in
+    claude) echo "Claude Code (~/.claude)" ;;
+    codex)  echo "Codex (~/.codex)" ;;
+  esac
+}
+
+# Root directory for a given platform + current TARGET_MODE/TARGET_DIR.
+platform_root_dir() {
+  local plat="$1"
+  case "$TARGET_MODE" in
+    custom)
+      [[ -n "$TARGET_DIR" ]] || die "--dir requires a path"
+      echo "$TARGET_DIR"
+      ;;
+    local)
+      case "$plat" in
+        claude) echo "$(pwd)/.claude" ;;
+        codex)  echo "$(pwd)/.codex" ;;
+      esac
+      ;;
+    global|*)
+      case "$plat" in
+        claude) echo "${HOME}/.claude" ;;
+        codex)  echo "${HOME}/.codex" ;;
+      esac
+      ;;
+  esac
+}
+
+# Subdirectory name used for "commands" on a given platform.
+platform_commands_subdir() {
+  case "$1" in
+    codex) echo "prompts" ;;
+    *) echo "commands" ;;
+  esac
+}
+
+# Whether a platform supports installing "agents" the way Claude Code does.
+platform_supports_agents() {
+  [[ "$1" == "claude" ]]
+}
+
+# ── interactive UI ───────────────────────────────────────────────────────────
+
+print_menu() {
+  local title="$1"
+  shift
+  echo
+  echo "════════════════════════════════════════"
+  echo " $title"
+  echo "════════════════════════════════════════"
+  local i=1
+  local item
+  for item in "$@"; do
+    printf "  %2d) %s\n" "$i" "$item"
+    i=$((i + 1))
+  done
+  echo
+}
+
+# Single-choice menu. Sets CHOSEN_INDEX (1-based) or 0 on cancel/empty.
+choose_one() {
+  local title="$1" prompt="$2"
+  shift 2
+  local options=("$@")
+  local n=${#options[@]}
+  [[ $n -gt 0 ]] || die "choose_one: no options"
+
+  print_menu "$title" "${options[@]}"
+  printf "  0) Cancel\n\n"
+
+  local reply
+  while true; do
+    printf "%s [0-%d]: " "$prompt" "$n"
+    prompt_read reply
+    reply="${reply//[[:space:]]/}"
+    if [[ -z "$reply" ]]; then
+      continue
+    fi
+    if [[ "$reply" =~ ^[0-9]+$ ]] && (( reply >= 0 && reply <= n )); then
+      CHOSEN_INDEX="$reply"
+      return 0
+    fi
+    echo "  Invalid choice. Enter a number from 0 to $n."
+  done
+}
+
+# Multi-select from a list of names.
+# Usage: choose_many "Title" out_array_name name1 name2 ...
+# User can type: 1 3 5   or  1-4   or  a (all)   or  q (cancel)
+choose_many() {
+  local title="$1"
+  local __out="$2"
+  shift 2
+  local items=("$@")
+  local n=${#items[@]}
+  [[ $n -gt 0 ]] || die "choose_many: empty list"
+
+  echo
+  echo "════════════════════════════════════════"
+  echo " $title"
+  echo "════════════════════════════════════════"
+  local i
+  for ((i = 0; i < n; i++)); do
+    printf "  %2d) %s\n" "$((i + 1))" "${items[$i]}"
+  done
+  echo
+  echo "  Select: numbers (e.g. 1 3 5), ranges (1-4),"
+  echo "          a = all, q = cancel"
+  echo
+
+  local reply
+  while true; do
+    printf "Your selection: "
+    prompt_read reply
+    reply="$(printf '%s' "$reply" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+
+    if [[ -z "$reply" ]]; then
+      continue
+    fi
+    if [[ "$reply" == "q" || "$reply" == "Q" ]]; then
+      eval "$__out=()"
+      return 1
+    fi
+
+    local selected=()
+    if [[ "$reply" == "a" || "$reply" == "A" || "$reply" == "*" ]]; then
+      selected=("${items[@]}")
+      eval "$__out=(\"\${selected[@]}\")"
+      return 0
+    fi
+
+    reply="${reply//,/ }"
+    local token start end j ok=1
+    local seen_list=" "
+    for token in $reply; do
+      if [[ "$token" =~ ^([0-9]+)-([0-9]+)$ ]]; then
+        start="${BASH_REMATCH[1]}"
+        end="${BASH_REMATCH[2]}"
+        if (( start < 1 || end > n || start > end )); then
+          echo "  Invalid range: $token (valid 1-$n)"
+          ok=0
+          break
+        fi
+        for ((j = start; j <= end; j++)); do
+          case "$seen_list" in
+            *" $j "*) ;;
+            *)
+              selected+=("${items[$((j - 1))]}")
+              seen_list="${seen_list}${j} "
+              ;;
+          esac
+        done
+      elif [[ "$token" =~ ^[0-9]+$ ]]; then
+        if (( token < 1 || token > n )); then
+          echo "  Invalid number: $token (valid 1-$n)"
+          ok=0
+          break
+        fi
+        case "$seen_list" in
+          *" $token "*) ;;
+          *)
+            selected+=("${items[$((token - 1))]}")
+            seen_list="${seen_list}${token} "
+            ;;
+        esac
+      else
+        echo "  Invalid token: $token"
+        ok=0
+        break
+      fi
+    done
+
+    if [[ $ok -eq 1 && ${#selected[@]} -gt 0 ]]; then
+      eval "$__out=(\"\${selected[@]}\")"
+      return 0
+    fi
+    if [[ $ok -eq 1 ]]; then
+      echo "  Select at least one item."
+    fi
+  done
+}
+
+ask_yes_no() {
+  local prompt="$1"
+  local default="${2:-y}" # y|n
+  local reply hint
+  if [[ "$default" == "y" ]]; then hint="Y/n"; else hint="y/N"; fi
+  while true; do
+    printf "%s [%s]: " "$prompt" "$hint"
+    prompt_read reply
+    reply="${reply//[[:space:]]/}"
+    if [[ -z "$reply" ]]; then
+      reply="$default"
+    fi
+    case "$(to_lower "$reply")" in
+      y|yes) return 0 ;;
+      n|no)  return 1 ;;
+      *) echo "  Please answer y or n." ;;
+    esac
+  done
+}
+
+interactive_pick_platform() {
+  choose_one \
+    "Platform" \
+    "Install for which tool" \
+    "Claude Code  (~/.claude)" \
+    "Codex        (~/.codex)" \
+    "Both"
+  case "$CHOSEN_INDEX" in
+    0) return 1 ;;
+    1) PLATFORM="claude" ;;
+    2) PLATFORM="codex" ;;
+    3) PLATFORM="both" ;;
+  esac
   return 0
+}
+
+interactive_pick_target() {
+  choose_one \
+    "Install target" \
+    "Where to install" \
+    "Global — home directory (all projects)" \
+    "Local  — this project's directory only"
+  case "$CHOSEN_INDEX" in
+    0) return 1 ;;
+    1) TARGET_MODE="global" ;;
+    2) TARGET_MODE="local" ;;
+  esac
+  return 0
+}
+
+interactive_pick_overwrite() {
+  choose_one \
+    "Existing files" \
+    "If something already exists" \
+    "Skip existing (keep current)" \
+    "Overwrite existing"
+  case "$CHOSEN_INDEX" in
+    0) return 1 ;;
+    1) FORCE=0 ;;
+    2) FORCE=1 ;;
+  esac
+  return 0
+}
+
+fill_all_skills() { collect_lines WANT_SKILLS < <(list_skill_names); }
+fill_all_agents() { collect_lines WANT_AGENTS < <(list_agent_names); }
+fill_all_commands() { collect_lines WANT_COMMANDS < <(list_command_names); }
+fill_all_rules() { collect_lines WANT_RULES < <(list_rule_names); }
+
+interactive_select_what() {
+  WANT_SKILLS=()
+  WANT_AGENTS=()
+  WANT_COMMANDS=()
+  WANT_RULES=()
+
+  choose_one \
+    "agents-skills installer" \
+    "What do you want to install" \
+    "Everything (skills + agents + commands + rules)" \
+    "All skills" \
+    "All agents" \
+    "All commands" \
+    "All rules" \
+    "Pick specific skills…" \
+    "Pick specific agents…" \
+    "Pick specific commands…" \
+    "Pick specific rules…" \
+    "Custom mix (pick across types)…"
+
+  case "$CHOSEN_INDEX" in
+    0) return 1 ;;
+    1) fill_all_skills; fill_all_agents; fill_all_commands; fill_all_rules ;;
+    2) fill_all_skills ;;
+    3) fill_all_agents ;;
+    4) fill_all_commands ;;
+    5) fill_all_rules ;;
+    6)
+      local _items=()
+      collect_lines _items < <(list_skill_names)
+      choose_many "Pick skills" WANT_SKILLS "${_items[@]+"${_items[@]}"}" || return 1
+      ;;
+    7)
+      local _items=()
+      collect_lines _items < <(list_agent_names)
+      choose_many "Pick agents" WANT_AGENTS "${_items[@]+"${_items[@]}"}" || return 1
+      ;;
+    8)
+      local _items=()
+      collect_lines _items < <(list_command_names)
+      choose_many "Pick commands" WANT_COMMANDS "${_items[@]+"${_items[@]}"}" || return 1
+      ;;
+    9)
+      local _items=()
+      collect_lines _items < <(list_rule_names)
+      choose_many "Pick rules" WANT_RULES "${_items[@]+"${_items[@]}"}" || return 1
+      ;;
+    10)
+      if ask_yes_no "Include skills?" y; then
+        choose_one "Skills" "Install" "All skills" "Pick skills…" "Skip skills"
+        case "$CHOSEN_INDEX" in
+          0) return 1 ;;
+          1) fill_all_skills ;;
+          2)
+            local _items=()
+            collect_lines _items < <(list_skill_names)
+            choose_many "Pick skills" WANT_SKILLS "${_items[@]+"${_items[@]}"}" || true
+            ;;
+        esac
+      fi
+      if ask_yes_no "Include agents?" y; then
+        choose_one "Agents" "Install" "All agents" "Pick agents…" "Skip agents"
+        case "$CHOSEN_INDEX" in
+          0) return 1 ;;
+          1) fill_all_agents ;;
+          2)
+            local _items=()
+            collect_lines _items < <(list_agent_names)
+            choose_many "Pick agents" WANT_AGENTS "${_items[@]+"${_items[@]}"}" || true
+            ;;
+        esac
+      fi
+      if ask_yes_no "Include commands?" y; then
+        choose_one "Commands" "Install" "All commands" "Pick commands…" "Skip commands"
+        case "$CHOSEN_INDEX" in
+          0) return 1 ;;
+          1) fill_all_commands ;;
+          2)
+            local _items=()
+            collect_lines _items < <(list_command_names)
+            choose_many "Pick commands" WANT_COMMANDS "${_items[@]+"${_items[@]}"}" || true
+            ;;
+        esac
+      fi
+      if ask_yes_no "Include rules?" y; then
+        choose_one "Rules" "Install" "All rules" "Pick rules…" "Skip rules"
+        case "$CHOSEN_INDEX" in
+          0) return 1 ;;
+          1) fill_all_rules ;;
+          2)
+            local _items=()
+            collect_lines _items < <(list_rule_names)
+            choose_many "Pick rules" WANT_RULES "${_items[@]+"${_items[@]}"}" || true
+            ;;
+        esac
+      fi
+      ;;
+  esac
+
+  local total=$(( ${#WANT_SKILLS[@]} + ${#WANT_AGENTS[@]} + ${#WANT_COMMANDS[@]} + ${#WANT_RULES[@]} ))
+  if [[ $total -eq 0 ]]; then
+    warn "Nothing selected."
+    return 1
+  fi
+  return 0
+}
+
+print_selection_summary() {
+  echo
+  echo "────────────────────────────────────────"
+  echo " Platform: $(platform_label_list)"
+  local plat root
+  for plat in $(platform_list); do
+    root="$(platform_root_dir "$plat")"
+    echo "   → $root"
+  done
+  [[ $FORCE -eq 1 ]] && echo " Mode: overwrite existing" || echo " Mode: skip existing"
+  [[ $DRY_RUN -eq 1 ]] && echo " Dry-run: yes"
+  echo "────────────────────────────────────────"
+  if [[ ${#WANT_SKILLS[@]} -gt 0 ]]; then
+    echo " Skills (${#WANT_SKILLS[@]}):"
+    printf '   - %s\n' "${WANT_SKILLS[@]}"
+  fi
+  if [[ ${#WANT_AGENTS[@]} -gt 0 ]]; then
+    echo " Agents (${#WANT_AGENTS[@]}):"
+    printf '   - %s\n' "${WANT_AGENTS[@]}"
+    if [[ "$PLATFORM" != "claude" ]]; then
+      echo "   (note: skipped for Codex — no native subagent mechanism)"
+    fi
+  fi
+  if [[ ${#WANT_COMMANDS[@]} -gt 0 ]]; then
+    echo " Commands (${#WANT_COMMANDS[@]}):"
+    printf '   - %s\n' "${WANT_COMMANDS[@]}"
+  fi
+  if [[ ${#WANT_RULES[@]} -gt 0 ]]; then
+    echo " Rules (${#WANT_RULES[@]}):"
+    printf '   - %s\n' "${WANT_RULES[@]}"
+  fi
+  echo "────────────────────────────────────────"
+}
+
+platform_label_list() {
+  case "$PLATFORM" in
+    claude) echo "Claude Code" ;;
+    codex)  echo "Codex" ;;
+    both)   echo "Claude Code + Codex" ;;
+  esac
 }
 
 # ── list ─────────────────────────────────────────────────────────────────────
@@ -236,8 +650,7 @@ cmd_list() {
     skills|skill)
       echo "Skills (installable):"
       list_skill_names | sed 's/^/  /'
-      local broken=0
-      local entry
+      local broken=0 entry
       shopt -s nullglob
       for entry in "$SRC_SKILLS"/*; do
         if [[ -L "$entry" && ! -e "$entry" ]]; then
@@ -251,11 +664,11 @@ cmd_list() {
       done
       ;;
     agents|agent)
-      echo "Agents:"
+      echo "Agents (Claude Code only):"
       list_agent_names | sed 's/^/  /'
       ;;
     commands|command)
-      echo "Commands:"
+      echo "Commands (Claude Code: commands/, Codex: prompts/):"
       list_command_names | sed 's/^/  /'
       ;;
     rules|rule)
@@ -263,252 +676,267 @@ cmd_list() {
       list_rule_names | sed 's/^/  /'
       ;;
     all)
-      cmd_list skills
-      echo
-      cmd_list agents
-      echo
-      cmd_list commands
-      echo
-      cmd_list rules
+      cmd_list skills; echo; cmd_list agents; echo
+      cmd_list commands; echo; cmd_list rules
       ;;
-    *)
-      die "unknown list type: $kind (skills|agents|commands|rules|all)"
-      ;;
+    *) die "unknown list type: $kind" ;;
   esac
 }
 
-# ── install ──────────────────────────────────────────────────────────────────
-
-resolve_bare_names() {
-  local name
-  for name in "${BARE_NAMES[@]+"${BARE_NAMES[@]}"}"; do
-    local matched=0
-    if skill_exists "$name"; then
-      WANT_SKILLS+=("$name")
-      matched=1
-    fi
-    if agent_exists "$name"; then
-      WANT_AGENTS+=("$name")
-      matched=1
-    fi
-    if command_exists "$name"; then
-      WANT_COMMANDS+=("$name")
-      matched=1
-    fi
-    if rule_exists "$name"; then
-      WANT_RULES+=("$name")
-      matched=1
-    fi
-    if [[ $matched -eq 0 ]]; then
-      die "unknown item: $name (not a skill, agent, command, or rule)"
-    fi
-  done
-}
-
-expand_install_sets() {
-  local n
-  if [[ $INSTALL_ALL -eq 1 ]]; then
-    INSTALL_ALL_SKILLS=1
-    INSTALL_ALL_AGENTS=1
-    INSTALL_ALL_COMMANDS=1
-    INSTALL_ALL_RULES=1
-  fi
-  if [[ $INSTALL_ALL_SKILLS -eq 1 ]]; then
-    while IFS= read -r n; do WANT_SKILLS+=("$n"); done < <(list_skill_names)
-  fi
-  if [[ $INSTALL_ALL_AGENTS -eq 1 ]]; then
-    while IFS= read -r n; do WANT_AGENTS+=("$n"); done < <(list_agent_names)
-  fi
-  if [[ $INSTALL_ALL_COMMANDS -eq 1 ]]; then
-    while IFS= read -r n; do WANT_COMMANDS+=("$n"); done < <(list_command_names)
-  fi
-  if [[ $INSTALL_ALL_RULES -eq 1 ]]; then
-    while IFS= read -r n; do WANT_RULES+=("$n"); done < <(list_rule_names)
-  fi
-}
-
-uniq_array() {
-  # stdin → stdout unique preserving order
-  awk 'NF && !seen[$0]++'
-}
+# ── perform install / uninstall ──────────────────────────────────────────────
 
 install_skill() {
-  local name="$1"
-  local src="$SRC_SKILLS/$name"
-  local dest="$TARGET_DIR/skills/$name"
-
+  local name="$1" root="$2"
+  local src="$SRC_SKILLS/$name" dest="$root/skills/$name"
   if [[ -L "$src" ]]; then
     if [[ ! -e "$src" ]]; then
       warn "skip skill (broken symlink — install into ~/.agents/skills first): $name"
       return 1
     fi
-    if [[ $WITH_SYMLINKS -eq 0 && $INSTALL_ALL_SKILLS -eq 1 ]]; then
-      # already filtered by list_skill_names when --with-symlinks off
-      :
-    fi
   elif [[ ! -d "$src" ]]; then
     die "skill not found: $name"
   fi
-
-  info "skill  $name"
+  info "  skill    $name"
   copy_tree "$src" "$dest"
 }
 
 install_agent() {
-  local name="$1"
-  local src="$SRC_AGENTS/$name.md"
-  local dest="$TARGET_DIR/agents/$name.md"
-  [[ -f "$src" ]] || die "agent not found: $name"
-  info "agent  $name"
-  copy_file "$src" "$dest"
+  local name="$1" root="$2"
+  info "  agent    $name"
+  copy_file "$SRC_AGENTS/$name.md" "$root/agents/$name.md"
 }
 
 install_command() {
-  local name="$1"
-  local src="$SRC_COMMANDS/$name.md"
-  local dest="$TARGET_DIR/commands/$name.md"
-  [[ -f "$src" ]] || die "command not found: $name"
-  info "command  $name"
-  copy_file "$src" "$dest"
+  local name="$1" root="$2" subdir="$3"
+  info "  command  $name"
+  copy_file "$SRC_COMMANDS/$name.md" "$root/$subdir/$name.md"
 }
 
 install_rule() {
-  local name="$1"
-  local src="$SRC_RULES/$name"
-  local dest="$TARGET_DIR/rules/$name"
-  [[ -e "$src" ]] || die "rule not found: $name"
-  info "rule  $name"
-  if [[ -d "$src" ]]; then
-    copy_tree "$src" "$dest"
-  else
-    copy_file "$src" "$dest"
-  fi
+  local name="$1" root="$2"
+  local src="$SRC_RULES/$name" dest="$root/rules/$name"
+  info "  rule     $name"
+  if [[ -d "$src" ]]; then copy_tree "$src" "$dest"; else copy_file "$src" "$dest"; fi
 }
 
-cmd_install() {
-  resolve_bare_names
-  expand_install_sets
+remove_skill() { remove_path "$2/skills/$1"; }
+remove_agent() { remove_path "$2/agents/$1.md"; }
+remove_command() { remove_path "$2/$3/$1.md"; }
+remove_rule() { remove_path "$2/rules/$1"; }
 
-  # Deduplicate
-  mapfile -t WANT_SKILLS < <(printf '%s\n' "${WANT_SKILLS[@]+"${WANT_SKILLS[@]}"}" | uniq_array)
-  mapfile -t WANT_AGENTS < <(printf '%s\n' "${WANT_AGENTS[@]+"${WANT_AGENTS[@]}"}" | uniq_array)
-  mapfile -t WANT_COMMANDS < <(printf '%s\n' "${WANT_COMMANDS[@]+"${WANT_COMMANDS[@]}"}" | uniq_array)
-  mapfile -t WANT_RULES < <(printf '%s\n' "${WANT_RULES[@]+"${WANT_RULES[@]}"}" | uniq_array)
+dedupe_wants() {
+  dedupe_var WANT_SKILLS
+  dedupe_var WANT_AGENTS
+  dedupe_var WANT_COMMANDS
+  dedupe_var WANT_RULES
+}
 
+run_install() {
+  dedupe_wants
   local total=$(( ${#WANT_SKILLS[@]} + ${#WANT_AGENTS[@]} + ${#WANT_COMMANDS[@]} + ${#WANT_RULES[@]} ))
-  if [[ $total -eq 0 ]]; then
-    die "nothing to install. Pass names, --skill/--agent/..., or --all. See: agents-skills help"
-  fi
+  [[ $total -gt 0 ]] || die "nothing to install"
 
-  resolve_target
-  info "Target: $TARGET_DIR"
-  [[ $DRY_RUN -eq 1 ]] && info "(dry-run)"
-  echo
+  local ok=0 skip=0 name plat root subdir
 
-  ensure_dir "$TARGET_DIR"
+  for plat in $(platform_list); do
+    root="$(platform_root_dir "$plat")"
+    subdir="$(platform_commands_subdir "$plat")"
 
-  local ok=0 skip=0
-  local name
+    echo
+    info "── $(platform_label "$plat") → $root"
+    ensure_dir "$root"
 
-  if [[ ${#WANT_SKILLS[@]} -gt 0 ]]; then
-    ensure_dir "$TARGET_DIR/skills"
-    for name in "${WANT_SKILLS[@]}"; do
-      if install_skill "$name"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
-    done
-  fi
-  if [[ ${#WANT_AGENTS[@]} -gt 0 ]]; then
-    ensure_dir "$TARGET_DIR/agents"
-    for name in "${WANT_AGENTS[@]}"; do
-      if install_agent "$name"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
-    done
-  fi
-  if [[ ${#WANT_COMMANDS[@]} -gt 0 ]]; then
-    ensure_dir "$TARGET_DIR/commands"
-    for name in "${WANT_COMMANDS[@]}"; do
-      if install_command "$name"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
-    done
-  fi
-  if [[ ${#WANT_RULES[@]} -gt 0 ]]; then
-    ensure_dir "$TARGET_DIR/rules"
-    for name in "${WANT_RULES[@]}"; do
-      if install_rule "$name"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
-    done
-  fi
+    if [[ ${#WANT_SKILLS[@]} -gt 0 ]]; then
+      ensure_dir "$root/skills"
+      for name in "${WANT_SKILLS[@]}"; do
+        if install_skill "$name" "$root"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
+      done
+    fi
+
+    if [[ ${#WANT_AGENTS[@]} -gt 0 ]]; then
+      if platform_supports_agents "$plat"; then
+        ensure_dir "$root/agents"
+        for name in "${WANT_AGENTS[@]}"; do
+          if install_agent "$name" "$root"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
+        done
+      else
+        warn "$(platform_label "$plat"): agents skipped (no native subagent mechanism)"
+        skip=$((skip + ${#WANT_AGENTS[@]}))
+      fi
+    fi
+
+    if [[ ${#WANT_COMMANDS[@]} -gt 0 ]]; then
+      ensure_dir "$root/$subdir"
+      for name in "${WANT_COMMANDS[@]}"; do
+        if install_command "$name" "$root" "$subdir"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
+      done
+    fi
+
+    if [[ ${#WANT_RULES[@]} -gt 0 ]]; then
+      ensure_dir "$root/rules"
+      for name in "${WANT_RULES[@]}"; do
+        if install_rule "$name" "$root"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
+      done
+    fi
+  done
 
   echo
   info "Done. installed≈$ok  skipped≈$skip"
-  info "Claude Code discovers these automatically from $TARGET_DIR"
 }
 
-# ── uninstall ────────────────────────────────────────────────────────────────
-
-cmd_uninstall() {
-  resolve_bare_names
-  expand_install_sets
-
-  mapfile -t WANT_SKILLS < <(printf '%s\n' "${WANT_SKILLS[@]+"${WANT_SKILLS[@]}"}" | uniq_array)
-  mapfile -t WANT_AGENTS < <(printf '%s\n' "${WANT_AGENTS[@]+"${WANT_AGENTS[@]}"}" | uniq_array)
-  mapfile -t WANT_COMMANDS < <(printf '%s\n' "${WANT_COMMANDS[@]+"${WANT_COMMANDS[@]}"}" | uniq_array)
-  mapfile -t WANT_RULES < <(printf '%s\n' "${WANT_RULES[@]+"${WANT_RULES[@]}"}" | uniq_array)
-
+run_uninstall() {
+  dedupe_wants
   local total=$(( ${#WANT_SKILLS[@]} + ${#WANT_AGENTS[@]} + ${#WANT_COMMANDS[@]} + ${#WANT_RULES[@]} ))
-  if [[ $total -eq 0 ]]; then
-    die "nothing to uninstall. Pass names or --skills/--agents/--all."
-  fi
+  [[ $total -gt 0 ]] || die "nothing to uninstall"
 
-  resolve_target
-  info "Target: $TARGET_DIR"
-  [[ $DRY_RUN -eq 1 ]] && info "(dry-run)"
-  echo
+  local name plat root subdir
 
-  local name
-  for name in "${WANT_SKILLS[@]+"${WANT_SKILLS[@]}"}"; do
-    info "skill  $name"
-    remove_path "$TARGET_DIR/skills/$name" || true
-  done
-  for name in "${WANT_AGENTS[@]+"${WANT_AGENTS[@]}"}"; do
-    info "agent  $name"
-    remove_path "$TARGET_DIR/agents/$name.md" || true
-  done
-  for name in "${WANT_COMMANDS[@]+"${WANT_COMMANDS[@]}"}"; do
-    info "command  $name"
-    remove_path "$TARGET_DIR/commands/$name.md" || true
-  done
-  for name in "${WANT_RULES[@]+"${WANT_RULES[@]}"}"; do
-    info "rule  $name"
-    remove_path "$TARGET_DIR/rules/$name" || true
+  for plat in $(platform_list); do
+    root="$(platform_root_dir "$plat")"
+    subdir="$(platform_commands_subdir "$plat")"
+    echo
+    info "── $(platform_label "$plat") → $root"
+
+    for name in "${WANT_SKILLS[@]+"${WANT_SKILLS[@]}"}"; do
+      info "  skill    $name"; remove_skill "$name" "$root" || true
+    done
+    if platform_supports_agents "$plat"; then
+      for name in "${WANT_AGENTS[@]+"${WANT_AGENTS[@]}"}"; do
+        info "  agent    $name"; remove_agent "$name" "$root" || true
+      done
+    fi
+    for name in "${WANT_COMMANDS[@]+"${WANT_COMMANDS[@]}"}"; do
+      info "  command  $name"; remove_command "$name" "$root" "$subdir" || true
+    done
+    for name in "${WANT_RULES[@]+"${WANT_RULES[@]}"}"; do
+      info "  rule     $name"; remove_rule "$name" "$root" || true
+    done
   done
 
   echo
   info "Done."
 }
 
-# ── arg parse ────────────────────────────────────────────────────────────────
+# ── interactive wizards ──────────────────────────────────────────────────────
 
-parse_install_args() {
+cmd_install_interactive() {
+  interactive_select_what || { info "Cancelled."; exit 0; }
+  interactive_pick_platform || { info "Cancelled."; exit 0; }
+  interactive_pick_target || { info "Cancelled."; exit 0; }
+  interactive_pick_overwrite || { info "Cancelled."; exit 0; }
+  print_selection_summary
+  if ! ask_yes_no "Proceed with install?" y; then
+    info "Cancelled."
+    exit 0
+  fi
+  run_install
+}
+
+cmd_uninstall_interactive() {
+  WANT_SKILLS=()
+  WANT_AGENTS=()
+  WANT_COMMANDS=()
+  WANT_RULES=()
+
+  choose_one \
+    "Uninstall" \
+    "What do you want to remove" \
+    "Everything this tool manages" \
+    "Pick skills…" \
+    "Pick agents…" \
+    "Pick commands…" \
+    "Pick rules…"
+
+  case "$CHOSEN_INDEX" in
+    0) info "Cancelled."; exit 0 ;;
+    1) fill_all_skills; fill_all_agents; fill_all_commands; fill_all_rules ;;
+    2)
+      local _items=()
+      collect_lines _items < <(list_skill_names)
+      choose_many "Pick skills to remove" WANT_SKILLS "${_items[@]+"${_items[@]}"}" || { info "Cancelled."; exit 0; }
+      ;;
+    3)
+      local _items=()
+      collect_lines _items < <(list_agent_names)
+      choose_many "Pick agents to remove" WANT_AGENTS "${_items[@]+"${_items[@]}"}" || { info "Cancelled."; exit 0; }
+      ;;
+    4)
+      local _items=()
+      collect_lines _items < <(list_command_names)
+      choose_many "Pick commands to remove" WANT_COMMANDS "${_items[@]+"${_items[@]}"}" || { info "Cancelled."; exit 0; }
+      ;;
+    5)
+      local _items=()
+      collect_lines _items < <(list_rule_names)
+      choose_many "Pick rules to remove" WANT_RULES "${_items[@]+"${_items[@]}"}" || { info "Cancelled."; exit 0; }
+      ;;
+  esac
+
+  interactive_pick_platform || { info "Cancelled."; exit 0; }
+  interactive_pick_target || { info "Cancelled."; exit 0; }
+  print_selection_summary
+  if ! ask_yes_no "Proceed with uninstall?" n; then
+    info "Cancelled."
+    exit 0
+  fi
+  run_uninstall
+}
+
+cmd_main_menu() {
+  choose_one \
+    "agents-skills v$VERSION" \
+    "Choose an action" \
+    "Install (interactive)" \
+    "Uninstall (interactive)" \
+    "List available items" \
+    "Help"
+  case "$CHOSEN_INDEX" in
+    0) info "Bye."; exit 0 ;;
+    1) cmd_install_interactive ;;
+    2) cmd_uninstall_interactive ;;
+    3) cmd_list all; echo; pause_enter; cmd_main_menu ;;
+    4) usage; echo; pause_enter; cmd_main_menu ;;
+  esac
+}
+
+# ── non-interactive arg parse ────────────────────────────────────────────────
+
+parse_common_args() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --all) INSTALL_ALL=1; shift ;;
-      --skills) INSTALL_ALL_SKILLS=1; shift ;;
-      --agents) INSTALL_ALL_AGENTS=1; shift ;;
-      --commands) INSTALL_ALL_COMMANDS=1; shift ;;
-      --rules) INSTALL_ALL_RULES=1; shift ;;
+      --yes|-y) shift ;;
+      --all)
+        SELECTION_GIVEN=1
+        fill_all_skills; fill_all_agents; fill_all_commands; fill_all_rules
+        shift
+        ;;
+      --skills) SELECTION_GIVEN=1; fill_all_skills; shift ;;
+      --agents) SELECTION_GIVEN=1; fill_all_agents; shift ;;
+      --commands) SELECTION_GIVEN=1; fill_all_commands; shift ;;
+      --rules) SELECTION_GIVEN=1; fill_all_rules; shift ;;
       -s|--skill)
         [[ $# -ge 2 ]] || die "$1 requires a name"
-        WANT_SKILLS+=("$2"); shift 2
+        skill_exists "$2" || die "unknown skill: $2"
+        WANT_SKILLS+=("$2"); SELECTION_GIVEN=1; shift 2
         ;;
       -a|--agent)
         [[ $# -ge 2 ]] || die "$1 requires a name"
-        WANT_AGENTS+=("$2"); shift 2
+        agent_exists "$2" || die "unknown agent: $2"
+        WANT_AGENTS+=("$2"); SELECTION_GIVEN=1; shift 2
         ;;
       -c|--command)
         [[ $# -ge 2 ]] || die "$1 requires a name"
-        WANT_COMMANDS+=("$2"); shift 2
+        command_exists "$2" || die "unknown command: $2"
+        WANT_COMMANDS+=("$2"); SELECTION_GIVEN=1; shift 2
         ;;
       -r|--rule)
         [[ $# -ge 2 ]] || die "$1 requires a name"
-        WANT_RULES+=("$2"); shift 2
+        rule_exists "$2" || die "unknown rule: $2"
+        WANT_RULES+=("$2"); SELECTION_GIVEN=1; shift 2
         ;;
+      --claude) PLATFORM="claude"; shift ;;
+      --codex) PLATFORM="codex"; shift ;;
+      --both) PLATFORM="both"; shift ;;
       --global) TARGET_MODE="global"; shift ;;
       --local) TARGET_MODE="local"; shift ;;
       --dir)
@@ -519,39 +947,54 @@ parse_install_args() {
       --dry-run) DRY_RUN=1; shift ;;
       --with-symlinks) WITH_SYMLINKS=1; shift ;;
       -h|--help) usage; exit 0 ;;
-      --)
-        shift
-        while [[ $# -gt 0 ]]; do BARE_NAMES+=("$1"); shift; done
-        ;;
       -*)
         die "unknown option: $1"
         ;;
       *)
-        BARE_NAMES+=("$1"); shift
+        local name="$1" matched=0
+        if skill_exists "$name"; then WANT_SKILLS+=("$name"); matched=1; fi
+        if agent_exists "$name"; then WANT_AGENTS+=("$name"); matched=1; fi
+        if command_exists "$name"; then WANT_COMMANDS+=("$name"); matched=1; fi
+        if rule_exists "$name"; then WANT_RULES+=("$name"); matched=1; fi
+        [[ $matched -eq 1 ]] || die "unknown item: $name"
+        SELECTION_GIVEN=1
+        shift
         ;;
     esac
   done
 }
 
+# ── main ─────────────────────────────────────────────────────────────────────
+
 main() {
   local cmd="${1:-}"
+
   if [[ -z "$cmd" ]]; then
-    usage
-    exit 1
+    cmd_main_menu
+    return 0
   fi
-  shift || true
 
   case "$cmd" in
     install)
-      parse_install_args "$@"
-      cmd_install
+      shift || true
+      parse_common_args "$@"
+      if [[ $SELECTION_GIVEN -eq 1 ]]; then
+        run_install
+      else
+        cmd_install_interactive
+      fi
       ;;
     uninstall|remove)
-      parse_install_args "$@"
-      cmd_uninstall
+      shift || true
+      parse_common_args "$@"
+      if [[ $SELECTION_GIVEN -eq 1 ]]; then
+        run_uninstall
+      else
+        cmd_uninstall_interactive
+      fi
       ;;
     list|ls)
-      # allow --with-symlinks before/after type
+      shift || true
       local kind="all"
       while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -562,14 +1005,19 @@ main() {
       done
       cmd_list "$kind"
       ;;
-    help|-h|--help)
-      usage
-      ;;
-    version|-v|--version)
-      echo "agents-skills $VERSION"
-      ;;
+    help|-h|--help) usage ;;
+    version|-v|--version) echo "agents-skills $VERSION" ;;
     *)
-      die "unknown command: $cmd (try: agents-skills help)"
+      if [[ "$cmd" == -* ]]; then
+        parse_common_args "$@"
+        if [[ $SELECTION_GIVEN -eq 1 ]]; then
+          run_install
+        else
+          cmd_main_menu
+        fi
+      else
+        die "unknown command: $cmd (try: agents-skills help)"
+      fi
       ;;
   esac
 }
