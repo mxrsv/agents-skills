@@ -1,6 +1,6 @@
 # Agents & Skills
 
-A personal set of **custom agents** and **skills** for [Claude Code](https://claude.com/claude-code), built up through daily use. This repo is a public backup — it contains no sessions, memory, or sensitive config (see `.gitignore`).
+A personal set of **custom agents** and **skills** for [Claude Code](https://claude.com/claude-code) and [Codex](https://github.com/openai/codex), built up through daily use. This repo is a public backup — it contains no sessions, memory, or sensitive config (see `.gitignore`).
 
 ## Structure
 
@@ -13,7 +13,73 @@ rules/      — coding style / patterns, per-language or shared
 
 ## Usage
 
-Copy the folders you want into `~/.claude/` (global) or `.claude/` inside a project (local):
+### CLI install (recommended)
+
+Interactive by default — run the command and pick from the menu:
+
+```bash
+git clone https://github.com/mxrsv/agents-skills.git
+cd agents-skills
+
+./bin/agents-skills
+# or
+./bin/agents-skills install
+```
+
+The wizard asks you to:
+
+1. Choose what to install — everything, all skills/agents, or pick specific items (type `1 3 5`, `1-4`, or `a` for all)
+2. Choose platform — **Claude Code**, **Codex**, or **both**
+3. Choose target — global (`~/.claude` / `~/.codex`) or local (`./.claude` / `./.codex`)
+4. Skip or overwrite existing files
+5. Confirm
+
+```
+════════════════════════════════════════
+ agents-skills installer
+════════════════════════════════════════
+   1) Everything (skills + agents + commands + rules)
+   2) All skills
+   3) All agents
+   4) All commands
+   5) All rules
+   6) Pick specific skills…
+   7) Pick specific agents…
+   …
+
+════════════════════════════════════════
+ Platform
+════════════════════════════════════════
+   1) Claude Code  (~/.claude)
+   2) Codex        (~/.codex)
+   3) Both
+```
+
+Codex differences are handled automatically:
+
+- Slash-commands install into `prompts/` on Codex instead of `commands/` on Claude Code.
+- Codex has no per-file subagent mechanism like Claude Code's `agents/` (used by the `Agent` tool), so agents are skipped for the Codex target — skills, commands, and rules still install normally.
+
+Non-interactive (scripts / CI) still works:
+
+```bash
+./bin/agents-skills install --all
+./bin/agents-skills install --skills
+./bin/agents-skills install --skill brainstorm --agent planner
+./bin/agents-skills install --local --all
+./bin/agents-skills install --codex --skills --commands   # Codex: skills/ + prompts/
+./bin/agents-skills install --both --skill brainstorm      # both Claude Code and Codex
+./bin/agents-skills list
+```
+
+Via `npx`:
+
+```bash
+npx github:mxrsv/agents-skills
+npx github:mxrsv/agents-skills install --all
+```
+
+### Manual copy
 
 ```bash
 git clone https://github.com/mxrsv/agents-skills.git
@@ -25,7 +91,7 @@ cp -r agents-skills/rules    ~/.claude/rules
 
 Claude Code automatically discovers agents (via the `Agent` tool) and skills (via the `Skill` tool) from the `description` in each file's frontmatter — no extra configuration needed.
 
-Shared external skills are kept in `~/.agents/skills` and exposed to both Claude Code and Codex through symlinks in `~/.claude/skills` and `~/.codex/skills`. The symlink entries tracked in this repo expect the canonical skill directories to exist under `~/.agents/skills`.
+Shared external skills are kept in `~/.agents/skills` and exposed to both Claude Code and Codex through symlinks in `~/.claude/skills` and `~/.codex/skills`. The symlink entries tracked in this repo expect the canonical skill directories to exist under `~/.agents/skills`. The CLI skips broken symlink skills by default; pass `--with-symlinks` once those targets exist.
 
 ## Agents
 

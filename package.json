@@ -1,0 +1,30 @@
+{
+  "name": "agents-skills",
+  "version": "1.0.0",
+  "description": "CLI to install Claude Code agents & skills from mxrsv/agents-skills",
+  "bin": {
+    "agents-skills": "./bin/agents-skills"
+  },
+  "files": [
+    "bin/",
+    "agents/",
+    "skills/",
+    "commands/",
+    "rules/",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mxrsv/agents-skills.git"
+  },
+  "keywords": [
+    "claude-code",
+    "agents",
+    "skills",
+    "cli"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
