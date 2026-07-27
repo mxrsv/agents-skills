@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Tests for file-guard.sh. Run: bash ~/.claude/hooks/file-guard.test.sh
+# GUARD_OVERRIDE: đường dẫn bản guard đang phát triển (scratchpad) để test mà không đụng hook live.
 set -u
-GUARD="$(cd "$(dirname "$0")" && pwd)/file-guard.sh"
+GUARD="${GUARD_OVERRIDE:-$(cd "$(dirname "$0")" && pwd)/file-guard.sh}"
 pass=0; fail=0
 
 check() { # desc expected_exit mode json
@@ -28,6 +29,35 @@ check "warn: file nhỏ im lặng"         0 warn  '{"tool_input":{"file_path":"
 check "warn: debug-* trong repo"       2 warn  '{"tool_input":{"file_path":"/repo/debug-probe.js","content":"x"}}'
 check "warn: debug-* trong scratchpad OK" 0 warn '{"tool_input":{"file_path":"/private/tmp/claude-501/x/scratchpad/debug-probe.js","content":"x"}}'
 check "warn: *.log trong repo"         2 warn  '{"tool_input":{"file_path":"/repo/out.log","content":"x"}}'
+
+# ---- nhánh vị trí & tên tài liệu ----
+FIX=$(mktemp -d)
+mkdir -p "$FIX/repo/.git" "$FIX/repo/docs/specs" "$FIX/repo/docs/plans" \
+         "$FIX/repo/docs/review/assets" "$FIX/repo/docs/mockups" \
+         "$FIX/plainsrc/apps/web/src/docs" "$FIX/pipeline/.git" "$FIX/pipeline/docs"
+: > "$FIX/repo/docs/PRD.md"
+: > "$FIX/pipeline/PIPELINE.lock"
+jp() { jq -cn --arg p "$1" '{tool_input:{file_path:$p}}'; }
+
+check "docs: thư mục cha CHƯA tồn tại vẫn chặn" 2 block "$(jp "$FIX/repo/docs/superpowers/specs/x.md")"
+check "docs: thư mục lạ bị chặn"                2 block "$(jp "$FIX/repo/docs/intent/x.md")"
+check "docs: decisions/ mới bị chặn"            2 block "$(jp "$FIX/repo/docs/decisions/0030-x.md")"
+check "docs: tên spec sai bị chặn"              2 block "$(jp "$FIX/repo/docs/specs/foo.md")"
+check "docs: FINAL.md trong specs bị chặn"      2 block "$(jp "$FIX/repo/docs/specs/FINAL.md")"
+check "docs: plan .txt bị chặn"                 2 block "$(jp "$FIX/repo/docs/plans/x.txt")"
+check "docs: review thiếu ngày bị chặn"         2 block "$(jp "$FIX/repo/docs/review/no-date.md")"
+check "docs: mockup .zip bị chặn"               2 block "$(jp "$FIX/repo/docs/mockups/foo.zip")"
+check "docs: file HOA lạ bị chặn"               2 block "$(jp "$FIX/repo/docs/FOO.md")"
+check "docs: spec đúng tên cho qua"             0 block "$(jp "$FIX/repo/docs/specs/2026-07-27-x-design.md")"
+check "docs: plan đúng tên cho qua"             0 block "$(jp "$FIX/repo/docs/plans/2026-07-27-x.md")"
+check "docs: review/assets tự do cho qua"       0 block "$(jp "$FIX/repo/docs/review/assets/a.png")"
+check "docs: mockup đúng tên cho qua"           0 block "$(jp "$FIX/repo/docs/mockups/2026-07-27-x.html")"
+check "docs: ARCHITECTURE.md cho qua"           0 block "$(jp "$FIX/repo/docs/ARCHITECTURE.md")"
+check "docs: file ĐÃ tồn tại cho qua"           0 block "$(jp "$FIX/repo/docs/PRD.md")"
+check "docs: PIPELINE.lock miễn trừ"            0 block "$(jp "$FIX/pipeline/docs/intent/x.md")"
+check "docs: docs trong src cho qua"            0 block "$(jp "$FIX/plainsrc/apps/web/src/docs/foo.md")"
+check "warn: .planning nhắc chuyển"             2 warn  '{"tool_input":{"file_path":"/repo/.planning/x.md","content":"x"}}'
+rm -rf "$FIX"
 
 echo "----"
 echo "pass=$pass fail=$fail"
