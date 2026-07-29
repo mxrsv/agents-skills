@@ -20,10 +20,10 @@
 
 <p align="center">
   <a href="#quick-start">Quick start</a> ·
+  <a href="#usage">CLI install</a> ·
   <a href="#agents">Agents</a> ·
   <a href="#skills">Skills</a> ·
-  <a href="#claudemd-presets-vibe-coding">Presets</a> ·
-  <a href="#usage">Usage</a>
+  <a href="#claudemd-presets-vibe-coding">Presets</a>
 </p>
 
 ---
@@ -44,6 +44,85 @@ npx github:mxrsv/agents-skills install --preset kyant-vibe
 npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
 npx github:mxrsv/agents-skills list
 ```
+
+## Usage
+
+### CLI install (recommended)
+
+No clone needed:
+
+```bash
+npx github:mxrsv/agents-skills
+npx github:mxrsv/agents-skills install
+```
+
+Interactive flow:
+
+1. Choose what to install — everything, skills/agents/rules, a **CLAUDE.md preset**, or pick items (`1 3 5`, `1-4`, or `a`)
+2. Platform — **Claude Code**, **Codex**, or **both**
+3. Target — global (`~/.claude` / `~/.codex`) or local (`./.claude` / `./.codex`)
+4. Skip or overwrite existing files
+5. Confirm
+
+```
+════════════════════════════════════════
+ agents-skills installer
+════════════════════════════════════════
+   1) Everything (skills + agents + commands + rules)
+   2) All skills
+   3) All agents
+   4) All commands
+   5) All rules
+   6) CLAUDE.md preset…
+   7) Pick specific skills…
+   …
+
+════════════════════════════════════════
+ Platform
+════════════════════════════════════════
+   1) Claude Code  (~/.claude)
+   2) Codex        (~/.codex)
+   3) Both
+```
+
+Codex notes:
+
+- Slash-commands install into `prompts/` (not `commands/`).
+- Agents are skipped on Codex; skills, commands, and rules still install.
+
+Non-interactive:
+
+```bash
+npx github:mxrsv/agents-skills install --all
+npx github:mxrsv/agents-skills install --skills
+npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
+npx github:mxrsv/agents-skills install --local --all
+npx github:mxrsv/agents-skills install --codex --skills --commands
+npx github:mxrsv/agents-skills install --both --skill brainstorm
+npx github:mxrsv/agents-skills install --preset kyant-vibe
+npx github:mxrsv/agents-skills list
+npx github:mxrsv/agents-skills list presets
+```
+
+Clone once (no `npx` re-fetch):
+
+```bash
+git clone https://github.com/mxrsv/agents-skills.git
+cd agents-skills
+./bin/agents-skills install
+```
+
+### Manual copy
+
+```bash
+git clone https://github.com/mxrsv/agents-skills.git
+cp -r agents-skills/agents   ~/.claude/agents
+cp -r agents-skills/skills   ~/.claude/skills
+cp -r agents-skills/commands ~/.claude/commands
+cp -r agents-skills/rules    ~/.claude/rules
+```
+
+Claude Code discovers agents (`Agent` tool) and skills (`Skill` tool) from each file’s frontmatter `description` — no extra config.
 
 ## Structure
 
@@ -201,82 +280,3 @@ Presets write `CLAUDE.md` at the install target. Pair with [`rules/`](rules/) so
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Neutral `CLAUDE.md` starter                                                              |
 | [`templates/project-structure.md`](templates/project-structure.md) | Canonical directory trees                                                                |
 | [`hooks/file-guard.sh`](hooks/file-guard.sh)                       | Blocks junk filenames; warns on oversized / misplaced files                              |
-
-## Usage
-
-### CLI install (recommended)
-
-No clone needed:
-
-```bash
-npx github:mxrsv/agents-skills
-npx github:mxrsv/agents-skills install
-```
-
-Interactive flow:
-
-1. Choose what to install — everything, skills/agents/rules, a **CLAUDE.md preset**, or pick items (`1 3 5`, `1-4`, or `a`)
-2. Platform — **Claude Code**, **Codex**, or **both**
-3. Target — global (`~/.claude` / `~/.codex`) or local (`./.claude` / `./.codex`)
-4. Skip or overwrite existing files
-5. Confirm
-
-```
-════════════════════════════════════════
- agents-skills installer
-════════════════════════════════════════
-   1) Everything (skills + agents + commands + rules)
-   2) All skills
-   3) All agents
-   4) All commands
-   5) All rules
-   6) CLAUDE.md preset…
-   7) Pick specific skills…
-   …
-
-════════════════════════════════════════
- Platform
-════════════════════════════════════════
-   1) Claude Code  (~/.claude)
-   2) Codex        (~/.codex)
-   3) Both
-```
-
-Codex notes:
-
-- Slash-commands install into `prompts/` (not `commands/`).
-- Agents are skipped on Codex; skills, commands, and rules still install.
-
-Non-interactive:
-
-```bash
-npx github:mxrsv/agents-skills install --all
-npx github:mxrsv/agents-skills install --skills
-npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
-npx github:mxrsv/agents-skills install --local --all
-npx github:mxrsv/agents-skills install --codex --skills --commands
-npx github:mxrsv/agents-skills install --both --skill brainstorm
-npx github:mxrsv/agents-skills install --preset kyant-vibe
-npx github:mxrsv/agents-skills list
-npx github:mxrsv/agents-skills list presets
-```
-
-Clone once (no `npx` re-fetch):
-
-```bash
-git clone https://github.com/mxrsv/agents-skills.git
-cd agents-skills
-./bin/agents-skills install
-```
-
-### Manual copy
-
-```bash
-git clone https://github.com/mxrsv/agents-skills.git
-cp -r agents-skills/agents   ~/.claude/agents
-cp -r agents-skills/skills   ~/.claude/skills
-cp -r agents-skills/commands ~/.claude/commands
-cp -r agents-skills/rules    ~/.claude/rules
-```
-
-Claude Code discovers agents (`Agent` tool) and skills (`Skill` tool) from each file’s frontmatter `description` — no extra config.
