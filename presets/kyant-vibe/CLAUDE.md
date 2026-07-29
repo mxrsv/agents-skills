@@ -1,23 +1,22 @@
 <!-- Last Updated: 2026-07-29 -->
 <!--
-  Preset: kyant-vibe · Kyant (YouTube @kyant_official · X @kyant_vn)
+  kyant-vibe — personal daily CLAUDE.md (shared as a preset).
   Install: npx github:mxrsv/agents-skills install --preset kyant-vibe
   Manual:  cp presets/kyant-vibe/CLAUDE.md ~/.claude/CLAUDE.md
   Pair with rules/ + templates/ from this repo (see Reference map below).
 -->
 
-# `kyant-vibe` · CLAUDE.md
+# CLAUDE.md
 
-**Kyant** livestream operating rules for [Claude Code](https://claude.com/claude-code) / [Codex](https://github.com/openai/codex).
+Global rules I use every day with [Claude Code](https://claude.com/claude-code) and [Codex](https://github.com/openai/codex). Shared here as preset [`kyant-vibe`](./) so others can copy or adapt.
 
-|              |                                                                                                            |
-| ------------ | ---------------------------------------------------------------------------------------------------------- |
-| Preset home  | [`presets/kyant-vibe/`](./) · [`README`](./README.md) · [`banner`](./banner.jpg)                           |
-| Install      | `npx github:mxrsv/agents-skills install --preset kyant-vibe`                                               |
-| Channels     | [YouTube @kyant_official](https://www.youtube.com/@kyant_official) · [X @kyant_vn](https://x.com/kyant_vn) |
-| Toolkit root | [`agents-skills`](../../README.md)                                                                         |
+|                          |                                                              |
+| ------------------------ | ------------------------------------------------------------ |
+| This folder              | [`presets/kyant-vibe/`](./) · [`README`](./README.md)        |
+| Install into `~/.claude` | `npx github:mxrsv/agents-skills install --preset kyant-vibe` |
+| Companion toolkit        | [`agents-skills`](../../README.md)                           |
 
-> **Runtime note:** After install, agent paths resolve under `~/.claude/…`. Links below are **repo-relative** (clickable on GitHub). Same files land at `~/.claude/rules/…` and `~/.claude/templates/…` when you install `rules` / copy templates.
+> **Paths:** Links below are **repo-relative** (clickable on GitHub). After install, the same files live under `~/.claude/rules/…` and `~/.claude/templates/…`.
 
 ---
 
