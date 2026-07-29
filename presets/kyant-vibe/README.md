@@ -22,7 +22,7 @@
 | ---------------------------- | ---------------------------------------------------------------------------------------------- |
 | [`banner.jpg`](./banner.jpg) | Preset hero banner (Kyant vibe-coding)                                                         |
 | [`CLAUDE.md`](./CLAUDE.md)   | Global agent operating rules (tone, conciseness, frontend gates, hard rules L1–L10, branching) |
-| [`AGENTS.md`](./AGENTS.md)   | Entry for Codex / Cursor — points at `CLAUDE.md`                                               |
+| [`AGENTS.md`](./AGENTS.md)   | Entry for Codex / Cursor — `@CLAUDE.md`                                                        |
 | [`README.md`](./README.md)   | This page — install + map to the rest of the toolkit                                           |
 
 **This folder is not the whole toolkit.** Hard rules, agents, and skills live elsewhere in the repo (see [References](#references)).
