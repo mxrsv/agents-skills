@@ -22,7 +22,6 @@
   <a href="#quick-start">Quick start</a> ·
   <a href="#agents">Agents</a> ·
   <a href="#skills">Skills</a> ·
-  <a href="#adk--adr-first-docs-pipeline">adk</a> ·
   <a href="#claudemd-presets-vibe-coding">Presets</a> ·
   <a href="#usage">Usage</a>
 </p>
@@ -175,33 +174,13 @@ Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The C
 | [`triage`](skills/triage/SKILL.md)                                         | [mattpocock/skills](https://github.com/mattpocock/skills)                         |
 | [`shadcn`](skills/shadcn/SKILL.md)                                         | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                   |
 
-## adk — ADR-first docs pipeline
-
-Formerly `docs-pipeline`. Packaged as a skills-directory plugin: [`skills/adk/`](skills/adk/) ([README](skills/adk/README.md)). Invoke as `/adk:<name>`. Design source: [`docs/workflow-pipeline/`](docs/workflow-pipeline/).
-
-| Skill                                                          | Role                                                   |
-| -------------------------------------------------------------- | ------------------------------------------------------ |
-| [`/adk:kickoff`](skills/adk/skills/kickoff/SKILL.md)           | Phase 0 — scaffold `docs/`, capture principle ADRs     |
-| [`/adk:product`](skills/adk/skills/product/SKILL.md)           | Phase 1 — product ADRs → `PRD.md` + `BUSINESS-FLOW.md` |
-| [`/adk:architecture`](skills/adk/skills/architecture/SKILL.md) | Phase 2 — architecture ADRs → `ARCHITECTURE.md`        |
-| [`/adk:requirements`](skills/adk/skills/requirements/SKILL.md) | Phase 3 — atomic FR/NFR → `REQUIREMENTS.md`            |
-| [`/adk:adr`](skills/adk/skills/adr/SKILL.md)                   | Anytime — append-only decision record                  |
-| [`/adk:docs-check`](skills/adk/skills/docs-check/SKILL.md)     | Anytime — ADR active set vs derived docs               |
-| [`/adk:pivot`](skills/adk/skills/pivot/SKILL.md)               | Anytime — wrong premise → supersede + rewind           |
-| [`/adk:router`](skills/adk/skills/router/SKILL.md)             | GPS — classify ask, propose next step (no auto-exec)   |
-| [`/adk:agent-rules`](skills/adk/skills/agent-rules/SKILL.md)   | Standalone — generate `CLAUDE.md` / `AGENTS.md`        |
-| [`/adk:interview`](skills/adk/skills/interview/SKILL.md)       | Elicitation — extract real intent                      |
-| [`/adk:brainstorm`](skills/adk/skills/brainstorm/SKILL.md)     | Elicitation — approaches before build                  |
-| [`/adk:grill`](skills/adk/skills/grill/SKILL.md)               | Elicitation — stress-test a plan                       |
-| [`/adk:grill-docs`](skills/adk/skills/grill-docs/SKILL.md)     | Elicitation — grill against docs / domain model        |
-
 ## CLAUDE.md presets (vibe coding)
 
 **Kyant** livestream preset + a neutral template you can fork.
 
-| Path                                                           | What it is                                                                           |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md) | Neutral global `CLAUDE.md` — fill `{{placeholders}}`                                 |
+| Path                                                           | What it is                                                                                |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md) | Neutral global `CLAUDE.md` — fill `{{placeholders}}`                                      |
 | [`presets/kyant-vibe/`](presets/kyant-vibe/)                   | **Kyant** vibe-coding preset (Vietnamese tone, short answers, frontend gates, hard rules) |
 
 ```bash
