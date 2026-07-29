@@ -1,21 +1,21 @@
 <p align="center">
-  <img src="assets/banner.jpg" alt="agents-skills — Claude Code · Codex" width="100%">
+  <img src="assets/banner.jpg" alt="Kyant — agents-skills · vibe coding" width="100%">
 </p>
 
 <h1 align="center">agents-skills</h1>
 
 <p align="center">
-  <strong>Custom agents, skills, rules &amp; vibe-coding presets</strong> for
+  <strong>Kyant</strong> toolkit — custom agents, skills, rules &amp; vibe-coding presets for
   <a href="https://claude.com/claude-code">Claude Code</a> and
-  <a href="https://github.com/openai/codex">Codex</a> — built from daily use, shared as a public backup.
+  <a href="https://github.com/openai/codex">Codex</a>, built from daily livestream use.
 </p>
 
 <p align="center">
-  <a href="https://github.com/mxrsv/agents-skills"><img src="https://img.shields.io/badge/repo-mxrsv%2Fagents--skills-111827?style=flat-square" alt="repo"></a>
+  <a href="https://www.youtube.com/@kyant_official"><img src="https://img.shields.io/badge/YouTube-@kyant__official-FF0000?style=flat-square&logo=youtube&logoColor=white" alt="YouTube"></a>
+  <a href="https://x.com/kyant_vn"><img src="https://img.shields.io/badge/X-@kyant__vn-111827?style=flat-square&logo=x&logoColor=white" alt="X"></a>
   <a href="#quick-start"><img src="https://img.shields.io/badge/install-npx-0d9488?style=flat-square" alt="npx install"></a>
   <a href="https://claude.com/claude-code"><img src="https://img.shields.io/badge/Claude_Code-ready-d97706?style=flat-square" alt="Claude Code"></a>
   <a href="https://github.com/openai/codex"><img src="https://img.shields.io/badge/Codex-ready-2563eb?style=flat-square" alt="Codex"></a>
-  <img src="https://img.shields.io/badge/license-MIT-6b7280?style=flat-square" alt="MIT">
 </p>
 
 <p align="center">
@@ -29,7 +29,7 @@
 
 ---
 
-No sessions, memory, or secrets are published (see [`.gitignore`](.gitignore)).
+Part of the **Kyant** channel system (live vibe coding). No sessions, memory, or secrets are published (see [`.gitignore`](.gitignore)).
 
 ## Quick start
 
@@ -41,7 +41,7 @@ Common one-liners:
 
 ```bash
 npx github:mxrsv/agents-skills install --all
-npx github:mxrsv/agents-skills install --preset kyan-vibe
+npx github:mxrsv/agents-skills install --preset kyant-vibe
 npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
 npx github:mxrsv/agents-skills list
 ```
@@ -197,13 +197,15 @@ Formerly `docs-pipeline`. Packaged as a skills-directory plugin: [`skills/adk/`]
 
 ## CLAUDE.md presets (vibe coding)
 
+**Kyant** livestream preset + a neutral template you can fork.
+
 | Path                                                           | What it is                                                                           |
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md) | Neutral global `CLAUDE.md` — fill `{{placeholders}}`                                 |
-| [`presets/kyan-vibe/`](presets/kyan-vibe/)                     | Live vibe-coding preset (Vietnamese tone, short answers, frontend gates, hard rules) |
+| [`presets/kyant-vibe/`](presets/kyant-vibe/)                   | **Kyant** vibe-coding preset (Vietnamese tone, short answers, frontend gates, hard rules) |
 
 ```bash
-npx github:mxrsv/agents-skills install --preset kyan-vibe
+npx github:mxrsv/agents-skills install --preset kyant-vibe
 cp templates/CLAUDE.template.md ~/.claude/CLAUDE.md   # or start from template
 ```
 
@@ -275,7 +277,7 @@ npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
 npx github:mxrsv/agents-skills install --local --all
 npx github:mxrsv/agents-skills install --codex --skills --commands
 npx github:mxrsv/agents-skills install --both --skill brainstorm
-npx github:mxrsv/agents-skills install --preset kyan-vibe
+npx github:mxrsv/agents-skills install --preset kyant-vibe
 npx github:mxrsv/agents-skills list
 npx github:mxrsv/agents-skills list presets
 ```

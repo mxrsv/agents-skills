@@ -1,9 +1,9 @@
 <!-- Last Updated: 2026-04-26 -->
 <!--
-  Preset: kyan-vibe
-  Source: live vibe-coding CLAUDE.md (personal operating rules).
-  Install: npx github:mxrsv/agents-skills install --preset kyan-vibe
-  Or copy: cp presets/kyan-vibe/CLAUDE.md ~/.claude/CLAUDE.md
+  Preset: kyant-vibe
+  Source: Kyant live vibe-coding CLAUDE.md (channel + personal brand).
+  Install: npx github:mxrsv/agents-skills install --preset kyant-vibe
+  Or copy: cp presets/kyant-vibe/CLAUDE.md ~/.claude/CLAUDE.md
   Pair with rules/ from this repo — hard rules L1–L10 point at rules/core/.
   Fork and adapt; do not expect a paste to behave identically without your own taste.
 -->

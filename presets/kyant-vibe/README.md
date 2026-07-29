@@ -1,17 +1,19 @@
-# Preset: `kyan-vibe`
+# Preset: `kyant-vibe`
 
-Personal `CLAUDE.md` used for live vibe coding — Vietnamese tone, short answers, frontend gates, and hard workflow rules.
+**Kyant** live vibe-coding preset — Vietnamese tone, short answers, frontend gates, and hard workflow rules.
+
+Brand: [YouTube @kyant_official](https://www.youtube.com/@kyant_official) · [X @kyant_vn](https://x.com/kyant_vn)
 
 ## Install
 
 ```bash
-npx github:mxrsv/agents-skills install --preset kyan-vibe
+npx github:mxrsv/agents-skills install --preset kyant-vibe
 ```
 
 Manual:
 
 ```bash
-cp presets/kyan-vibe/CLAUDE.md ~/.claude/CLAUDE.md
+cp presets/kyant-vibe/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
 ## Pair with
