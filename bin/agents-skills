@@ -775,10 +775,15 @@ install_rule() {
 
 install_preset() {
   local name="$1" root="$2"
-  local src="$SRC_PRESETS/$name/CLAUDE.md" dest="$root/CLAUDE.md"
+  local src_dir="$SRC_PRESETS/$name"
+  local src="$src_dir/CLAUDE.md" dest="$root/CLAUDE.md"
   [[ -f "$src" ]] || die "preset not found: $name"
   info "  preset   $name → CLAUDE.md"
-  copy_file "$src" "$dest"
+  copy_file "$src" "$dest" || return 1
+  if [[ -f "$src_dir/AGENTS.md" ]]; then
+    info "  preset   $name → AGENTS.md"
+    copy_file "$src_dir/AGENTS.md" "$root/AGENTS.md" || return 1
+  fi
 }
 
 remove_skill() { remove_path "$2/skills/$1"; }

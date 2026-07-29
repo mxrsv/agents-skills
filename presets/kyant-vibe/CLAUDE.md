@@ -10,11 +10,11 @@
 
 Global rules I use every day with [Claude Code](https://claude.com/claude-code) and [Codex](https://github.com/openai/codex). Shared here as preset [`kyant-vibe`](./) so others can copy or adapt.
 
-|                          |                                                              |
-| ------------------------ | ------------------------------------------------------------ |
-| This folder              | [`presets/kyant-vibe/`](./) · [`README`](./README.md)        |
-| Install into `~/.claude` | `npx github:mxrsv/agents-skills install --preset kyant-vibe` |
-| Companion toolkit        | [`agents-skills`](../../README.md)                           |
+|                          |                                                                                    |
+| ------------------------ | ---------------------------------------------------------------------------------- |
+| This folder              | [`presets/kyant-vibe/`](./) · [`README`](./README.md) · [`AGENTS.md`](./AGENTS.md) |
+| Install into `~/.claude` | `npx github:mxrsv/agents-skills install --preset kyant-vibe`                       |
+| Companion toolkit        | [`agents-skills`](../../README.md)                                                 |
 
 > **Paths:** Links below are **repo-relative** (clickable on GitHub). After install, the same files live under `~/.claude/rules/…` and `~/.claude/templates/…`.
 
