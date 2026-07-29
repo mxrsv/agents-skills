@@ -1,12 +1,95 @@
-<!-- Last Updated: 2026-04-26 -->
+<!-- Last Updated: 2026-07-29 -->
 <!--
-  Preset: kyant-vibe
-  Source: Kyant live vibe-coding CLAUDE.md (channel + personal brand).
+  Preset: kyant-vibe · Kyant (YouTube @kyant_official · X @kyant_vn)
   Install: npx github:mxrsv/agents-skills install --preset kyant-vibe
-  Or copy: cp presets/kyant-vibe/CLAUDE.md ~/.claude/CLAUDE.md
-  Pair with rules/ from this repo — hard rules L1–L10 point at rules/core/.
-  Fork and adapt; do not expect a paste to behave identically without your own taste.
+  Manual:  cp presets/kyant-vibe/CLAUDE.md ~/.claude/CLAUDE.md
+  Pair with rules/ + templates/ from this repo (see Reference map below).
 -->
+
+# `kyant-vibe` · CLAUDE.md
+
+**Kyant** livestream operating rules for [Claude Code](https://claude.com/claude-code) / [Codex](https://github.com/openai/codex).
+
+|              |                                                                                                            |
+| ------------ | ---------------------------------------------------------------------------------------------------------- |
+| Preset home  | [`presets/kyant-vibe/`](./) · [`README`](./README.md) · [`banner`](./banner.jpg)                           |
+| Install      | `npx github:mxrsv/agents-skills install --preset kyant-vibe`                                               |
+| Channels     | [YouTube @kyant_official](https://www.youtube.com/@kyant_official) · [X @kyant_vn](https://x.com/kyant_vn) |
+| Toolkit root | [`agents-skills`](../../README.md)                                                                         |
+
+> **Runtime note:** After install, agent paths resolve under `~/.claude/…`. Links below are **repo-relative** (clickable on GitHub). Same files land at `~/.claude/rules/…` and `~/.claude/templates/…` when you install `rules` / copy templates.
+
+---
+
+## Reference map
+
+### Hard-rule sources (L1–L10)
+
+| ID      | Obligation (short)                           | Spec file (repo)                                                                                                                                                            | Runtime path                                 |
+| ------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| **L1**  | Checklist before creating any file           | [`rules/core/file-creation.md`](../../rules/core/file-creation.md)                                                                                                          | `~/.claude/rules/core/file-creation.md`      |
+| **L2**  | Read structure guide before new modules      | [`templates/project-structure.md`](../../templates/project-structure.md)                                                                                                    | `~/.claude/templates/project-structure.md`   |
+| **L3**  | No `.bak` / `-v2` / `-final` / `-copy`       | [`rules/core/file-creation.md`](../../rules/core/file-creation.md) §F3                                                                                                      | same as L1                                   |
+| **L4**  | Temp/debug → scratchpad, never the repo      | [`rules/core/file-creation.md`](../../rules/core/file-creation.md) §F4                                                                                                      | same as L1                                   |
+| **L5**  | No “done/fixed/pass” without verify evidence | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W4                                                                                                                | `~/.claude/rules/core/workflow.md`           |
+| **L6**  | Stay in task scope                           | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W3                                                                                                                | same as L5                                   |
+| **L7**  | Creative → brainstorm; with spec → plan      | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W1–W2 · skill [`brainstorm`](../../skills/brainstorm/SKILL.md) · [`write-plan`](../../skills/write-plan/SKILL.md) | `~/.claude/skills/brainstorm` / `write-plan` |
+| **L8**  | Conventional commits + branching rules       | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W5–W6                                                                                                             | same as L5                                   |
+| **L9**  | Specs / plans / docs follow D-rules          | [`rules/core/docs.md`](../../rules/core/docs.md)                                                                                                                            | `~/.claude/rules/core/docs.md`               |
+| **L10** | Missing `AGENTS.md` → template, deltas only  | [`templates/AGENTS.template.md`](../../templates/AGENTS.template.md)                                                                                                        | `~/.claude/templates/AGENTS.template.md`     |
+
+### Core rule pack
+
+| File                                                               | Covers                                     |
+| ------------------------------------------------------------------ | ------------------------------------------ |
+| [`rules/core/file-creation.md`](../../rules/core/file-creation.md) | F-rules — create/place/name files          |
+| [`rules/core/workflow.md`](../../rules/core/workflow.md)           | W-rules — brainstorm, plan, verify, commit |
+| [`rules/core/docs.md`](../../rules/core/docs.md)                   | D-rules — specs, plans, living docs        |
+| [`rules/core/coding-style.md`](../../rules/core/coding-style.md)   | C-rules — baseline style                   |
+| [`rules/core/patterns.md`](../../rules/core/patterns.md)           | P-rules — shared engineering patterns      |
+
+### Path-scoped rules
+
+| Pack                                                                                                                               | When loaded                         |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| [`rules/typescript/coding-style.md`](../../rules/typescript/coding-style.md) · [`patterns.md`](../../rules/typescript/patterns.md) | `*.ts` / `*.tsx` / `*.js` / `*.jsx` |
+| [`rules/react/patterns.md`](../../rules/react/patterns.md)                                                                         | `*.tsx` / `*.jsx`                   |
+
+### Templates & starter
+
+| File                                                                             | Role                                 |
+| -------------------------------------------------------------------------------- | ------------------------------------ |
+| [`templates/CLAUDE.template.md`](../../templates/CLAUDE.template.md)             | Neutral `CLAUDE.md` (not Kyant tone) |
+| [`templates/AGENTS.template.md`](../../templates/AGENTS.template.md)             | Per-repo delta skeleton (L10)        |
+| [`templates/project-structure.md`](../../templates/project-structure.md)         | Canonical trees (L2)                 |
+| [`templates/ARCHITECTURE.template.md`](../../templates/ARCHITECTURE.template.md) | Architecture doc starter             |
+| [`templates/CONTEXT.template.md`](../../templates/CONTEXT.template.md)           | Context doc starter                  |
+
+### Skills this preset leans on
+
+| Skill                                                                                                           | Role                                                                        |
+| --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| [`skills/brainstorm/SKILL.md`](../../skills/brainstorm/SKILL.md)                                                | L7 — lock spec before creative build                                        |
+| [`skills/write-plan/SKILL.md`](../../skills/write-plan/SKILL.md) · [`planning`](../../skills/planning/SKILL.md) | L7 — execution plan from spec                                               |
+| [`skills/frontend-design-bar/SKILL.md`](../../skills/frontend-design-bar/SKILL.md)                              | `<frontend_design>` bar                                                     |
+| [`skills/verification/SKILL.md`](../../skills/verification/SKILL.md)                                            | L5 — evidence before “done”                                                 |
+| [`skills/finish/SKILL.md`](../../skills/finish/SKILL.md)                                                        | Close-out re-verify                                                         |
+| Full catalog                                                                                                    | [`README.md` → Skills](../../README.md#skills) · [`agents/`](../../agents/) |
+
+### Companion install
+
+```bash
+# Preset only
+npx github:mxrsv/agents-skills install --preset kyant-vibe
+
+# Preset + rules/skills/agents (recommended)
+npx github:mxrsv/agents-skills install --all
+npx github:mxrsv/agents-skills install --preset kyant-vibe --force
+```
+
+---
+
+## Operating rules (agent)
 
 <communication>
 - Always respond in Vietnamese with a natural, conversational tone — like everyday speech, not formal writing.
@@ -27,7 +110,7 @@
 
 <frontend_design>
 
-- New/reshaped web UI: invoke `frontend-design-bar`. Design = assembly (motion, assets, interaction, depth), not generated static CSS.
+- New/reshaped web UI: invoke [`frontend-design-bar`](../../skills/frontend-design-bar/SKILL.md). Design = assembly (motion, assets, interaction, depth), not generated static CSS.
 - Not done until eye-approved on screenshot/recording — build passing ≠ finished.
   </frontend_design>
 
@@ -39,22 +122,22 @@
   </frontend_gate>
 
 <hard_rules>
-Luật cứng — vi phạm là lỗi, không có ngoại lệ. Chi tiết: `~/.claude/rules/core/`.
+Luật cứng — vi phạm là lỗi, không có ngoại lệ. Chi tiết: [`rules/core/`](../../rules/core/) → runtime `~/.claude/rules/core/`.
 
-- L1. TRƯỚC KHI tạo file mới → soát checklist cuối `rules/core/file-creation.md` (F-rules).
-- L2. TRƯỚC KHI plan cấu trúc file/module mới → đọc `~/.claude/templates/project-structure.md` (luật path-scoped chỉ nạp khi ĐỤNG file — lúc planning phải chủ động đọc).
-- L3. NEVER tạo file `.bak`/`.old`/`.orig`/`-v2`/`-v3`/`-final`/`-copy` — sửa file gốc, git giữ lịch sử (F3).
-- L4. File tạm/thí nghiệm/debug → scratchpad, NEVER trong repo (F4).
-- L5. NEVER báo "xong/đã sửa/pass" khi chưa chạy lệnh verify và dán output bằng chứng (W4).
-- L6. Chỉ sửa trong phạm vi task; việc ngoài scope → nêu ra, không tự làm (W3).
-- L7. Việc creative mới → brainstorm trước; có spec → plan trước khi code (W1, W2).
-- L8. Commit: conventional commits có scope, một commit một việc; tuân <branching> bên dưới (W5, W6).
-- L9. Specs/plans/docs → theo `rules/core/docs.md` (D-rules).
-- L10. Repo chưa có AGENTS.md → sinh từ `~/.claude/templates/AGENTS.template.md`, chỉ ghi DELTA so với chuẩn global.
+- **L1.** TRƯỚC KHI tạo file mới → soát checklist cuối [`rules/core/file-creation.md`](../../rules/core/file-creation.md) (F-rules) · `~/.claude/rules/core/file-creation.md`
+- **L2.** TRƯỚC KHI plan cấu trúc file/module mới → đọc [`templates/project-structure.md`](../../templates/project-structure.md) · `~/.claude/templates/project-structure.md` (luật path-scoped chỉ nạp khi ĐỤNG file — lúc planning phải chủ động đọc)
+- **L3.** NEVER tạo file `.bak`/`.old`/`.orig`/`-v2`/`-v3`/`-final`/`-copy` — sửa file gốc, git giữ lịch sử ([F3](../../rules/core/file-creation.md))
+- **L4.** File tạm/thí nghiệm/debug → scratchpad, NEVER trong repo ([F4](../../rules/core/file-creation.md))
+- **L5.** NEVER báo "xong/đã sửa/pass" khi chưa chạy lệnh verify và dán output bằng chứng ([W4](../../rules/core/workflow.md)) · skill [`verification`](../../skills/verification/SKILL.md)
+- **L6.** Chỉ sửa trong phạm vi task; việc ngoài scope → nêu ra, không tự làm ([W3](../../rules/core/workflow.md))
+- **L7.** Việc creative mới → [`brainstorm`](../../skills/brainstorm/SKILL.md) trước; có spec → [`write-plan`](../../skills/write-plan/SKILL.md) / [`planning`](../../skills/planning/SKILL.md) trước khi code ([W1](../../rules/core/workflow.md), [W2](../../rules/core/workflow.md))
+- **L8.** Commit: conventional commits có scope, một commit một việc; tuân `<branching>` bên dưới ([W5](../../rules/core/workflow.md), [W6](../../rules/core/workflow.md))
+- **L9.** Specs/plans/docs → theo [`rules/core/docs.md`](../../rules/core/docs.md) (D-rules) · `~/.claude/rules/core/docs.md`
+- **L10.** Repo chưa có `AGENTS.md` → sinh từ [`templates/AGENTS.template.md`](../../templates/AGENTS.template.md), chỉ ghi DELTA so với chuẩn global · `~/.claude/templates/AGENTS.template.md`
   </hard_rules>
 
 <branching>
 - Do NOT auto-create git branches. Work and commit on the current branch (including the default branch such as `main`/`master`) UNLESS the user explicitly asks to branch, or a PR is requested (a PR needs its own branch).
 - When a branch IS created, ALWAYS pair it with a git worktree (isolated checkout). Rationale: keeps the primary checkout clean and avoids losing uncommitted work when multiple agents share one checkout.
-- Per-project worktree path + environment bootstrap steps (install deps, env files) belong in that project's own CLAUDE.md.
+- Per-project worktree path + environment bootstrap steps (install deps, env files) belong in that project's own `CLAUDE.md` / [`AGENTS.md`](../../templates/AGENTS.template.md).
 </branching>
