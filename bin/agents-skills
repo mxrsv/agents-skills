@@ -5,7 +5,7 @@
 # no `declare -A`, no `${var,,}`.
 set -euo pipefail
 
-VERSION="1.2.0"
+VERSION="1.3.0"
 
 # Resolve the real script path, following symlinks (e.g. npx/npm places a
 # symlink under node_modules/.bin pointing at the real file in the package).
@@ -31,6 +31,7 @@ SRC_AGENTS="$REPO_ROOT/agents"
 SRC_SKILLS="$REPO_ROOT/skills"
 SRC_COMMANDS="$REPO_ROOT/commands"
 SRC_RULES="$REPO_ROOT/rules"
+SRC_PRESETS="$REPO_ROOT/presets"
 
 TARGET_MODE="global"   # global | local | custom
 TARGET_DIR=""
@@ -43,6 +44,7 @@ declare -a WANT_SKILLS=()
 declare -a WANT_AGENTS=()
 declare -a WANT_COMMANDS=()
 declare -a WANT_RULES=()
+WANT_PRESET=""
 
 SELECTION_GIVEN=0
 
@@ -70,6 +72,7 @@ Non-interactive (scripts / CI):
   agents-skills install --skills
   agents-skills install --agents
   agents-skills install --skill NAME --agent NAME
+  agents-skills install --preset NAME
   agents-skills install --codex --skills --commands
   agents-skills install --both --local --all
 
@@ -77,6 +80,7 @@ Options:
   --all                 Install everything
   --skills|--agents|--commands|--rules
   -s, --skill NAME      -a, --agent NAME  -c, --command NAME  -r, --rule NAME
+  --preset NAME         Install presets/NAME/CLAUDE.md → target CLAUDE.md
   --claude               Target Claude Code only (~/.claude) [default]
   --codex                Target Codex only (~/.codex)
   --both                 Target both Claude Code and Codex
@@ -90,6 +94,7 @@ Notes:
   • Codex has no per-file subagent mechanism like Claude Code's `agents/`
     Agent tool, so agents are skipped for the Codex target (skills/
     commands/rules still install normally).
+  • Presets write CLAUDE.md at the platform root (Claude Code and/or Codex).
 EOF
 }
 
@@ -165,6 +170,15 @@ list_rule_names() {
   done | sort -u
 }
 
+list_preset_names() {
+  local entry
+  shopt -s nullglob
+  for entry in "$SRC_PRESETS"/*; do
+    [[ -d "$entry" && -f "$entry/CLAUDE.md" ]] || continue
+    basename "$entry"
+  done | sort -u
+}
+
 skill_exists() {
   local path="$SRC_SKILLS/$1"
   is_real_dir "$path" && return 0
@@ -175,6 +189,7 @@ skill_exists() {
 agent_exists() { [[ -f "$SRC_AGENTS/$1.md" ]]; }
 command_exists() { [[ -f "$SRC_COMMANDS/$1.md" ]]; }
 rule_exists() { [[ -e "$SRC_RULES/$1" ]]; }
+preset_exists() { [[ -f "$SRC_PRESETS/$1/CLAUDE.md" ]]; }
 
 uniq_array() { awk 'NF && !seen[$0]++'; }
 
@@ -510,11 +525,22 @@ fill_all_agents() { collect_lines WANT_AGENTS < <(list_agent_names); }
 fill_all_commands() { collect_lines WANT_COMMANDS < <(list_command_names); }
 fill_all_rules() { collect_lines WANT_RULES < <(list_rule_names); }
 
+pick_one_preset() {
+  local _items=()
+  collect_lines _items < <(list_preset_names)
+  [[ ${#_items[@]} -gt 0 ]] || { warn "No presets found under presets/*/CLAUDE.md"; return 1; }
+  choose_one "CLAUDE.md preset" "Pick a preset" "${_items[@]}"
+  [[ "$CHOSEN_INDEX" -eq 0 ]] && return 1
+  WANT_PRESET="${_items[$((CHOSEN_INDEX - 1))]}"
+  return 0
+}
+
 interactive_select_what() {
   WANT_SKILLS=()
   WANT_AGENTS=()
   WANT_COMMANDS=()
   WANT_RULES=()
+  WANT_PRESET=""
 
   choose_one \
     "agents-skills installer" \
@@ -524,6 +550,7 @@ interactive_select_what() {
     "All agents" \
     "All commands" \
     "All rules" \
+    "CLAUDE.md preset…" \
     "Pick specific skills…" \
     "Pick specific agents…" \
     "Pick specific commands…" \
@@ -537,27 +564,28 @@ interactive_select_what() {
     3) fill_all_agents ;;
     4) fill_all_commands ;;
     5) fill_all_rules ;;
-    6)
+    6) pick_one_preset || return 1 ;;
+    7)
       local _items=()
       collect_lines _items < <(list_skill_names)
       choose_many "Pick skills" WANT_SKILLS "${_items[@]+"${_items[@]}"}" || return 1
       ;;
-    7)
+    8)
       local _items=()
       collect_lines _items < <(list_agent_names)
       choose_many "Pick agents" WANT_AGENTS "${_items[@]+"${_items[@]}"}" || return 1
       ;;
-    8)
+    9)
       local _items=()
       collect_lines _items < <(list_command_names)
       choose_many "Pick commands" WANT_COMMANDS "${_items[@]+"${_items[@]}"}" || return 1
       ;;
-    9)
+    10)
       local _items=()
       collect_lines _items < <(list_rule_names)
       choose_many "Pick rules" WANT_RULES "${_items[@]+"${_items[@]}"}" || return 1
       ;;
-    10)
+    11)
       if ask_yes_no "Include skills?" y; then
         choose_one "Skills" "Install" "All skills" "Pick skills…" "Skip skills"
         case "$CHOSEN_INDEX" in
@@ -610,7 +638,7 @@ interactive_select_what() {
   esac
 
   local total=$(( ${#WANT_SKILLS[@]} + ${#WANT_AGENTS[@]} + ${#WANT_COMMANDS[@]} + ${#WANT_RULES[@]} ))
-  if [[ $total -eq 0 ]]; then
+  if [[ $total -eq 0 && -z "$WANT_PRESET" ]]; then
     warn "Nothing selected."
     return 1
   fi
@@ -647,6 +675,10 @@ print_selection_summary() {
   if [[ ${#WANT_RULES[@]} -gt 0 ]]; then
     echo " Rules (${#WANT_RULES[@]}):"
     printf '   - %s\n' "${WANT_RULES[@]}"
+  fi
+  if [[ -n "$WANT_PRESET" ]]; then
+    echo " CLAUDE.md preset:"
+    echo "   - $WANT_PRESET → CLAUDE.md"
   fi
   echo "────────────────────────────────────────"
 }
@@ -692,9 +724,14 @@ cmd_list() {
       echo "Rules:"
       list_rule_names | sed 's/^/  /'
       ;;
+    presets|preset)
+      echo "CLAUDE.md presets (presets/*/CLAUDE.md):"
+      list_preset_names | sed 's/^/  /'
+      ;;
     all)
       cmd_list skills; echo; cmd_list agents; echo
-      cmd_list commands; echo; cmd_list rules
+      cmd_list commands; echo; cmd_list rules; echo
+      cmd_list presets
       ;;
     *) die "unknown list type: $kind" ;;
   esac
@@ -736,6 +773,14 @@ install_rule() {
   if [[ -d "$src" ]]; then copy_tree "$src" "$dest"; else copy_file "$src" "$dest"; fi
 }
 
+install_preset() {
+  local name="$1" root="$2"
+  local src="$SRC_PRESETS/$name/CLAUDE.md" dest="$root/CLAUDE.md"
+  [[ -f "$src" ]] || die "preset not found: $name"
+  info "  preset   $name → CLAUDE.md"
+  copy_file "$src" "$dest"
+}
+
 remove_skill() { remove_path "$2/skills/$1"; }
 remove_agent() { remove_path "$2/agents/$1.md"; }
 remove_command() { remove_path "$2/$3/$1.md"; }
@@ -751,7 +796,7 @@ dedupe_wants() {
 run_install() {
   dedupe_wants
   local total=$(( ${#WANT_SKILLS[@]} + ${#WANT_AGENTS[@]} + ${#WANT_COMMANDS[@]} + ${#WANT_RULES[@]} ))
-  [[ $total -gt 0 ]] || die "nothing to install"
+  [[ $total -gt 0 || -n "$WANT_PRESET" ]] || die "nothing to install"
 
   local ok=0 skip=0 name plat root subdir
 
@@ -794,6 +839,10 @@ run_install() {
       for name in "${WANT_RULES[@]}"; do
         if install_rule "$name" "$root"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
       done
+    fi
+
+    if [[ -n "$WANT_PRESET" ]]; then
+      if install_preset "$WANT_PRESET" "$root"; then ok=$((ok + 1)); else skip=$((skip + 1)); fi
     fi
   done
 
@@ -950,6 +999,11 @@ parse_common_args() {
         [[ $# -ge 2 ]] || die "$1 requires a name"
         rule_exists "$2" || die "unknown rule: $2"
         WANT_RULES+=("$2"); SELECTION_GIVEN=1; shift 2
+        ;;
+      --preset)
+        [[ $# -ge 2 ]] || die "$1 requires a name"
+        preset_exists "$2" || die "unknown preset: $2"
+        WANT_PRESET="$2"; SELECTION_GIVEN=1; shift 2
         ;;
       --claude) PLATFORM="claude"; shift ;;
       --codex) PLATFORM="codex"; shift ;;
