@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../../assets/kyant-logo.png" alt="Kyant" width="88">
+  <img src="./banner.jpg" alt="kyant-vibe — live vibe coding preset" width="100%">
 </p>
 
 <h1 align="center"><code>kyant-vibe</code></h1>
@@ -18,10 +18,11 @@
 
 ## What’s in this folder
 
-| File                       | Role                                                                                           |
-| -------------------------- | ---------------------------------------------------------------------------------------------- |
-| [`CLAUDE.md`](./CLAUDE.md) | Global agent operating rules (tone, conciseness, frontend gates, hard rules L1–L10, branching) |
-| [`README.md`](./README.md) | This page — install + map to the rest of the toolkit                                           |
+| File                         | Role                                                                                           |
+| ---------------------------- | ---------------------------------------------------------------------------------------------- |
+| [`banner.jpg`](./banner.jpg) | Preset hero banner (Kyant vibe-coding)                                                         |
+| [`CLAUDE.md`](./CLAUDE.md)   | Global agent operating rules (tone, conciseness, frontend gates, hard rules L1–L10, branching) |
+| [`README.md`](./README.md)   | This page — install + map to the rest of the toolkit                                           |
 
 **This folder is not the whole toolkit.** Hard rules, agents, and skills live elsewhere in the repo (see [References](#references)).
 
