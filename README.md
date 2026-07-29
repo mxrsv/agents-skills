@@ -1,35 +1,66 @@
-# Agents & Skills
+<p align="center">
+  <img src="assets/banner.jpg" alt="Kyant — agents-skills · vibe coding" width="100%">
+</p>
 
-A personal set of **custom agents** and **skills** for [Claude Code](https://claude.com/claude-code) and [Codex](https://github.com/openai/codex), built up through daily use. This repo is a public backup — it contains no sessions, memory, or sensitive config (see `.gitignore`).
+<h1 align="center">agents-skills</h1>
 
-## Structure
+<p align="center">
+  <strong>Kyant</strong> toolkit — custom agents, skills, rules &amp; vibe-coding presets for
+  <a href="https://claude.com/claude-code">Claude Code</a> and
+  <a href="https://github.com/openai/codex">Codex</a>, built from daily livestream use.
+</p>
 
+<p align="center">
+  <a href="https://www.youtube.com/@kyant_official"><img src="https://img.shields.io/badge/YouTube-@kyant__official-FF0000?style=flat-square&logo=youtube&logoColor=white" alt="YouTube"></a>
+  <a href="https://x.com/kyant_vn"><img src="https://img.shields.io/badge/X-@kyant__vn-111827?style=flat-square&logo=x&logoColor=white" alt="X"></a>
+  <a href="#quick-start"><img src="https://img.shields.io/badge/install-npx-0d9488?style=flat-square" alt="npx install"></a>
+  <a href="https://claude.com/claude-code"><img src="https://img.shields.io/badge/Claude_Code-ready-d97706?style=flat-square" alt="Claude Code"></a>
+  <a href="https://github.com/openai/codex"><img src="https://img.shields.io/badge/Codex-ready-2563eb?style=flat-square" alt="Codex"></a>
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#usage">CLI install</a> ·
+  <a href="#agents">Agents</a> ·
+  <a href="#skills">Skills</a> ·
+  <a href="#claudemd-presets-vibe-coding">Presets</a>
+</p>
+
+---
+
+Part of the **Kyant** channel system (live vibe coding). No sessions, memory, or secrets are published (see [`.gitignore`](.gitignore)).
+
+## Quick start
+
+```bash
+npx github:mxrsv/agents-skills install
 ```
-agents/     — specialized subagents (review, planning, research...)
-skills/     — skills invokable via the Skill tool or slash commands
-commands/   — custom slash commands
-rules/      — always-loaded core rules + path-scoped per-language rules
-templates/  — AGENTS.md template + canonical project structures
-hooks/      — file-guard (blocks junk filenames, warns on oversized files)
+
+Common one-liners:
+
+```bash
+npx github:mxrsv/agents-skills install --all
+npx github:mxrsv/agents-skills install --preset kyant-vibe
+npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
+npx github:mxrsv/agents-skills list
 ```
 
 ## Usage
 
 ### CLI install (recommended)
 
-**No clone needed** — run it straight from GitHub via `npx`:
+No clone needed:
 
 ```bash
 npx github:mxrsv/agents-skills
-# or straight into the install wizard
 npx github:mxrsv/agents-skills install
 ```
 
-Interactive by default — the CLI asks you to:
+Interactive flow:
 
-1. Choose what to install — everything, all skills/agents, or pick specific items (type `1 3 5`, `1-4`, or `a` for all)
-2. Choose platform — **Claude Code**, **Codex**, or **both**
-3. Choose target — global (`~/.claude` / `~/.codex`) or local (`./.claude` / `./.codex`)
+1. Choose what to install — everything, skills/agents/rules, a **CLAUDE.md preset**, or pick items (`1 3 5`, `1-4`, or `a`)
+2. Platform — **Claude Code**, **Codex**, or **both**
+3. Target — global (`~/.claude` / `~/.codex`) or local (`./.claude` / `./.codex`)
 4. Skip or overwrite existing files
 5. Confirm
 
@@ -42,8 +73,8 @@ Interactive by default — the CLI asks you to:
    3) All agents
    4) All commands
    5) All rules
-   6) Pick specific skills…
-   7) Pick specific agents…
+   6) CLAUDE.md preset…
+   7) Pick specific skills…
    …
 
 ════════════════════════════════════════
@@ -54,24 +85,26 @@ Interactive by default — the CLI asks you to:
    3) Both
 ```
 
-Codex differences are handled automatically:
+Codex notes:
 
-- Slash-commands install into `prompts/` on Codex instead of `commands/` on Claude Code.
-- Codex has no per-file subagent mechanism like Claude Code's `agents/` (used by the `Agent` tool), so agents are skipped for the Codex target — skills, commands, and rules still install normally.
+- Slash-commands install into `prompts/` (not `commands/`).
+- Agents are skipped on Codex; skills, commands, and rules still install.
 
-Non-interactive (scripts / CI) still works:
+Non-interactive:
 
 ```bash
 npx github:mxrsv/agents-skills install --all
 npx github:mxrsv/agents-skills install --skills
 npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
 npx github:mxrsv/agents-skills install --local --all
-npx github:mxrsv/agents-skills install --codex --skills --commands   # Codex: skills/ + prompts/
-npx github:mxrsv/agents-skills install --both --skill brainstorm      # both Claude Code and Codex
+npx github:mxrsv/agents-skills install --codex --skills --commands
+npx github:mxrsv/agents-skills install --both --skill brainstorm
+npx github:mxrsv/agents-skills install --preset kyant-vibe
 npx github:mxrsv/agents-skills list
+npx github:mxrsv/agents-skills list presets
 ```
 
-If you'd rather clone once and reuse the script directly (no `npx` re-fetch each time):
+Clone once (no `npx` re-fetch):
 
 ```bash
 git clone https://github.com/mxrsv/agents-skills.git
@@ -89,103 +122,161 @@ cp -r agents-skills/commands ~/.claude/commands
 cp -r agents-skills/rules    ~/.claude/rules
 ```
 
-Claude Code automatically discovers agents (via the `Agent` tool) and skills (via the `Skill` tool) from the `description` in each file's frontmatter — no extra configuration needed.
+Claude Code discovers agents (`Agent` tool) and skills (`Skill` tool) from each file’s frontmatter `description` — no extra config.
 
-Shared external skills are kept in `~/.agents/skills` and exposed to both Claude Code and Codex through symlinks in `~/.claude/skills` and `~/.codex/skills`. The symlink entries tracked in this repo expect the canonical skill directories to exist under `~/.agents/skills`. The CLI skips broken symlink skills by default; pass `--with-symlinks` once those targets exist.
+## Structure
+
+| Path                       | Role                                                    |
+| -------------------------- | ------------------------------------------------------- |
+| [`agents/`](agents/)       | Specialized subagents (review, planning, research…)     |
+| [`skills/`](skills/)       | Skills via the Skill tool / slash commands              |
+| [`commands/`](commands/)   | Custom slash commands                                   |
+| [`rules/`](rules/)         | Always-loaded + path-scoped rules                       |
+| [`templates/`](templates/) | `AGENTS.md` / `CLAUDE.md` starters + project structures |
+| [`presets/`](presets/)     | Named `CLAUDE.md` presets (live vibe-coding)            |
+| [`hooks/`](hooks/)         | File-guard (junk names, oversized files)                |
+| [`assets/`](assets/)       | README media                                            |
 
 ## Agents
 
-- **Planning & architecture**
-  - **`analyst`** — Research, market/competitive analysis, and brainstorming facilitation; produces draft docs for review.
-  - **`architect`** — System architecture design and technical decisions for large feature/refactor planning.
-  - **`planner`** — Detailed planning for complex features and refactors.
-  - **`plan-reviewer`** — Verifies a plan is executable against the current codebase (Gate 2); read-only.
-- **Code review & reliability**
-  - **`code-reviewer`** — Reviews implemented code findings-first and reports issues before fixes (Gate 3).
-  - **`engineering-code-reviewer`** — Reviews correctness, maintainability, security, and performance rather than style preferences.
-  - **`typescript-reviewer`** — Deep TypeScript/JS review covering type safety, async correctness, and security.
-  - **`react-reviewer`** — Deep React/JSX review covering hook correctness, render performance, and accessibility.
-  - **`database-reviewer`** — PostgreSQL review covering query optimization, schema design, and Supabase practices.
-  - **`security-reviewer`** — Detects security vulnerabilities including OWASP Top 10, secrets, injection, and SSRF.
-  - **`silent-failure-hunter`** — Hunts swallowed errors, bad fallbacks, and missing error propagation.
-- **Performance & maintenance**
-  - **`performance-optimizer`** — Finds bottlenecks, optimizes runtime, and reduces bundle size.
-  - **`refactor-cleaner`** — Cleans up dead code and duplication using knip/depcheck/ts-prune, then removes it safely.
-  - **`doc-updater`** — Updates codemaps and documentation such as README and `docs/CODEMAPS`.
+Claude Code discovers these via the `Agent` tool (frontmatter `description`). Codex has no per-file subagent mechanism — agents are skipped on the Codex target.
+
+### Planning & architecture
+
+| Agent                                      | Description                                                                              |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| [`analyst`](agents/analyst.md)             | Research, market/competitive analysis, brainstorming facilitation; draft docs for review |
+| [`architect`](agents/architect.md)         | System architecture and technical decisions for large features/refactors                 |
+| [`planner`](agents/planner.md)             | Detailed planning for complex features and refactors                                     |
+| [`plan-reviewer`](agents/plan-reviewer.md) | Gate 2 — verifies a plan is executable against the codebase (read-only)                  |
+
+### Code review & reliability
+
+| Agent                                                              | Description                                                               |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| [`code-reviewer`](agents/code-reviewer.md)                         | Gate 3 — findings-first review; reports issues before fixes               |
+| [`review-recall`](agents/review-recall.md)                         | Recall-first companion review (reliability, data integrity, test quality) |
+| [`review-adjudicator`](agents/review-adjudicator.md)               | Merges precision + recall reviews into one triaged verdict                |
+| [`engineering-code-reviewer`](agents/engineering-code-reviewer.md) | Correctness, maintainability, security, performance — not style           |
+| [`typescript-reviewer`](agents/typescript-reviewer.md)             | Deep TypeScript/JS: types, async correctness, security                    |
+| [`react-reviewer`](agents/react-reviewer.md)                       | Deep React/JSX: hooks, render performance, a11y                           |
+| [`database-reviewer`](agents/database-reviewer.md)                 | PostgreSQL: query optimization, schema, Supabase practices                |
+| [`security-reviewer`](agents/security-reviewer.md)                 | OWASP Top 10, secrets, injection, SSRF                                    |
+| [`silent-failure-hunter`](agents/silent-failure-hunter.md)         | Swallowed errors, bad fallbacks, missing error propagation                |
+
+### Performance & maintenance
+
+| Agent                                                      | Description                                                |
+| ---------------------------------------------------------- | ---------------------------------------------------------- |
+| [`performance-optimizer`](agents/performance-optimizer.md) | Bottlenecks, runtime cost, bundle size                     |
+| [`refactor-cleaner`](agents/refactor-cleaner.md)           | Dead code / duplication cleanup (knip, depcheck, ts-prune) |
+| [`doc-updater`](agents/doc-updater.md)                     | Codemaps and living docs (`README`, `docs/CODEMAPS`)       |
 
 ## Skills
 
-- **Discovery & planning**
-  - **`brainstorm`** — Before building a feature; clarify the goal, compare approaches, and lock the spec.
-  - **`write-plan` / `planning`** — Once scope is clear; write an execution plan from a spec.
-  - **`plan-review`** — After a plan exists and before coding; verify feasibility.
-  - **`codebase-onboarding`** — Entering an unfamiliar codebase; build a fast architecture map.
-  - **`improve-codebase-architecture`** — Find refactoring and deepening opportunities in architecture.
-  - **`deep-research`** — Multi-source research with citations using firecrawl and exa.
-- **Review, testing & verification**
-  - **`test-driven-development`** — Before writing new logic; enforce Red-Green-Refactor.
-  - **`code-review`** — After implementation and before shipping; produce an APPROVE/WARNING/BLOCK verdict.
-  - **`review`** — General findings-first review of specs, plans, and code.
-  - **`verification`** — Before claiming work is done or fixed; require real evidence.
-  - **`finish`** — When implementation is complete; re-verify and summarize the result.
-  - **`security-review`** — When adding auth, handling input, secrets, or payments.
-  - **`e2e-testing`** — Writing or fixing Playwright tests and Page Object Models.
-- **Frontend & prototyping**
-  - **`frontend-design-bar`** — Build or reshape web UI so it looks designed rather than generic.
-  - **`frontend-design-direction`** — Set a product-specific frontend design direction.
-  - **`prototype`** — Build a throwaway prototype to test a design or data model before committing.
-  - **`html-artifact`** — Create a self-contained HTML artifact when explicitly invoked.
-  - **`manim-video`** — Build technical explainer videos with Manim.
-- **Content, documentation & workflow**
-  - **`content-engine`** — Create multi-platform content for X, LinkedIn, TikTok, and newsletters.
-  - **`create-doc`** — Create documents from templates such as PRDs, research reports, and briefs.
-  - **`grill-with-docs`** — Stress-test a plan against the existing domain model and ADRs.
-  - **`git-workflow`** — Branching patterns, commit conventions, and merge/rebase guidance.
-  - **`github-ops`** — GitHub operations via `gh`, including issues, PRs, CI, and releases.
-  - **`team-agent-orchestration`** — Orchestrate a multi-agent squad with work items, ownership, and merge gates.
-  - **`role-routing`** — Map analyst/developer/reviewer roles onto Codex-style subagents.
-  - **`hand-off`** — Compact the current conversation into a handoff doc for another agent.
-  - **`teach`** — Teach the user a new skill or concept within the workspace.
-  - **`context-budget`** — Audit token usage across agents, skills, MCP, and `CLAUDE.md`.
+### Discovery & planning
+
+| Skill                                                                               | Description                                                  |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [`brainstorm`](skills/brainstorm/SKILL.md)                                          | Before building — clarify, compare approaches, lock the spec |
+| [`write-plan`](skills/write-plan/SKILL.md) / [`planning`](skills/planning/SKILL.md) | Execution plan once scope is clear                           |
+| [`plan-review`](skills/plan-review/SKILL.md)                                        | After a plan, before coding — feasibility check              |
+| [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                        | Fast architecture map for unfamiliar repos                   |
+| [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md)    | Refactor / deepen architecture opportunities                 |
+| [`deep-research`](skills/deep-research/SKILL.md)                                    | Multi-source research with citations                         |
+| [`domain-modeling`](skills/domain-modeling/SKILL.md)                                | Ubiquitous language, domain terms, ADRs                      |
+| [`interview-me`](skills/interview-me/SKILL.md)                                      | One-question-at-a-time interview to extract real intent      |
+| [`to-spec`](skills/to-spec/SKILL.md)                                                | Turn conversation into a structured spec                     |
+| [`find-skills`](skills/find-skills/SKILL.md)                                        | Discover / install agent skills                              |
+| [`explain`](skills/explain/SKILL.md)                                                | Teach a concept, bug, or design decision in a chosen style   |
+
+### Review, testing & verification
+
+| Skill                                                                | Description                                       |
+| -------------------------------------------------------------------- | ------------------------------------------------- |
+| [`test-driven-development`](skills/test-driven-development/SKILL.md) | Red-Green-Refactor before new logic               |
+| [`code-review`](skills/code-review/SKILL.md)                         | Parallel review → APPROVE / WARNING / BLOCK       |
+| [`review`](skills/review/SKILL.md)                                   | Findings-first review of specs, plans, or code    |
+| [`verification`](skills/verification/SKILL.md)                       | Require fresh evidence before “done / fixed”      |
+| [`finish`](skills/finish/SKILL.md)                                   | Close-out: re-verify and summarize                |
+| [`security-review`](skills/security-review/SKILL.md)                 | Auth, input, secrets, payments                    |
+| [`e2e-testing`](skills/e2e-testing/SKILL.md)                         | Playwright + Page Object patterns                 |
+| [`docs-drift`](skills/docs-drift/SKILL.md)                           | Docs vs real code behavior (read-only by default) |
+| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)                 | Hard bugs and performance regressions             |
+| [`triage`](skills/triage/SKILL.md)                                   | Categorise issues into agent-ready briefs         |
+
+### Frontend & prototyping
+
+| Skill                                                                      | Description                                    |
+| -------------------------------------------------------------------------- | ---------------------------------------------- |
+| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)               | UI that looks designed, not generic            |
+| [`frontend-design-direction`](skills/frontend-design-direction/SKILL.md)   | Product-specific frontend design direction     |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | Usability audit for existing UIs / live sites  |
+| [`prototype`](skills/prototype/SKILL.md)                                   | Throwaway prototype before committing          |
+| [`html-artifact`](skills/html-artifact/SKILL.md)                           | Self-contained HTML artifact (explicit invoke) |
+| [`manim-video`](skills/manim-video/SKILL.md)                               | Technical explainer videos with Manim          |
+| [`design-taste-frontend`](skills/design-taste-frontend/SKILL.md)           | Anti-slop landing / portfolio taste            |
+| [`high-end-visual-design`](skills/high-end-visual-design/SKILL.md)         | Agency-level visual + motion standards         |
+| [`imagegen-frontend-web`](skills/imagegen-frontend-web/SKILL.md)           | Section-by-section visual references           |
+| [`impeccable`](skills/impeccable/SKILL.md)                                 | Critique, polish, improve interfaces           |
+| [`redesign-existing-projects`](skills/redesign-existing-projects/SKILL.md) | Upgrade existing apps without breaking them    |
+| [`shadcn`](skills/shadcn/SKILL.md)                                         | shadcn/ui components, registries, chat UI      |
+
+### Content, docs & workflow
+
+| Skill                                                                  | Description                                               |
+| ---------------------------------------------------------------------- | --------------------------------------------------------- |
+| [`content-engine`](skills/content-engine/SKILL.md)                     | Multi-platform content (X, LinkedIn, TikTok, newsletters) |
+| [`create-doc`](skills/create-doc/SKILL.md)                             | Template-driven PRDs, research reports, briefs            |
+| [`git-workflow`](skills/git-workflow/SKILL.md)                         | Branching, conventional commits, merge/rebase             |
+| [`github-ops`](skills/github-ops/SKILL.md)                             | Issues, PRs, CI, releases via `gh`                        |
+| [`team-agent-orchestration`](skills/team-agent-orchestration/SKILL.md) | Multi-agent squad: work items, ownership, merge gates     |
+| [`hand-off`](skills/hand-off/SKILL.md)                                 | Compact the conversation for another agent                |
+| [`teach`](skills/teach/SKILL.md)                                       | Teach a skill or concept in-workspace                     |
+| [`context-budget`](skills/context-budget/SKILL.md)                     | Audit token use across agents, skills, MCP, `CLAUDE.md`   |
+| [`caveman`](skills/caveman/SKILL.md)                                   | Ultra-compressed communication mode                       |
 
 ### Shared external skills
 
-These skills are installed under `~/.agents/skills` and linked into both agent runtimes:
+Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The CLI skips broken symlinks by default; use `--with-symlinks` when targets exist.
 
-- **Communication**
-  - **`caveman`** ([source](https://github.com/juliusbrussee/caveman)) — Use a concise, token-efficient communication style.
-- **Frontend & design**
-  - **`design-taste-frontend`** ([source](https://github.com/leonxlnx/taste-skill)) — Design anti-slop landing pages, portfolios, and redesigns.
-  - **`frontend-design-audit`** ([source](https://github.com/mistyhx/frontend-design-audit)) — Audit usability of existing frontends and live websites.
-  - **`high-end-visual-design`** ([source](https://github.com/leonxlnx/taste-skill)) — Apply high-end agency visual design and motion standards.
-  - **`imagegen-frontend-web`** ([source](https://github.com/leonxlnx/taste-skill)) — Generate section-by-section visual references for frontend work.
-  - **`impeccable`** ([source](https://github.com/pbakaus/impeccable)) — Critique, polish, and improve frontend interfaces.
-  - **`redesign-existing-projects`** ([source](https://github.com/leonxlnx/taste-skill)) — Upgrade existing websites/apps without breaking functionality.
-- **Debugging & delivery**
-  - **`diagnosing-bugs`** ([source](https://github.com/mattpocock/skills)) — Diagnose hard bugs and performance regressions.
-  - **`triage`** ([source](https://github.com/mattpocock/skills)) — Categorise issues and turn them into agent-ready briefs.
-- **UI systems**
-  - **`shadcn`** ([source](https://github.com/shadcn-ui/ui)) — Work with shadcn/ui components, registries, and `components.json`.
+| Skill                                                                      | Upstream                                                                          |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [`caveman`](skills/caveman/SKILL.md)                                       | [juliusbrussee/caveman](https://github.com/juliusbrussee/caveman)                 |
+| [`design-taste-frontend`](skills/design-taste-frontend/SKILL.md)           | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill)                   |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit) |
+| [`high-end-visual-design`](skills/high-end-visual-design/SKILL.md)         | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill)                   |
+| [`imagegen-frontend-web`](skills/imagegen-frontend-web/SKILL.md)           | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill)                   |
+| [`impeccable`](skills/impeccable/SKILL.md)                                 | [pbakaus/impeccable](https://github.com/pbakaus/impeccable)                       |
+| [`redesign-existing-projects`](skills/redesign-existing-projects/SKILL.md) | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill)                   |
+| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)                       | [mattpocock/skills](https://github.com/mattpocock/skills)                         |
+| [`triage`](skills/triage/SKILL.md)                                         | [mattpocock/skills](https://github.com/mattpocock/skills)                         |
+| [`shadcn`](skills/shadcn/SKILL.md)                                         | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                   |
 
-### `docs-pipeline` — bộ 8 skill docs-bootstrap (thay BMad)
+## CLAUDE.md presets (vibe coding)
 
-A linear, freeze-gated docs-bootstrap pipeline that ends at a frozen `REQUIREMENTS.md` contract handed off to `superpowers:writing-plans`. Packaged as a **skills-directory plugin** (`skills/docs-pipeline/.claude-plugin/plugin.json`, skills under `skills/docs-pipeline/skills/`) with a shared `references/` (single source of truth for the lock schema, freeze protocol, hash-cascade, and elicitation contract). Skills invoke namespaced, e.g. `/docs-pipeline:kickoff`. Design source: `docs/workflow-pipeline/SPEC.md`.
+**Kyant** livestream preset + a neutral template you can fork.
 
-| Skill           | Role                                                                           |
-| --------------- | ------------------------------------------------------------------------------ |
-| `/kickoff`      | Phase 0 — scaffold `docs/`, capture + freeze `PRINCIPLES.md` (root hash-graph) |
-| `/product`      | Phase 1 — extract intent → freeze `PRD.md` + `BUSINESS-FLOW.md`                |
-| `/architecture` | Phase 2 — freeze `ARCHITECTURE.md` (+ conditional `UX-DESIGN.md`)              |
-| `/requirements` | Phase 3 (terminal) — distill atomic FR/NFR → freeze `REQUIREMENTS.md`          |
-| `/adr`          | Anytime — append-only immutable decision record                                |
-| `/reconcile`    | Anytime — open a frozen doc for a local gap → re-freeze → cascade STALE        |
-| `/pivot`        | Anytime — escape-hatch for a wrong premise → archive + rewind                  |
-| `/agent-rules`  | Standalone — generate a `CLAUDE.md`/`AGENTS.md` (outside the pipeline)         |
+| Path                                                           | What it is                                                                                |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md) | Neutral global `CLAUDE.md` — fill `{{placeholders}}`                                      |
+| [`presets/kyant-vibe/`](presets/kyant-vibe/)                   | **Kyant** vibe-coding preset (Vietnamese tone, short answers, frontend gates, hard rules) |
 
-## Rules
+```bash
+npx github:mxrsv/agents-skills install --preset kyant-vibe
+cp templates/CLAUDE.template.md ~/.claude/CLAUDE.md   # or start from template
+```
 
-- `rules/core/` — always-loaded, stack-agnostic rules: file creation (F), workflow (W), docs (D), coding style (C), patterns (P)
-- `rules/typescript/` — TypeScript/JavaScript rules, loaded only when touching `*.ts/tsx/js/jsx` (path-scoped)
-- `rules/react/` — React patterns, loaded only when touching `*.tsx/jsx` (path-scoped)
-- `templates/` — `AGENTS.template.md` (per-project delta rules skeleton) + `project-structure.md` (canonical directory trees)
-- `hooks/file-guard.sh` — PreToolUse blocks junk filenames (`.bak`, `-v2`, `-final`…); PostToolUse warns on oversized or misplaced files
+Presets write `CLAUDE.md` at the install target. Pair with [`rules/`](rules/) so hard-rule links resolve. Fork the preset — language and emoji policy are taste, not law.
+
+## Rules & templates
+
+| Path                                                               | What                                                                                     |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| [`rules/core/`](rules/core/)                                       | Always-loaded: file creation (F), workflow (W), docs (D), coding style (C), patterns (P) |
+| [`rules/typescript/`](rules/typescript/)                           | Path-scoped for `*.ts/tsx/js/jsx`                                                        |
+| [`rules/react/`](rules/react/)                                     | Path-scoped for `*.tsx/jsx`                                                              |
+| [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Per-project delta rules skeleton                                                         |
+| [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Neutral `CLAUDE.md` starter                                                              |
+| [`templates/project-structure.md`](templates/project-structure.md) | Canonical directory trees                                                                |
+| [`hooks/file-guard.sh`](hooks/file-guard.sh)                       | Blocks junk filenames; warns on oversized / misplaced files                              |

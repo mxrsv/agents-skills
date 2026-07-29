@@ -11,6 +11,9 @@
     "skills/",
     "commands/",
     "rules/",
+    "templates/",
+    "presets/",
+    "assets/",
     "README.md"
   ],
   "repository": {
