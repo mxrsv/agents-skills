@@ -152,17 +152,16 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 
 ### Code review & reliability
 
-| Agent                                                              | Description                                                               |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| [`code-reviewer`](agents/code-reviewer.md)                         | Gate 3 — findings-first review; reports issues before fixes               |
-| [`review-recall`](agents/review-recall.md)                         | Recall-first companion review (reliability, data integrity, test quality) |
-| [`review-adjudicator`](agents/review-adjudicator.md)               | Merges precision + recall reviews into one triaged verdict                |
-| [`engineering-code-reviewer`](agents/engineering-code-reviewer.md) | Correctness, maintainability, security, performance — not style           |
-| [`typescript-reviewer`](agents/typescript-reviewer.md)             | Deep TypeScript/JS: types, async correctness, security                    |
-| [`react-reviewer`](agents/react-reviewer.md)                       | Deep React/JSX: hooks, render performance, a11y                           |
-| [`database-reviewer`](agents/database-reviewer.md)                 | PostgreSQL: query optimization, schema, Supabase practices                |
-| [`security-reviewer`](agents/security-reviewer.md)                 | OWASP Top 10, secrets, injection, SSRF                                    |
-| [`silent-failure-hunter`](agents/silent-failure-hunter.md)         | Swallowed errors, bad fallbacks, missing error propagation                |
+| Agent                                                      | Description                                                               |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [`code-reviewer`](agents/code-reviewer.md)                 | Gate 3 — findings-first review; reports issues before fixes               |
+| [`review-recall`](agents/review-recall.md)                 | Recall-first companion review (reliability, data integrity, test quality) |
+| [`review-adjudicator`](agents/review-adjudicator.md)       | Merges precision + recall reviews into one triaged verdict                |
+| [`typescript-reviewer`](agents/typescript-reviewer.md)     | Deep TypeScript/JS: types, async correctness, security                    |
+| [`react-reviewer`](agents/react-reviewer.md)               | Deep React/JSX: hooks, render performance, a11y                           |
+| [`database-reviewer`](agents/database-reviewer.md)         | PostgreSQL: query optimization, schema, Supabase practices                |
+| [`security-reviewer`](agents/security-reviewer.md)         | OWASP Top 10, secrets, injection, SSRF                                    |
+| [`silent-failure-hunter`](agents/silent-failure-hunter.md) | Swallowed errors, bad fallbacks, missing error propagation                |
 
 ### Performance & maintenance
 
