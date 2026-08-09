@@ -178,14 +178,12 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 | Skill                                                                               | Description                                                  |
 | ----------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                          | Before building — clarify, compare approaches, lock the spec |
-| [`write-plan`](skills/write-plan/SKILL.md) / [`planning`](skills/planning/SKILL.md) | Execution plan once scope is clear                           |
+| [`planning`](skills/planning/SKILL.md) | Execution plan once scope is clear                           |
 | [`plan-review`](skills/plan-review/SKILL.md)                                        | After a plan, before coding — feasibility check              |
 | [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                        | Fast architecture map for unfamiliar repos                   |
 | [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md)    | Refactor / deepen architecture opportunities                 |
-| [`deep-research`](skills/deep-research/SKILL.md)                                    | Multi-source research with citations                         |
 | [`domain-modeling`](skills/domain-modeling/SKILL.md)                                | Ubiquitous language, domain terms, ADRs                      |
 | [`interview-me`](skills/interview-me/SKILL.md)                                      | One-question-at-a-time interview to extract real intent      |
-| [`to-spec`](skills/to-spec/SKILL.md)                                                | Turn conversation into a structured spec                     |
 | [`find-skills`](skills/find-skills/SKILL.md)                                        | Discover / install agent skills                              |
 | [`explain`](skills/explain/SKILL.md)                                                | Teach a concept, bug, or design decision in a chosen style   |
 
@@ -193,47 +191,28 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 
 | Skill                                                                | Description                                       |
 | -------------------------------------------------------------------- | ------------------------------------------------- |
-| [`test-driven-development`](skills/test-driven-development/SKILL.md) | Red-Green-Refactor before new logic               |
 | [`code-review`](skills/code-review/SKILL.md)                         | Parallel review → APPROVE / WARNING / BLOCK       |
 | [`review`](skills/review/SKILL.md)                                   | Findings-first review of specs, plans, or code    |
-| [`verification`](skills/verification/SKILL.md)                       | Require fresh evidence before “done / fixed”      |
-| [`finish`](skills/finish/SKILL.md)                                   | Close-out: re-verify and summarize                |
 | [`security-review`](skills/security-review/SKILL.md)                 | Auth, input, secrets, payments                    |
-| [`e2e-testing`](skills/e2e-testing/SKILL.md)                         | Playwright + Page Object patterns                 |
 | [`docs-drift`](skills/docs-drift/SKILL.md)                           | Docs vs real code behavior (read-only by default) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)                 | Hard bugs and performance regressions             |
-| [`triage`](skills/triage/SKILL.md)                                   | Categorise issues into agent-ready briefs         |
 
 ### Frontend & prototyping
 
 | Skill                                                                      | Description                                    |
 | -------------------------------------------------------------------------- | ---------------------------------------------- |
 | [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)               | UI that looks designed, not generic            |
-| [`frontend-design-direction`](skills/frontend-design-direction/SKILL.md)   | Product-specific frontend design direction     |
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | Usability audit for existing UIs / live sites  |
 | [`prototype`](skills/prototype/SKILL.md)                                   | Throwaway prototype before committing          |
-| [`html-artifact`](skills/html-artifact/SKILL.md)                           | Self-contained HTML artifact (explicit invoke) |
-| [`manim-video`](skills/manim-video/SKILL.md)                               | Technical explainer videos with Manim          |
-| [`design-taste-frontend`](skills/design-taste-frontend/SKILL.md)           | Anti-slop landing / portfolio taste            |
-| [`high-end-visual-design`](skills/high-end-visual-design/SKILL.md)         | Agency-level visual + motion standards         |
-| [`imagegen-frontend-web`](skills/imagegen-frontend-web/SKILL.md)           | Section-by-section visual references           |
 | [`impeccable`](skills/impeccable/SKILL.md)                                 | Critique, polish, improve interfaces           |
-| [`redesign-existing-projects`](skills/redesign-existing-projects/SKILL.md) | Upgrade existing apps without breaking them    |
 | [`shadcn`](skills/shadcn/SKILL.md)                                         | shadcn/ui components, registries, chat UI      |
 
 ### Content, docs & workflow
 
 | Skill                                                                  | Description                                               |
 | ---------------------------------------------------------------------- | --------------------------------------------------------- |
-| [`content-engine`](skills/content-engine/SKILL.md)                     | Multi-platform content (X, LinkedIn, TikTok, newsletters) |
-| [`create-doc`](skills/create-doc/SKILL.md)                             | Template-driven PRDs, research reports, briefs            |
-| [`git-workflow`](skills/git-workflow/SKILL.md)                         | Branching, conventional commits, merge/rebase             |
-| [`github-ops`](skills/github-ops/SKILL.md)                             | Issues, PRs, CI, releases via `gh`                        |
-| [`team-agent-orchestration`](skills/team-agent-orchestration/SKILL.md) | Multi-agent squad: work items, ownership, merge gates     |
 | [`hand-off`](skills/hand-off/SKILL.md)                                 | Compact the conversation for another agent                |
-| [`teach`](skills/teach/SKILL.md)                                       | Teach a skill or concept in-workspace                     |
 | [`context-budget`](skills/context-budget/SKILL.md)                     | Audit token use across agents, skills, MCP, `CLAUDE.md`   |
-| [`caveman`](skills/caveman/SKILL.md)                                   | Ultra-compressed communication mode                       |
 
 ### Shared external skills
 
@@ -241,15 +220,9 @@ Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The C
 
 | Skill                                                                      | Upstream                                                                          |
 | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| [`caveman`](skills/caveman/SKILL.md)                                       | [juliusbrussee/caveman](https://github.com/juliusbrussee/caveman)                 |
-| [`design-taste-frontend`](skills/design-taste-frontend/SKILL.md)           | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill)                   |
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit) |
-| [`high-end-visual-design`](skills/high-end-visual-design/SKILL.md)         | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill)                   |
-| [`imagegen-frontend-web`](skills/imagegen-frontend-web/SKILL.md)           | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill)                   |
 | [`impeccable`](skills/impeccable/SKILL.md)                                 | [pbakaus/impeccable](https://github.com/pbakaus/impeccable)                       |
-| [`redesign-existing-projects`](skills/redesign-existing-projects/SKILL.md) | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill)                   |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)                       | [mattpocock/skills](https://github.com/mattpocock/skills)                         |
-| [`triage`](skills/triage/SKILL.md)                                         | [mattpocock/skills](https://github.com/mattpocock/skills)                         |
 | [`shadcn`](skills/shadcn/SKILL.md)                                         | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                   |
 
 ## CLAUDE.md presets (vibe coding)
