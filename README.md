@@ -2,25 +2,30 @@
   <img src="assets/banner.jpg" alt="Kyant — agents-skills · vibe coding" width="100%">
 </p>
 
+<p align="center">
+  <strong>Tiếng Việt</strong> ·
+  <a href="README.en.md">English</a>
+</p>
+
 <h1 align="center">agents-skills</h1>
 
 <p align="center">
-  <strong>Kyant</strong> toolkit — custom agents, skills, rules &amp; vibe-coding presets for
-  <a href="https://claude.com/claude-code">Claude Code</a> and
-  <a href="https://github.com/openai/codex">Codex</a>, built from daily livestream use.
+  Bộ toolkit của <strong>Kyant</strong> — custom agents, skills, rules &amp; vibe-coding presets cho
+  <a href="https://claude.com/claude-code">Claude Code</a> và
+  <a href="https://github.com/openai/codex">Codex</a>, dựng từ lúc livestream hàng ngày.
 </p>
 
 <p align="center">
   <a href="https://www.youtube.com/@kyant_official"><img src="https://img.shields.io/badge/YouTube-@kyant__official-FF0000?style=flat-square&logo=youtube&logoColor=white" alt="YouTube"></a>
   <a href="https://x.com/kyant_vn"><img src="https://img.shields.io/badge/X-@kyant__vn-111827?style=flat-square&logo=x&logoColor=white" alt="X"></a>
-  <a href="#quick-start"><img src="https://img.shields.io/badge/install-npx-0d9488?style=flat-square" alt="npx install"></a>
+  <a href="#bắt-đầu-nhanh"><img src="https://img.shields.io/badge/install-npx-0d9488?style=flat-square" alt="npx install"></a>
   <a href="https://claude.com/claude-code"><img src="https://img.shields.io/badge/Claude_Code-ready-d97706?style=flat-square" alt="Claude Code"></a>
   <a href="https://github.com/openai/codex"><img src="https://img.shields.io/badge/Codex-ready-2563eb?style=flat-square" alt="Codex"></a>
 </p>
 
 <p align="center">
-  <a href="#quick-start">Quick start</a> ·
-  <a href="#usage">CLI install</a> ·
+  <a href="#bắt-đầu-nhanh">Bắt đầu nhanh</a> ·
+  <a href="#cách-dùng">Cài bằng CLI</a> ·
   <a href="#agents">Agents</a> ·
   <a href="#skills">Skills</a> ·
   <a href="#claudemd-presets-vibe-coding">Presets</a>
@@ -28,15 +33,15 @@
 
 ---
 
-Part of the **Kyant** channel system (live vibe coding). No sessions, memory, or secrets are published (see [`.gitignore`](.gitignore)).
+Một phần hệ thống kênh **Kyant** (live vibe coding). Không publish session, memory hay secrets (xem [`.gitignore`](.gitignore)).
 
-## Quick start
+## Bắt đầu nhanh
 
 ```bash
 npx github:mxrsv/agents-skills install
 ```
 
-Common one-liners:
+Một vài lệnh hay dùng:
 
 ```bash
 npx github:mxrsv/agents-skills install --all
@@ -45,24 +50,24 @@ npx github:mxrsv/agents-skills install --skill brainstorm --agent planner
 npx github:mxrsv/agents-skills list
 ```
 
-## Usage
+## Cách dùng
 
-### CLI install (recommended)
+### Cài bằng CLI (khuyên dùng)
 
-No clone needed:
+Không cần clone:
 
 ```bash
 npx github:mxrsv/agents-skills
 npx github:mxrsv/agents-skills install
 ```
 
-Interactive flow:
+Luồng tương tác:
 
-1. Choose what to install — everything, skills/agents/rules, a **CLAUDE.md preset**, or pick items (`1 3 5`, `1-4`, or `a`)
-2. Platform — **Claude Code**, **Codex**, or **both**
-3. Target — global (`~/.claude` / `~/.codex`) or local (`./.claude` / `./.codex`)
-4. Skip or overwrite existing files
-5. Confirm
+1. Chọn cái cần cài — hết, skills/agents/rules, một **CLAUDE.md preset**, hoặc chọn từng mục (`1 3 5`, `1-4`, hoặc `a`)
+2. Platform — **Claude Code**, **Codex**, hoặc **cả hai**
+3. Target — global (`~/.claude` / `~/.codex`) hoặc local (`./.claude` / `./.codex`)
+4. Bỏ qua hoặc ghi đè file đã có
+5. Xác nhận
 
 ```
 ════════════════════════════════════════
@@ -85,12 +90,12 @@ Interactive flow:
    3) Both
 ```
 
-Codex notes:
+Lưu ý với Codex:
 
-- Slash-commands install into `prompts/` (not `commands/`).
-- Agents are skipped on Codex; skills, commands, and rules still install.
+- Slash-commands cài vào `prompts/` (không phải `commands/`).
+- Agents bị bỏ qua trên Codex; skills, commands và rules vẫn cài bình thường.
 
-Non-interactive:
+Không tương tác:
 
 ```bash
 npx github:mxrsv/agents-skills install --all
@@ -104,7 +109,7 @@ npx github:mxrsv/agents-skills list
 npx github:mxrsv/agents-skills list presets
 ```
 
-Clone once (no `npx` re-fetch):
+Clone một lần (không phải `npx` fetch lại):
 
 ```bash
 git clone https://github.com/mxrsv/agents-skills.git
@@ -112,7 +117,7 @@ cd agents-skills
 ./bin/agents-skills install
 ```
 
-### Manual copy
+### Copy thủ công
 
 ```bash
 git clone https://github.com/mxrsv/agents-skills.git
@@ -122,133 +127,133 @@ cp -r agents-skills/commands ~/.claude/commands
 cp -r agents-skills/rules    ~/.claude/rules
 ```
 
-Claude Code discovers agents (`Agent` tool) and skills (`Skill` tool) from each file’s frontmatter `description` — no extra config.
+Claude Code tự nhận agents (`Agent` tool) và skills (`Skill` tool) từ frontmatter `description` của từng file — không cần cấu hình thêm.
 
-## Structure
+## Cấu trúc
 
-| Path                       | Role                                                    |
-| -------------------------- | ------------------------------------------------------- |
-| [`agents/`](agents/)       | Specialized subagents (review, planning, research…)     |
-| [`skills/`](skills/)       | Skills via the Skill tool / slash commands              |
-| [`commands/`](commands/)   | Custom slash commands                                   |
-| [`rules/`](rules/)         | Always-loaded + path-scoped rules                       |
-| [`templates/`](templates/) | `AGENTS.md` / `CLAUDE.md` starters + project structures |
-| [`presets/`](presets/)     | Named `CLAUDE.md` presets (live vibe-coding)            |
-| [`hooks/`](hooks/)         | File-guard (junk names, oversized files)                |
-| [`assets/`](assets/)       | README media                                            |
+| Path                       | Vai trò                                              |
+| -------------------------- | ---------------------------------------------------- |
+| [`agents/`](agents/)       | Subagent chuyên biệt (review, planning, research…)   |
+| [`skills/`](skills/)       | Skills qua Skill tool / slash commands               |
+| [`commands/`](commands/)   | Custom slash commands                                |
+| [`rules/`](rules/)         | Rules luôn nạp + path-scoped                         |
+| [`templates/`](templates/) | Starter `AGENTS.md` / `CLAUDE.md` + cấu trúc project |
+| [`presets/`](presets/)     | Named `CLAUDE.md` presets (live vibe-coding)         |
+| [`hooks/`](hooks/)         | File-guard (tên junk, file quá lớn)                  |
+| [`assets/`](assets/)       | Media cho README                                     |
 
 ## Agents
 
-Claude Code discovers these via the `Agent` tool (frontmatter `description`). Codex has no per-file subagent mechanism — agents are skipped on the Codex target.
+Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`). Codex không có cơ chế subagent theo file — agents bị bỏ qua khi cài sang Codex.
 
 ### Planning & architecture
 
-| Agent                                      | Description                                                                              |
-| ------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| [`analyst`](agents/analyst.md)             | Research, market/competitive analysis, brainstorming facilitation; draft docs for review |
-| [`architect`](agents/architect.md)         | System architecture and technical decisions for large features/refactors                 |
-| [`planner`](agents/planner.md)             | Detailed planning for complex features and refactors                                     |
-| [`plan-reviewer`](agents/plan-reviewer.md) | Gate 2 — verifies a plan is executable against the codebase (read-only)                  |
+| Agent                                      | Mô tả                                                                           |
+| ------------------------------------------ | ------------------------------------------------------------------------------- |
+| [`analyst`](agents/analyst.md)             | Research, phân tích thị trường/đối thủ, hỗ trợ brainstorm; draft docs để review |
+| [`architect`](agents/architect.md)         | Architecture hệ thống và quyết định kỹ thuật cho feature/refactor lớn           |
+| [`planner`](agents/planner.md)             | Lập plan chi tiết cho feature và refactor phức tạp                              |
+| [`plan-reviewer`](agents/plan-reviewer.md) | Gate 2 — kiểm tra plan có chạy được với codebase không (read-only)              |
 
 ### Code review & reliability
 
-| Agent                                                      | Description                                                               |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------- |
-| [`code-reviewer`](agents/code-reviewer.md)                 | Gate 3 — findings-first review; reports issues before fixes               |
-| [`review-recall`](agents/review-recall.md)                 | Recall-first companion review (reliability, data integrity, test quality) |
-| [`review-adjudicator`](agents/review-adjudicator.md)       | Merges precision + recall reviews into one triaged verdict                |
-| [`typescript-reviewer`](agents/typescript-reviewer.md)     | Deep TypeScript/JS: types, async correctness, security                    |
-| [`react-reviewer`](agents/react-reviewer.md)               | Deep React/JSX: hooks, render performance, a11y                           |
-| [`database-reviewer`](agents/database-reviewer.md)         | PostgreSQL: query optimization, schema, Supabase practices                |
-| [`security-reviewer`](agents/security-reviewer.md)         | OWASP Top 10, secrets, injection, SSRF                                    |
-| [`silent-failure-hunter`](agents/silent-failure-hunter.md) | Swallowed errors, bad fallbacks, missing error propagation                |
+| Agent                                                      | Mô tả                                                               |
+| ---------------------------------------------------------- | ------------------------------------------------------------------- |
+| [`code-reviewer`](agents/code-reviewer.md)                 | Gate 3 — review findings-first; báo issue trước khi sửa             |
+| [`review-recall`](agents/review-recall.md)                 | Review companion ưu tiên recall (reliability, data integrity, test) |
+| [`review-adjudicator`](agents/review-adjudicator.md)       | Gộp precision + recall thành một verdict đã triage                  |
+| [`typescript-reviewer`](agents/typescript-reviewer.md)     | TypeScript/JS sâu: types, async correctness, security               |
+| [`react-reviewer`](agents/react-reviewer.md)               | React/JSX sâu: hooks, render performance, a11y                      |
+| [`database-reviewer`](agents/database-reviewer.md)         | PostgreSQL: tối ưu query, schema, thực hành Supabase                |
+| [`security-reviewer`](agents/security-reviewer.md)         | OWASP Top 10, secrets, injection, SSRF                              |
+| [`silent-failure-hunter`](agents/silent-failure-hunter.md) | Error bị nuốt, fallback kém, thiếu error propagation                |
 
 ### Performance & maintenance
 
-| Agent                                                      | Description                                                |
-| ---------------------------------------------------------- | ---------------------------------------------------------- |
-| [`performance-optimizer`](agents/performance-optimizer.md) | Bottlenecks, runtime cost, bundle size                     |
-| [`refactor-cleaner`](agents/refactor-cleaner.md)           | Dead code / duplication cleanup (knip, depcheck, ts-prune) |
-| [`doc-updater`](agents/doc-updater.md)                     | Codemaps and living docs (`README`, `docs/CODEMAPS`)       |
+| Agent                                                      | Mô tả                                                |
+| ---------------------------------------------------------- | ---------------------------------------------------- |
+| [`performance-optimizer`](agents/performance-optimizer.md) | Bottleneck, runtime cost, bundle size                |
+| [`refactor-cleaner`](agents/refactor-cleaner.md)           | Dọn dead code / trùng lặp (knip, depcheck, ts-prune) |
+| [`doc-updater`](agents/doc-updater.md)                     | Codemap và docs sống (`README`, `docs/CODEMAPS`)     |
 
 ## Skills
 
 ### Discovery & planning
 
-| Skill                                                                               | Description                                                  |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| [`brainstorm`](skills/brainstorm/SKILL.md)                                          | Before building — clarify, compare approaches, lock the spec |
-| [`planning`](skills/planning/SKILL.md) | Execution plan once scope is clear                           |
-| [`plan-review`](skills/plan-review/SKILL.md)                                        | After a plan, before coding — feasibility check              |
-| [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                        | Fast architecture map for unfamiliar repos                   |
-| [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md)    | Refactor / deepen architecture opportunities                 |
-| [`domain-modeling`](skills/domain-modeling/SKILL.md)                                | Ubiquitous language, domain terms, ADRs                      |
-| [`interview-me`](skills/interview-me/SKILL.md)                                      | One-question-at-a-time interview to extract real intent      |
-| [`find-skills`](skills/find-skills/SKILL.md)                                        | Discover / install agent skills                              |
-| [`explain`](skills/explain/SKILL.md)                                                | Teach a concept, bug, or design decision in a chosen style   |
+| Skill                                                                            | Mô tả                                                      |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [`brainstorm`](skills/brainstorm/SKILL.md)                                       | Trước khi build — clarify, so approaches, chốt spec        |
+| [`planning`](skills/planning/SKILL.md)                                           | Execution plan khi scope đã rõ                             |
+| [`plan-review`](skills/plan-review/SKILL.md)                                     | Sau plan, trước code — kiểm tra feasibility                |
+| [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                     | Bản đồ architecture nhanh cho repo lạ                      |
+| [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md) | Cơ hội refactor / đào sâu architecture                     |
+| [`domain-modeling`](skills/domain-modeling/SKILL.md)                             | Ubiquitous language, thuật ngữ domain, ADR                 |
+| [`interview-me`](skills/interview-me/SKILL.md)                                   | Phỏng vấn từng câu để moi intent thật                      |
+| [`find-skills`](skills/find-skills/SKILL.md)                                     | Tìm / cài agent skills                                     |
+| [`explain`](skills/explain/SKILL.md)                                             | Giảng concept, bug, hoặc quyết định design theo style chọn |
 
 ### Review, testing & verification
 
-| Skill                                                                | Description                                       |
-| -------------------------------------------------------------------- | ------------------------------------------------- |
-| [`code-review`](skills/code-review/SKILL.md)                         | Parallel review → APPROVE / WARNING / BLOCK       |
-| [`review`](skills/review/SKILL.md)                                   | Findings-first review of specs, plans, or code    |
-| [`security-review`](skills/security-review/SKILL.md)                 | Auth, input, secrets, payments                    |
-| [`docs-drift`](skills/docs-drift/SKILL.md)                           | Docs vs real code behavior (read-only by default) |
-| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)                 | Hard bugs and performance regressions             |
+| Skill                                                | Mô tả                                             |
+| ---------------------------------------------------- | ------------------------------------------------- |
+| [`code-review`](skills/code-review/SKILL.md)         | Review song song → APPROVE / WARNING / BLOCK      |
+| [`review`](skills/review/SKILL.md)                   | Review findings-first cho specs, plans, hoặc code |
+| [`security-review`](skills/security-review/SKILL.md) | Auth, input, secrets, payments                    |
+| [`docs-drift`](skills/docs-drift/SKILL.md)           | Docs vs hành vi code thật (mặc định read-only)    |
+| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md) | Bug khó và performance regression                 |
 
 ### Frontend & prototyping
 
-| Skill                                                                      | Description                                    |
-| -------------------------------------------------------------------------- | ---------------------------------------------- |
-| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)               | UI that looks designed, not generic            |
-| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | Usability audit for existing UIs / live sites  |
-| [`prototype`](skills/prototype/SKILL.md)                                   | Throwaway prototype before committing          |
-| [`impeccable`](skills/impeccable/SKILL.md)                                 | Critique, polish, improve interfaces           |
-| [`shadcn`](skills/shadcn/SKILL.md)                                         | shadcn/ui components, registries, chat UI      |
+| Skill                                                            | Mô tả                                      |
+| ---------------------------------------------------------------- | ------------------------------------------ |
+| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)     | UI trông như được thiết kế, không generic  |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | Audit usability cho UI sẵn có / site live  |
+| [`prototype`](skills/prototype/SKILL.md)                         | Prototype throwaway trước khi commit hướng |
+| [`impeccable`](skills/impeccable/SKILL.md)                       | Critique, polish, cải interface            |
+| [`shadcn`](skills/shadcn/SKILL.md)                               | Component shadcn/ui, registry, chat UI     |
 
 ### Content, docs & workflow
 
-| Skill                                                                  | Description                                               |
-| ---------------------------------------------------------------------- | --------------------------------------------------------- |
-| [`hand-off`](skills/hand-off/SKILL.md)                                 | Compact the conversation for another agent                |
-| [`context-budget`](skills/context-budget/SKILL.md)                     | Audit token use across agents, skills, MCP, `CLAUDE.md`   |
+| Skill                                              | Mô tả                                            |
+| -------------------------------------------------- | ------------------------------------------------ |
+| [`hand-off`](skills/hand-off/SKILL.md)             | Nén conversation để agent khác nhận việc         |
+| [`context-budget`](skills/context-budget/SKILL.md) | Audit token qua agents, skills, MCP, `CLAUDE.md` |
 
-### Shared external skills
+### Skills ngoài dùng chung
 
-Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The CLI skips broken symlinks by default; use `--with-symlinks` when targets exist.
+Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặc định bỏ qua symlink hỏng; dùng `--with-symlinks` khi target đã tồn tại.
 
-| Skill                                                                      | Upstream                                                                          |
-| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit) |
-| [`impeccable`](skills/impeccable/SKILL.md)                                 | [pbakaus/impeccable](https://github.com/pbakaus/impeccable)                       |
-| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)                       | [mattpocock/skills](https://github.com/mattpocock/skills)                         |
-| [`shadcn`](skills/shadcn/SKILL.md)                                         | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                   |
+| Skill                                                            | Upstream                                                                          |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit) |
+| [`impeccable`](skills/impeccable/SKILL.md)                       | [pbakaus/impeccable](https://github.com/pbakaus/impeccable)                       |
+| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                         |
+| [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                   |
 
 ## CLAUDE.md presets (vibe coding)
 
-**Kyant** livestream preset + a neutral template you can fork.
+Preset livestream **Kyant** + template trung lập để fork.
 
-| Path                                                           | What it is                                                                                |
-| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md) | Neutral global `CLAUDE.md` — fill `{{placeholders}}`                                      |
-| [`presets/kyant-vibe/`](presets/kyant-vibe/)                   | **Kyant** vibe-coding preset (Vietnamese tone, short answers, frontend gates, hard rules) |
+| Path                                                           | Là gì                                                                               |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md) | `CLAUDE.md` global trung lập — điền `{{placeholders}}`                              |
+| [`presets/kyant-vibe/`](presets/kyant-vibe/)                   | Preset vibe-coding **Kyant** (giọng Việt, trả lời ngắn, frontend gates, hard rules) |
 
 ```bash
 npx github:mxrsv/agents-skills install --preset kyant-vibe
-cp templates/CLAUDE.template.md ~/.claude/CLAUDE.md   # or start from template
+cp templates/CLAUDE.template.md ~/.claude/CLAUDE.md   # hoặc bắt đầu từ template
 ```
 
-Presets write `CLAUDE.md` at the install target. Pair with [`rules/`](rules/) so hard-rule links resolve. Fork the preset — language and emoji policy are taste, not law.
+Presets ghi `CLAUDE.md` vào target cài. Ghép với [`rules/`](rules/) để link hard-rule resolve được. Fork preset thoải mái — ngôn ngữ và emoji là gu, không phải luật.
 
 ## Rules & templates
 
-| Path                                                               | What                                                                                     |
-| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| [`rules/core/`](rules/core/)                                       | Always-loaded: file creation (F), workflow (W), docs (D), coding style (C), patterns (P) |
-| [`rules/typescript/`](rules/typescript/)                           | Path-scoped for `*.ts/tsx/js/jsx`                                                        |
-| [`rules/react/`](rules/react/)                                     | Path-scoped for `*.tsx/jsx`                                                              |
-| [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Per-project delta rules skeleton                                                         |
-| [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Neutral `CLAUDE.md` starter                                                              |
-| [`templates/project-structure.md`](templates/project-structure.md) | Canonical directory trees                                                                |
-| [`hooks/file-guard.sh`](hooks/file-guard.sh)                       | Blocks junk filenames; warns on oversized / misplaced files                              |
+| Path                                                               | Nội dung                                                                       |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| [`rules/core/`](rules/core/)                                       | Luôn nạp: tạo file (F), workflow (W), docs (D), coding style (C), patterns (P) |
+| [`rules/typescript/`](rules/typescript/)                           | Path-scoped cho `*.ts/tsx/js/jsx`                                              |
+| [`rules/react/`](rules/react/)                                     | Path-scoped cho `*.tsx/jsx`                                                    |
+| [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Skeleton delta rules theo project                                              |
+| [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Starter `CLAUDE.md` trung lập                                                  |
+| [`templates/project-structure.md`](templates/project-structure.md) | Cây thư mục chuẩn                                                              |
+| [`hooks/file-guard.sh`](hooks/file-guard.sh)                       | Chặn tên file junk; cảnh báo file quá lớn / sai chỗ                            |

@@ -16,6 +16,7 @@
 !/scripts/
 !/bin/
 !/README.md
+!/README.en.md
 !/.gitignore
 !/package.json
 
