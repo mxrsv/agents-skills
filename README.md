@@ -134,11 +134,11 @@ Claude Code tự nhận agents (`Agent` tool) và skills (`Skill` tool) từ fro
 | Path                       | Vai trò                                              |
 | -------------------------- | ---------------------------------------------------- |
 | [`agents/`](agents/)       | Subagent chuyên biệt (review, planning, research…)   |
-| [`skills/`](skills/)       | Skills qua Skill tool / slash commands               |
-| [`commands/`](commands/)   | Custom slash commands                                |
-| [`rules/`](rules/)         | Rules luôn nạp + path-scoped                         |
+| [`skills/`](skills/)       | Skills gọi qua Skill tool / slash command            |
+| [`commands/`](commands/)   | Slash command tự viết                                |
+| [`rules/`](rules/)         | Rules luôn nạp + theo path                           |
 | [`templates/`](templates/) | Starter `AGENTS.md` / `CLAUDE.md` + cấu trúc project |
-| [`presets/`](presets/)     | Named `CLAUDE.md` presets (live vibe-coding)         |
+| [`presets/`](presets/)     | Preset `CLAUDE.md` có tên (live vibe-coding)         |
 | [`hooks/`](hooks/)         | File-guard (tên junk, file quá lớn)                  |
 | [`assets/`](assets/)       | Media cho README                                     |
 
@@ -146,78 +146,78 @@ Claude Code tự nhận agents (`Agent` tool) và skills (`Skill` tool) từ fro
 
 Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`). Codex không có cơ chế subagent theo file — agents bị bỏ qua khi cài sang Codex.
 
-### Planning & architecture
+### Planning & kiến trúc
 
-| Agent                                      | Mô tả                                                                           |
-| ------------------------------------------ | ------------------------------------------------------------------------------- |
-| [`analyst`](agents/analyst.md)             | Research, phân tích thị trường/đối thủ, hỗ trợ brainstorm; draft docs để review |
-| [`architect`](agents/architect.md)         | Architecture hệ thống và quyết định kỹ thuật cho feature/refactor lớn           |
-| [`planner`](agents/planner.md)             | Lập plan chi tiết cho feature và refactor phức tạp                              |
-| [`plan-reviewer`](agents/plan-reviewer.md) | Gate 2 — kiểm tra plan có chạy được với codebase không (read-only)              |
+| Agent                                      | Mô tả                                                                                  |
+| ------------------------------------------ | -------------------------------------------------------------------------------------- |
+| [`analyst`](agents/analyst.md)             | Nghiên cứu, phân tích thị trường/đối thủ, hỗ trợ brainstorm; draft docs để người duyệt |
+| [`architect`](agents/architect.md)         | Kiến trúc hệ thống và quyết định kỹ thuật cho feature/refactor lớn                     |
+| [`planner`](agents/planner.md)             | Lập plan chi tiết cho feature và refactor phức tạp                                     |
+| [`plan-reviewer`](agents/plan-reviewer.md) | Gate 2 — kiểm tra plan có chạy được với codebase không (chỉ đọc)                       |
 
-### Code review & reliability
+### Code review & độ tin cậy
 
-| Agent                                                      | Mô tả                                                               |
-| ---------------------------------------------------------- | ------------------------------------------------------------------- |
-| [`code-reviewer`](agents/code-reviewer.md)                 | Gate 3 — review findings-first; báo issue trước khi sửa             |
-| [`review-recall`](agents/review-recall.md)                 | Review companion ưu tiên recall (reliability, data integrity, test) |
-| [`review-adjudicator`](agents/review-adjudicator.md)       | Gộp precision + recall thành một verdict đã triage                  |
-| [`typescript-reviewer`](agents/typescript-reviewer.md)     | TypeScript/JS sâu: types, async correctness, security               |
-| [`react-reviewer`](agents/react-reviewer.md)               | React/JSX sâu: hooks, render performance, a11y                      |
-| [`database-reviewer`](agents/database-reviewer.md)         | PostgreSQL: tối ưu query, schema, thực hành Supabase                |
-| [`security-reviewer`](agents/security-reviewer.md)         | OWASP Top 10, secrets, injection, SSRF                              |
-| [`silent-failure-hunter`](agents/silent-failure-hunter.md) | Error bị nuốt, fallback kém, thiếu error propagation                |
+| Agent                                                      | Mô tả                                                                     |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [`code-reviewer`](agents/code-reviewer.md)                 | Gate 3 — review ưu tiên finding; báo issue trước khi sửa                  |
+| [`review-recall`](agents/review-recall.md)                 | Review phụ ưu tiên recall (độ tin cậy, toàn vẹn dữ liệu, chất lượng test) |
+| [`review-adjudicator`](agents/review-adjudicator.md)       | Gộp bản precision + recall thành một kết luận đã lọc                      |
+| [`typescript-reviewer`](agents/typescript-reviewer.md)     | TypeScript/JS sâu: types, async đúng, security                            |
+| [`react-reviewer`](agents/react-reviewer.md)               | React/JSX sâu: hooks, hiệu năng render, a11y                              |
+| [`database-reviewer`](agents/database-reviewer.md)         | PostgreSQL: tối ưu query, schema, thực hành Supabase                      |
+| [`security-reviewer`](agents/security-reviewer.md)         | OWASP Top 10, secrets, injection, SSRF                                    |
+| [`silent-failure-hunter`](agents/silent-failure-hunter.md) | Lỗi bị nuốt, fallback kém, thiếu lan truyền lỗi                           |
 
-### Performance & maintenance
+### Hiệu năng & bảo trì
 
 | Agent                                                      | Mô tả                                                |
 | ---------------------------------------------------------- | ---------------------------------------------------- |
-| [`performance-optimizer`](agents/performance-optimizer.md) | Bottleneck, runtime cost, bundle size                |
-| [`refactor-cleaner`](agents/refactor-cleaner.md)           | Dọn dead code / trùng lặp (knip, depcheck, ts-prune) |
+| [`performance-optimizer`](agents/performance-optimizer.md) | Điểm nghẽn, chi phí runtime, kích thước bundle       |
+| [`refactor-cleaner`](agents/refactor-cleaner.md)           | Dọn code chết / trùng lặp (knip, depcheck, ts-prune) |
 | [`doc-updater`](agents/doc-updater.md)                     | Codemap và docs sống (`README`, `docs/CODEMAPS`)     |
 
 ## Skills
 
-### Discovery & planning
+### Khám phá & lập plan
 
-| Skill                                                                            | Mô tả                                                      |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| [`brainstorm`](skills/brainstorm/SKILL.md)                                       | Trước khi build — clarify, so approaches, chốt spec        |
-| [`planning`](skills/planning/SKILL.md)                                           | Execution plan khi scope đã rõ                             |
-| [`plan-review`](skills/plan-review/SKILL.md)                                     | Sau plan, trước code — kiểm tra feasibility                |
-| [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                     | Bản đồ architecture nhanh cho repo lạ                      |
-| [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md) | Cơ hội refactor / đào sâu architecture                     |
-| [`domain-modeling`](skills/domain-modeling/SKILL.md)                             | Ubiquitous language, thuật ngữ domain, ADR                 |
-| [`interview-me`](skills/interview-me/SKILL.md)                                   | Phỏng vấn từng câu để moi intent thật                      |
-| [`find-skills`](skills/find-skills/SKILL.md)                                     | Tìm / cài agent skills                                     |
-| [`explain`](skills/explain/SKILL.md)                                             | Giảng concept, bug, hoặc quyết định design theo style chọn |
+| Skill                                                                            | Mô tả                                                          |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| [`brainstorm`](skills/brainstorm/SKILL.md)                                       | Trước khi build — làm rõ nhu cầu, so hướng làm, chốt spec      |
+| [`planning`](skills/planning/SKILL.md)                                           | Plan thực thi khi phạm vi đã rõ                                |
+| [`plan-review`](skills/plan-review/SKILL.md)                                     | Sau plan, trước code — kiểm tra có làm được không              |
+| [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                     | Bản đồ kiến trúc nhanh cho repo lạ                             |
+| [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md) | Cơ hội refactor / đào sâu kiến trúc                            |
+| [`domain-modeling`](skills/domain-modeling/SKILL.md)                             | Ngôn ngữ dùng chung, thuật ngữ domain, ADR                     |
+| [`interview-me`](skills/interview-me/SKILL.md)                                   | Phỏng vấn từng câu để moi ý định thật                          |
+| [`find-skills`](skills/find-skills/SKILL.md)                                     | Tìm / cài agent skills                                         |
+| [`explain`](skills/explain/SKILL.md)                                             | Giảng khái niệm, bug, hoặc quyết định thiết kế theo style chọn |
 
-### Review, testing & verification
+### Review, test & xác minh
 
-| Skill                                                | Mô tả                                             |
-| ---------------------------------------------------- | ------------------------------------------------- |
-| [`code-review`](skills/code-review/SKILL.md)         | Review song song → APPROVE / WARNING / BLOCK      |
-| [`review`](skills/review/SKILL.md)                   | Review findings-first cho specs, plans, hoặc code |
-| [`security-review`](skills/security-review/SKILL.md) | Auth, input, secrets, payments                    |
-| [`docs-drift`](skills/docs-drift/SKILL.md)           | Docs vs hành vi code thật (mặc định read-only)    |
-| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md) | Bug khó và performance regression                 |
+| Skill                                                | Mô tả                                              |
+| ---------------------------------------------------- | -------------------------------------------------- |
+| [`code-review`](skills/code-review/SKILL.md)         | Review song song → APPROVE / WARNING / BLOCK       |
+| [`review`](skills/review/SKILL.md)                   | Review ưu tiên finding cho specs, plans, hoặc code |
+| [`security-review`](skills/security-review/SKILL.md) | Auth, input, secrets, thanh toán                   |
+| [`docs-drift`](skills/docs-drift/SKILL.md)           | Docs vs hành vi code thật (mặc định chỉ đọc)       |
+| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md) | Bug khó và tụt hiệu năng                           |
 
-### Frontend & prototyping
+### Frontend & prototype
 
-| Skill                                                            | Mô tả                                      |
-| ---------------------------------------------------------------- | ------------------------------------------ |
-| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)     | UI trông như được thiết kế, không generic  |
-| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | Audit usability cho UI sẵn có / site live  |
-| [`prototype`](skills/prototype/SKILL.md)                         | Prototype throwaway trước khi commit hướng |
-| [`impeccable`](skills/impeccable/SKILL.md)                       | Critique, polish, cải interface            |
-| [`shadcn`](skills/shadcn/SKILL.md)                               | Component shadcn/ui, registry, chat UI     |
+| Skill                                                            | Mô tả                                         |
+| ---------------------------------------------------------------- | --------------------------------------------- |
+| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)     | UI trông như được thiết kế, không generic     |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | Audit dùng thử cho UI sẵn có / site đang chạy |
+| [`prototype`](skills/prototype/SKILL.md)                         | Prototype bỏ được trước khi chốt hướng        |
+| [`impeccable`](skills/impeccable/SKILL.md)                       | Phê, mài, cải giao diện                       |
+| [`shadcn`](skills/shadcn/SKILL.md)                               | Component shadcn/ui, registry, chat UI        |
 
-### Content, docs & workflow
+### Nội dung, docs & quy trình
 
-| Skill                                              | Mô tả                                            |
-| -------------------------------------------------- | ------------------------------------------------ |
-| [`hand-off`](skills/hand-off/SKILL.md)             | Nén conversation để agent khác nhận việc         |
-| [`context-budget`](skills/context-budget/SKILL.md) | Audit token qua agents, skills, MCP, `CLAUDE.md` |
+| Skill                                              | Mô tả                                         |
+| -------------------------------------------------- | --------------------------------------------- |
+| [`hand-off`](skills/hand-off/SKILL.md)             | Nén hội thoại để agent khác nhận việc         |
+| [`context-budget`](skills/context-budget/SKILL.md) | Rà token qua agents, skills, MCP, `CLAUDE.md` |
 
 ### Skills ngoài dùng chung
 
