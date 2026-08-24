@@ -1,4 +1,5 @@
 ---
+name: brainstorm
 description: Brainstorm a new feature into an approved spec via clarify → propose 2-3 approaches → present sections → write file → self-review → hard gate.
 when_to_use: Before any new feature, refactor, or significant behavior change. Trigger phrases - "I want to add", "let's build", "design X", "how should we approach Y". MUST run before any code is written.
 argument-hint: [topic]
@@ -115,7 +116,7 @@ If `$topic` is provided, use it as the `{topic}` slug in the spec filename (`doc
 
 ## Spec language
 
-The spec body and section headings MUST be written in **Vietnamese**. Use English only for: file paths, commands, symbols, framework/library names, and the structural labels in the template (Origin, Problem, Decisions, Canonical, Components, Data Flow, Done, Not done, ASSUMPTION, QUESTION, BLOCKER).
+The spec body and section headings MUST follow the active Output Style's language (the selected style decides English vs Vietnamese; code identifiers stay in their original form).
 
 ## Examples
 

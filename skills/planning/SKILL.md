@@ -1,4 +1,5 @@
 ---
+name: planning
 description: Create or update a plan file at `docs/plans/{YYYY-MM-DD}-{feature}.md` from a spec or available context.
 when_to_use: After "what to build" is clear — has a written spec at `docs/specs/`, or the task is well-defined. Trigger phrases - "plan this", "break into tasks", "/planning". NOT for vague requests — go back to `brainstorm` first.
 argument-hint: [feature-name]
@@ -41,7 +42,7 @@ DO NOT use if WHAT/WHY is still unclear → go back to `brainstorm` first.
 
 ### Constraints
 
-- The plan body and section headings MUST be written in **Vietnamese**. Use English only for: file paths, commands, symbols, framework/library names.
+- The plan body and section headings MUST follow the active Output Style's language (the selected style decides English vs Vietnamese; code identifiers stay in their original form).
 - The first line MUST be a level-1 heading (`# ...`).
 - NO markdown tables, NO emoji, NO full code (shapes/key interfaces only).
 - File paths MUST always use full markdown links: `[foo.ts](relative/path/to/foo.ts)`.

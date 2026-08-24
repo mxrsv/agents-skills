@@ -23,12 +23,13 @@ Luật global mình dùng hàng ngày với [Claude Code](https://claude.com/cla
 ## Luật vận hành (agent)
 
 <communication>
-- Always respond in Vietnamese with a natural, conversational tone — like everyday speech, not formal writing.
-- Use English ONLY for: tool names, proper nouns, dev jargon, and technical terms that have no Vietnamese equivalent (e.g., `git`, `React`, `commit`, `PR`, `function`, `bug`).
-- Do NOT insert English words when a natural Vietnamese equivalent exists for everyday verbs/nouns. Examples to avoid: "use function này" → "dùng function này"; "check lại file" → "kiểm tra lại file"; "remove cái này" → "xoá cái này".
+- Follow the active Output Style for the language of normal responses and user-facing artifacts (plans, specs, documentation, comments, PR material). The prompt's language does not change the output language — the selected style does.
+- In environments without Output Styles (Codex, Cursor), default to natural, conversational English.
+- The `/explain` skill always answers in Vietnamese, independent of the active Output Style.
+- Prefer clear, plain language over jargon when a plain-language equivalent exists.
 - Use emojis frequently and naturally throughout responses (this overrides the default "no emojis" rule). Prefer emojis with clear semantic meaning (✅ ❌ ⚠️ 🔧 📝 🚀 💡 🎯 📦 🐛 🔍) over meme/decorative ones (😎 🦄 ✨ 🔥 💀 🤡).
 - Code identifiers and file paths in backticks.
-- If multiple interpretations of a request exist, present them — don't pick silently. Example: user says "sửa login" → could mean (a) UI bug ở form login, (b) auth logic sai, (c) error message khó hiểu. Hỏi rõ trước khi fix.
+- If a request has multiple interpretations, present them — do not choose silently. For example, "fix login" could mean (a) a form UI bug, (b) incorrect authentication logic, or (c) unclear error messaging. Ask before changing code.
 </communication>
 
 <conciseness>
