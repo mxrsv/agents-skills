@@ -159,9 +159,6 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 
 | Agent                                                      | Description                                                               |
 | ---------------------------------------------------------- | ------------------------------------------------------------------------- |
-| [`code-reviewer`](agents/code-reviewer.md)                 | Gate 3 — findings-first review; reports issues before fixes               |
-| [`review-recall`](agents/review-recall.md)                 | Recall-first companion review (reliability, data integrity, test quality) |
-| [`review-adjudicator`](agents/review-adjudicator.md)       | Merges precision + recall reviews into one triaged verdict                |
 | [`typescript-reviewer`](agents/typescript-reviewer.md)     | Deep TypeScript/JS: types, async correctness, security                    |
 | [`react-reviewer`](agents/react-reviewer.md)               | Deep React/JSX: hooks, render performance, a11y                           |
 | [`database-reviewer`](agents/database-reviewer.md)         | PostgreSQL: query optimization, schema, Supabase practices                |
@@ -184,7 +181,6 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 | ----------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                          | Before building — clarify, compare approaches, lock the spec |
 | [`planning`](skills/planning/SKILL.md) | Execution plan once scope is clear                           |
-| [`plan-review`](skills/plan-review/SKILL.md)                                        | After a plan, before coding — feasibility check              |
 | [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                        | Fast architecture map for unfamiliar repos                   |
 | [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md)    | Refactor / deepen architecture opportunities                 |
 | [`domain-modeling`](skills/domain-modeling/SKILL.md)                                | Ubiquitous language, domain terms, ADRs                      |
@@ -196,7 +192,10 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 
 | Skill                                                                | Description                                       |
 | -------------------------------------------------------------------- | ------------------------------------------------- |
-| [`code-review`](skills/code-review/SKILL.md)                         | Parallel review → APPROVE / WARNING / BLOCK       |
+| [`review-change`](skills/review-change/SKILL.md)         | Review a change you just made — correctness, tests, security |
+| [`review-experience`](skills/review-experience/SKILL.md) | Real user flow in a browser — states, viewports, a11y        |
+| [`review-health`](skills/review-health/SKILL.md)         | Repo health — architecture, dependencies, docs drift         |
+| [`review-release`](skills/review-release/SKILL.md)       | Synthesize reports → SHIP / FIX / REFACTOR / RETHINK         |
 | [`review`](skills/review/SKILL.md)                                   | Findings-first review of specs, plans, or code    |
 | [`security-review`](skills/security-review/SKILL.md)                 | Auth, input, secrets, payments                    |
 | [`docs-drift`](skills/docs-drift/SKILL.md)                           | Docs vs real code behavior (read-only by default) |

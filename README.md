@@ -159,9 +159,6 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 
 | Agent                                                      | Mô tả                                                                     |
 | ---------------------------------------------------------- | ------------------------------------------------------------------------- |
-| [`code-reviewer`](agents/code-reviewer.md)                 | Gate 3 — review ưu tiên finding; báo issue trước khi sửa                  |
-| [`review-recall`](agents/review-recall.md)                 | Review phụ ưu tiên recall (độ tin cậy, toàn vẹn dữ liệu, chất lượng test) |
-| [`review-adjudicator`](agents/review-adjudicator.md)       | Gộp bản precision + recall thành một kết luận đã lọc                      |
 | [`typescript-reviewer`](agents/typescript-reviewer.md)     | TypeScript/JS sâu: types, async đúng, security                            |
 | [`react-reviewer`](agents/react-reviewer.md)               | React/JSX sâu: hooks, hiệu năng render, a11y                              |
 | [`database-reviewer`](agents/database-reviewer.md)         | PostgreSQL: tối ưu query, schema, thực hành Supabase                      |
@@ -184,7 +181,6 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                       | Trước khi build — làm rõ nhu cầu, so hướng làm, chốt spec      |
 | [`planning`](skills/planning/SKILL.md)                                           | Plan thực thi khi phạm vi đã rõ                                |
-| [`plan-review`](skills/plan-review/SKILL.md)                                     | Sau plan, trước code — kiểm tra có làm được không              |
 | [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                     | Bản đồ kiến trúc nhanh cho repo lạ                             |
 | [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md) | Cơ hội refactor / đào sâu kiến trúc                            |
 | [`domain-modeling`](skills/domain-modeling/SKILL.md)                             | Ngôn ngữ dùng chung, thuật ngữ domain, ADR                     |
@@ -196,8 +192,11 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 
 | Skill                                                | Mô tả                                              |
 | ---------------------------------------------------- | -------------------------------------------------- |
-| [`code-review`](skills/code-review/SKILL.md)         | Review song song → APPROVE / WARNING / BLOCK       |
-| [`review`](skills/review/SKILL.md)                   | Review ưu tiên finding cho specs, plans, hoặc code |
+| [`review-change`](skills/review-change/SKILL.md)         | Review thay đổi vừa làm — đúng sai, test, security  |
+| [`review-experience`](skills/review-experience/SKILL.md) | User flow thật trên browser — state, viewport, a11y |
+| [`review-health`](skills/review-health/SKILL.md)         | Sức khoẻ repo — kiến trúc, dependency, docs drift   |
+| [`review-release`](skills/review-release/SKILL.md)       | Gộp report → SHIP / FIX / REFACTOR / RETHINK        |
+| [`review`](skills/review/SKILL.md)                   | Review spec hoặc plan trước khi code               |
 | [`security-review`](skills/security-review/SKILL.md) | Auth, input, secrets, thanh toán                   |
 | [`docs-drift`](skills/docs-drift/SKILL.md)           | Docs vs hành vi code thật (mặc định chỉ đọc)       |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md) | Bug khó và tụt hiệu năng                           |
