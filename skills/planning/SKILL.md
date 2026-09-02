@@ -42,7 +42,7 @@ DO NOT use if WHAT/WHY is still unclear → go back to `brainstorm` first.
 
 ### Constraints
 
-- The plan body and section headings MUST follow the active Output Style's language (the selected style decides English vs Vietnamese; code identifiers stay in their original form).
+- The plan body and section headings MUST be written in **Vietnamese**, independent of the active Output Style. Use English only for: file paths, commands, symbols, framework/library names.
 - The first line MUST be a level-1 heading (`# ...`).
 - NO markdown tables, NO emoji, NO full code (shapes/key interfaces only).
 - File paths MUST always use full markdown links: `[foo.ts](relative/path/to/foo.ts)`.

@@ -31,9 +31,23 @@ if [ ! -f "$root/PIPELINE.lock" ]; then
     rel="${doc#"$root"/}"
     grep -qF '## Chưa khớp thực tế' "$doc" || say "$rel thiếu mục '## Chưa khớp thực tế' (D7)"
     while IFS= read -r hit; do
+      lineno="${hit%%:*}"
+      say "$rel:$lineno bảng 'Chưa khớp thực tế' không nhận claim decided/building (D7)"
+    done < <(awk -F'|' '
+      /^## Chưa khớp thực tế[[:space:]]*$/ { in_drift = 1; next }
+      in_drift && /^## / { in_drift = 0 }
+      in_drift && /^\|/ {
+        intent = $3
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", intent)
+        if (intent ~ /^`(decided|building)`$/) print FNR ":" intent
+      }
+    ' "$doc")
+    while IFS= read -r hit; do
       lineno="${hit%%:*}"; line="${hit#*:}"
       case "$line" in *'](http'*|*'](#'*|*'](mailto:'*) continue ;; esac
-      printf '%s' "$line" | grep -Eq '\)[[:space:]]*`(current|decided|building|deprecated)`' \
+      next_line=$(sed -n "$((lineno + 1))p" "$doc")
+      printf '%s %s' "$line" "$next_line" \
+        | grep -Eq '\)[[:space:]]*`(current|decided|building|deprecated)`' \
         || say "$rel:$lineno link thiếu nhãn ý định current/decided/building/deprecated (D6)"
     done < <(grep -nE '\[[^]]*\]\([^)]+\)' "$doc" 2>/dev/null || true)
   done

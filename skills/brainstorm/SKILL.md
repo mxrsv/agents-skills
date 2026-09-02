@@ -116,7 +116,7 @@ If `$topic` is provided, use it as the `{topic}` slug in the spec filename (`doc
 
 ## Spec language
 
-The spec body and section headings MUST follow the active Output Style's language (the selected style decides English vs Vietnamese; code identifiers stay in their original form).
+The spec body and section headings MUST be written in **Vietnamese**, independent of the active Output Style. Use English only for: file paths, commands, symbols, framework/library names, and the structural labels in the template (Origin, Problem, Decisions, Canonical, Components, Data Flow, Done, Not done, ASSUMPTION, QUESTION, BLOCKER).
 
 ## Examples
 

@@ -1,7 +1,7 @@
 # Quy trình làm việc (W-rules)
 
-- **W1.** Việc creative (feature / component / behavior mới) → brainstorm chốt spec TRƯỚC khi viết code.
-- **W2.** Có spec → viết plan trước khi implement. Gặp bug → systematic-debugging trước khi sửa.
+- **W1.** Mặc định làm thẳng. CHỈ brainstorm/spec khi chạm một trong ba ngưỡng: (a) yêu cầu mơ hồ hoặc có nhiều cách hiểu khác nhau về kết quả; (b) đổi kiến trúc, data model, hoặc public contract (API / CLI / UI flow); (c) người dùng yêu cầu rõ. Dưới ngưỡng → code luôn.
+- **W2.** Chỉ viết plan khi đã có spec được duyệt, hoặc việc kéo dài qua nhiều phiên / nhiều commit. Gặp bug → systematic-debugging trước khi sửa.
 - **W3.** Chỉ sửa trong phạm vi task. Phát hiện việc ngoài scope (refactor tiện tay, lỗi khác) → NÊU RA, không tự làm.
 - **W4.** NEVER báo "xong / đã sửa / pass" khi chưa chạy lệnh kiểm chứng (test / typecheck / build / screenshot) và dán output làm bằng chứng.
 - **W5.** Commit theo conventional commits có scope — `type(scope): mô tả`. Một commit = một việc trọn vẹn.

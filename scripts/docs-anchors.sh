@@ -7,6 +7,34 @@ root="${1:-$PWD}"; root="${root%/}"
 [ -d "$root" ] || { echo "docs-anchors: không có thư mục '$root'" >&2; exit 2; }
 problems=0
 
+markdown_has_heading_fragment() {
+  python3 - "$1" "$2" <<'PY'
+import re
+import sys
+import unicodedata
+
+path, expected = sys.argv[1:]
+
+def github_slug(text: str) -> str:
+    slug = []
+    for char in text.casefold():
+        if char.isspace():
+            slug.append("-")
+        elif char in "-_":
+            slug.append(char)
+        elif unicodedata.category(char)[0] in {"L", "N"}:
+            slug.append(char)
+    return "".join(slug)
+
+with open(path, encoding="utf-8") as handle:
+    for line in handle:
+        match = re.match(r"^\s{0,3}#{1,6}\s+(.+?)\s*#*\s*$", line)
+        if match and github_slug(match.group(1)) == expected:
+            raise SystemExit(0)
+raise SystemExit(1)
+PY
+}
+
 living=()
 for f in AGENTS.md README.md CHANGELOG.md; do [ -f "$root/$f" ] && living+=("$root/$f"); done
 if [ -d "$root/docs" ]; then
@@ -37,7 +65,9 @@ for doc in "${living[@]}"; do
       fi
     else
       # -F fixed-string: symbol chứa [ ] * $ không bị hiểu thành regex
-      grep -qF -- "$frag" "$abs" || {
+      grep -qF -- "$frag" "$abs" \
+        || { case "$abs" in *.md) markdown_has_heading_fragment "$abs" "$frag" ;; *) false ;; esac; } \
+        || {
         echo "❌ $rel_doc:$lineno  [$path#$frag] — symbol không có trong file"; problems=$((problems+1)); }
     fi
   done < <(grep -noE '\[[^]]*\]\([^)]+\)' "$doc" 2>/dev/null || true)

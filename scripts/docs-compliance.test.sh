@@ -48,6 +48,13 @@ printf '# arch\n[x](y.md) `current`\n%s\n' "$DRIFT" > "$E/docs/ARCHITECTURE.md"
 printf '# ctx\n%s\n' "$DRIFT" > "$E/docs/CONTEXT.md"
 code "repo đủ hết exit 0" "$E" 0
 
+E2=$(mktemp -d); mkdir -p "$E2/docs"
+printf '# a\n%s\n' "$DRIFT" > "$E2/AGENTS.md"
+printf '@AGENTS.md\n' > "$E2/CLAUDE.md"
+printf '# arch\n[x](y.md)\n`current`\n%s\n' "$DRIFT" > "$E2/docs/ARCHITECTURE.md"
+printf '# ctx\n%s\n' "$DRIFT" > "$E2/docs/CONTEXT.md"
+code "nhãn D6 ở dòng kế tiếp exit 0" "$E2" 0
+
 F=$(mktemp -d); mkdir -p "$F/docs"; : > "$F/PIPELINE.lock"
 printf '# a\n' > "$F/AGENTS.md"
 printf '@AGENTS.md\n' > "$F/CLAUDE.md"
@@ -59,5 +66,12 @@ hasnt "PIPELINE.lock bỏ qua D7"    "$F" "Chưa khớp thực tế"
 G=$(mktemp -d); mkdir -p "$G/docs"; : > "$G/PIPELINE.lock"
 code "PIPELINE.lock KHÔNG miễn D5" "$G" 1
 
-rm -rf "$A" "$B" "$C" "$D" "$E" "$F" "$G"
+H=$(mktemp -d); mkdir -p "$H/docs"
+printf '# a\n%s\n\n| Claim | Ý định | Trạng thái | Bằng chứng |\n| --- | --- | --- | --- |\n| backlog | `building` | chờ | spec |\n' "$DRIFT" > "$H/AGENTS.md"
+printf '@AGENTS.md\n' > "$H/CLAUDE.md"
+printf '# arch\n%s\n\nRỗng.\n' "$DRIFT" > "$H/docs/ARCHITECTURE.md"
+printf '# ctx\n%s\n\nRỗng.\n' "$DRIFT" > "$H/docs/CONTEXT.md"
+has "D7 từ chối backlog building trong bảng drift" "$H" "không nhận claim decided/building"
+
+rm -rf "$A" "$B" "$C" "$D" "$E" "$E2" "$F" "$G" "$H"
 echo "----"; echo "pass=$pass fail=$fail"; [ "$fail" -eq 0 ]

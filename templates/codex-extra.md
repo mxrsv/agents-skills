@@ -18,3 +18,7 @@ Body (use whichever sections apply):
 
 Each PR focuses on a single concern. The test plan must be concrete steps, not "run tests".
 </pull_request_convention>
+
+<codex_sync>
+- File `~/.codex/AGENTS.md` sinh từ CLAUDE.md + rules + file này; sau khi sửa nguồn, chạy `~/.claude/scripts/render-agent-rules.sh` để đồng bộ. Nhắc lịch gap ≥ 3 ngày: Cursor Automation (xem draft trong vault wiki).
+</codex_sync>

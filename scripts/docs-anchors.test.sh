@@ -45,7 +45,8 @@ hasnt "inline code không phải anchor"          "$R" "@preact/signals"
 hasnt "docs/specs/ đóng băng, không quét"      "$R" "2026-07-27-x-design.md"
 
 R2=$(mktemp -d); mkdir -p "$R2/docs"
-printf '# A\n[ok](x.md) `current`\n' > "$R2/docs/ARCHITECTURE.md"; : > "$R2/docs/x.md"
+printf '# A\n[ok](x.md) `current`\n[heading](x.md#10-verification-and-acceptance) `current`\n[em dash](x.md#pane-detach--phase-a-landed-2026-08-10) `current`\n' > "$R2/docs/ARCHITECTURE.md"
+printf '# 10. Verification and acceptance\n\n## Pane detach — Phase A landed 2026-08-10\n' > "$R2/docs/x.md"
 empty "tài liệu sạch im lặng" "$R2"
 
 R3=$(mktemp -d)

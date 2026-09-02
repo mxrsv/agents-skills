@@ -1,6 +1,6 @@
 ---
 name: explain
-description: Explain concepts, bugs, or design decisions in a deliberately chosen teaching style. Use when user types `/explain`, says "explain"/"giải thích", or wants to understand *why* (not just a fix). Honors flags `--story` (Journey + Analogy for bugs), `--why` (First principles + Counterfactual for design decisions), `--diff` (Compare + Layered onion for X vs Y). Auto-picks style if no flag. Output in Vietnamese, code identifiers in English.
+description: Explain concepts, bugs, or design decisions in a deliberately chosen teaching style. Use when user types `/explain`, says "explain", or wants to understand *why* (not just a fix). Honors flags `--story` (Journey + Analogy for bugs), `--why` (First principles + Counterfactual for design decisions), and `--diff` (Compare + Layered onion for X vs Y). Auto-picks style if no flag. Output in Vietnamese.
 effort: medium
 ---
 
@@ -38,7 +38,7 @@ Teach **understanding**, not just deliver facts. Pick style by flag; if no flag,
 
 ## Default (no flag)
 
-Auto-pick and announce on line 1: `**Style: --story** (short reason)`.
+Auto-pick and announce in Vietnamese on line 1: `**Phong cách: --story** (lý do ngắn)`.
 
 Pick rules:
 
@@ -50,12 +50,12 @@ Pick rules:
 ## Output rules
 
 - **Concise by default**: shortest answer that fully teaches the concept. No filler, no recap, no "next steps" section. Each section earns its place — drop steps the topic doesn't need.
-- Vietnamese narrative; English for code identifiers, file paths, CLI commands
+- Vietnamese narrative, including prose around code identifiers, file paths, and CLI commands
 - Headings `##` / `###` only (never `#`)
 - Code blocks always tagged with language
 - Length matches topic — don't pad. Simple gotcha: 3-5 short paragraphs. Deep design analysis: longer only if every paragraph adds insight.
 - Semantic emoji (🔍 💡 ⚠️ 🐛 🔧) at section transitions or "aha" moments — sparingly
-- End with a one-sentence takeaway (📝 or 💡)
+- End with a one-sentence Vietnamese takeaway (📝 or 💡)
 
 ## Modifier flags
 

@@ -9,7 +9,9 @@ OUT="$HOME/.codex/AGENTS.md"
 EXTRA="$SRC/templates/codex-extra.md"
 [ -f "$EXTRA" ] || { echo "❌ thiếu $EXTRA — dừng để không mất phần Codex-only" >&2; exit 1; }
 mkdir -p "$(dirname "$OUT")"
-[ -f "$OUT" ] && cp "$OUT" "$OUT.bak-$(date +%Y%m%d%H%M%S)"
+tmp_out=$(mktemp "${OUT}.tmp.XXXXXX")
+cleanup() { rm -f "$tmp_out"; }
+trap cleanup EXIT
 
 {
   echo "<!-- SINH TỰ ĐỘNG bởi ~/.claude/scripts/render-agent-rules.sh — KHÔNG sửa tay. -->"
@@ -22,6 +24,10 @@ mkdir -p "$(dirname "$OUT")"
   for f in "$SRC"/rules/core/*.md; do echo; echo "---"; echo; cat "$f"; done
   echo; echo "---"; echo
   cat "$EXTRA"
-} > "$OUT"
+} > "$tmp_out"
+
+chmod 0644 "$tmp_out"
+mv "$tmp_out" "$OUT"
+trap - EXIT
 
 echo "✅ đã sinh $OUT ($(wc -l < "$OUT" | tr -d ' ') dòng)"
