@@ -1,9 +1,7 @@
 ---
 name: planning
-description: Create or update a plan file at `docs/plans/{YYYY-MM-DD}-{feature}.md` from a spec or available context.
-when_to_use: After "what to build" is clear — has a written spec at `docs/specs/`, or the task is well-defined. Trigger phrases - "plan this", "break into tasks", "/planning". NOT for vague requests — go back to `brainstorm` first.
+description: Create or update a plan file at `docs/plans/{YYYY-MM-DD}-{feature}.md` from a spec or available context. Use after "what to build" is clear - a written spec in `docs/specs/` or a well-defined task spanning several commits. Trigger phrases - "plan this", "break into tasks". Not for vague requests - go back to `brainstorm` first.
 argument-hint: [feature-name]
-arguments: feature
 ---
 
 # Planning
@@ -27,7 +25,7 @@ DO NOT use if WHAT/WHY is still unclear → go back to `brainstorm` first.
 
 1. **Read context**:
    - If a spec exists → `Read` the spec.
-   - `Glob`/`Grep`/`Read` related files to verify current state.
+   - Search and read related files to verify current state.
 2. **Clarify** (only if needed): if the objective is ambiguous AND a wrong interpretation would produce a significantly different plan → state the assumption and ask ONE question.
 3. **Write the plan** to `docs/plans/{YYYY-MM-DD}-{feature}.md`. If the file already exists → `Edit` it directly, DO NOT create a new file.
 4. **Self-review inline** (no subagent). Re-read the plan with fresh eyes:

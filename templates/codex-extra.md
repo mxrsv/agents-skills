@@ -21,4 +21,5 @@ Each PR focuses on a single concern. The test plan must be concrete steps, not "
 
 <codex_sync>
 - File `~/.codex/AGENTS.md` sinh từ CLAUDE.md + rules + file này; sau khi sửa nguồn, chạy `~/.claude/scripts/render-agent-rules.sh` để đồng bộ. Nhắc lịch gap ≥ 3 ngày: Cursor Automation (xem draft trong vault wiki).
+- Skill chính: nguồn `~/.claude/skills/<x>` (git), `~/.agents/skills/<x>` là symlink tới đó — Codex đọc `~/.agents/skills` natively, gọi bằng `$name`. Thêm / đổi tên skill xong chạy `~/.claude/scripts/sync-agents-skills.sh`; `--check` để rà lệch.
 </codex_sync>

@@ -1,6 +1,6 @@
 ---
 name: context-budget
-description: Use to audit token consumption across agents, skills, MCP servers, and CLAUDE.md. Identifies bloat, redundancy, and produces optimization recommendations. Meta-maintenance skill.
+description: Use to audit token consumption across always-loaded guidance — agents, skills, MCP servers, CLAUDE.md / AGENTS.md, rules, hooks and config — in Claude Code or Codex. Identifies bloat, redundancy and duplicate skill roots, and produces optimization recommendations. Meta-maintenance skill.
 ---
 
 # Context Budget
@@ -13,7 +13,7 @@ Agent descriptions load every time. MCP tools cost ~500 tokens each. Skills load
 
 ## When to Use
 
-- System feels slow or hitting context limits
+- System feels slow, noisy, harder to steer, or hitting context limits
 - Before adding new agents/skills/MCP servers
 - Periodic maintenance (monthly)
 - After major system changes
@@ -22,25 +22,27 @@ Agent descriptions load every time. MCP tools cost ~500 tokens each. Skills load
 
 ### Phase 1: Inventory
 
-Scan and estimate token cost for each component:
+Scan and estimate token cost for each component. Audit the harness you are running in — the columns differ, the method does not:
 
-| Component | How to estimate | Where |
-|---|---|---|
-| **Agents** | `words × 1.3` | `.claude/agents/*.md` |
-| **Skills** | `words × 1.3` (SKILL.md only — extra files load on demand) | `.claude/skills/*/SKILL.md` |
-| **CLAUDE.md** | `words × 1.3` | All CLAUDE.md files |
-| **MCP servers** | `~500 tokens per tool` | Check `/mcp` or settings.json |
-| **Rules** | `words × 1.3` | `.claude/rules/*.md` |
+| Component | How to estimate | Claude Code | Codex |
+|---|---|---|---|
+| **Agents** | `words × 1.3` | `.claude/agents/*.md` (project) + `~/.claude/agents/*.md` (user) | `~/.codex/agents/*.toml` |
+| **Skills** | `words × 1.3` (SKILL.md only — extra files load on demand) | `~/.claude/skills/*/SKILL.md` | `~/.codex/skills/*/SKILL.md` + `~/.agents/skills/*/SKILL.md` |
+| **Instructions** | `words × 1.3` | all `CLAUDE.md` files | all `AGENTS.md` files |
+| **Rules** | `words × 1.3` | `~/.claude/rules/*.md` | already folded into `~/.codex/AGENTS.md` |
+| **MCP servers** | `~500 tokens per tool` | `/mcp` or `settings.json` | `[mcp_servers.*]` in `~/.codex/config.toml` |
+| **Hooks / config** | read once, always on | `settings.json` hooks | `~/.codex/hooks.json`, `config.toml` |
 
 ```bash
 # Quick word count for all agents
-wc -w .claude/agents/*.md
+wc -w ~/.claude/agents/*.md          # Claude Code
+wc -w ~/.codex/agents/*.toml         # Codex
 
-# Quick word count for all skills
-find .claude/skills -name "SKILL.md" -exec wc -w {} +
+# Quick word count for all skills (both roots — Codex reads ~/.agents/skills natively)
+find ~/.claude/skills ~/.agents/skills -name "SKILL.md" -exec wc -w {} +
 
 # Count MCP tools loaded
-# Check /context output in Claude Code
+# Claude Code: /context · Codex: /status
 ```
 
 ### Phase 2: Classify
@@ -61,8 +63,9 @@ Flag these patterns:
 | **Heavy agent** | >200 lines | Move details to skill or reference doc |
 | **Heavy skill** | >150 lines | Condense or split into SKILL.md + reference files |
 | **MCP over-subscription** | >10 servers loaded | Disable unused servers |
-| **CLAUDE.md bloat** | >200 lines | Split into focused rules files |
+| **Instructions bloat** | `CLAUDE.md` / `AGENTS.md` >200 lines | Split into focused rules files |
 | **Redundant components** | Agent + skill overlap | Merge or clarify boundaries |
+| **Duplicate skill roots** | Same skill name in two roots (e.g. `~/.codex/skills` and `~/.agents/skills`) | Keep one source, symlink the other — see `~/.claude/scripts/sync-agents-skills.sh` |
 | **Unused components** | Never referenced in flows | Remove |
 
 ### Phase 4: Report
@@ -72,13 +75,13 @@ Flag these patterns:
 
 Total estimated overhead: {n} tokens
 
-| Component | Count | Tokens | % |
-|-----------|-------|--------|---|
-| Agents    | {n}   | {n}    | % |
-| Skills    | {n}   | {n}    | % |
-| CLAUDE.md | {n}   | {n}    | % |
-| MCP tools | {n}   | {n}    | % |
-| Rules     | {n}   | {n}    | % |
+| Component    | Count | Tokens | % |
+|--------------|-------|--------|---|
+| Agents       | {n}   | {n}    | % |
+| Skills       | {n}   | {n}    | % |
+| Instructions | {n}   | {n}    | % |
+| MCP tools    | {n}   | {n}    | % |
+| Rules        | {n}   | {n}    | % |
 
 Issues found: {n}
 1. {issue} — {component} — Save: ~{n} tokens
@@ -96,15 +99,12 @@ Capacity: {remaining}% free after overhead
 
 - **MCP is the biggest lever** — each tool schema ~500 tokens. 10 servers × 5 tools = 25,000 tokens
 - **Agent descriptions load always** — even if agent never runs. Keep short.
-- **Skill SKILL.md loads on invocation** — extra files in skill folder load only when Read
-- **CLAUDE.md loads always** — every token counts
+- **Skill SKILL.md loads on invocation** — extra files in skill folder load only when read
+- **Instructions load always** — `CLAUDE.md` / `AGENTS.md`: every token counts
 
 ## Enforcement
 
 - **ALWAYS** include token estimates with evidence
-- **ALWAYS** produce actionable recommendations
+- **ALWAYS** produce actionable, file-based recommendations
+- **PREFER** deletion over rewriting when a component adds no clear value
 - **NEVER** recommend removing components without checking if they're referenced
-
-## Shared By
-
-All agents (meta-maintenance)

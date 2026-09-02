@@ -24,12 +24,12 @@ Bổ sung chứ không thay `/activity` (log-day): `/activity` = bài học các
 
 ## Codex / Cursor
 
-- Skill này sống ở `~/.claude/skills/log-wiki/` (Claude Code + Cursor nếu nạp skill
-  thư mục đó).
-- `~/.codex/AGENTS.md` là file sinh tự động — đừng sửa tay. Nudge Codex đi qua
+- Nguồn skill ở `~/.claude/skills/log-wiki/` (git); `~/.agents/skills/log-wiki` là symlink
+  tới đó nên Claude Code, Codex và Cursor đọc cùng một bản. Codex gọi bằng `$log-wiki`.
+- `~/.codex/AGENTS.md` là file sinh tự động — đừng sửa tay. Sửa nguồn ở
   `~/.claude/CLAUDE.md` / `~/.claude/templates/codex-extra.md` rồi chạy
-  `~/.claude/scripts/render-agent-rules.sh` khi muốn đồng bộ. Nếu chưa sync:
-  dựa vào Cursor Automation (nhắc gap) + gọi tay `/log-wiki` / skill này.
+  `~/.claude/scripts/render-agent-rules.sh` để đồng bộ. Nếu chưa sync:
+  dựa vào Cursor Automation (nhắc gap) + gọi tay skill này.
 
 ## Bước 1 — Resolve vault
 

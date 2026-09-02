@@ -1,6 +1,6 @@
 ---
 name: explain
-description: Explain concepts, bugs, or design decisions in a deliberately chosen teaching style. Use when user types `/explain`, says "explain", or wants to understand *why* (not just a fix). Honors flags `--story` (Journey + Analogy for bugs), `--why` (First principles + Counterfactual for design decisions), and `--diff` (Compare + Layered onion for X vs Y). Auto-picks style if no flag. Output in Vietnamese.
+description: Explain concepts, bugs, or design decisions in a deliberately chosen teaching style. Use when the user invokes the skill by name, says "explain", or wants to understand *why* (not just a fix). Honors flags `--story` (Journey + Analogy for bugs), `--why` (First principles + Counterfactual for design decisions), and `--diff` (Compare + Layered onion for X vs Y). Auto-picks style if no flag. Output in Vietnamese.
 effort: medium
 ---
 

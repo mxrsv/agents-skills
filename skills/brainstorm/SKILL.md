@@ -1,9 +1,7 @@
 ---
 name: brainstorm
-description: Brainstorm a new feature into an approved spec via clarify → propose 2-3 approaches → present sections → write file → self-review → hard gate.
-when_to_use: Before any new feature, refactor, or significant behavior change. Trigger phrases - "I want to add", "let's build", "design X", "how should we approach Y". MUST run before any code is written.
+description: Brainstorm a feature into an approved spec via clarify → propose 2-3 approaches → present sections → write file → self-review → hard gate. Use when the ask is ambiguous or has several possible outcomes, when it changes architecture, data model or a public contract (API, CLI, UI flow), or when the user asks for a spec. Trigger phrases - "I want to add", "let's build", "design X", "how should we approach Y".
 argument-hint: [topic]
-arguments: topic
 ---
 
 # Brainstorm

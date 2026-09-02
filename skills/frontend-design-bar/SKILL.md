@@ -1,7 +1,8 @@
 ---
 name: frontend-design-bar
 description: Use when building, reshaping, or reviewing any web UI (landing page, hero, dashboard, component, marketing site) and it must look designed, not generated. Triggers — a UI that reads flat, generic, templated, or static; calling UI "done" from code/build/TypeScript without looking at a screenshot; deciding whether a design is good enough to ship; prototyping a new template or hero.
-origin: user
+metadata:
+  origin: user
 ---
 
 # Frontend Design Bar

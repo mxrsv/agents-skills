@@ -134,7 +134,7 @@ Claude Code tự nhận agents (`Agent` tool) và skills (`Skill` tool) từ fro
 | Path                       | Vai trò                                              |
 | -------------------------- | ---------------------------------------------------- |
 | [`agents/`](agents/)       | Subagent chuyên biệt (review, planning, research…)   |
-| [`skills/`](skills/)       | Skills gọi qua Skill tool / slash command            |
+| [`skills/`](skills/)       | Skill — nguồn chuẩn; symlink sang `~/.agents/skills` cho Codex / Cursor |
 | [`commands/`](commands/)   | Slash command tự viết                                |
 | [`rules/`](rules/)         | Rules luôn nạp + theo path                           |
 | [`templates/`](templates/) | Starter `AGENTS.md` / `CLAUDE.md` + cấu trúc project |
@@ -217,6 +217,10 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 | -------------------------------------------------- | --------------------------------------------- |
 | [`hand-off`](skills/hand-off/SKILL.md)             | Nén hội thoại để agent khác nhận việc         |
 | [`context-budget`](skills/context-budget/SKILL.md) | Rà token qua agents, skills, MCP, `CLAUDE.md` |
+
+### Dùng chung với Codex / Cursor
+
+Skill tự viết ở `skills/` là **nguồn chuẩn** (git track). [`scripts/sync-agents-skills.sh`](scripts/sync-agents-skills.sh) tạo symlink `~/.agents/skills/<x> → ~/.claude/skills/<x>` cho mọi skill được git track; Codex đọc `~/.agents/skills` natively và theo symlink, nên Claude Code, Codex và Cursor dùng đúng một bản — hết copy trôi. Codex gọi skill bằng `$name` thay vì `/name`. Chạy với `--check` để rà lệch: symlink thiếu, frontmatter dùng khoá không harness nào đọc, bản copy trùng tên trong `~/.codex/skills`.
 
 ### Skills ngoài dùng chung
 

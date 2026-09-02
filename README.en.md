@@ -134,7 +134,7 @@ Claude Code discovers agents (`Agent` tool) and skills (`Skill` tool) from each 
 | Path                       | Role                                                    |
 | -------------------------- | ------------------------------------------------------- |
 | [`agents/`](agents/)       | Specialized subagents (review, planning, research…)     |
-| [`skills/`](skills/)       | Skills via the Skill tool / slash commands              |
+| [`skills/`](skills/)       | Skills — source of truth; symlinked into `~/.agents/skills` for Codex / Cursor |
 | [`commands/`](commands/)   | Custom slash commands                                   |
 | [`rules/`](rules/)         | Always-loaded + path-scoped rules                       |
 | [`templates/`](templates/) | `AGENTS.md` / `CLAUDE.md` starters + project structures |
@@ -217,6 +217,10 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 | ---------------------------------------------------------------------- | --------------------------------------------------------- |
 | [`hand-off`](skills/hand-off/SKILL.md)                                 | Compact the conversation for another agent                |
 | [`context-budget`](skills/context-budget/SKILL.md)                     | Audit token use across agents, skills, MCP, `CLAUDE.md`   |
+
+### Sharing with Codex / Cursor
+
+Self-authored skills under `skills/` are the **source of truth** (git-tracked). [`scripts/sync-agents-skills.sh`](scripts/sync-agents-skills.sh) creates `~/.agents/skills/<x> → ~/.claude/skills/<x>` symlinks for every git-tracked skill; Codex reads `~/.agents/skills` natively and follows symlinks, so Claude Code, Codex and Cursor all use the same copy — no more drifting duplicates. Codex invokes a skill as `$name` instead of `/name`. Run with `--check` to detect drift: missing symlinks, frontmatter keys no harness reads, same-name copies in `~/.codex/skills`.
 
 ### Shared external skills
 
