@@ -5,6 +5,8 @@
 #   PostToolUse (Write) → file-guard.sh warn    # exit 2 = nhắc agent (tool đã chạy, không chặn)
 # Từ 2026-07-27: CÓ kiểm vị trí + tên tài liệu (D3/D4). Lý do đảo chủ đích cũ: F2 dạng
 # văn bản đã thất bại — 4 đường dẫn song song, 21 file bị .gitignore chôn ở deck.
+# Từ 2026-09-07 (MXR-37/38): docs/ chỉ còn ba tầng user/ internals/ operations/ + README.md
+# + DESIGN-LANGUAGE.md; spec/plan/review là issue Linear nên specs/ plans/ review/ bị chặn.
 # Documentation root xác định KHÔNG qua git (xem docs_path_violation).
 set -u
 
@@ -13,6 +15,8 @@ input=$(cat)
 file_path=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty' 2>/dev/null) || file_path=""
 [ -z "$file_path" ] && exit 0
 base=$(basename "$file_path")
+
+LINEAR_HINT="spec → description issue Linear; plan → sub-issue hoặc mục '## Plan'; review → comment trên issue/PR (D4)"
 
 # Documentation root = tổ tiên gần nhất có `docs/` là con trực tiếp VÀ có marker.
 # KHÔNG dùng git: PreToolUse chạy TRƯỚC khi Write tạo thư mục cha, nên
@@ -24,35 +28,19 @@ docs_path_violation() { # $1 = file_path; in lý do chặn ra stdout, rỗng = c
   [ -e "$root/.git" ] || [ -f "$root/AGENTS.md" ] \
     || grep -qxF "$root" "$HOME/.claude/docs-roots" 2>/dev/null || return 0
   [ -f "$root/PIPELINE.lock" ] && return 0   # D2 — miễn D3/D4
-  [ -e "$p" ] && return 0                    # chỉ chặn TẠO FILE MỚI
+  [ -e "$p" ] && return 0                    # chỉ chặn TẠO FILE MỚI (doc legacy vẫn sửa được)
   rel="${p#"$root"/}"
   case "$rel" in
-    docs/superpowers/*)
-      echo "⛔ D4: 'docs/superpowers/' đã bỏ. Spec → docs/specs/YYYY-MM-DD-<topic>-design.md; plan → docs/plans/YYYY-MM-DD-<topic>.md" ;;
-    docs/review/assets/*) ;;
-    docs/specs/*)
-      base="${rel#docs/specs/}"
-      printf '%s' "$base" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[^/]+-design\.md$' \
-        || echo "⛔ D4: tên spec phải khớp YYYY-MM-DD-<topic>-design.md — nhận '$base'" ;;
-    docs/plans/*)
-      base="${rel#docs/plans/}"
-      printf '%s' "$base" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[^/]+\.md$' \
-        || echo "⛔ D4: tên plan phải khớp YYYY-MM-DD-<topic>.md — nhận '$base'" ;;
-    docs/review/*)
-      base="${rel#docs/review/}"
-      printf '%s' "$base" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[^/]+\.md$' \
-        || echo "⛔ D4: tên review phải khớp YYYY-MM-DD-<topic>.md — nhận '$base' (ảnh → docs/review/assets/)" ;;
-    docs/mockups/*)
-      base="${rel#docs/mockups/}"
-      printf '%s' "$base" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}-[^/]+\.(html|png|jpg|svg)$' \
-        || echo "⛔ D4: tên mockup phải khớp YYYY-MM-DD-<topic>.{html,png,jpg,svg} — nhận '$base'" ;;
+    docs/user/*|docs/internals/*|docs/operations/*) ;;   # D3 — ba tầng theo người đọc
+    docs/specs/*|docs/plans/*|docs/review/*|docs/superpowers/*|docs/intent/*|docs/decisions/*|docs/daily/*|docs/archive/*|docs/mockups/*)
+      echo "⛔ D4: '$rel' — không tạo file spec/plan/review/ledger trong repo nữa: $LINEAR_HINT. Ảnh/asset → attachment của issue." ;;
     docs/*/*)
-      echo "⛔ D3: thư mục con hợp lệ trong docs/ chỉ có specs, plans, review, mockups — nhận '$rel'" ;;
+      echo "⛔ D3: thư mục con hợp lệ trong docs/ chỉ có user/, internals/, operations/ — nhận '$rel'. Nội dung về việc đang làm → issue Linear." ;;
     docs/*)
       base="${rel#docs/}"
       case "$base" in
-        ARCHITECTURE.md|CONTEXT.md|CODEMAP.md|OPERATIONS.md|PRODUCT.md|DESIGN.md|README.md) ;;
-        *) echo "⛔ D3: file .md thẳng trong docs/ chỉ được đặt tên ARCHITECTURE, CONTEXT, CODEMAP, OPERATIONS, PRODUCT, DESIGN, README — nhận '$base'" ;;
+        README.md|DESIGN-LANGUAGE.md) ;;
+        *) echo "⛔ D3: file thẳng trong docs/ chỉ được là README.md (index) hoặc DESIGN-LANGUAGE.md — nhận '$base'. Kiến trúc/quyết định → docs/internals/, trạng thái đang làm → issue Linear." ;;
       esac ;;
   esac
   return 0
@@ -85,7 +73,7 @@ case "$base" in
     ;;
 esac
 case "$file_path" in
-  */.planning/*) warn="${warn}${warn:+ }⚠️ D4: '.planning/' không còn dùng — plan chính thức → docs/plans/YYYY-MM-DD-<topic>.md." ;;
+  */.planning/*) warn="${warn}${warn:+ }⚠️ D4: '.planning/' không còn dùng — $LINEAR_HINT." ;;
 esac
 if [ -n "$warn" ]; then
   echo "$warn" >&2

@@ -11,17 +11,17 @@ Scripts first. They are deterministic and cheap; your reading time is neither.
 **1. Are the required documents present and correctly shaped?**
 
 ```bash
-bash ~/.claude/scripts/docs-anchors.sh <repo-root>      # D6 — are the anchors still alive
-bash ~/.claude/scripts/docs-compliance.sh <repo-root>   # D5/D6/D7 — are the docs there at all
+bash ~/.claude/scripts/docs-anchors.sh <repo-root>      # D6 — are the anchors still alive (AGENTS.md, README.md, CHANGELOG.md, docs/README.md, docs/{user,internals,operations}/**)
+bash ~/.claude/scripts/docs-compliance.sh <repo-root>   # D5/D6 — AGENTS.md + CLAUDE.md pair, intent labels on root docs, legacy docs/ dirs
 ```
 
 Both take the repo root as their one argument, and both use the same exit codes: `0` clean, `1` problems found, `2` the path is not a directory. Output is one `❌ <file>:<line>  <detail>` per problem (Vietnamese text — quote the line verbatim as evidence rather than translating it).
 
 `docs-anchors.sh` answers *"do the links in living docs still point at something real"*; `docs-compliance.sh` answers *"do the required docs exist and carry the required structure"*. They are not interchangeable — run both. These calls take an argument, so they may trigger a permission prompt; that is expected. Do not rewrite the command to dodge it.
 
-**A missing required document is a finding, not a `blocked`.** If `docs-compliance.sh` reports `thiếu docs/ARCHITECTURE.md (D5)` or a `CLAUDE.md` without its `@AGENTS.md` first line, file it: the contract says the file must exist, and it does not. That is drift in its purest form.
+**A missing required document is a finding, not a `blocked`.** If `docs-compliance.sh` reports `thiếu AGENTS.md (D5)` or a `CLAUDE.md` without its `@AGENTS.md` first line, file it: the contract says the file must exist, and it does not. That is drift in its purest form. A `⚠️ docs/specs/ còn tồn tại` line is a finding too (`docs/layout/legacy-dir`): spec, plan and review content belongs in the issue tracker, not the tree (D4) — unless an issue for that cleanup already exists, in which case cite it and move on.
 
-**2. Read what the scripts structurally cannot see.** They check anchors that exist; they cannot flag a behavior claim that never linked to anything. Open the living docs (`AGENTS.md`, `README.md`, `docs/*.md` in caps) and look for statements about how the system behaves that carry no anchor at all. Verify two or three of the load-bearing ones against the code by hand.
+**2. Read what the scripts structurally cannot see.** They check anchors that exist; they cannot flag a behavior claim that never linked to anything. Open the living docs (`AGENTS.md`, `README.md`, `docs/README.md`, `docs/internals/**`, `docs/operations/**`) and look for statements about how the system behaves that carry no anchor at all. Verify two or three of the load-bearing ones against the code by hand. A `docs/internals/` page that narrates control flow or catalogs files is drift of a second kind — the t3code test is "what would a maintainer get wrong without it"; if the code answers, the page should go.
 
 **3. Config ↔ code.**
 
@@ -52,7 +52,7 @@ Rules: only libraries the code actually imports; only when you have a specific s
 
 - Scripts exit `2` → the path is wrong. Fix the path and rerun before concluding anything.
 - No `docs/`, no `README.md`, no `AGENTS.md`, no schema, no config example — nothing written down at all → `blocked: repo has no living docs, schema or config to check code against`.
-- A repo carrying `PIPELINE.lock` is exempt from D3/D4/D6/D7 but **not** from D5. Do not report D6/D7 shape violations there; still report missing D5 documents.
+- A repo carrying `PIPELINE.lock` is exempt from D3/D4/D6 but **not** from D5. Do not report D6 shape violations there; still report missing D5 documents.
 
 NEVER assert drift you did not verify on both sides. "The doc says X" plus "the code does Y" — you need both halves, each with a `file:line`.
 
@@ -60,8 +60,8 @@ NEVER assert drift you did not verify on both sides. "The doc says X" plus "the 
 
 - Living docs describing behavior the code no longer has, or never had.
 - Anchors pointing at moved, renamed or deleted symbols and files.
-- Required documents missing outright (D5), or living docs missing their `## Chưa khớp thực tế` section (D7).
-- Anchors without an intent label — `current` / `decided` / `building` / `deprecated` (D6).
+- Required documents missing outright (D5); spec/plan/review directories still in the tree (D3/D4); a stale "Chưa khớp thực tế" table still carried in a living doc (retired D7 — drift now goes to an issue).
+- Anchors in `AGENTS.md`, `README.md`, `CHANGELOG.md` without an intent label — `current` / `decided` / `building` / `deprecated` (D6).
 - Env vars read but undocumented, or documented but unread.
 - Schema and model disagreeing on columns, types or nullability.
 - Documented commands that do not exist.
@@ -80,7 +80,7 @@ Name the owner; do not file it.
 
 - `blocker` — unlimited.
 - Findings worth acting on — **at most 3**.
-- Minor observations — one summary line. Script output typically produces many small anchor breaks; group them (`docs-anchors.sh: 6 dead anchors in docs/ARCHITECTURE.md`) rather than filing each one.
+- Minor observations — one summary line. Script output typically produces many small anchor breaks; group them (`docs-anchors.sh: 6 dead anchors in docs/internals/overview.md`) rather than filing each one.
 
 Effort cap, **advisory**: roughly 20 tool calls, of which at most 3 `context7` queries.
 
@@ -92,7 +92,7 @@ Domain prefix is always **`docs/`** — including schema, config and build-assum
 
 Evidence must show both halves: the script's `❌` line, or `<doc>:<line>` next to `<source>:<line>`.
 
-Return the findings as text. **Do not write any file.**
+Return the findings as text. **Do not write any file, and do not post to Linear.**
 
 ## Hard rules
 

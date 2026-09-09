@@ -13,8 +13,9 @@ say() { echo "$1"; bad=1; }
 [ -f "$S" ] || { echo "❌ thiếu $S"; exit 1; }
 jq -e . "$S" >/dev/null 2>&1 || { echo "❌ $S không phải JSON hợp lệ"; exit 1; }
 
-[ "$(jq -r '.plansDirectory // empty' "$S")" = "$(jq -r '.plansDirectory' "$R")" ] \
-  || say "❌ plansDirectory lệch (cần $(jq -r '.plansDirectory' "$R"))"
+# plansDirectory bỏ 2026-09-07 (MXR-38): plan sống trong issue Linear, không có thư mục plan trong repo.
+[ -z "$(jq -r '.plansDirectory // empty' "$S")" ] \
+  || say "❌ plansDirectory còn đặt ($(jq -r '.plansDirectory' "$S")) — xoá: plan là issue Linear (D4)"
 
 for k in $(jq -r '.skillOverrides | keys[]' "$R"); do
   want=$(jq -r --arg k "$k" '.skillOverrides[$k]' "$R")

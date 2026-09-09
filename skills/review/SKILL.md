@@ -38,6 +38,8 @@ Agent tool:
     Review criteria: {inline the contents of rules/review-criteria.md}
 ```
 
+The artifact lives in the Linear issue (D0/D4): `get_issue <id>` and paste the description's spec, or its `## Plan` section, as `{full text}`; a plan split into sub-issues → paste each sub-issue's description in order. Without the Linear MCP, ask the user to paste it. Never go looking for a spec or plan file in the repo.
+
 Do NOT paste codebase contents — the subagent can read and search the codebase and should look for itself.
 
 ## Lens
@@ -49,7 +51,7 @@ Do NOT paste codebase contents — the subagent can read and search the codebase
 
 - **EXECUTABLE: Yes** → present the report. Done.
 - **EXECUTABLE: Partial** → present the report. The user decides whether to proceed.
-- **EXECUTABLE: No** → fix HIGH/CRITICAL in the artifact, re-dispatch. Max 3 iterations.
+- **EXECUTABLE: No** → fix HIGH/CRITICAL in the artifact (`save_issue { id, patch }` on the issue, after showing the change — D14), re-dispatch. Max 3 iterations.
 - **3 iterations exhausted** → stop and escalate to the user.
 
 ## Rules

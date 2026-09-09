@@ -1,6 +1,6 @@
 # Reviewer: strategy
 
-> This contract runs **inline** inside `/review-release`. It is not passed to a subagent, and it does not fan out. Where the other eight contracts return findings to a parent, this one produces the final decision and writes the report itself.
+> This contract runs **inline** inside `/review-release`. It is not passed to a subagent, and it does not fan out. Where the other eight contracts return findings to a parent, this one produces the final decision and posts the report comment itself.
 
 ## Role
 
@@ -18,11 +18,12 @@ Read in this order. Do not add sources.
    Empty `git status --porcelain` means `dirty: false`.
 
 2. **List the reports.**
-   ```bash
-   ls docs/review/*.md
    ```
+   list_comments { issueId: "<ISSUE-ID>", limit: 250 }   # follow `cursor` until hasNextPage=false
+   ```
+   A report is a top-level comment whose body starts with `## Review:` and carries the §2 `yaml` block. Replies and every other comment are not evidence.
 
-3. **Select one report per source profile** (`change`, `experience`, `health`): the most recent by the `reviewed_at` header field. Not filename date, not mtime — those move when a file is copied or edited. Missing or malformed `reviewed_at` → fall back to filename date, then mtime, and mark the row `ordering-uncertain`.
+3. **Select one report per source profile** (`change`, `experience`, `health`): the most recent by the `reviewed_at` header field. Not the comment's `createdAt`, not list order — a report pasted late carries a newer `createdAt` than the run it records. Missing or malformed `reviewed_at` → fall back to `createdAt` and mark the row `ordering-uncertain`.
 
 4. **Read those reports in full.** Header, coverage table, every finding.
 
@@ -34,17 +35,17 @@ Read in this order. Do not add sources.
    ```
    Sha not in the repo → `distance: unknown`. Never estimate.
 
-7. **Sweep for carried blockers** — same-profile reports newer than the last `release` report (no prior `release` → cap at 10 files), `severity: blocker`, `key` absent from the selected latest report. Mark each `carried — not re-verified`. Blockers only.
+7. **Sweep for carried blockers** — same-profile reports newer than the last `release` report (no prior `release` → cap at 10 report comments), `severity: blocker`, `key` absent from the selected latest report. Mark each `carried — not re-verified`. Blockers only.
 
 8. **Ask the user** — product direction, `url` deploy confirmations, one acknowledgment question per coverage gap, and the status of each carried blocker.
 
-**Boundary, literal:** file contents only from `docs/review/`. Git metadata commands above are permitted — freshness math is not a codebase scan. Everything else in the repo is off limits: no reading source, tests, configs, lockfiles or docs, no `rg`, no `glob`, not even to confirm a single finding.
+**Boundary, literal:** evidence only from the issue's report comments (`list_comments`), or from text the user pastes when the MCP is absent. Git metadata commands above are permitted — freshness math is not a codebase scan. Everything in the repo is off limits: no reading source, tests, configs, lockfiles or docs, no `rg`, no `glob`, not even to confirm a single finding.
 
 Vague evidence rules are where a reviewer slides back to reading code because it feels productive. For this reviewer that slide is worse than laziness: it re-discovers what `change`, `experience` and `health` just found, at full cost, with a weaker contract than theirs.
 
 ## If there is no evidence
 
-**No reports in `docs/review/` → return `blocked`.** Emit no verdict. State the cold start path: run `/review-health` first — it is the cheapest and needs only the repo — then `/review-change` or `/review-experience` depending on the work in flight. Come back when two profiles have run.
+**No report comment on the issue → return `blocked`.** Emit no verdict. State the cold start path: run `/review-health` first — it is the cheapest and needs only the repo — then `/review-change` or `/review-experience` depending on the work in flight. Come back when two profiles have run.
 
 **Exactly one report → verdict allowed, marked `provisional`, and `SHIP` is unavailable** regardless of how fresh that report is.
 
@@ -85,12 +86,12 @@ Coverage: 2/3 profiles. `experience` has never run. `health` ran at `a3f2c1`, 47
 
 Then verdict, reasoning, the ≤3 actions, carried blockers, acknowledged gaps.
 
-Then write the report to `docs/review/YYYY-MM-DD-release-worktree-<run_id>.md`, header per `~/.claude/templates/review-report.md` §2 with `profile: release`, `source_kind: working-tree`, `scope: worktree`, and the anchor values from step 1. Body: coverage table first (§3 adapted — one row per source profile, status `fresh` / `stale` / `never-ran`, reason column carries the commit distance), plus a §3-conformant row declaring this reviewer itself (`strategy | ran`, or `blocked` when there was no evidence). Then verdict, reasoning, actions, carried blockers, acknowledged gaps.
+Then post the report with `save_comment { issueId: "<ISSUE-ID>", body }`, header per `~/.claude/templates/review-report.md` §2 with `profile: release`, `source_kind: working-tree`, `scope: worktree`, and the anchor values from step 1. Without the MCP, print the body for the user to post; never write a file. Body: coverage table first (§3 adapted — one row per source profile, status `fresh` / `stale` / `never-ran`, reason column carries the commit distance), plus a §3-conformant row declaring this reviewer itself (`strategy | ran`, or `blocked` when there was no evidence). Then verdict, reasoning, actions, carried blockers, acknowledged gaps.
 
 ## Hard rules
 
-- NEVER read repository files outside `docs/review/`. Not with `Read`, not with `rg`, not with `cat` through `Bash`.
+- NEVER read repository files. Not with `Read`, not with `rg`, not with `cat` through `Bash`. The evidence is the issue's comments.
 - NEVER spawn a subagent. This lane is inline.
-- NEVER modify code or existing reports. Writing the one new release report is the only write.
+- NEVER modify code or existing report comments (`save_comment` with `id` is off limits here). Posting the one new release comment is the only write.
 - NEVER emit a verdict without the coverage line first. A verdict that does not say what it is missing is a confidence machine, and that is the exact failure this contract exists to prevent.
 - NEVER return `SHIP` on a stale report, on an open blocker, on a single profile, or on a gap the user has not explicitly accepted.

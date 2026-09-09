@@ -1,6 +1,7 @@
 ---
 name: review-release
-description: Decide whether to ship, fix, refactor, keep building, or rethink — by synthesizing the review reports that /review-change, /review-experience and /review-health already wrote. Use at a milestone, before cutting a release, or when stuck and unsure whether the work is ready to ship or needs more work first. Reads existing reports in docs/review/ plus your product direction; it never re-scans the codebase.
+description: Decide whether to ship, fix, refactor, keep building, or rethink — by synthesizing the review reports that /review-change, /review-experience and /review-health already posted as comments on the Linear issue. Use at a milestone, before cutting a release, or when stuck and unsure whether the work is ready to ship or needs more work first. Reads existing report comments on the issue plus your product direction; it never re-scans the codebase.
+argument-hint: [issue-id]
 ---
 
 # Review: release (synthesis)
@@ -18,17 +19,19 @@ SHIP · FIX FIRST · REFACTOR · CONTINUE BUILDING · RETHINK
 | | `change` · `experience` · `health` | `release` |
 | --- | --- | --- |
 | Execution | fans out to subagents | **inline, no fan-out** |
-| Evidence | the codebase, the browser, the dependency tree | **only `docs/review/*.md` + what you tell it** |
+| Evidence | the codebase, the browser, the dependency tree | **only the report comments on the issue + what you tell it** |
 | Output | findings | **one verdict + ≤3 actions** |
 
 **Never re-scan the codebase.** Re-scanning re-discovers exactly what the other three profiles just found, at full cost, with a weaker contract. If evidence is missing, the answer is "coverage is 2/3", not "let me go look".
 
 **Evidence boundary — read this literally:**
 
-- ALLOWED: file *contents* under `docs/review/` only.
+- ALLOWED: `list_comments` on the named issue (Linear MCP), and the *contents* of the report comments it returns — those whose body starts with `## Review:` and carries the template §2 `yaml` block.
 - ALLOWED: git *metadata* — `git rev-parse`, `git status --porcelain`, `git rev-list --count`, `git log --oneline`. Freshness math needs these; they are not a codebase scan.
-- FORBIDDEN: reading, grepping or globbing source files, tests, configs, lockfiles, or docs outside `docs/review/`. Forbidden even to "just double-check" one finding.
+- FORBIDDEN: reading, grepping or globbing source files, tests, configs, lockfiles, or any file under `docs/`. Forbidden even to "just double-check" one finding.
 - FORBIDDEN: spawning subagents. This lane is inline.
+
+The issue id comes from `$issue-id` or the conversation; none → ask. Without the Linear MCP, ask the user to paste the report comments and treat the pasted text as the evidence set — never go looking in the repo for them.
 
 ## Step 1 — anchor the current state
 
@@ -42,15 +45,17 @@ Hold these three values. Every freshness test compares against them.
 
 ## Step 2 — select which reports to read
 
-```bash
-ls docs/review/*.md 2>/dev/null
+```
+list_comments { issueId: "<ISSUE-ID>", limit: 250 }     # follow `cursor` until hasNextPage=false
 ```
 
-**Selection rule: for each of `change`, `experience`, `health`, take the single most recent report of that profile, ranked by the `reviewed_at` field in its header — not by filename date and not by mtime.**
+Keep top-level comments whose body starts with `## Review:` and carries the §2 `yaml` block; drop replies and every other comment.
+
+**Selection rule: for each of `change`, `experience`, `health`, take the single most recent report of that profile, ranked by the `reviewed_at` field in its header — not by the comment's `createdAt` and not by list order.**
 
 Rationale, and why not the obvious alternative: selecting only reports whose `head_sha` matches the current head would return nothing in the ordinary case, because reports are written before the follow-up commits that a release decision is about. That would make the freshness law dead code and this lane useless. So freshness **classifies** evidence, it does not **filter** it — a stale `health` report is still worth reading, it just cannot support `SHIP`.
 
-`reviewed_at` over mtime because mtime changes when a file is copied, touched, or edited for typos; `reviewed_at` is the recorded moment of the run. If a report has no `reviewed_at` or it is malformed, fall back to filename date then mtime, and mark that report `ordering-uncertain` in the coverage table.
+`reviewed_at` over `createdAt` because a report reposted late (a harness without the MCP, pasted by the user afterwards) carries a newer `createdAt` than the run it records; `reviewed_at` is the recorded moment of the run. If a report has no `reviewed_at` or it is malformed, fall back to `createdAt`, and mark that report `ordering-uncertain` in the coverage table.
 
 Ignore prior `release` reports for evidence purposes — they are decisions, not findings. They are used only to bound Step 4.
 
@@ -86,7 +91,7 @@ If the sha is not in the repo (rebased, dropped, different clone), record `dista
 
 The latest report of a profile does not contain blockers that an earlier run raised and nobody fixed. Those still count.
 
-Scan back through same-profile reports **newer than the most recent `release` report** (if there is no prior `release` report, cap the lookback at 10 report files). Collect findings with `severity: blocker` whose `key` does not appear in the selected latest report.
+Scan back through same-profile reports **newer than the most recent `release` report** (if there is no prior `release` report, cap the lookback at 10 report comments). Collect findings with `severity: blocker` whose `key` does not appear in the selected latest report.
 
 Each carried blocker is `carried — not re-verified`. This lane cannot verify a fix; verification requires reading code, which is forbidden here. It clears only when:
 
@@ -135,7 +140,7 @@ Then **at most 3 next actions**, each concrete enough to start today, ordered. I
 
 | Reports found | Behaviour |
 | --- | --- |
-| 0 | **`blocked`.** Emit no verdict. Say: no review evidence exists in `docs/review/`. Cold start per the framework: run `/review-health` first (cheapest, needs only the repo), then `/review-change` or `/review-experience` depending on what you are working on. |
+| 0 | **`blocked`.** Emit no verdict. Say: no review comment exists on `<ISSUE-ID>`. Cold start per the framework: run `/review-health` first (cheapest, needs only the repo), then `/review-change` or `/review-experience` depending on what you are working on. |
 | 1 | Verdict allowed, marked **provisional**. `SHIP` is forbidden regardless of freshness — gate condition 1 fails. |
 | 2 or 3 | Full synthesis. |
 
@@ -165,21 +170,21 @@ Carried blockers (not re-verified): sec/auth/token-in-log
 Acknowledged gaps: experience never ran — user accepted
 ```
 
-## Write the report
+## Post the report
 
-Every run writes one report, per the framework's rule that each run leaves a record.
+Every run posts one report comment, per the framework's rule that each run leaves a record.
 
-Path: `docs/review/YYYY-MM-DD-release-worktree-<run_id>.md` (`run_id` = 6 random base36 chars).
+`save_comment { issueId: "<ISSUE-ID>", body }` (`run_id` = 6 random base36 chars). Never a file in the repo; without the MCP, print the body in chat for the user to post.
 
 Header per `~/.claude/templates/review-report.md` §2, with:
 
 - `source_kind: working-tree` — the decision accounts for uncommitted state, so the working tree is the thing judged.
-- `scope: worktree` — the template defines three scope forms and none of them is release-specific. `worktree` is the accurate one of the three; the head anchor lives in `head_sha`, and `run_id` keeps filenames unique.
+- `scope: worktree` — the template defines three scope forms and none of them is release-specific. `worktree` is the accurate one of the three; the head anchor lives in `head_sha`, and `run_id` keeps runs apart.
 - `head_sha`, `dirty`, `tree_digest` — the values captured in Step 1.
 
 Body order: **coverage table first** (template §3, adapted — rows are the three source profiles, with `fresh` / `stale` / `never-ran` and the commit distance), then verdict, then reasoning, then the ≤3 actions, then carried blockers, then acknowledged gaps.
 
-This lane is inline, so it is its own parent: it writes the file itself. That does not contradict template §7 — the rule there prevents parallel subagents racing on one file, and there are no subagents here.
+This lane is inline, so it is its own parent: it posts the comment itself. That does not contradict template §7 — the rule there prevents parallel subagents racing on one report, and there are no subagents here.
 
 ## Known limitation — stated, not solved
 

@@ -12,6 +12,12 @@ check() { # desc expected_exit mode json
   if [ "$actual" -eq "$expected" ]; then pass=$((pass+1)); echo "PASS: $desc"
   else fail=$((fail+1)); echo "FAIL: $desc (expected $expected, got $actual)"; fi
 }
+says() { # desc mode json needle — stderr phải chứa needle
+  local desc="$1" mode="$2" json="$3" needle="$4" err
+  err=$(printf '%s' "$json" | bash "$GUARD" "$mode" 2>&1 >/dev/null)
+  if printf '%s' "$err" | grep -qF "$needle"; then pass=$((pass+1)); echo "PASS: $desc"
+  else fail=$((fail+1)); echo "FAIL: $desc"; echo "  err: $err"; fi
+}
 
 big_content_json=$(jq -cn '{tool_input:{file_path:"/repo/big.ts", content:([range(900)] | map("line") | join("\n"))}}')
 
@@ -30,33 +36,47 @@ check "warn: debug-* trong repo"       2 warn  '{"tool_input":{"file_path":"/rep
 check "warn: debug-* trong scratchpad OK" 0 warn '{"tool_input":{"file_path":"/private/tmp/claude-501/x/scratchpad/debug-probe.js","content":"x"}}'
 check "warn: *.log trong repo"         2 warn  '{"tool_input":{"file_path":"/repo/out.log","content":"x"}}'
 
-# ---- nhánh vị trí & tên tài liệu ----
+# ---- nhánh vị trí & tên tài liệu (D3/D4 từ 2026-09-07: ba tầng, spec/plan/review là issue Linear) ----
 FIX=$(mktemp -d)
 mkdir -p "$FIX/repo/.git" "$FIX/repo/docs/specs" "$FIX/repo/docs/plans" \
-         "$FIX/repo/docs/review/assets" "$FIX/repo/docs/mockups" \
+         "$FIX/repo/docs/review/assets" "$FIX/repo/docs/internals" \
          "$FIX/plainsrc/apps/web/src/docs" "$FIX/pipeline/.git" "$FIX/pipeline/docs"
 : > "$FIX/repo/docs/PRD.md"
+: > "$FIX/repo/docs/ARCHITECTURE.md"
+: > "$FIX/repo/docs/specs/2026-07-27-legacy-design.md"
 : > "$FIX/pipeline/PIPELINE.lock"
 jp() { jq -cn --arg p "$1" '{tool_input:{file_path:$p}}'; }
 
-check "docs: thư mục cha CHƯA tồn tại vẫn chặn" 2 block "$(jp "$FIX/repo/docs/superpowers/specs/x.md")"
-check "docs: thư mục lạ bị chặn"                2 block "$(jp "$FIX/repo/docs/intent/x.md")"
-check "docs: decisions/ mới bị chặn"            2 block "$(jp "$FIX/repo/docs/decisions/0030-x.md")"
-check "docs: tên spec sai bị chặn"              2 block "$(jp "$FIX/repo/docs/specs/foo.md")"
-check "docs: FINAL.md trong specs bị chặn"      2 block "$(jp "$FIX/repo/docs/specs/FINAL.md")"
-check "docs: plan .txt bị chặn"                 2 block "$(jp "$FIX/repo/docs/plans/x.txt")"
-check "docs: review thiếu ngày bị chặn"         2 block "$(jp "$FIX/repo/docs/review/no-date.md")"
-check "docs: mockup .zip bị chặn"               2 block "$(jp "$FIX/repo/docs/mockups/foo.zip")"
+# ba tầng + hai file index đi qua, kể cả thư mục con chưa tồn tại
+check "docs: internals/ cho qua"                0 block "$(jp "$FIX/repo/docs/internals/overview.md")"
+check "docs: internals/ lồng sâu cho qua"       0 block "$(jp "$FIX/repo/docs/internals/pty/ownership.md")"
+check "docs: user/ chưa tồn tại vẫn cho qua"    0 block "$(jp "$FIX/repo/docs/user/getting-started.md")"
+check "docs: operations/ cho qua"               0 block "$(jp "$FIX/repo/docs/operations/release.md")"
+check "docs: README.md cho qua"                 0 block "$(jp "$FIX/repo/docs/README.md")"
+check "docs: DESIGN-LANGUAGE.md cho qua"        0 block "$(jp "$FIX/repo/docs/DESIGN-LANGUAGE.md")"
+# spec/plan/review mới → chặn, kể cả tên đúng mẫu ngày cũ
+check "docs: spec mới bị chặn"                  2 block "$(jp "$FIX/repo/docs/specs/2026-09-07-x-design.md")"
+check "docs: plan mới bị chặn"                  2 block "$(jp "$FIX/repo/docs/plans/2026-09-07-x.md")"
+check "docs: review mới bị chặn"                2 block "$(jp "$FIX/repo/docs/review/2026-09-07-x.md")"
+check "docs: review/assets mới bị chặn"         2 block "$(jp "$FIX/repo/docs/review/assets/a.png")"
+check "docs: superpowers/ chưa tồn tại vẫn chặn" 2 block "$(jp "$FIX/repo/docs/superpowers/specs/x.md")"
+check "docs: intent/ bị chặn"                   2 block "$(jp "$FIX/repo/docs/intent/x.md")"
+check "docs: decisions/ bị chặn"                2 block "$(jp "$FIX/repo/docs/decisions/0030-x.md")"
+check "docs: mockups/ bị chặn"                  2 block "$(jp "$FIX/repo/docs/mockups/2026-09-07-x.html")"
+says  "docs: chặn spec nhắc tới issue Linear"   block "$(jp "$FIX/repo/docs/specs/2026-09-07-x-design.md")" "issue Linear"
+# tầng lạ, file HOA cũ
+check "docs: thư mục lạ bị chặn"                2 block "$(jp "$FIX/repo/docs/guides/x.md")"
+check "docs: CONTEXT.md MỚI bị chặn"            2 block "$(jp "$FIX/repo/docs/CONTEXT.md")"
 check "docs: file HOA lạ bị chặn"               2 block "$(jp "$FIX/repo/docs/FOO.md")"
-check "docs: spec đúng tên cho qua"             0 block "$(jp "$FIX/repo/docs/specs/2026-07-27-x-design.md")"
-check "docs: plan đúng tên cho qua"             0 block "$(jp "$FIX/repo/docs/plans/2026-07-27-x.md")"
-check "docs: review/assets tự do cho qua"       0 block "$(jp "$FIX/repo/docs/review/assets/a.png")"
-check "docs: mockup đúng tên cho qua"           0 block "$(jp "$FIX/repo/docs/mockups/2026-07-27-x.html")"
-check "docs: ARCHITECTURE.md cho qua"           0 block "$(jp "$FIX/repo/docs/ARCHITECTURE.md")"
-check "docs: file ĐÃ tồn tại cho qua"           0 block "$(jp "$FIX/repo/docs/PRD.md")"
+# file đã tồn tại (legacy) vẫn sửa được
+check "docs: PRD.md đã tồn tại cho qua"         0 block "$(jp "$FIX/repo/docs/PRD.md")"
+check "docs: ARCHITECTURE.md đã tồn tại cho qua" 0 block "$(jp "$FIX/repo/docs/ARCHITECTURE.md")"
+check "docs: spec legacy đã tồn tại cho qua"    0 block "$(jp "$FIX/repo/docs/specs/2026-07-27-legacy-design.md")"
+# miễn trừ
 check "docs: PIPELINE.lock miễn trừ"            0 block "$(jp "$FIX/pipeline/docs/intent/x.md")"
 check "docs: docs trong src cho qua"            0 block "$(jp "$FIX/plainsrc/apps/web/src/docs/foo.md")"
 check "warn: .planning nhắc chuyển"             2 warn  '{"tool_input":{"file_path":"/repo/.planning/x.md","content":"x"}}'
+says  "warn: .planning nhắc tới issue Linear"   warn  '{"tool_input":{"file_path":"/repo/.planning/x.md","content":"x"}}' "issue Linear"
 rm -rf "$FIX"
 
 echo "----"

@@ -1,6 +1,6 @@
 ---
 name: review-health
-description: Structural health review of a repository — architecture and coupling, dependency risk, and drift between living docs/schema/config and the code. Run it at a milestone, after a large refactor or a big merge, when git churn is concentrated in a few files, when the user says the code is hard to change or keeps breaking in the same place, or as the first review on a repo that has never been reviewed (cold start — this is the cheapest profile: it needs only the repo, no running app and no diff). Do NOT run it to review a specific change or diff (use /review-change), to review UX, user flow or runtime behavior (use /review-experience), or to decide whether to ship (use /review-release).
+description: Structural health review of a repo — architecture and coupling, dependency risk, and drift between living docs/schema/config and the code. Use at a milestone, after a big refactor or merge, or as the first review on a never-reviewed repo; needs only the repo, no running app and no diff. Not for a specific change or diff (use /review-change), not for UX or runtime behavior (use /review-experience), not for a ship decision (use /review-release).
 ---
 
 # /review-health
@@ -90,16 +90,16 @@ MANIFEST:  <verbatim `git status --porcelain` output, or "clean working tree">
 
 **Do not pre-collect evidence.** Do not read the code tree, run the audit tool, or run the docs scripts and paste the results into the prompts. That defeats the reason for using subagents: your own context fills up, the same evidence is duplicated three times, and a reviewer can no longer follow a thread out of whatever bundle you happened to assemble. You pass objective + scope + manifest. Nothing else.
 
-**Do not let subagents write files.** Three writers racing on `docs/review/*.md` produce conflicts and inconsistent format. They return findings as text; you write once.
+**Do not let subagents write files or post comments.** Three writers racing on one issue produce conflicts and inconsistent format. They return findings as text; you post once.
 
-## 5. Merge and write ONE report
+## 5. Merge and post ONE report
 
-Format, header fields, finding schema, domain list, budget and freshness rules all live in `~/.claude/templates/review-report.md`. Follow it; do not restate it here and do not invent fields.
+Format, header fields, finding schema, domain list, budget and freshness rules all live in `~/.claude/templates/review-report.md`. Follow it; do not restate it here and do not invent fields. The report is `save_comment { issueId: <ISSUE-ID>, body }` on the issue the review was asked under — ask for the id if none was named; never a file in the repo.
 
 Fixed for this profile:
 
 ```
-path:         docs/review/<YYYY-MM-DD>-health-worktree-<run_id>.md
+where:        comment on issue <ISSUE-ID>
 profile:      health
 scope:        worktree
 source_kind:  working-tree
@@ -118,13 +118,13 @@ Merging:
 
 ## 6. Report back
 
-Give the user: the report path, the coverage line in one sentence, and the blockers plus the highest-severity findings. Do not paste the whole report back.
+Give the user: the comment URL, the coverage line in one sentence, and the blockers plus the highest-severity findings. Do not paste the whole report back.
 
-Findings live in the report and nowhere else. Anything the user decides to act on, they move by hand into a living doc (`docs/CONTEXT.md`, `docs/ARCHITECTURE.md`) or into an issue (`gh issue create`). There is no register and no auto-filing.
+Findings live in the report comment and nowhere else. Anything the user decides to act on, they turn into a Linear issue or a `docs/internals/` rewrite by hand. There is no register and no auto-filing.
 
 ## Hard rules
 
-- The parent writes the report. Reviewers never do.
+- The parent posts the report. Reviewers never do. No file in the repo.
 - `git status --porcelain` for the manifest and the digest — never `git diff`.
 - All three dispatch calls in one message.
 - No finding without evidence. `blocked` with a reason beats a plausible guess.

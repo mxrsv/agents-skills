@@ -1,6 +1,6 @@
 ---
 name: review-experience
-description: Review the real user experience of a running app in a real browser — walk the affected flows, force loading/error/empty states, check 375/768/1440, and capture console and network evidence. Use after UI, navigation or flow changes when a dev or staging URL is reachable, or when someone reports the app is confusing, broken or slow in actual use. Requires a running app. Not for code-level bugs (use /review-change) and not for architecture, dependency or docs health (use /review-health).
+description: Review the real user experience of a running app in a real browser — walk the affected flows, force loading/error/empty states, check 375/768/1440, capture console and network evidence. Use after UI, navigation or flow changes when a dev or staging URL is reachable, or when the app is reported confusing or broken in actual use. Not for code-level bugs (use /review-change), not for architecture or docs health (use /review-health).
 ---
 
 # Review: experience
@@ -86,13 +86,13 @@ Agent({
 
 Claude Code: `subagent_type: "general-purpose"` is verified to inherit the Playwright MCP tools. Do not declare a `tools:` allowlist anywhere; that has been observed to *remove* tools rather than restrict them.
 
-## Step 4 — Write the report
+## Step 4 — Post the report
 
-The subagent returns findings and screenshot paths. **The parent writes the file.** Never let the subagent write into `docs/`.
+The subagent returns findings and screenshot paths. **The parent posts the comment.** Never let the subagent post into Linear or write into `docs/`.
 
-1. Copy every referenced screenshot from the Playwright output directory into `docs/review/assets/<run_id>/`, keeping filenames.
-2. Rewrite each finding's `evidence` to the copied path.
-3. Write one report at `docs/review/YYYY-MM-DD-experience-<scope>-<run_id>.md` per `~/.claude/templates/review-report.md`.
+1. Upload every referenced screenshot to the issue, one at a time: `prepare_attachment_upload { issue, filename, contentType: "image/png", size }` → `curl -X PUT --data-binary @<path>` with every header from `uploadRequest.headers` verbatim → `create_attachment_from_upload { issue, assetUrl, title: "<run_id>/<filename>" }`. The signed URL lives 60 s, so finish one file before preparing the next.
+2. Rewrite each finding's `evidence` to the attachment title (`<run_id>/<filename>`).
+3. Post one comment with `save_comment { issueId: <ISSUE-ID>, body }` per `~/.claude/templates/review-report.md` §2–§4, `profile: experience`. Without the Linear MCP, describe each screenshot in the finding text and print the body in chat — never a file.
 
 Header specifics for this profile:
 
@@ -120,7 +120,7 @@ Finally, clean up: close the browser (`browser_close`) and delete the Playwright
 
 Everything else the walk needs — **`browser_network_requests`** (load-bearing for `runtime`), `browser_click`, `browser_type`, `browser_fill_form`, `browser_press_key`, `browser_wait_for`, `browser_select_option`, `browser_navigate_back`, `browser_close` — still works, but may stop and ask for permission part-way through. Expect it; it is not a failure.
 
-**Artifacts land in `.playwright-mcp/` in the working directory**, and that path is not gitignored. Screenshots and snapshots go there by default. Copy what the report references into `docs/review/assets/<run_id>/` and delete the rest before finishing, or the next `git status` is full of noise.
+**Artifacts land in `.playwright-mcp/` in the working directory**, and that path is not gitignored. Screenshots and snapshots go there by default. Upload what the report references as issue attachments (Step 4) and delete the whole directory before finishing, or the next `git status` is full of noise. Nothing from it is ever committed.
 
 **Evidence goes stale as you navigate.** `browser_network_requests` lists requests *since the current page load* — navigate away and the previous route's requests are gone. Harvest per route, before leaving it. Console has an `all: true` mode that survives navigation, so a final sweep works there; network does not have that luxury. Contract detail is in `reviewers/runtime.md`.
 

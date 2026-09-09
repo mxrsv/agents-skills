@@ -10,7 +10,7 @@ description: Đối chiếu tài liệu sống với code thật để tìm ch�
 | Lệnh                  | Quyền                                                                                                                         |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `/docs-drift`         | **READ-ONLY TUYỆT ĐỐI.** Không ghi file nào, kể cả ledger. In báo cáo ra màn hình.                                            |
-| `/docs-drift --apply` | Ghi ledger + mục "Chưa khớp thực tế". Trình **diff** cho người dùng duyệt trước. **Không** `git add`, **không** `git commit`. |
+| `/docs-drift --apply` | Đăng ledger thành comment trên issue Linear (hoặc tạo issue mới) + sửa/xoá đoạn doc drift. Trình **diff** cho người dùng duyệt trước. **Không** `git add`, **không** `git commit`. |
 
 Mặc định là scan. Chỉ chuyển sang apply khi người dùng gõ tường minh `--apply`.
 
@@ -22,7 +22,7 @@ Trước khi ghi bất cứ gì ở chế độ apply: chạy `git status --porc
 
 ## Bước 1 — trích claim kèm ý định
 
-Tài liệu sống = `AGENTS.md`, `README.md`, `CHANGELOG.md` ở gốc + `docs/*.md` viết HOA (kể cả legacy `PRD.md`, `UX-DESIGN.md`…). KHÔNG đụng `specs/`, `plans/`, `review/`, `mockups/` — chúng đóng băng theo thiết kế.
+Tài liệu sống = `AGENTS.md`, `README.md`, `CHANGELOG.md` ở gốc + `docs/README.md`, `docs/DESIGN-LANGUAGE.md`, mọi file dưới `docs/{user,internals,operations}/` (+ `docs/*.md` viết HOA legacy còn chưa dọn: `ARCHITECTURE.md`, `CONTEXT.md`, `PRD.md`…). KHÔNG đụng `specs/`, `plans/`, `review/`, `mockups/` — legacy đóng băng, chờ dọn; việc đang làm là issue Linear.
 
 Mỗi claim có **ý định** (nhãn backtick sau anchor; thiếu nhãn → mặc định `current`):
 
@@ -54,13 +54,13 @@ Mỗi claim có **ý định** (nhãn backtick sau anchor; thiếu nhãn → m�
 
 - KHÔNG sửa code sản phẩm.
 - Chế độ scan: KHÔNG ghi file nào.
-- Chế độ apply: chỉ ghi ledger + mục "Chưa khớp thực tế". Sửa thân tài liệu phải hỏi riêng.
+- Chế độ apply: chỉ đăng ledger lên Linear + sửa đúng đoạn doc bị drift đã duyệt (D7: sửa hoặc xoá tại chỗ, KHÔNG thêm bảng "Chưa khớp thực tế"). Sửa ngoài các đoạn đó phải hỏi riêng.
 - KHÔNG suy từ doc sang doc. Mọi kết luận trỏ được về `file:line` hoặc lệnh git có output.
 - Không xác minh được → `unknown` kèm lý do. KHÔNG đoán.
 - KHÔNG `git add`, KHÔNG `git commit` (D14).
 
 ## Đầu ra khi `--apply`
 
-1. `docs/review/YYYY-MM-DD-doc-drift.md` — ledger: claim, tài liệu nguồn, ý định, trạng thái, bằng chứng, HEAD sha lúc audit.
-2. Mục "Chưa khớp thực tế" của tài liệu sống bị ảnh hưởng — **sau khi diff được duyệt**.
-3. Danh sách việc cần người quyết, xếp theo mức rủi ro nếu để nguyên.
+1. Ledger — comment `save_comment { issueId }` trên issue đang làm (không có → hỏi; người dùng cho phép thì `save_issue { team, title: "docs drift <repo> @<sha7>" }` rồi comment vào đó): claim, tài liệu nguồn, ý định, trạng thái, bằng chứng, HEAD sha lúc audit. Không có Linear MCP → in ledger ra chat, không ghi file.
+2. Đoạn doc bị drift trong tài liệu sống: viết lại cho đúng, hoặc xoá — **sau khi diff được duyệt** (D1, D7).
+3. Danh sách việc cần người quyết, xếp theo mức rủi ro nếu để nguyên; mỗi việc là một dòng trong comment, người dùng tách issue nếu muốn.

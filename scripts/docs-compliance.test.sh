@@ -13,65 +13,60 @@ code() { bash "$S" "$2" >/dev/null 2>&1; local c=$?
   if [ "$c" -eq "$3" ]; then pass=$((pass+1)); echo "PASS: $1"
   else fail=$((fail+1)); echo "FAIL: $1 (exit $c, cần $3)"; fi; }
 
-DRIFT='## Chưa khớp thực tế'
-
 A=$(mktemp -d)
-code "repo trắng trơn exit 1"          "$A" 1
-has  "báo thiếu AGENTS.md"             "$A" "AGENTS.md"
-has  "báo thiếu docs/ARCHITECTURE.md"  "$A" "docs/ARCHITECTURE.md"
+code  "repo trắng trơn exit 1"                 "$A" 1
+has   "báo thiếu AGENTS.md"                    "$A" "AGENTS.md"
+hasnt "KHÔNG còn đòi docs/ARCHITECTURE.md"     "$A" "ARCHITECTURE.md"
+hasnt "KHÔNG còn đòi docs/CONTEXT.md"          "$A" "CONTEXT.md"
 
-B=$(mktemp -d); mkdir -p "$B/docs"
-printf '# a\n%s\n' "$DRIFT" > "$B/AGENTS.md"
+B=$(mktemp -d)
+printf '# a\n' > "$B/AGENTS.md"
 printf '# claude\n' > "$B/CLAUDE.md"
-printf '# arch\n%s\n' "$DRIFT" > "$B/docs/ARCHITECTURE.md"
-printf '# ctx\n%s\n' "$DRIFT" > "$B/docs/CONTEXT.md"
 has "báo CLAUDE.md thiếu @AGENTS.md" "$B" "@AGENTS.md"
 
-C=$(mktemp -d); mkdir -p "$C/docs"
-printf '# a\n%s\n' "$DRIFT" > "$C/AGENTS.md"
+# cặp AGENTS.md + CLAUDE.md là đủ D5 — không cần docs/ gì cả, không cần mục drift
+C=$(mktemp -d)
+printf '# a\n' > "$C/AGENTS.md"
 printf '@AGENTS.md\n' > "$C/CLAUDE.md"
-printf '# arch\n' > "$C/docs/ARCHITECTURE.md"
-printf '# ctx\n%s\n' "$DRIFT" > "$C/docs/CONTEXT.md"
-has "báo thiếu mục Chưa khớp thực tế" "$C" "Chưa khớp thực tế"
+code  "cặp AGENTS+CLAUDE không docs/ exit 0"  "$C" 0
+hasnt "không còn đòi mục Chưa khớp thực tế"   "$C" "Chưa khớp thực tế"
 
-D=$(mktemp -d); mkdir -p "$D/docs"
-printf '# a\n%s\n' "$DRIFT" > "$D/AGENTS.md"
+D=$(mktemp -d); mkdir -p "$D/docs/internals"
+printf '# a\n[x](src/y.ts)\n' > "$D/AGENTS.md"
 printf '@AGENTS.md\n' > "$D/CLAUDE.md"
-printf '# arch\n[x](y.md)\n%s\n' "$DRIFT" > "$D/docs/ARCHITECTURE.md"
-printf '# ctx\n%s\n' "$DRIFT" > "$D/docs/CONTEXT.md"
-has "báo link thiếu nhãn ý định" "$D" "nhãn ý định"
+printf '# overview\n[z](../../src/y.ts)\n' > "$D/docs/internals/overview.md"
+has   "AGENTS.md link thiếu nhãn ý định bị báo" "$D" "AGENTS.md:2 link thiếu nhãn ý định"
+hasnt "docs/internals/ KHÔNG bị đòi nhãn"       "$D" "internals/overview.md"
 
-E=$(mktemp -d); mkdir -p "$E/docs"
-printf '# a\n%s\n' "$DRIFT" > "$E/AGENTS.md"
+E=$(mktemp -d); mkdir -p "$E/docs/user" "$E/docs/internals" "$E/docs/operations"
+printf '# a\n[x](src/y.ts) `current`\n' > "$E/AGENTS.md"
 printf '@AGENTS.md\n' > "$E/CLAUDE.md"
-printf '# arch\n[x](y.md) `current`\n%s\n' "$DRIFT" > "$E/docs/ARCHITECTURE.md"
-printf '# ctx\n%s\n' "$DRIFT" > "$E/docs/CONTEXT.md"
-code "repo đủ hết exit 0" "$E" 0
+printf '# index\n[u](user/a.md)\n' > "$E/docs/README.md"
+printf '# u\n' > "$E/docs/user/a.md"
+code "repo ba tầng đủ hết exit 0" "$E" 0
 
-E2=$(mktemp -d); mkdir -p "$E2/docs"
-printf '# a\n%s\n' "$DRIFT" > "$E2/AGENTS.md"
+E2=$(mktemp -d)
+printf '# a\n[x](y.md)\n`current`\n' > "$E2/AGENTS.md"
 printf '@AGENTS.md\n' > "$E2/CLAUDE.md"
-printf '# arch\n[x](y.md)\n`current`\n%s\n' "$DRIFT" > "$E2/docs/ARCHITECTURE.md"
-printf '# ctx\n%s\n' "$DRIFT" > "$E2/docs/CONTEXT.md"
 code "nhãn D6 ở dòng kế tiếp exit 0" "$E2" 0
 
-F=$(mktemp -d); mkdir -p "$F/docs"; : > "$F/PIPELINE.lock"
-printf '# a\n' > "$F/AGENTS.md"
+F=$(mktemp -d); mkdir -p "$F/docs/specs"; : > "$F/PIPELINE.lock"
+printf '# a\n[x](y.md)\n' > "$F/AGENTS.md"
 printf '@AGENTS.md\n' > "$F/CLAUDE.md"
-printf '# arch\n[x](y.md)\n' > "$F/docs/ARCHITECTURE.md"
-printf '# ctx\n' > "$F/docs/CONTEXT.md"
-code  "PIPELINE.lock đủ D5 exit 0" "$F" 0
-hasnt "PIPELINE.lock bỏ qua D7"    "$F" "Chưa khớp thực tế"
+code  "PIPELINE.lock đủ D5 exit 0"       "$F" 0
+hasnt "PIPELINE.lock bỏ qua D6"          "$F" "nhãn ý định"
+hasnt "PIPELINE.lock bỏ qua cảnh báo D3" "$F" "docs/specs/"
 
 G=$(mktemp -d); mkdir -p "$G/docs"; : > "$G/PIPELINE.lock"
 code "PIPELINE.lock KHÔNG miễn D5" "$G" 1
 
-H=$(mktemp -d); mkdir -p "$H/docs"
-printf '# a\n%s\n\n| Claim | Ý định | Trạng thái | Bằng chứng |\n| --- | --- | --- | --- |\n| backlog | `building` | chờ | spec |\n' "$DRIFT" > "$H/AGENTS.md"
+# thư mục legacy: cảnh báo, không đổi exit — repo dọn theo issue riêng
+H=$(mktemp -d); mkdir -p "$H/docs/specs" "$H/docs/review" "$H/docs/internals"
+printf '# a\n' > "$H/AGENTS.md"
 printf '@AGENTS.md\n' > "$H/CLAUDE.md"
-printf '# arch\n%s\n\nRỗng.\n' "$DRIFT" > "$H/docs/ARCHITECTURE.md"
-printf '# ctx\n%s\n\nRỗng.\n' "$DRIFT" > "$H/docs/CONTEXT.md"
-has "D7 từ chối backlog building trong bảng drift" "$H" "không nhận claim decided/building"
+has  "cảnh báo docs/specs/ còn tồn tại"  "$H" "⚠️ docs/specs/"
+has  "cảnh báo docs/review/ còn tồn tại" "$H" "⚠️ docs/review/"
+code "thư mục legacy không làm exit 1"   "$H" 0
 
 rm -rf "$A" "$B" "$C" "$D" "$E" "$E2" "$F" "$G" "$H"
 echo "----"; echo "pass=$pass fail=$fail"; [ "$fail" -eq 0 ]

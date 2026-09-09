@@ -39,21 +39,22 @@ Use this skill for fast orientation in a new repository.
 
 Ánh xạ kết quả recon vào đúng file theo D-rules:
 
-| Mục recon                                    | File đích                                                       | Template                                       |
-| -------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------- |
-| Stack, Common commands, Conventions, Gotchas | `AGENTS.md` (gốc repo)                                          | `~/.claude/templates/AGENTS.template.md`       |
-| —                                            | `CLAUDE.md` (gốc repo) — nội dung là đúng một dòng `@AGENTS.md` | —                                              |
-| Architecture, request/data flow              | `docs/ARCHITECTURE.md`                                          | `~/.claude/templates/ARCHITECTURE.template.md` |
-| Trạng thái hiện tại                          | `docs/CONTEXT.md`                                               | `~/.claude/templates/CONTEXT.template.md`      |
-| Key directories                              | `docs/CODEMAP.md` (tuỳ chọn)                                    | —                                              |
+| Mục recon                                    | File đích                                                       | Template                                             |
+| -------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------- |
+| Stack, Common commands, Conventions, Gotchas | `AGENTS.md` (gốc repo)                                          | `~/.claude/templates/AGENTS.template.md`             |
+| —                                            | `CLAUDE.md` (gốc repo) — nội dung là đúng một dòng `@AGENTS.md` | —                                                    |
+| Architecture, request/data flow, Key directories | `docs/internals/overview.md`                                | `~/.claude/templates/internals-overview.template.md` |
+| —                                            | `docs/README.md` — index trỏ tới `user/`, `internals/`, `operations/` (tầng nào không có thì không liệt kê) | — |
+
+"Trạng thái hiện tại" (đang làm gì, còn treo gì) KHÔNG sinh file — đó là issue Linear (D0/D4).
 
 Luật khi sinh:
 
-- **NEVER ghi đè file đã tồn tại.** Đã có → bỏ qua, báo "đã có". Sửa file cũ cho đúng D6/D7 là việc tay riêng, KHÔNG thuộc bootstrap.
-- Mọi claim về hành vi MUST là markdown link **tương đối từ chính file chứa link** + nhãn ý định (D6). Trong `docs/*.md` trỏ ra code → bắt đầu bằng `../`.
-- Mỗi file MUST kết bằng mục "Chưa khớp thực tế" (D7); rỗng thì ghi rõ rỗng.
+- **NEVER ghi đè file đã tồn tại.** Đã có → bỏ qua, báo "đã có". Sửa file cũ cho đúng D1/D6 là việc tay riêng, KHÔNG thuộc bootstrap.
+- Claim về hành vi trong `AGENTS.md` MUST là markdown link **tương đối từ chính file chứa link** + nhãn ý định (D6). Trong `docs/internals/*.md` trỏ ra code → bắt đầu bằng `../../`; không cần nhãn.
+- `docs/internals/overview.md` chỉ giữ điều "maintainer sẽ làm sai nếu thiếu": quyết định + lý do, constraint xuyên module, trap. Không catalog file, không kể lại control-flow (D9).
 - Không bịa. Không xác minh được → ghi `unknown`.
-- Xong thì chạy `bash ~/.claude/scripts/docs-compliance.sh <repo>` và dán output.
+- Xong thì chạy `bash ~/.claude/scripts/docs-compliance.sh <repo>` và `bash ~/.claude/scripts/docs-anchors.sh <repo>`, dán output.
 
 ## Quyền thao tác
 

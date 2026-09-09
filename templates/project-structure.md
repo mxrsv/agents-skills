@@ -17,14 +17,14 @@ src/
 ├─ hooks/                   # shared hooks: use-*.ts
 └─ types/                   # shared types
 e2e/                        # Playwright specs
-docs/                       # tài liệu (D-rules)
-  ARCHITECTURE.md           #   sống — module, luồng dữ liệu, ranh giới (bắt buộc)
-  CONTEXT.md                #   sống — xong gì, đang làm gì, còn treo gì (bắt buộc)
-  CODEMAP.md OPERATIONS.md PRODUCT.md DESIGN.md README.md   # sống, tuỳ chọn
-  specs/YYYY-MM-DD-<topic>-design.md
-  plans/YYYY-MM-DD-<topic>.md
-  review/YYYY-MM-DD-<topic>.md      # + assets/ cho ảnh
-  mockups/YYYY-MM-DD-<topic>.html
+docs/                       # tài liệu (D-rules) — ba tầng theo người đọc, không có thư mục "đang làm"
+  README.md                 #   index
+  internals/overview.md     #   sống — kiến trúc, quyết định + lý do, constraint, trap (điểm vào, D5)
+  internals/<topic>.md      #   chỉ khi "maintainer sẽ làm sai nếu thiếu"
+  user/<task>.md            #   hướng dẫn dùng, giọng sản phẩm, không chi tiết hiện thực
+  operations/<runbook>.md   #   setup, release, debug cho maintainer
+  DESIGN-LANGUAGE.md        #   chỉ repo có luật thiết kế số hoá
+  # spec / plan / review / mockup → issue Linear (D0/D4), KHÔNG có specs/ plans/ review/ trong repo
 AGENTS.md                   # luật riêng repo — bắt buộc (D5)
 CLAUDE.md                   # dòng đầu `@AGENTS.md` — bắt buộc (D5)
 ```

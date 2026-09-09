@@ -1,6 +1,5 @@
 {
-  "_note": "Các khoá thuộc bộ luật tài liệu (spec 2026-07-27 rev3). settings.json thật không được git track — file này là bản tái lập. Không chứa permissions/env/marketplace.",
-  "plansDirectory": "docs/plans",
+  "_note": "Các khoá thuộc bộ luật tài liệu (spec 2026-07-27 rev3, sửa 2026-09-07 MXR-38: plansDirectory bỏ — plan sống trong issue Linear, không trong docs/plans). settings.json thật không được git track — file này là bản tái lập. Không chứa permissions/env/marketplace.",
   "skillOverrides": {
     "brainstorm": "off",
     "planning": "off"
