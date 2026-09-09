@@ -10,6 +10,7 @@
 - **W8.** Kết thúc task → xoá file thí nghiệm/debug đã tạo; rà các file MỚI theo checklist F-rules.
 - **W9.** Lệnh thay đổi trạng thái khó đảo (xoá, reset DB, deploy, migrate) → soát lại bằng chứng có ủng hộ đúng hành động đó không; không chắc → hỏi.
 - **W10.** Frontend: tuân `<frontend_gate>` trong CLAUDE.md — chốt IDEA + APPROACH trước khi làm UI.
+- **W11.** Trước khi sửa file đầu tiên → `git status --porcelain`. Mặc định làm trên checkout và branch hiện tại, kể cả khi có file `M`/`??`; giữ nguyên thay đổi ngoài phạm vi task. KHÔNG tự tạo hoặc chuyển sang worktree chỉ vì checkout có thay đổi chưa commit. Commit luôn bằng `git commit -- <paths>`, NEVER `git add -A` / `git commit -a`. Verify thất bại → xác định lỗi có thuộc thay đổi của task trước khi kết luận; không bắt buộc tạo worktree sạch để kiểm chứng.
 
 ## Checklist trước khi báo hoàn thành
 
@@ -17,3 +18,4 @@
 - [ ] Có sửa gì ngoài scope không? (W3)
 - [ ] File tạm đã dọn, file mới đã soát F-rules chưa? (W8)
 - [ ] Commit message đúng chuẩn chưa? (W5)
+- [ ] Commit theo path, không quét file của phiên khác? (W11)
