@@ -35,8 +35,8 @@ D=$(mktemp -d); mkdir -p "$D/docs/internals"
 printf '# a\n[x](src/y.ts)\n' > "$D/AGENTS.md"
 printf '@AGENTS.md\n' > "$D/CLAUDE.md"
 printf '# overview\n[z](../../src/y.ts)\n' > "$D/docs/internals/overview.md"
-has   "AGENTS.md link thiếu nhãn ý định bị báo" "$D" "AGENTS.md:2 link thiếu nhãn ý định"
-hasnt "docs/internals/ KHÔNG bị đòi nhãn"       "$D" "internals/overview.md"
+hasnt "link không nhãn KHÔNG còn bị báo"        "$D" "nhãn ý định"
+code  "AGENTS+CLAUDE đủ D5 exit 0"              "$D" 0
 
 E=$(mktemp -d); mkdir -p "$E/docs/user" "$E/docs/internals" "$E/docs/operations"
 printf '# a\n[x](src/y.ts) `current`\n' > "$E/AGENTS.md"
@@ -54,7 +54,6 @@ F=$(mktemp -d); mkdir -p "$F/docs/specs"; : > "$F/PIPELINE.lock"
 printf '# a\n[x](y.md)\n' > "$F/AGENTS.md"
 printf '@AGENTS.md\n' > "$F/CLAUDE.md"
 code  "PIPELINE.lock đủ D5 exit 0"       "$F" 0
-hasnt "PIPELINE.lock bỏ qua D6"          "$F" "nhãn ý định"
 hasnt "PIPELINE.lock bỏ qua cảnh báo D3" "$F" "docs/specs/"
 
 G=$(mktemp -d); mkdir -p "$G/docs"; : > "$G/PIPELINE.lock"
