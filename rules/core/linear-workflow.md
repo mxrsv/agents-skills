@@ -4,7 +4,7 @@
 
 ## Chọn và nhận việc
 
-- **LW1.** Người dùng làm việc qua hội thoại; agent quản lý issue. Dùng Linear MCP cho thao tác được hỗ trợ; computer use cho phần thiếu, theo quyền đã cấp. Đọc issue và comment quyết định trước khi sửa; kiểm tra lại trạng thái trước khi ghi, giữ metadata không thuộc phạm vi thay đổi.
+- **LW1.** Người dùng làm việc qua hội thoại; agent quản lý issue. Dùng Linear MCP cho thao tác được hỗ trợ. Chỉ dùng Computer Use khi người dùng yêu cầu rõ trong công việc hiện tại; MCP thiếu chức năng không tự cấp quyền dùng Computer Use. Đọc issue và comment quyết định trước khi sửa; kiểm tra lại trạng thái trước khi ghi, giữ metadata không thuộc phạm vi thay đổi.
 - **LW2.** Người dùng chốt mục tiêu tuần và duyệt tập việc một lần. Agent tự kéo thêm việc nhỏ, rõ, cùng mục tiêu; việc ngoài mục tiêu vào Backlog, điều chưa rõ gắn `Needs decision` và hỏi. Thay đổi hướng sản phẩm, mở rộng phạm vi hoặc phát sinh chi phí cần duyệt.
 - **LW3.** Khi bắt đầu phiên hoặc được giao lập kế hoạch ngày: xem việc đang giữ và Blocked trước, rồi tự chọn tập việc khả thi trong mục tiêu tuần, nêu kết quả dự kiến và làm tiếp. Today là tập issue được chọn, không bắt người dùng tạo issue “Today”; không tạo bản sao issue, nhật ký ngày hoặc dùng due date giả để biểu diễn kế hoạch. Lịch tự chạy và cách lưu tập Today phải được cấu hình riêng; file luật không tạo scheduler.
 - **LW4.** Mỗi phiên chỉ thực thi một issue tại một thời điểm; được nhận việc tiếp khi issue trước chờ review hoặc Blocked. Không giới hạn tổng số issue chờ review; các phiên khác được làm song song. Ưu tiên xử lý blocker đã được gỡ, không lặp câu hỏi cũ khi chưa có thông tin mới.
