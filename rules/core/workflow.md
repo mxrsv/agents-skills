@@ -12,6 +12,8 @@
 - **W10.** Frontend: tuân `<frontend_gate>` trong CLAUDE.md — chốt IDEA + APPROACH trước khi làm UI.
 - **W11.** Trước khi sửa file đầu tiên → `git status --porcelain`. Mặc định làm trên checkout và branch hiện tại, kể cả khi có file `M`/`??`; giữ nguyên thay đổi ngoài phạm vi task. KHÔNG tự tạo hoặc chuyển sang worktree chỉ vì checkout có thay đổi chưa commit. Commit luôn bằng `git commit -- <paths>`, NEVER `git add -A` / `git commit -a`. Verify thất bại → xác định lỗi có thuộc thay đổi của task trước khi kết luận; không bắt buộc tạo worktree sạch để kiểm chứng.
 
+- **W12.** Cuối mỗi lượt có thao tác (sửa file, chạy lệnh/agent nền, ghi Linear) → dòng cuối báo tín hiệu đóng phiên. `🟢 Đóng session được` CHỈ khi đủ cả: thay đổi của task đã commit; bàn giao đã ghi lên issue Linear nếu có issue (LW6); không còn background process/subagent đang chạy; file tạm đã dọn (W8); không còn câu hỏi chờ người dùng trả lời. Thiếu một điều → `🔴 Chưa đóng được: <lý do cụ thể>`. Lượt chỉ hỏi đáp, không thao tác → bỏ dòng này.
+
 ## Checklist trước khi báo hoàn thành
 
 - [ ] Đã chạy verify và dán output chưa? (W4)
@@ -19,3 +21,4 @@
 - [ ] File tạm đã dọn, file mới đã soát F-rules chưa? (W8)
 - [ ] Commit message đúng chuẩn chưa? (W5)
 - [ ] Commit theo path, không quét file của phiên khác? (W11)
+- [ ] Dòng cuối đã báo 🟢/🔴 đóng session chưa? (W12)
