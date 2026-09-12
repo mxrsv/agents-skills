@@ -96,7 +96,7 @@ DO NOT use if WHAT/WHY is still unclear → go back to `brainstorm` first.
 - {việc cụ thể bị loại trừ 1}
 - {việc cụ thể bị loại trừ 2}
 
-<!-- Section 5 chỉ thêm khi có ≥3 open decisions HOẶC plan dự kiến >500 dòng -->
+<!-- Add section 5 only when there are ≥3 open decisions OR the plan is expected to exceed 500 lines -->
 
 ### 5. Rủi ro & Quyết định còn mở
 

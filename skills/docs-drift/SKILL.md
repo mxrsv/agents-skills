@@ -1,66 +1,66 @@
 ---
 name: docs-drift
-description: Đối chiếu tài liệu sống với code thật để tìm chỗ tài liệu mô tả hành vi code không có. Mặc định là scan READ-ONLY, không ghi file nào. Chỉ ghi khi chạy với --apply và sau khi người dùng duyệt diff. Fires ONLY when the user types /docs-drift.
+description: Cross-check the living docs against the real code to find places where the docs describe behavior the code does not have. Default is a READ-ONLY scan that writes no file. Writes only when run with --apply and after the user approves the diff. Fires ONLY when the user types /docs-drift.
 ---
 
-# docs-drift — audit tài liệu đối chiếu code
+# docs-drift — audit the docs against the code
 
-## Hai chế độ, tách hẳn
+## Two modes, strictly separated
 
-| Lệnh                  | Quyền                                                                                                                         |
+| Command               | Permissions                                                                                                                   |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `/docs-drift`         | **READ-ONLY TUYỆT ĐỐI.** Không ghi file nào, kể cả ledger. In báo cáo ra màn hình.                                            |
-| `/docs-drift --apply` | Đăng ledger thành comment trên issue Linear (hoặc tạo issue mới) + sửa/xoá đoạn doc drift. Trình **diff** cho người dùng duyệt trước. **Không** `git add`, **không** `git commit`. |
+| `/docs-drift`         | **ABSOLUTELY READ-ONLY.** Writes no file, not even the ledger. Prints the report to the screen.                               |
+| `/docs-drift --apply` | Posts the ledger as a comment on the Linear issue (or creates a new issue) + fixes/deletes the drifted doc passages. Presents the **diff** to the user for approval first. **No** `git add`, **no** `git commit`. |
 
-Mặc định là scan. Chỉ chuyển sang apply khi người dùng gõ tường minh `--apply`.
+The default is scan. Switch to apply only when the user explicitly types `--apply`.
 
-Trước khi ghi bất cứ gì ở chế độ apply: chạy `git status --porcelain` và báo nếu worktree đang bẩn — người duyệt cần phân biệt diff nào của skill, diff nào có sẵn.
+Before writing anything in apply mode: run `git status --porcelain` and report if the worktree is dirty — the reviewer needs to tell which diff is the skill's and which was already there.
 
-## Bước 0 — chạy tầng 1 trước
+## Step 0 — run tier 1 first
 
-`bash ~/.claude/scripts/docs-anchors.sh <doc-root>` để có danh sách anchor chết. Đó là drift chắc chắn, khỏi verify lại.
+`bash ~/.claude/scripts/docs-anchors.sh <doc-root>` to get the list of dead anchors. Those are certain drift, no need to re-verify.
 
-## Bước 1 — trích claim kèm ý định
+## Step 1 — extract claims with their intent
 
-Tài liệu sống = `AGENTS.md`, `README.md`, `CHANGELOG.md` ở gốc + `docs/README.md`, `docs/DESIGN-LANGUAGE.md`, mọi file dưới `docs/{user,internals,operations}/` (+ `docs/*.md` viết HOA legacy còn chưa dọn: `ARCHITECTURE.md`, `CONTEXT.md`, `PRD.md`…). KHÔNG đụng `specs/`, `plans/`, `review/`, `mockups/` — legacy đóng băng, chờ dọn; việc đang làm là issue Linear.
+Living docs = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root + `docs/README.md`, `docs/DESIGN-LANGUAGE.md`, every file under `docs/{user,internals,operations}/` (+ legacy UPPERCASE `docs/*.md` not yet cleaned up: `ARCHITECTURE.md`, `CONTEXT.md`, `PRD.md`…). Do NOT touch `specs/`, `plans/`, `review/`, `mockups/` — frozen legacy awaiting cleanup; work in progress is the Linear issue.
 
-Mỗi claim có **ý định** (nhãn backtick sau anchor; thiếu nhãn → mặc định `current`):
+Each claim has an **intent** (backticked label after the anchor; missing label → default `current`):
 
-| Nhãn         | Nghĩa                     |
-| ------------ | ------------------------- |
-| `current`    | mô tả trạng thái hiện tại |
-| `decided`    | đã quyết, chưa bắt đầu    |
-| `building`   | đang làm                  |
-| `deprecated` | đã gỡ, giữ để tham chiếu  |
+| Label        | Meaning                              |
+| ------------ | ------------------------------------ |
+| `current`    | describes the current state          |
+| `decided`    | decided, not started                 |
+| `building`   | in progress                          |
+| `deprecated` | removed, kept for reference          |
 
-**CHỈ audit claim `current`.** Claim `decided`/`building` mà code chưa có là **backlog đúng đắn** — KHÔNG đánh dấu drift, KHÔNG đưa vào bảng "Chưa khớp thực tế". Bỏ qua luôn đoạn tự đánh dấu "net-new / gap".
+**Audit ONLY `current` claims.** A `decided`/`building` claim the code does not have yet is **legitimate backlog** — do NOT mark it as drift, do NOT put it in a "Chưa khớp thực tế" table. Skip passages that mark themselves "net-new / gap" as well.
 
-## Bước 2 — xác minh bằng code, không bằng doc khác
+## Step 2 — verify with code, not with other docs
 
-1. `grep` / `glob` trong thư mục nguồn.
-2. Chạy test liên quan.
-3. `git log --all -S'<symbol>' -- ':!docs/'` khi cần biết symbol từng tồn tại chưa.
+1. `grep` / `glob` in the source directories.
+2. Run the related tests.
+3. `git log --all -S'<symbol>' -- ':!docs/'` when you need to know whether the symbol ever existed.
 
-⚠️ **`-S` tự đầu độc — BẮT BUỘC `-- ':!docs/'`.** Bản audit trước ghi `git log --all -S'FileSidebar'` → 0 commit; chạy lại sau đó → 1 commit, chính commit chứa bản audit. Không loại `docs/` thì mọi kết luận `not-in-history` tự phá sau lần chạy đầu.
+⚠️ **`-S` poisons itself — `-- ':!docs/'` is MANDATORY.** A previous audit recorded `git log --all -S'FileSidebar'` → 0 commits; rerun afterwards → 1 commit, the very commit containing the audit. Without excluding `docs/`, every `not-in-history` conclusion breaks itself after the first run.
 
-## Bước 3 — phân loại
+## Step 3 — classify
 
 `shipped` · `partial` · `not-in-history` · `removed` · `contradicted` · `unknown`.
 
-- `partial` phải nói rõ phần nào có, phần nào không — KHÔNG gộp thành "có".
-- Trước khi kết luận `not-in-history`: chạy `git rev-parse --is-shallow-repository` và tìm squash-merge. Có shallow hoặc squash → hạ xuống `unknown` kèm lý do. `-S` chỉ chứng minh "không thấy trong lịch sử reachable".
+- `partial` must state which part exists and which does not — do NOT collapse it into "exists".
+- Before concluding `not-in-history`: run `git rev-parse --is-shallow-repository` and look for squash merges. Shallow or squash present → downgrade to `unknown` with the reason. `-S` only proves "not seen in reachable history".
 
-## Ràng buộc cứng
+## Hard constraints
 
-- KHÔNG sửa code sản phẩm.
-- Chế độ scan: KHÔNG ghi file nào.
-- Chế độ apply: chỉ đăng ledger lên Linear + sửa đúng đoạn doc bị drift đã duyệt (D7: sửa hoặc xoá tại chỗ, KHÔNG thêm bảng "Chưa khớp thực tế"). Sửa ngoài các đoạn đó phải hỏi riêng.
-- KHÔNG suy từ doc sang doc. Mọi kết luận trỏ được về `file:line` hoặc lệnh git có output.
-- Không xác minh được → `unknown` kèm lý do. KHÔNG đoán.
-- KHÔNG `git add`, KHÔNG `git commit` (D14).
+- Do NOT edit product code.
+- Scan mode: write NO file.
+- Apply mode: only post the ledger to Linear + fix exactly the approved drifted doc passages (D7: fix or delete in place, do NOT add a "Chưa khớp thực tế" table). Edits outside those passages need a separate question.
+- Do NOT infer from doc to doc. Every conclusion must point back to a `file:line` or a git command with output.
+- Cannot verify → `unknown` with the reason. Do NOT guess.
+- NO `git add`, NO `git commit` (D14).
 
-## Đầu ra khi `--apply`
+## Output with `--apply`
 
-1. Ledger — comment `save_comment { issueId }` trên issue đang làm (không có → hỏi; người dùng cho phép thì `save_issue { team, title: "docs drift <repo> @<sha7>" }` rồi comment vào đó): claim, tài liệu nguồn, ý định, trạng thái, bằng chứng, HEAD sha lúc audit. Không có Linear MCP → in ledger ra chat, không ghi file.
-2. Đoạn doc bị drift trong tài liệu sống: viết lại cho đúng, hoặc xoá — **sau khi diff được duyệt** (D1, D7).
-3. Danh sách việc cần người quyết, xếp theo mức rủi ro nếu để nguyên; mỗi việc là một dòng trong comment, người dùng tách issue nếu muốn.
+1. Ledger — a `save_comment { issueId }` comment on the issue being worked (none → ask; if the user allows, `save_issue { team, title: "docs drift <repo> @<sha7>" }` then comment there): claim, source doc, intent, status, evidence, HEAD sha at audit time. No Linear MCP → print the ledger to chat, write no file.
+2. Drifted passages in the living docs: rewrite them correctly, or delete them — **after the diff is approved** (D1, D7).
+3. A list of items needing a human decision, ordered by the risk of leaving them as is; each item is one line in the comment, the user splits out issues if they want.

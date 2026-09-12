@@ -1,109 +1,109 @@
 ---
 name: log-wiki
-description: Capture knowledge vào Tolaria wiki từ mốc lastLoggedAt — cook gợi nhớ (Claude/Codex/Cursor + git), hỏi người kể, soạn entry, xin duyệt rồi ghi qua record-capture.js. Dùng khi người dùng nói "log-wiki", "ghi wiki", "capture wiki", "tổng kết knowledge wiki", hoặc gọi /log-wiki.
+description: Capture knowledge into the Tolaria wiki from the lastLoggedAt mark — cook memory prompts (Claude/Codex/Cursor + git), ask the narrator, draft the entry, get approval, then write via record-capture.js. Use when the user says "log-wiki", "ghi wiki", "capture wiki", "tổng kết knowledge wiki", or invokes /log-wiki.
 ---
 
-# Log wiki — capture knowledge vào vault
+# Log wiki — capture knowledge into the vault
 
-Đây là quy trình CÓ NGƯỜI Ở GIỮA, không phải script chạy một phát ra kết quả.
-**Máy KHÔNG tự sinh bài học / knowledge rồi ghi.** Gợi nhớ chỉ là gợi nhớ —
-nội dung entry PHẢI do người viết kể; agent chỉ soạn lại lời kể đó; người viết
-PHẢI duyệt trước khi bất kỳ thứ gì được ghi vào vault.
+This is a HUMAN-IN-THE-LOOP process, not a one-shot script that emits a result.
+**The machine does NOT generate lessons / knowledge on its own and write them.** Memory prompts are only prompts —
+the entry content MUST come from the writer's own account; the agent only reshapes that account; the writer
+MUST approve before anything is written to the vault.
 
-Bổ sung chứ không thay `/activity` (log-day): `/activity` = bài học cách làm việc;
-`log-wiki` = knowledge vault (fact, quyết định, chỗ note sai/thiếu, câu hỏi mở).
+Complements, does not replace, `/activity` (log-day): `/activity` = lessons about how work went;
+`log-wiki` = knowledge vault (facts, decisions, notes found wrong/missing, open questions).
 
-## Cảnh báo cứng
+## Hard warnings
 
-- Collect rỗng/mỏng **≠** hết chuyện để kể — vẫn hỏi người viết.
-- **Không** dùng `/insights` hay `usage-data` (đã đóng băng).
-- Bổ sung `/activity`, không thay thế; đừng hỏi lại góc "loay hoay hôm nay" kiểu log-day.
-- **Không** tự patch note Tolaria đích — chỉ đề xuất `[[note]]`; sau duyệt thì
-  `record-capture.js` append note tháng + cập nhật `lastLoggedAt`.
-- **Không** dump secret, prompt đầy đủ, stdout tool, hay nội dung transcript nhạy cảm.
+- An empty/thin collect **≠** nothing to tell — still ask the writer.
+- Do **not** use `/insights` or `usage-data` (frozen).
+- Complements `/activity`, does not replace it; do not re-ask the log-day style "what did you struggle with today" angle.
+- Do **not** patch the target Tolaria note yourself — only suggest `[[note]]`; after approval,
+  `record-capture.js` appends the monthly note + updates `lastLoggedAt`.
+- Do **not** dump secrets, full prompts, tool stdout, or sensitive transcript content.
 
 ## Codex / Cursor
 
-- Nguồn skill ở `~/.claude/skills/log-wiki/` (git); `~/.agents/skills/log-wiki` là symlink
-  tới đó nên Claude Code, Codex và Cursor đọc cùng một bản. Codex gọi bằng `$log-wiki`.
-- `~/.codex/AGENTS.md` là file sinh tự động — đừng sửa tay. Sửa nguồn ở
-  `~/.claude/CLAUDE.md` / `~/.claude/templates/codex-extra.md` rồi chạy
-  `~/.claude/scripts/render-agent-rules.sh` để đồng bộ. Nếu chưa sync:
-  dựa vào Cursor Automation (nhắc gap) + gọi tay skill này.
+- The skill source is `~/.claude/skills/log-wiki/` (git); `~/.agents/skills/log-wiki` is a symlink
+  to it, so Claude Code, Codex and Cursor read the same copy. Codex invokes it as `$log-wiki`.
+- `~/.codex/AGENTS.md` is a generated file — do not edit it by hand. Edit the source in
+  `~/.claude/CLAUDE.md` / `~/.claude/templates/codex-extra.md`, then run
+  `~/.claude/scripts/render-agent-rules.sh` to sync. If not synced yet:
+  rely on the Cursor Automation (gap reminder) + invoke this skill manually.
 
-## Bước 1 — Resolve vault
+## Step 1 — Resolve the vault
 
-1. Nếu có biến môi trường `WIKI_VAULT` và là đường dẫn absolute tồn tại → dùng.
-2. Không thì fallback:
+1. If the `WIKI_VAULT` environment variable is set and is an existing absolute path → use it.
+2. Otherwise fall back to:
    `/Users/kyantran/Documents/Development/Vault/mxrsv-wiki`
-   và **cảnh báo** đang dùng fallback.
-3. Mọi lệnh `node scripts/log-wiki/...` chạy từ gốc vault đó.
+   and **warn** that the fallback is in use.
+3. Every `node scripts/log-wiki/...` command runs from that vault root.
 
-## Bước 2 — Đọc mốc `lastLoggedAt`
+## Step 2 — Read the `lastLoggedAt` mark
 
-Đọc frontmatter `wiki-capture-state.md` tại gốc vault.
+Read the frontmatter of `wiki-capture-state.md` at the vault root.
 
-- Có `lastLoggedAt` dạng local `YYYY-MM-DD` → đó là `from` (đầu ngày local →
-  bound datetime khi collect; script lo phần convert nếu đã implement).
-- **Thiếu** → hỏi người viết mốc khởi tạo một lần (ví dụ hôm nay, hoặc ngày bắt
-  đầu muốn capture). Không suy `from` chỉ từ `git log` note.
+- `lastLoggedAt` present as a local `YYYY-MM-DD` → that is `from` (start of the local day →
+  bound datetime when collecting; the script handles the conversion if implemented).
+- **Missing** → ask the writer for the initial mark once (e.g. today, or the date they want
+  capture to start from). Do not derive `from` from the note's `git log` alone.
 
-## Bước 3 — Cook gợi nhớ
+## Step 3 — Cook the memory prompts
 
 ```bash
 node scripts/log-wiki/collect.js --from=<ISO-or-date> [--to=<ISO>] [--repo=<path>]*
 ```
 
-- Khoảng nửa mở `[from, to)`; mặc định `to` = now nếu script hỗ trợ.
-- Output stdout JSON: `from`, `to`, `sessions[]`, `repos[]`, `gitByRepo`, `coverage`.
-- **Không** in / không dán nguyên JSON có thể chứa prompt nhạy cảm vào chat dài.
-  Chỉ tóm tắt cấu trúc: coverage theo source, số orphan, vài repo + git headline.
+- Half-open range `[from, to)`; `to` defaults to now if the script supports it.
+- Stdout is JSON: `from`, `to`, `sessions[]`, `repos[]`, `gitByRepo`, `coverage`.
+- Do **not** print / paste the raw JSON, which may contain sensitive prompts, into a long chat.
+  Summarize the structure only: coverage per source, orphan count, a few repos + git headlines.
 
 ## Step 4 — Explain in the active Output Style's language, then ASK
 
-Tóm tắt ngắn (vài câu): khoảng thời gian, phiên Claude/Codex/Cursor (đếm),
-repo + commit đáng chú ý. Nhắc nếu collect mỏng/rỗng.
+A short summary (a few sentences): time range, Claude/Codex/Cursor sessions (counts),
+repos + notable commits. Mention if the collect is thin/empty.
 
-Rồi hỏi góc **knowledge wiki**, kiểu:
+Then ask from the **knowledge wiki** angle, along the lines of:
 
 > "Từ lần capture trước tới giờ, có knowledge nào đáng ghi vào wiki không —
 > fact mới, quyết định, chỗ note đang sai/thiếu, câu hỏi còn mở?"
 
-**Chờ người viết trả lời.** Không tự bịa bài học từ transcript.
+**Wait for the writer's answer.** Do not invent lessons from the transcript.
 
-## Bước 5 — Soạn bản nháp
+## Step 5 — Draft
 
-Từ lời kể (bổ sung chi tiết cụ thể từ gợi nhớ nếu người nhắc chung chung), soạn:
+From the writer's account (adding concrete details from the memory prompts if they speak in general terms), draft:
 
 - **headline**: one sentence for the capture period, in the active Output Style's language.
 - **3–8 bullets** in the active Output Style's language.
-- **Đề xuất** `[[note]]` liên quan (nếu có) — chỉ gợi ý, không sửa file đó.
+- **Suggested** related `[[note]]` (if any) — suggestion only, do not edit that file.
 
-Hiện bản nháp cho người viết đọc. **Không ghi file ở bước này.**
+Show the draft to the writer. **Do not write any file at this step.**
 
-## Bước 6 — Xin duyệt rõ
+## Step 6 — Ask for explicit approval
 
-Hỏi: "Ghi vậy được không, hay sửa gì?" Chỉ đi tiếp khi xác nhận rõ
-(kiểu "được", "ghi đi", "ok").
+Ask: "Ghi vậy được không, hay sửa gì?" Proceed only on an explicit confirmation
+(such as "được", "ghi đi", "ok").
 
-## Bước 7 — Ghi qua `record-capture.js`
+## Step 7 — Write via `record-capture.js`
 
-Pipe JSON đúng khuôn mà script expect (xem usage / test của
-`scripts/log-wiki/record-capture.js`) — tối thiểu khoảng thời gian, headline,
-bullets, suggestions. Ví dụ tinh thần:
+Pipe JSON in exactly the shape the script expects (see the usage / tests of
+`scripts/log-wiki/record-capture.js`) — at minimum the time range, headline,
+bullets, suggestions. In spirit:
 
 ```bash
 echo '<JSON>' | node scripts/log-wiki/record-capture.js
 ```
 
-- Skill **không** Edit tay `lastLoggedAt` hay append tháng bằng tay.
-- Script append `wiki-capture-YYYY-MM.md` + cập nhật state.
+- The skill does **not** hand-edit `lastLoggedAt` or append the monthly note by hand.
+- The script appends `wiki-capture-YYYY-MM.md` + updates the state.
 
-Báo lại file đã đụng và `lastLoggedAt` mới khi script thành công.
+Report the files touched and the new `lastLoggedAt` when the script succeeds.
 
-## Lỗi / tình huống thường gặp
+## Errors / common situations
 
-- Thiếu `collect.js` / `record-capture.js` → dừng, nói scripts chưa có (agent khác
-  đang làm); vẫn có thể hỏi người kể và giữ bản nháp chờ.
-- `lastLoggedAt` thiếu → hỏi mốc khởi tạo, không đoán thầm.
-- Collect rỗng → vẫn hỏi; trí nhớ người viết là nguồn sự thật của entry.
+- `collect.js` / `record-capture.js` missing → stop, say the scripts are not there yet (another agent
+  is on it); you can still ask the narrator and keep the draft pending.
+- `lastLoggedAt` missing → ask for the initial mark, do not guess silently.
+- Empty collect → still ask; the writer's memory is the entry's source of truth.

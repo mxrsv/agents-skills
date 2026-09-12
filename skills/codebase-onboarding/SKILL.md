@@ -18,7 +18,7 @@ Use this skill for fast orientation in a new repository.
    - request/data flow
    - project conventions
 3. Read only the files that matter for those findings.
-4. Xuất kết quả theo hợp đồng ở mục "Bootstrap" bên dưới.
+4. Emit the result according to the contract in the "Bootstrap" section below.
 
 ## Output Shape
 
@@ -37,29 +37,29 @@ Use this skill for fast orientation in a new repository.
 
 ## Bootstrap (`--bootstrap`)
 
-Ánh xạ kết quả recon vào đúng file theo D-rules:
+Map the recon results to the right files per the D-rules:
 
-| Mục recon                                    | File đích                                                       | Template                                             |
+| Recon item                                   | Target file                                                     | Template                                             |
 | -------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------- |
-| Stack, Common commands, Conventions, Gotchas | `AGENTS.md` (gốc repo)                                          | `~/.claude/templates/AGENTS.template.md`             |
-| —                                            | `CLAUDE.md` (gốc repo) — nội dung là đúng một dòng `@AGENTS.md` | —                                                    |
+| Stack, Common commands, Conventions, Gotchas | `AGENTS.md` (repo root)                                         | `~/.claude/templates/AGENTS.template.md`             |
+| —                                            | `CLAUDE.md` (repo root) — content is exactly one line `@AGENTS.md` | —                                                 |
 | Architecture, request/data flow, Key directories | `docs/internals/overview.md`                                | `~/.claude/templates/internals-overview.template.md` |
-| —                                            | `docs/README.md` — index trỏ tới `user/`, `internals/`, `operations/` (tầng nào không có thì không liệt kê) | — |
+| —                                            | `docs/README.md` — index pointing to `user/`, `internals/`, `operations/` (omit tiers that do not exist) | — |
 
-"Trạng thái hiện tại" (đang làm gì, còn treo gì) KHÔNG sinh file — đó là issue Linear (D0/D4).
+"Current status" (what is being worked on, what is pending) generates NO file — that lives in the Linear issue (D0/D4).
 
-Luật khi sinh:
+Rules when generating:
 
-- **NEVER ghi đè file đã tồn tại.** Đã có → bỏ qua, báo "đã có". Sửa file cũ cho đúng D1/D6 là việc tay riêng, KHÔNG thuộc bootstrap.
-- Claim về hành vi trong `AGENTS.md` MUST là markdown link **tương đối từ chính file chứa link** + nhãn ý định (D6). Trong `docs/internals/*.md` trỏ ra code → bắt đầu bằng `../../`; không cần nhãn.
-- `docs/internals/overview.md` chỉ giữ điều "maintainer sẽ làm sai nếu thiếu": quyết định + lý do, constraint xuyên module, trap. Không catalog file, không kể lại control-flow (D9).
-- Không bịa. Không xác minh được → ghi `unknown`.
-- Xong thì chạy `bash ~/.claude/scripts/docs-compliance.sh <repo>` và `bash ~/.claude/scripts/docs-anchors.sh <repo>`, dán output.
+- **NEVER overwrite an existing file.** Already exists → skip it and report "already exists". Fixing an old file to comply with D1/D6 is separate manual work, NOT part of bootstrap.
+- Behavior claims in `AGENTS.md` MUST be markdown links **relative to the file containing the link** + an intent label (D6). In `docs/internals/*.md`, links out to code → start with `../../`; no label needed.
+- `docs/internals/overview.md` keeps only what "a maintainer would get wrong without it": decisions + rationale, cross-module constraints, traps. No file catalogs, no control-flow retelling (D9).
+- Do not make things up. Cannot verify → write `unknown`.
+- When done, run `bash ~/.claude/scripts/docs-compliance.sh <repo>` and `bash ~/.claude/scripts/docs-anchors.sh <repo>`, and paste the output.
 
-## Quyền thao tác
+## Permissions
 
 | write             | approve                       | stage | commit |
 | ----------------- | ----------------------------- | ----- | ------ |
-| ✅ (không ghi đè) | ✅ trình cho người dùng duyệt | ❌    | ❌     |
+| ✅ (no overwrite) | ✅ present to the user for approval | ❌ | ❌     |
 
-KHÔNG `git add`, KHÔNG `git commit` (D14).
+NO `git add`, NO `git commit` (D14).
