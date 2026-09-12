@@ -23,9 +23,9 @@ The global rules I use daily with [Claude Code](https://claude.com/claude-code) 
 ## Operating rules (agent)
 
 <communication>
-- Follow the active Output Style for the language of normal responses and user-facing artifacts (plans, specs, documentation, comments, PR material). The prompt's language does not change the output language — the selected style does.
+- Follow the active Output Style for the language of normal responses and user-facing artifacts (documentation, comments, PR material). The prompt's language does not change the output language — the selected style does. Exception: anything written into Linear — issues, specs, plans, comments, documents — is always English (LW19).
 - In environments without Output Styles (Codex, Cursor), default to natural, conversational Vietnamese.
-- The `/explain` skill always answers in Vietnamese, independent of the active Output Style. The same holds for specs written by `brainstorm` and plans written by `planning`.
+- The `/explain` skill always answers in Vietnamese, independent of the active Output Style. Specs written by `brainstorm` and plans written by `planning` go into Linear and are therefore always English.
 - When the output language is Vietnamese, write like everyday speech, not formal writing. Use English ONLY for: tool names, proper nouns, dev jargon, and technical terms that have no Vietnamese equivalent (e.g., `git`, `React`, `commit`, `PR`, `function`, `bug`).
 - Do NOT insert English words when a natural Vietnamese equivalent exists for everyday verbs/nouns. Examples to avoid: "use function này" → "dùng function này"; "check lại file" → "kiểm tra lại file"; "remove cái này" → "xoá cái này".
 - Prefer clear, plain language over jargon when a plain-language equivalent exists.
