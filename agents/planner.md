@@ -42,72 +42,72 @@ Return the whole plan as one markdown block. If the payload says an existing `##
 
 ### Plan language
 
-Plan body AND section headings MUST be written in **Vietnamese**. Use English only for technical terms: file paths, commands, function/symbol names, framework and library names.
+Plan body AND section headings MUST be written in **English**, independent of the active Output Style and of the conversation language (LW19 — the plan is Linear content).
 
 ### Plan structure
 
 ```markdown
 ## Plan
 
-### 1. Kết quả mong đợi
+### 1. Expected outcomes
 
-{Trạng thái cuối cần đạt. Mỗi item phải verifiable bằng test/command/check cụ thể.}
+{The end state to reach. Every item must be verifiable with a specific test/command/check.}
 
-- [ ] {outcome 1} — verify bằng `{command hoặc test name}`
-- [ ] {outcome 2} — verify bằng `{command hoặc test name}`
+- [ ] {outcome 1} — verify with `{command or test name}`
+- [ ] {outcome 2} — verify with `{command or test name}`
 
-### 2. Nguồn dữ liệu chuẩn
+### 2. Canonical data sources
 
-**Canonical data**: {data nào là nguồn gốc, lấy từ đâu}
+**Canonical data**: {which data is the source of truth, and where it comes from}
 
-**Lấy từ**: {nguồn được phép}
+**Taken from**: {allowed sources}
 
-**KHÔNG lấy từ**: {nguồn bị cấm và lý do ngắn gọn}
+**NOT taken from**: {forbidden sources and a short reason}
 
-### 3. Business rules & invariants
+### 3. Rules & invariants
 
-- **{Tên rule}**: {mô tả rule} — verify bằng `{cách kiểm tra}`
-- **{Tên invariant}**: {guarantee kỹ thuật} — verify bằng `{cách kiểm tra}`
+- **{Rule name}**: {rule description} — verify with `{how to check}`
+- **{Invariant name}**: {technical guarantee} — verify with `{how to check}`
 
-### 4. Phạm vi / Ngoài phạm vi
+### 4. Scope / Out of scope
 
-**Làm**:
+**Do**:
 
-- {việc cụ thể 1}
-- {việc cụ thể 2}
+- {specific item 1}
+- {specific item 2}
 
-**KHÔNG làm**:
+**Do NOT**:
 
-- {việc cụ thể bị loại trừ 1}
-- {việc cụ thể bị loại trừ 2}
+- {specific excluded item 1}
+- {specific excluded item 2}
 
 <!-- Add section 5 only when there are ≥3 open decisions OR the plan is expected to exceed 500 lines -->
 
-### 5. Rủi ro & Quyết định còn mở
+### 5. Risks & open decisions
 
-**Đã chốt có rủi ro**:
+**Decided with risk**:
 
-- {decision đã chốt} — rủi ro: {consequence cụ thể}
+- {decision made} — risk: {specific consequence}
 
-**Chưa chốt cần resolve**:
+**Undecided, must resolve**:
 
-- {câu hỏi cần trả lời trước khi implement}
+- {question to answer before implementing}
 
-### 6. Các task
+### 6. Tasks
 
-#### Task 1: {tên task}
+#### Task 1: {task name}
 
 **File(s)**:
 
 - [~] `path/to/exact-file.ts`
 - [+] `path/to/new-file.ts`
 
-**Decision**: {WHAT đã chốt — không viết WHY ở đây}
+**Decision**: {WHAT was decided — do not write WHY here}
 
 **Build**:
 
-- [ ] {action cụ thể 1}
-- [ ] {action cụ thể 2}
+- [ ] {specific action 1}
+- [ ] {specific action 2}
 
 **Verify**:
 
@@ -116,7 +116,7 @@ Plan body AND section headings MUST be written in **Vietnamese**. Use English on
 
 ---
 
-#### Task 2: {tên task}
+#### Task 2: {task name}
 
 ...
 ```

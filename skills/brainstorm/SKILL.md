@@ -37,7 +37,7 @@ If `$issue-id` is provided (`MXR-12`), that issue is the spec's home: `get_issue
 3. **Ask questions**: ONE at a time. Not a list of 10.
 4. **Propose 2-3 approaches**: NEVER single option. Include pros, cons, "best if" for each.
 5. **Present design section by section**: Get feedback per section, not full dump.
-   - Bối cảnh → Nguồn dữ liệu chuẩn → Kiến trúc giải pháp → Failure modes → Hoàn thành & Loại trừ → Câu hỏi mở
+   - Context → Canonical data sources → Solution architecture → Failure modes → Done & Not done → Open questions
 6. **Write the spec into the issue**. Show the full text in chat first (D14), then:
    - Issue has no real description yet → `save_issue { id, description }` with the whole spec.
    - Issue already has a description → `save_issue { id, patch: [...] }` — `replace` the sections that changed, `append` new ones. Never paste a second full copy under the old one; the description is one spec, rewritten in place.
@@ -47,46 +47,46 @@ If `$issue-id` is provided (`MXR-12`), that issue is the spec's home: `get_issue
    ```markdown
    ## Spec
 
-   ### 1. Bối cảnh
+   ### 1. Context
 
    **Origin**:
 
-   - "{request gốc của user, copy nguyên văn}"
+   - "{the user's original request, copied verbatim}"
 
    **Problem**:
 
-   - {2-3 dòng. Không prescribe solution.}
+   - {2-3 lines. Do not prescribe a solution.}
 
    **Decisions**:
 
-   - {chốt gì, reject gì, lý do ngắn 1 dòng/decision}
+   - {what was decided, what was rejected, one-line reason per decision}
 
-   ### 2. Nguồn dữ liệu chuẩn
+   ### 2. Canonical data sources
 
    **Canonical**:
 
-   - {data/state/contract canonical, từ đâu}
+   - {canonical data/state/contract, and where it comes from}
 
-   **KHÔNG phải nguồn chuẩn**:
+   **NOT a canonical source**:
 
-   - {data/state không được dùng làm canonical}
+   - {data/state that must not be treated as canonical}
 
-   ### 3. Kiến trúc giải pháp
+   ### 3. Solution architecture
 
    **Components**:
 
-   - **{Component}**: {conceptual responsibility, không phải file list}
+   - **{Component}**: {conceptual responsibility, not a file list}
 
    **Data Flow**:
 
-   - {Chỉ thêm khi non-trivial: async, money, auth, signature, multi-boundary, multi-source state}
+   - {Add only when non-trivial: async, money, auth, signature, multi-boundary, multi-source state}
 
    ### 4. Failure modes
 
-   - Khi {trigger condition}, hệ thống phải {expected behavior}.
-   - Khi {...}, hệ thống phải {...}.
+   - When {trigger condition}, the system must {expected behavior}.
+   - When {...}, the system must {...}.
 
-   ### 5. Hoàn thành & Loại trừ
+   ### 5. Done & Not done
 
    **Done**:
 
@@ -94,10 +94,10 @@ If `$issue-id` is provided (`MXR-12`), that issue is the spec's home: `get_issue
 
    **Not done**:
 
-   - {cụ thể gì không làm}
+   - {specifically what is not done}
    - {constraints / soft limits}
 
-   ### 6. Câu hỏi mở
+   ### 6. Open questions
 
    - **ASSUMPTION**: {...}
    - **QUESTION**: {...}
@@ -117,7 +117,7 @@ If `$issue-id` is provided (`MXR-12`), that issue is the spec's home: `get_issue
 
 ## Spec language
 
-The spec body and section headings MUST be written in **Vietnamese**, independent of the active Output Style. Use English only for: file paths, commands, symbols, framework/library names, and the structural labels in the template (Origin, Problem, Decisions, Canonical, Components, Data Flow, Done, Not done, ASSUMPTION, QUESTION, BLOCKER).
+The spec body and section headings MUST be written in **English**, independent of the active Output Style and of the conversation language (LW19 — the spec is Linear content).
 
 ## Examples
 

@@ -49,7 +49,7 @@ DO NOT use if WHAT/WHY is still unclear → go back to `brainstorm` first.
 
 ### Constraints
 
-- The plan body and section headings MUST be written in **Vietnamese**, independent of the active Output Style. Use English only for: file paths, commands, symbols, framework/library names.
+- The plan body and section headings MUST be written in **English**, independent of the active Output Style and of the conversation language (LW19 — the plan is Linear content).
 - Inside an issue description the plan starts at `## Plan`; its sections are `###`. In a sub-issue the Task block is the whole description and starts at `## Task N: …`.
 - NO markdown tables, NO emoji, NO full code (shapes/key interfaces only).
 - File paths are plain backticked repo-relative paths (`src/auth/session.ts`) — a Linear description has no repo to resolve a relative link against.
@@ -61,70 +61,70 @@ DO NOT use if WHAT/WHY is still unclear → go back to `brainstorm` first.
 ```markdown
 ## Plan
 
-**Goal**: {1 câu mô tả plan này build cái gì}
-**Architecture**: {2-3 câu về approach kỹ thuật chính}
+**Goal**: {one sentence describing what this plan builds}
+**Architecture**: {2-3 sentences on the main technical approach}
 
-### 1. Kết quả mong đợi
+### 1. Expected outcomes
 
-{Trạng thái cuối cần đạt. Mỗi item phải verifiable bằng test/command/check cụ thể.}
+{The end state to reach. Every item must be verifiable with a specific test/command/check.}
 
-- {outcome 1} — verify bằng `{command hoặc test name}`
-- {outcome 2} — verify bằng `{command hoặc test name}`
+- {outcome 1} — verify with `{command or test name}`
+- {outcome 2} — verify with `{command or test name}`
 
-### 2. Nguồn dữ liệu chuẩn
+### 2. Canonical data sources
 
-**Canonical data**: {data nào là nguồn gốc, lấy từ đâu}
+**Canonical data**: {which data is the source of truth, and where it comes from}
 
-**Lấy từ**: {nguồn được phép}
+**Taken from**: {allowed sources}
 
-**KHÔNG lấy từ**: {nguồn bị cấm và lý do ngắn gọn}
+**NOT taken from**: {forbidden sources and a short reason}
 
-### 3. Business rules & invariants
+### 3. Rules & invariants
 
-- **{Tên rule}**: {mô tả rule} — verify bằng `{cách kiểm tra}`
-- **{Tên invariant}**: {guarantee kỹ thuật} — verify bằng `{cách kiểm tra}`
+- **{Rule name}**: {rule description} — verify with `{how to check}`
+- **{Invariant name}**: {technical guarantee} — verify with `{how to check}`
 
-### 4. Phạm vi / Ngoài phạm vi
+### 4. Scope / Out of scope
 
-**Làm**:
+**Do**:
 
-- {việc cụ thể 1}
-- {việc cụ thể 2}
+- {specific item 1}
+- {specific item 2}
 
-**KHÔNG làm**:
+**Do NOT**:
 
-- {việc cụ thể bị loại trừ 1}
-- {việc cụ thể bị loại trừ 2}
+- {specific excluded item 1}
+- {specific excluded item 2}
 
 <!-- Add section 5 only when there are ≥3 open decisions OR the plan is expected to exceed 500 lines -->
 
-### 5. Rủi ro & Quyết định còn mở
+### 5. Risks & open decisions
 
-**Đã chốt có rủi ro**:
+**Decided with risk**:
 
-- {decision đã chốt} — rủi ro: {consequence cụ thể}
+- {decision made} — risk: {specific consequence}
 
-**Chưa chốt cần resolve**:
+**Undecided, must resolve**:
 
-- {câu hỏi cần trả lời trước khi implement}
+- {question to answer before implementing}
 
-### 6. Các task
+### 6. Tasks
 
-- [ ] **Task 1: {tên task}**
+- [ ] **Task 1: {task name}**
 
   **File(s)**:
 
   - `path/to/exact-file.ts`
   - `path/to/new-file.ts`
 
-  **Phụ thuộc**: Task X (chỉ thêm field này khi thực sự có dependency)
+  **Depends on**: Task X (add this field only when there is a real dependency)
 
-  **Decision**: {WHAT đã chốt — không viết WHY ở đây}
+  **Decision**: {WHAT was decided — do not write WHY here}
 
   **Build**:
 
-  - {action cụ thể 1}
-  - {action cụ thể 2}
+  - {specific action 1}
+  - {specific action 2}
 
   **Verify**:
 
@@ -136,9 +136,9 @@ DO NOT use if WHAT/WHY is still unclear → go back to `brainstorm` first.
 
 ### Field rules
 
-- `Decision`: WHAT only. WHY belongs in section 5 "Rủi ro & Quyết định còn mở".
+- `Decision`: WHAT only. WHY belongs in section 5 "Risks & open decisions".
 - `Verify`: MUST reference a test name / command output / specific file check — never vague.
-- `Phụ thuộc`: optional. Add only when the task genuinely depends on another task finishing first. Otherwise omit the field. For sub-issues, also set `blockedBy` on the sub-issue so Linear shows the order.
+- `Depends on`: optional. Add only when the task genuinely depends on another task finishing first. Otherwise omit the field. For sub-issues, also set `blockedBy` on the sub-issue so Linear shows the order.
 
 ### No Placeholders
 
