@@ -1,23 +1,23 @@
-# Tạo file & cấu trúc (F-rules)
+# File creation & structure (F-rules)
 
-Luật khi tạo BẤT KỲ file mới nào, áp cho mọi loại repo.
+Rules for creating ANY new file, in every kind of repo.
 
-- **F1.** TRƯỚC KHI tạo file mới → tìm file cùng chức năng đã tồn tại (Glob/Grep). Đã có → sửa file đó, KHÔNG tạo bản mới.
-- **F2.** TRƯỚC KHI tạo file mới → xác định vị trí theo `AGENTS.md` của repo, hoặc `~/.claude/templates/project-structure.md`. Không chắc vị trí → HỎI, không đoán.
-- **F3.** NEVER tạo file tên dạng `.bak`, `.old`, `.orig`, `-v2`, `-v3`, `-final`, `-copy` — sửa trực tiếp file gốc, git giữ lịch sử.
-  - ❌ `auth-v2.ts`, `page.tsx.bak` → ✅ sửa thẳng `auth.ts`, `page.tsx`
-- **F4.** File tạm / thí nghiệm / debug / output trung gian → scratchpad của session, NEVER nằm trong repo.
-- **F5.** NEVER tạo mới file tên chung chung `utils.*`, `helpers.*`, `misc.*` — đặt tên theo chức năng.
+- **F1.** BEFORE creating a new file → look for an existing file with the same function (Glob/Grep). If one exists → edit it, do NOT create a new copy.
+- **F2.** BEFORE creating a new file → determine its location from the repo's `AGENTS.md`, or from `~/.claude/templates/project-structure.md`. Unsure about the location → ASK, do not guess.
+- **F3.** NEVER create files named like `.bak`, `.old`, `.orig`, `-v2`, `-v3`, `-final`, `-copy` — edit the original directly, git keeps the history.
+  - ❌ `auth-v2.ts`, `page.tsx.bak` → ✅ edit `auth.ts`, `page.tsx` directly
+- **F4.** Temporary / experimental / debug / intermediate-output files → the session scratchpad, NEVER inside the repo.
+- **F5.** NEVER create new files with generic names `utils.*`, `helpers.*`, `misc.*` — name them by function.
   - ❌ `utils.ts` → ✅ `format-date.ts`, `parse-url-params.ts`
-- **F6.** Tên file: kebab-case. Repo có convention khác (PascalCase component, snake_case Python) → theo repo.
-- **F7.** File mới MUST được import/tham chiếu bởi ít nhất một chỗ ngay trong cùng task — không để file mồ côi.
-- **F8.** Kích thước: 200–400 dòng điển hình, 800 max. Chạm ngưỡng → tách module theo rules của ngôn ngữ tương ứng.
-- **F9.** Một file một trách nhiệm — nội dung không thuộc trách nhiệm đó thì sang file khác.
+- **F6.** File names: kebab-case. If the repo has another convention (PascalCase components, snake_case Python) → follow the repo.
+- **F7.** A new file MUST be imported/referenced from at least one place within the same task — no orphan files.
+- **F8.** Size: 200–400 lines typical, 800 max. At the limit → split the module following the rules for that language.
+- **F9.** One file, one responsibility — content outside that responsibility goes to another file.
 
-## Checklist trước khi tạo file
+## Checklist before creating a file
 
-- [ ] Đã tìm file cùng chức năng chưa? (F1)
-- [ ] Vị trí đúng theo AGENTS.md / project-structure chưa? (F2)
-- [ ] Tên không dính pattern cấm, không chung chung? (F3, F5, F6)
-- [ ] Là file tạm? → scratchpad (F4)
-- [ ] Có nơi import/tham chiếu nó chưa? (F7)
+- [ ] Searched for a file with the same function? (F1)
+- [ ] Location matches AGENTS.md / project-structure? (F2)
+- [ ] Name avoids the banned patterns and is not generic? (F3, F5, F6)
+- [ ] Is it a temporary file? → scratchpad (F4)
+- [ ] Is there a place that imports/references it? (F7)

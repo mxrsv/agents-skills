@@ -1,35 +1,35 @@
-# Tài liệu & specs (D-rules)
+# Docs & specs (D-rules)
 
-## Spec của công việc
+## The spec for a piece of work
 
-- **D0.** Spec mặc định nằm trong **issue Linear**: description ghi mục tiêu, phạm vi, quyết định và acceptance criteria. Đọc issue cùng các comment quyết định liên quan trước khi làm; quyết định mới của người dùng thay phần cũ đã bị thay thế. Issue đủ rõ và đã được giao triển khai thì làm, không yêu cầu viết hoặc duyệt lại cùng một spec trong repo.
-- Chỉ tạo file spec trong repo khi người dùng yêu cầu rõ. Nếu chưa có issue, có thể soạn nội dung spec trong hội thoại; việc tạo/cập nhật issue theo phạm vi người dùng giao. Tài liệu trong repo chỉ liên kết tới issue khi cần, không giữ hai bản spec song song. Quy tắc này ưu tiên hơn bước bắt buộc ghi file spec trong các skill.
-- Không tự tạo checkpoint, daily hoặc nhật ký theo ngày; không dùng hook để ép các bước này. Tài liệu sống vẫn cập nhật theo thay đổi của code; tài liệu lịch sử đã có được giữ nguyên.
+- **D0.** The spec lives in the **Linear issue** by default: the description records the goal, scope, decisions and acceptance criteria. Read the issue and its decision comments before starting; a newer user decision replaces the older part it supersedes. If the issue is clear enough and has been handed over for implementation, do the work — do not ask for the same spec to be rewritten or re-approved in the repo.
+- Create a spec file in the repo only when the user explicitly asks. If there is no issue yet, the spec content may be drafted in the conversation; creating/updating the issue follows the scope the user assigned. Repo docs only link to the issue when needed; never keep two parallel copies of a spec. This rule takes precedence over any mandatory "write a spec file" step inside a skill.
+- Do not create checkpoints, dailies or per-day journals on your own; do not use hooks to force those steps. Living docs still get updated as the code changes; existing historical docs are left as they are.
 
-## Ba tầng tài liệu
+## Three tiers of documentation
 
-- **D1.** Sống = `AGENTS.md`, `README.md`, `CHANGELOG.md` ở gốc; `docs/README.md`, `docs/DESIGN-LANGUAGE.md` và mọi file dưới `docs/{user,internals,operations}/` → cập nhật tại chỗ: quyết định đổi thì VIẾT LẠI hoặc xoá đoạn cũ, không nối thêm bản kể thứ hai. Việc đang làm (spec, plan, research, review) = issue Linear (D0, D4), không commit vào repo; PR đã merge là bản ghi hiện thực. Tạm = scratchpad → không commit.
-- **D2.** Repo có `PIPELINE.lock` → theo convention pipeline đó: miễn **D3, D4, D6**. **KHÔNG miễn D5** — bề mặt luật của agent thì pipeline nào cũng cần.
+- **D1.** Living = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root; `docs/README.md`, `docs/DESIGN-LANGUAGE.md` and every file under `docs/{user,internals,operations}/` → update in place: when a decision changes, REWRITE or delete the old passage, do not append a second telling. Work in progress (spec, plan, research, review) = Linear issue (D0, D4), not committed to the repo; the merged PR is the record of what was actually done. Temporary = scratchpad → never committed.
+- **D2.** A repo with `PIPELINE.lock` → follow that pipeline's convention: **D3, D4, D6** are waived. **D5 is NOT waived** — every pipeline still needs the agent rule surface.
 
-## Vị trí & tên
+## Location & naming
 
-- **D3.** Thư mục con hợp lệ trong `docs/` CHỈ có ba tầng theo người đọc: `user/` (dùng sản phẩm), `internals/` (quyết định kiến trúc, constraint xuyên module, trap khó thấy từ code), `operations/` (runbook maintainer: setup, release, debug). File `.md` thẳng trong `docs/` CHỈ có `README.md` (index) và `DESIGN-LANGUAGE.md` khi repo có luật thiết kế số hoá. `internals/` là nơi duy nhất nhận doc mới, và chỉ khi "maintainer sẽ làm sai nếu thiếu đoạn này"; đọc code trả lời được thì bỏ. Cần tên ngoài danh sách → HỎI. NEVER `docs/specs/`, `docs/plans/`, `docs/review/`, `docs/superpowers/`, `.planning/`.
-- **D4.** Spec → description của issue Linear (D0). Plan → sub-issue của issue đó, hoặc mục `## Plan` checklist trong description khi nhỏ. Review → comment trên issue hoặc review comment trên PR; ảnh/asset → attachment của issue. Chỉ tạo file trong repo khi người dùng yêu cầu rõ, và khi đó file chỉ liên kết tới issue, không giữ hai bản song song.
-- **D5.** Mọi repo MUST có **cặp** `AGENTS.md` + `CLAUDE.md` ở gốc, với `CLAUDE.md` dòng đầu là `@AGENTS.md`. Claude Code KHÔNG tự đọc `AGENTS.md` — phải import; Codex và Cursor đọc trực tiếp. Kiến trúc, quyết định còn hiệu lực và trap → `docs/internals/` (điểm vào: `docs/internals/overview.md`); KHÔNG còn `docs/ARCHITECTURE.md` hay `docs/CONTEXT.md` — trạng thái "đang làm gì" sống trong issue Linear.
+- **D3.** The only valid subdirectories in `docs/` are the three reader tiers: `user/` (using the product), `internals/` (architecture decisions, cross-module constraints, traps hard to see from the code), `operations/` (maintainer runbooks: setup, release, debug). The only `.md` files directly in `docs/` are `README.md` (index) and `DESIGN-LANGUAGE.md` when the repo has codified design rules. `internals/` is the only place that accepts new docs, and only when "a maintainer would get it wrong without this passage"; if reading the code answers the question, drop it. Need a name outside this list → ASK. NEVER `docs/specs/`, `docs/plans/`, `docs/review/`, `docs/superpowers/`, `.planning/`.
+- **D4.** Spec → the Linear issue description (D0). Plan → a sub-issue of that issue, or a `## Plan` checklist section in the description when small. Review → a comment on the issue or a review comment on the PR; images/assets → issue attachments. Create a file in the repo only when the user explicitly asks, and then the file only links to the issue — never keep two parallel copies.
+- **D5.** Every repo MUST have the **pair** `AGENTS.md` + `CLAUDE.md` at the root, with `@AGENTS.md` as the first line of `CLAUDE.md`. Claude Code does NOT read `AGENTS.md` on its own — it must be imported; Codex and Cursor read it directly. Architecture, decisions still in force and traps → `docs/internals/` (entry point: `docs/internals/overview.md`); `docs/ARCHITECTURE.md` and `docs/CONTEXT.md` no longer exist — "what is being worked on" lives in the Linear issue.
 
-## Chống trôi so với code
+## Preventing drift from the code
 
-- **D7.** Drift (doc nói X, code làm Y) phát hiện trong task → sửa đoạn doc đó ngay nếu thuộc scope; ngoài scope → ghi thành issue Linear (hoặc comment trên issue đang làm) kèm `file:line` hai phía. KHÔNG giữ bảng "Chưa khớp thực tế" trong tài liệu — bảng đó là backlog trá hình, đã bỏ 2026-09-07 (MXR-37).
-- **D8.** Xoá/đổi tên module, gỡ tính năng → MUST cập nhật anchor trong tài liệu sống ngay trong cùng task.
-- **D9.** Task làm đổi kiến trúc, constraint xuyên module hoặc thêm trap → cập nhật trang `docs/internals/` liên quan trong cùng PR; đổi cách dùng → `docs/user/`; đổi runbook → `docs/operations/`. Chỉ khi "maintainer sẽ làm sai nếu thiếu"; PR summary, catalog file, kể lại control-flow → KHÔNG. Thuộc checklist W4.
+- **D7.** Drift (doc says X, code does Y) found during a task → fix that doc passage right away if it is in scope; out of scope → file a Linear issue (or a comment on the issue being worked) with `file:line` on both sides. Do NOT keep a "Chưa khớp thực tế" ("not matching reality") table in the docs — that table is a backlog in disguise, retired 2026-09-07 (MXR-37).
+- **D8.** Deleting/renaming a module or removing a feature → MUST update the anchors in the living docs within the same task.
+- **D9.** A task that changes architecture, a cross-module constraint or adds a trap → update the related `docs/internals/` page in the same PR; a change in usage → `docs/user/`; a change in a runbook → `docs/operations/`. Only when "a maintainer would get it wrong without it"; PR summaries, file catalogs, control-flow retellings → NO. Part of the W4 checklist.
 
-## Quy trình
+## Process
 
-- **D10.** Feature qua brainstorm cần spec được duyệt trước khi code; nội dung issue Linear và quyết định đã được người dùng chốt là spec hợp lệ (D0), không cần thêm file hoặc lượt duyệt trùng lặp.
-- **D12.** Thay đổi hành vi public (API, CLI, UI flow) → cập nhật `README.md`/`CHANGELOG.md` nếu repo có.
-- **D13.** Ngày tuyệt đối `YYYY-MM-DD`, NEVER "hôm nay/tuần trước".
-- **D14.** NEVER `git commit` tài liệu (`AGENTS.md`, `docs/**`) trước khi người dùng duyệt nội dung — áp cả khi skill bảo commit trước. Cập nhật issue/document Linear thì trình nội dung trong hội thoại trước khi ghi, trừ khi người dùng đã giao rõ.
+- **D10.** A feature that went through brainstorming needs an approved spec before code; the Linear issue content plus the decisions the user has locked in count as a valid spec (D0) — no extra file or duplicate approval round needed.
+- **D12.** A change in public behavior (API, CLI, UI flow) → update `README.md`/`CHANGELOG.md` if the repo has them.
+- **D13.** Absolute dates `YYYY-MM-DD`, NEVER "today/last week".
+- **D14.** NEVER `git commit` docs (`AGENTS.md`, `docs/**`) before the user has approved the content — even when a skill says to commit first. When updating a Linear issue/document, present the content in the conversation before writing it, unless the user has explicitly delegated that.
 
-## Khi đang sửa doc
+## While editing docs
 
-- **D6, D11, D15** và checklist viết doc → `~/.claude/rules/docs/living-docs.md`, nạp tự động khi chạm `docs/**`, `AGENTS.md`, `README.md`, `CHANGELOG.md`.
+- **D6, D11, D15** and the doc-writing checklist → `~/.claude/rules/docs/living-docs.md`, loaded automatically when touching `docs/**`, `AGENTS.md`, `README.md`, `CHANGELOG.md`.

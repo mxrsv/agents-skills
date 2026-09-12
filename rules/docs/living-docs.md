@@ -6,19 +6,19 @@ paths:
   - "**/CHANGELOG.md"
 ---
 
-# Tài liệu sống — luật khi đang sửa doc (D-rules bổ sung)
+# Living docs — rules while editing docs (supplementary D-rules)
 
-Nạp khi chạm `docs/**`, `AGENTS.md`, `README.md`, `CHANGELOG.md`.
-Luật D-rules luôn bật nằm ở `~/.claude/rules/core/docs.md`.
+Loaded when touching `docs/**`, `AGENTS.md`, `README.md`, `CHANGELOG.md`.
+The always-on D-rules live in `~/.claude/rules/core/docs.md`.
 
-- **D6.** Claim hành vi trong `AGENTS.md`, `README.md`, `CHANGELOG.md` và mọi trang dưới `docs/` MUST neo bằng markdown link **tương đối từ chính file chứa link**, và link phải còn sống (`docs-anchors.sh` quét cả hai nhóm). **Nhãn ý định `current`/`decided`/`building`/`deprecated` đã bỏ 2026-09-09** — nhãn đánh dấu trạng thái của spec/plan/CONTEXT, và bộ đó sống trong issue Linear chứ không trong repo; một tài liệu còn trong repo thì mặc định là đang đúng, sai thì sửa chứ không dán nhãn.
-  - ✅ trong `AGENTS.md`: `[move_pane_ownership](electron/coordinator.ts)`
-- **D11.** TRƯỚC KHI tạo doc mới → kiểm tra doc cùng chủ đề đã tồn tại; cập nhật thay vì nhân bản.
-- **D15.** Ngôn ngữ docs theo `AGENTS.md` của repo; chưa khai → theo ngôn ngữ chủ đạo của docs hiện có.
+- **D6.** Behavior claims in `AGENTS.md`, `README.md`, `CHANGELOG.md` and every page under `docs/` MUST be anchored with a markdown link **relative to the file containing the link**, and the link must resolve (`docs-anchors.sh` scans both groups). **The intent labels `current`/`decided`/`building`/`deprecated` were retired on 2026-09-09** — those labels marked the state of a spec/plan/CONTEXT, and that set lives in Linear issues, not in the repo; a document still in the repo is presumed correct by default — if it is wrong, fix it rather than label it.
+  - ✅ in `AGENTS.md`: `[move_pane_ownership](electron/coordinator.ts)`
+- **D11.** BEFORE creating a new doc → check whether a doc on the same topic already exists; update instead of duplicating.
+- **D15.** The language of the docs follows the repo's `AGENTS.md`; if not declared → follow the dominant language of the existing docs.
 
-## Checklist khi viết doc
+## Checklist when writing docs
 
-- [ ] Spec/plan/review vào issue Linear, không vào `docs/`? (D0/D4)
-- [ ] Đúng tầng `user/` · `internals/` · `operations/`, và "maintainer sẽ làm sai nếu thiếu"? (D3/D9)
-- [ ] Viết lại thay vì nối thêm; mọi link còn sống? (D1/D6)
-- [ ] Đã hỏi trước khi commit? (D14)
+- [ ] Spec/plan/review goes to the Linear issue, not `docs/`? (D0/D4)
+- [ ] Right tier `user/` · `internals/` · `operations/`, and "a maintainer would get it wrong without it"? (D3/D9)
+- [ ] Rewrote instead of appending; every link resolves? (D1/D6)
+- [ ] Asked before committing? (D14)

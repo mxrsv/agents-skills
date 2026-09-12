@@ -1,24 +1,24 @@
-# Quy trình làm việc (W-rules)
+# Workflow (W-rules)
 
-- **W1.** Mặc định làm thẳng. CHỈ brainstorm/spec khi chạm một trong ba ngưỡng: (a) yêu cầu mơ hồ hoặc có nhiều cách hiểu khác nhau về kết quả; (b) đổi kiến trúc, data model, hoặc public contract (API / CLI / UI flow); (c) người dùng yêu cầu rõ. Dưới ngưỡng → code luôn.
-- **W2.** Chỉ viết plan khi đã có spec được duyệt, hoặc việc kéo dài qua nhiều phiên / nhiều commit. Gặp bug → systematic-debugging trước khi sửa.
-- **W3.** Chỉ sửa trong phạm vi task. Phát hiện việc ngoài scope (refactor tiện tay, lỗi khác) → NÊU RA, không tự làm.
-- **W4.** NEVER báo "xong / đã sửa / pass" khi chưa chạy lệnh kiểm chứng (test / typecheck / build / screenshot) và dán output làm bằng chứng.
-- **W5.** Commit theo conventional commits có scope — `type(scope): mô tả`. Một commit = một việc trọn vẹn.
-- **W6.** Tuân luật branching trong CLAUDE.md: không tự tạo branch; branch (khi được yêu cầu) luôn đi kèm worktree.
-- **W7.** Bắt đầu chức năng mới đáng kể → tìm skeleton/foundation battle-tested trước khi tự dựng từ đầu.
-- **W8.** Kết thúc task → xoá file thí nghiệm/debug đã tạo; rà các file MỚI theo checklist F-rules.
-- **W9.** Lệnh thay đổi trạng thái khó đảo (xoá, reset DB, deploy, migrate) → soát lại bằng chứng có ủng hộ đúng hành động đó không; không chắc → hỏi.
-- **W10.** Frontend: tuân `<frontend_gate>` trong CLAUDE.md — chốt IDEA + APPROACH trước khi làm UI.
-- **W11.** Trước khi sửa file đầu tiên → `git status --porcelain`. Mặc định làm trên checkout và branch hiện tại, kể cả khi có file `M`/`??`; giữ nguyên thay đổi ngoài phạm vi task. KHÔNG tự tạo hoặc chuyển sang worktree chỉ vì checkout có thay đổi chưa commit. Commit luôn bằng `git commit -- <paths>`, NEVER `git add -A` / `git commit -a`. Verify thất bại → xác định lỗi có thuộc thay đổi của task trước khi kết luận; không bắt buộc tạo worktree sạch để kiểm chứng.
+- **W1.** Default to doing the work directly. ONLY brainstorm/spec when one of three thresholds is hit: (a) the request is ambiguous or there are several readings of the outcome; (b) it changes the architecture, data model, or a public contract (API / CLI / UI flow); (c) the user explicitly asks. Below the threshold → just code.
+- **W2.** Write a plan only when there is an approved spec, or the work spans multiple sessions / multiple commits. On a bug → systematic-debugging before fixing.
+- **W3.** Edit only within the task's scope. Out-of-scope work discovered (drive-by refactors, other bugs) → RAISE IT, do not do it yourself.
+- **W4.** NEVER report "done / fixed / passing" without running the verification command (test / typecheck / build / screenshot) and pasting the output as evidence.
+- **W5.** Conventional commits with a scope — `type(scope): description`. One commit = one complete piece of work.
+- **W6.** Follow the branching rules in CLAUDE.md: do not create branches on your own; a branch (when requested) always comes with a worktree.
+- **W7.** Starting a significant new feature → look for a battle-tested skeleton/foundation before building from scratch.
+- **W8.** At the end of a task → delete the experimental/debug files you created; check every NEW file against the F-rules checklist.
+- **W9.** Commands that change state in hard-to-reverse ways (delete, DB reset, deploy, migrate) → re-check that the evidence actually supports that specific action; unsure → ask.
+- **W10.** Frontend: follow `<frontend_gate>` in CLAUDE.md — lock IDEA + APPROACH before doing UI work.
+- **W11.** Before editing the first file → `git status --porcelain`. Work on the current checkout and branch by default, even when there are `M`/`??` files; leave changes outside the task's scope untouched. Do NOT create or switch to a worktree just because the checkout has uncommitted changes. Always commit with `git commit -- <paths>`, NEVER `git add -A` / `git commit -a`. Verification fails → determine whether the failure belongs to the task's changes before concluding; a clean worktree is not required for verification.
 
-- **W12.** Cuối mỗi lượt có thao tác (sửa file, chạy lệnh/agent nền, ghi Linear) → dòng cuối báo tín hiệu đóng phiên. `🟢 Đóng session được` CHỈ khi đủ cả: thay đổi của task đã commit; bàn giao đã ghi lên issue Linear nếu có issue (LW6); không còn background process/subagent đang chạy; file tạm đã dọn (W8); không còn câu hỏi chờ người dùng trả lời. Thiếu một điều → `🔴 Chưa đóng được: <lý do cụ thể>`. Lượt chỉ hỏi đáp, không thao tác → bỏ dòng này.
+- **W12.** At the end of every turn that performed actions (file edits, commands/background agents, Linear writes) → the last line reports the session-close signal. `🟢 Đóng session được` ("session can be closed") ONLY when all of the following hold: the task's changes are committed; the handoff is recorded on the Linear issue if there is one (LW6); no background process/subagent is still running; temporary files are cleaned up (W8); no question is waiting for the user's answer. Any one missing → `🔴 Chưa đóng được: <specific reason>` ("cannot close yet"). A Q&A-only turn with no actions → omit this line.
 
-## Checklist trước khi báo hoàn thành
+## Checklist before reporting completion
 
-- [ ] Đã chạy verify và dán output chưa? (W4)
-- [ ] Có sửa gì ngoài scope không? (W3)
-- [ ] File tạm đã dọn, file mới đã soát F-rules chưa? (W8)
-- [ ] Commit message đúng chuẩn chưa? (W5)
-- [ ] Commit theo path, không quét file của phiên khác? (W11)
-- [ ] Dòng cuối đã báo 🟢/🔴 đóng session chưa? (W12)
+- [ ] Ran verification and pasted the output? (W4)
+- [ ] Changed anything outside the scope? (W3)
+- [ ] Temporary files cleaned up, new files checked against F-rules? (W8)
+- [ ] Commit message follows the convention? (W5)
+- [ ] Committed by path, without sweeping in another session's files? (W11)
+- [ ] Last line reports the 🟢/🔴 session-close signal? (W12)
