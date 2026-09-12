@@ -1,53 +1,53 @@
-# Cấu trúc project chuẩn
+# Standard project structure
 
-Tài liệu tham chiếu cho L2/F2: khi plan cấu trúc file mới hoặc không chắc file đặt đâu.
-`AGENTS.md` của repo (nếu có) LUÔN thắng tài liệu này.
+Reference for L2/F2: when planning a new file structure or unsure where a file belongs.
+The repo's `AGENTS.md` (if any) ALWAYS wins over this document.
 
 ## 1. Next.js App Router
 
 ```
 src/
-├─ app/                     # routes; mỗi segment một thư mục
-│  ├─ (group)/page.tsx      # page theo route group
+├─ app/                     # routes; one directory per segment
+│  ├─ (group)/page.tsx      # page by route group
 │  └─ api/<resource>/route.ts
 ├─ components/
-│  ├─ ui/                   # primitives (shadcn) — không sửa tay khi generate được
-│  └─ <feature>/            # component theo feature; >400 dòng → folder module (xem rules/react)
+│  ├─ ui/                   # primitives (shadcn) — do not hand-edit what can be generated
+│  └─ <feature>/            # components by feature; >400 lines → folder module (see rules/react)
 ├─ lib/                     # pure functions, parsing, API clients
 ├─ hooks/                   # shared hooks: use-*.ts
 └─ types/                   # shared types
 e2e/                        # Playwright specs
-docs/                       # tài liệu (D-rules) — ba tầng theo người đọc, không có thư mục "đang làm"
+docs/                       # documentation (D-rules) — three reader tiers, no "in progress" directory
   README.md                 #   index
-  internals/overview.md     #   sống — kiến trúc, quyết định + lý do, constraint, trap (điểm vào, D5)
-  internals/<topic>.md      #   chỉ khi "maintainer sẽ làm sai nếu thiếu"
-  user/<task>.md            #   hướng dẫn dùng, giọng sản phẩm, không chi tiết hiện thực
-  operations/<runbook>.md   #   setup, release, debug cho maintainer
-  DESIGN-LANGUAGE.md        #   chỉ repo có luật thiết kế số hoá
-  # spec / plan / review / mockup → issue Linear (D0/D4), KHÔNG có specs/ plans/ review/ trong repo
-AGENTS.md                   # luật riêng repo — bắt buộc (D5)
-CLAUDE.md                   # dòng đầu `@AGENTS.md` — bắt buộc (D5)
+  internals/overview.md     #   living — architecture, decisions + reasons, constraints, traps (entry point, D5)
+  internals/<topic>.md      #   only when "a maintainer would get it wrong without it"
+  user/<task>.md            #   usage guides, product voice, no implementation detail
+  operations/<runbook>.md   #   setup, release, debug for maintainers
+  DESIGN-LANGUAGE.md        #   only for repos with codified design rules
+  # spec / plan / review / mockup → Linear issue (D0/D4), NO specs/ plans/ review/ in the repo
+AGENTS.md                   # repo-specific rules — required (D5)
+CLAUDE.md                   # first line `@AGENTS.md` — required (D5)
 ```
 
-- Dependency một chiều: `components/ → lib/`; NEVER `lib/ → components/` (kể cả type-only).
-- Route handler mỏng — logic nằm ở `lib/` hoặc `services/`.
-- Unit test đặt cạnh file: `foo.ts` + `foo.test.ts`.
+- One-way dependency: `components/ → lib/`; NEVER `lib/ → components/` (even type-only).
+- Thin route handlers — logic lives in `lib/` or `services/`.
+- Unit tests sit next to the file: `foo.ts` + `foo.test.ts`.
 
 ## 2. Node API service
 
 ```
 src/
-├─ routes/                  # HTTP handlers, mỏng
+├─ routes/                  # HTTP handlers, thin
 ├─ services/                # business logic
 ├─ repositories/            # data access (P1/P2 — repository pattern)
 ├─ lib/                     # pure utilities
 └─ types/
-prisma/                     # schema + migrations (nếu dùng Prisma)
-scripts/                    # CLI / ops scripts, mỗi script một việc
-data/                       # seed / fixture data được track
+prisma/                     # schema + migrations (if using Prisma)
+scripts/                    # CLI / ops scripts, one job per script
+data/                       # tracked seed / fixture data
 ```
 
-- Handler → service → repository; không nhảy tầng (handler không gọi thẳng repository).
+- Handler → service → repository; no skipping layers (a handler never calls a repository directly).
 
 ## 3. Vite + Tauri desktop
 
@@ -57,13 +57,13 @@ src/                        # frontend (TS)
 ├─ lib/
 └─ styles/
 src-tauri/
-└─ src/                     # Rust backend; command handlers mỏng
+└─ src/                     # Rust backend; thin command handlers
 scripts/                    # build / pipeline scripts
 ```
 
-- Logic dùng chung frontend/backend → định nghĩa contract ở một chỗ (types), không copy hai bản.
+- Logic shared between frontend/backend → define the contract in one place (types), do not keep two copies.
 
-## Mọi loại project
+## Every project type
 
-- File không rõ thuộc đâu → HỎI trước khi tạo (F2), đề xuất vị trí kèm lý do.
-- Loại project không nằm trong danh sách trên (Python pipeline, extension, notes…) → theo convention hiện có của repo; repo trống → đề xuất cấu trúc trong plan để duyệt trước.
+- File with no obvious home → ASK before creating it (F2), propose a location with a reason.
+- Project type not in the list above (Python pipeline, extension, notes…) → follow the repo's existing convention; empty repo → propose the structure in the plan for approval first.

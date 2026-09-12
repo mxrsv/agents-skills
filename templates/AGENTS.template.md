@@ -1,27 +1,27 @@
-> Chuẩn global: ~/.claude v{{YYYY-MM-DD}} — stamp ngày của chuẩn global lúc sinh file; cập nhật khi đồng bộ chuẩn mới.
+> Global standard: ~/.claude v{{YYYY-MM-DD}} — stamp the global standard's date when generating this file; update it when syncing to a newer standard.
 
-# {{Tên project}}
+# {{Project name}}
 
-{{One-liner project làm gì}}. Stack: {{Next.js 15 / Node 22 / Tauri 2 / ...}}.
+{{One-liner: what the project does}}. Stack: {{Next.js 15 / Node 22 / Tauri 2 / ...}}.
 
-## Lệnh thường dùng
+## Common commands
 
-| Lệnh                 | Tác dụng                 |
-| -------------------- | ------------------------ |
-| `{{pnpm dev}}`       | {{dev server, port nào}} |
-| `{{pnpm test}}`      | {{unit tests}}           |
-| `{{pnpm typecheck}}` | {{tsc --noEmit}}         |
-| `{{pnpm build}}`     | {{production build}}     |
+| Command              | Purpose                    |
+| -------------------- | -------------------------- |
+| `{{pnpm dev}}`       | {{dev server, which port}} |
+| `{{pnpm test}}`      | {{unit tests}}             |
+| `{{pnpm typecheck}}` | {{tsc --noEmit}}           |
+| `{{pnpm build}}`     | {{production build}}       |
 
-## Cấu trúc thư mục
+## Directory structure
 
 ```
-{{cây thư mục thực tế — chỉ các nhánh agent hay đụng, kèm chú thích 1 dòng/nhánh}}
+{{actual directory tree — only the branches agents touch often, with a one-line note per branch}}
 ```
 
-Vị trí khác chuẩn `~/.claude/templates/project-structure.md` (chỉ ghi điểm KHÁC):
+Locations that differ from the `~/.claude/templates/project-structure.md` standard (record only the DIFFERENCES):
 
-- {{loại file}} → `{{đường dẫn}}` — {{lý do 1 dòng}}
+- {{file type}} → `{{path}}` — {{one-line reason}}
 
 ## Documentation
 
@@ -46,18 +46,18 @@ The index is [docs/README.md](docs/README.md) `current`.
 - Plans, specs, research notes and review reports are not committed. A merged PR is the
   implementation record, and active work lives in the issue that owns it.
 
-{{Xoá tầng repo không có (repo CLI không có user/ …). Mục này KHÔNG nêu tên tool tracker — chọn tool là việc của người dùng, luật global D0/D4 đã nói.}}
+{{Delete the tiers the repo does not have (a CLI repo has no user/ …). This section does NOT name the tracker tool — choosing the tool is the user's call, and the global rules D0/D4 already cover it.}}
 
-## Luật riêng repo (R-rules — chỉ delta so với chuẩn global)
+## Repo-specific rules (R-rules — only the delta from the global standard)
 
-- **R1.** {{luật chỉ áp cho repo này, vd: NEVER chạy `prisma migrate dev` trần — dùng `pnpm migrate:dev`}}
+- **R1.** {{rule that applies only to this repo, e.g.: NEVER run bare `prisma migrate dev` — use `pnpm migrate:dev`}}
 - **R2.** {{...}}
 
-## Bẫy đã biết
+## Known traps
 
-- {{bẫy 1 — hiện tượng, nguyên nhân, file/lệnh liên quan}}
+- {{trap 1 — symptom, cause, related file/command}}
 
-## Ngôn ngữ
+## Language
 
 - Docs/comments: {{Tiếng Việt / English-only}}
 - Commit messages: {{English, conventional commits}}

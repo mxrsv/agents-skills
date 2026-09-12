@@ -1,32 +1,32 @@
-> Sinh từ `~/.claude/templates/internals-overview.template.md` — tài liệu SỐNG, cập nhật tại chỗ (D1, D9).
-> Điểm vào của `docs/internals/` (D5). Chỉ giữ điều "maintainer sẽ làm sai nếu thiếu"; đọc code trả lời được thì bỏ.
+> Generated from `~/.claude/templates/internals-overview.template.md` — a LIVING document, updated in place (D1, D9).
+> Entry point of `docs/internals/` (D5). Keep only what "a maintainer would get wrong without it"; if reading the code answers it, drop it.
 
-> **For maintainers.** Trang này nói về cách hệ thống được xây và tại sao — không phải hướng dẫn dùng.
+> **For maintainers.** This page is about how the system is built and why — not a usage guide.
 
-# {{Tên project}} — tổng quan nội bộ
+# {{Project name}} — internals overview
 
-{{Một câu: hệ thống làm gì, chạy trên nền gì}}
+{{One sentence: what the system does, what it runs on}}
 
-## Module và ranh giới
+## Modules and boundaries
 
-| Module  | Trách nhiệm | Vào        | Ra         |
-| ------- | ----------- | ---------- | ---------- |
-| {{tên}} | {{một câu}} | {{ai gọi}} | {{gọi ai}} |
+| Module   | Responsibility   | In               | Out               |
+| -------- | ---------------- | ---------------- | ----------------- |
+| {{name}} | {{one sentence}} | {{who calls it}} | {{what it calls}} |
 
-## Luồng dữ liệu chính
+## Main data flow
 
-1. {{bước}} — [{{hàm}}](../../{{path/to/file.ts}}#L10)
+1. {{step}} — [{{function}}](../../{{path/to/file.ts}}#L10)
 
-## Quyết định còn hiệu lực và lý do
+## Decisions still in force and their reasons
 
-- {{quyết định}} — {{vì sao, một câu}} — [{{bằng chứng}}](../../{{path}})
+- {{decision}} — {{why, one sentence}} — [{{evidence}}](../../{{path}})
 
-## Constraint xuyên module
+## Cross-module constraints
 
-- {{điều một module phải giữ để module khác không hỏng}}
+- {{what one module must uphold so another does not break}}
 
-## Trap khó thấy từ code
+## Traps hard to see from the code
 
-- {{hiện tượng → nguyên nhân → file/lệnh liên quan}}
+- {{symptom → cause → related file/command}}
 
-{{Quyết định đổi → VIẾT LẠI đoạn tương ứng, không nối thêm bản kể thứ hai (D1). Việc đang làm và drift → issue Linear (D4, D7).}}
+{{When a decision changes → REWRITE the corresponding passage, do not append a second telling (D1). Work in progress and drift → Linear issue (D4, D7).}}
