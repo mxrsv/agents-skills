@@ -135,7 +135,7 @@ This is a checkable test, not a vibe. It also has a floor: if you've gone severa
 
 The output of this skill is a **confirmed statement of intent**: the restate from Step 4, with an explicit yes from Step 5. That's the deliverable. Specs, plans, and task lists are downstream; they consume the intent this skill produces.
 
-If the user wants the intent to persist (a multi-session project, a handoff to another collaborator), offer to write it into the Linear issue that owns the work — as the opening `## Intent` block of the description (`save_issue` with `patch`), or as a comment when the description is already a spec. Only save if they confirm. Never a file in the repo (D4).
+For work needing a persistent plan, capture the agreed intent in the Goal and scope section of the same `docs/plans/YYYY-MM-DD-<slug>.md` task file (D0/D4); update an existing plan instead of creating a second artifact. Otherwise return it in chat. Do not require an issue key or external write; existing authorization to maintain the plan covers this update.
 
 ## Example
 

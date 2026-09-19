@@ -3,8 +3,8 @@
 # KHÁC docs-anchors.sh: script kia hỏi "anchor còn sống không", script này hỏi "có đủ không".
 # Từ 2026-09-07 (MXR-37/38): D5 chỉ còn cặp AGENTS.md + CLAUDE.md; docs/ARCHITECTURE.md,
 # docs/CONTEXT.md và mục "Chưa khớp thực tế" (D7 cũ) không còn bắt buộc — trạng thái đang
-# làm sống trong issue Linear. Nhãn ý định (D6 cũ) đã bỏ 2026-09-09 cùng MXR-36: nhãn
-# đánh dấu trạng thái của spec/CONTEXT, và bộ đó không còn nằm trong repo.
+# Task requirements and progress share one local plan; reviews default to chat.
+# Technical plans returned to docs/plans/ on 2026-09-18; they are execution records, not living docs.
 set -u
 root="${1:-$PWD}"; root="${root%/}"
 [ -d "$root" ] || { echo "docs-compliance: không có thư mục '$root'" >&2; exit 2; }
@@ -20,11 +20,11 @@ else
   say "thiếu CLAUDE.md — cần dòng đầu '@AGENTS.md' (D5)"
 fi
 
-# --- D3/D4: docs/ chỉ có ba tầng + README.md + DESIGN-LANGUAGE.md; thư mục việc-đang-làm là legacy ---
+# D3/D4: three living tiers plus plans/; other retired directories remain legacy.
 # Chỉ cảnh báo (không đổi exit): repo dọn dần theo issue riêng (Deck: MXR-36).
 if [ -d "$root/docs" ] && [ ! -f "$root/PIPELINE.lock" ]; then
-  for d in specs plans review superpowers intent decisions daily archive mockups; do
-    [ -d "$root/docs/$d" ] && echo "⚠️ docs/$d/ còn tồn tại — spec/plan/review là issue Linear, thư mục này chờ dọn (D3/D4)"
+  for d in specs review superpowers intent decisions daily archive mockups; do
+    [ -d "$root/docs/$d" ] && echo "⚠️ docs/$d/ còn tồn tại — retired directory; requirements belong in the task plan, reviews in chat or a requested PR (D3/D4)"
   done
 fi
 

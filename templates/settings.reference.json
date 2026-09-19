@@ -1,5 +1,5 @@
 {
-  "_note": "Các khoá thuộc bộ luật tài liệu (spec 2026-07-27 rev3, sửa 2026-09-07 MXR-38: plansDirectory bỏ — plan sống trong issue Linear, không trong docs/plans). settings.json thật không được git track — file này là bản tái lập. Không chứa permissions/env/marketplace.",
+  "_note": "Documentation workflow updated 2026-09-18: requirements, implementation and handoff share docs/plans/YYYY-MM-DD-<slug>.md, retained as task history; no external tracker is required. The global plansDirectory override remains unset; the planning skill manages canonical files. settings.json is untracked; this is its reproducible reference without permissions, env or marketplace settings.",
   "skillOverrides": {
     "brainstorm": "off",
     "planning": "off"

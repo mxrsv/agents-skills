@@ -38,7 +38,7 @@ Agent tool:
     Review criteria: {inline the contents of rules/review-criteria.md}
 ```
 
-The artifact lives in the Linear issue (D0/D4): `get_issue <id>` and paste the description's spec, or its `## Plan` section, as `{full text}`; a plan split into sub-issues → paste each sub-issue's description in order. Without the Linear MCP, ask the user to paste it. Never go looking for a spec or plan file in the repo.
+Requirements and implementation share the task plan under `docs/plans/` (D0/D4). Resolve the artifact from the supplied path or conversation; search for the existing task plan if necessary. For a spec review, read its requirements/decisions; for a plan review, read the technical tasks against those requirements and the checkout. Small tasks may provide their requirements in chat. If no artifact or goal can be identified, ask for that missing content, not a tracker id. Pass the actual artifact text to the reviewer. Historical plans describe their recorded revision and are not proposals for current behavior.
 
 Do NOT paste codebase contents — the subagent can read and search the codebase and should look for itself.
 
@@ -51,7 +51,7 @@ Do NOT paste codebase contents — the subagent can read and search the codebase
 
 - **EXECUTABLE: Yes** → present the report. Done.
 - **EXECUTABLE: Partial** → present the report. The user decides whether to proceed.
-- **EXECUTABLE: No** → fix HIGH/CRITICAL in the artifact (`save_issue { id, patch }` on the issue, after showing the change — D14), re-dispatch. Max 3 iterations.
+- **EXECUTABLE: No** → report HIGH/CRITICAL findings. If revision was authorized, edit the relevant requirements or tasks in the same repo plan (D14), then re-dispatch. Otherwise wait for direction. Max 3 iterations; changed scope/approach requires renewed approval.
 - **3 iterations exhausted** → stop and escalate to the user.
 
 ## Rules

@@ -29,4 +29,4 @@
 
 - {{symptom → cause → related file/command}}
 
-{{When a decision changes → REWRITE the corresponding passage, do not append a second telling (D1). Work in progress and drift → Linear issue (D4, D7).}}
+{{When a decision changes → REWRITE the corresponding passage, do not append a second telling (D1). Task progress → the existing task plan; out-of-scope drift → conversation (D4, D7).}}

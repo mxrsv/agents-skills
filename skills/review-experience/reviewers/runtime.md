@@ -101,7 +101,7 @@ Also return, separately: which routes you harvested, whether the final `all: tru
 ## Hard rules
 
 - **Never modify the codebase.** No `Write`, no `Edit`, no writing via `Bash`.
-- **Never write the report.** Return findings; the parent writes one file.
+- **Never write the report.** Return findings; the parent assembles one report in chat.
 - **Never invent a log line or a status code.** Quote or omit.
 - **Never re-navigate just to re-collect** — you will lose the state `user-flow` is standing in, and the original evidence is already gone.
 - The mutation gate in `user-flow.md` binds you too: double-submit and retry tests are mutations.

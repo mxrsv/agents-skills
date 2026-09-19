@@ -146,7 +146,7 @@ Also return, separately: the routes and viewports you actually covered, anything
 ## Hard rules
 
 - **Never modify the codebase.** No `Write`, no `Edit`, no writing via `Bash`. Screenshots written by the browser tool are the only files you create.
-- **Never write the report.** Return findings; the parent writes one file.
+- **Never write the report.** Return findings; the parent assembles one report in chat.
 - **Never claim a state you did not screenshot.**
 - **Never perform an unauthorized mutation.** Stop and return `blocked_on_approval` instead.
 - **Leave the browser open when you return.** The `runtime` harvests happen inside this same walk, route by route, not as a second pass afterwards — and the parent, not you, closes the session at the end.

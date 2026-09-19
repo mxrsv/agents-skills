@@ -60,11 +60,12 @@ G=$(mktemp -d); mkdir -p "$G/docs"; : > "$G/PIPELINE.lock"
 code "PIPELINE.lock KHÔNG miễn D5" "$G" 1
 
 # thư mục legacy: cảnh báo, không đổi exit — repo dọn theo issue riêng
-H=$(mktemp -d); mkdir -p "$H/docs/specs" "$H/docs/review" "$H/docs/internals"
+H=$(mktemp -d); mkdir -p "$H/docs/specs" "$H/docs/review" "$H/docs/internals" "$H/docs/plans"
 printf '# a\n' > "$H/AGENTS.md"
 printf '@AGENTS.md\n' > "$H/CLAUDE.md"
 has  "cảnh báo docs/specs/ còn tồn tại"  "$H" "⚠️ docs/specs/"
 has  "cảnh báo docs/review/ còn tồn tại" "$H" "⚠️ docs/review/"
+hasnt "technical plans are not legacy"   "$H" "⚠️ docs/plans/"
 code "thư mục legacy không làm exit 1"   "$H" 0
 
 rm -rf "$A" "$B" "$C" "$D" "$E" "$E2" "$F" "$G" "$H"

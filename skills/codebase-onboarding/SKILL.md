@@ -46,7 +46,7 @@ Map the recon results to the right files per the D-rules:
 | Architecture, request/data flow, Key directories | `docs/internals/overview.md`                                | `~/.claude/templates/internals-overview.template.md` |
 | —                                            | `docs/README.md` — index pointing to `user/`, `internals/`, `operations/` (omit tiers that do not exist) | — |
 
-"Current status" (what is being worked on, what is pending) generates NO file — that lives in the Linear issue (D0/D4).
+"Current status" belongs in the existing task plan's Handoff section, or in chat for small work (D0/D4). Do not create a separate status document or require a tracker.
 
 Rules when generating:
 

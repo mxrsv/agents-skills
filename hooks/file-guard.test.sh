@@ -36,11 +36,11 @@ check "warn: debug-* trong repo"       2 warn  '{"tool_input":{"file_path":"/rep
 check "warn: debug-* trong scratchpad OK" 0 warn '{"tool_input":{"file_path":"/private/tmp/claude-501/x/scratchpad/debug-probe.js","content":"x"}}'
 check "warn: *.log trong repo"         2 warn  '{"tool_input":{"file_path":"/repo/out.log","content":"x"}}'
 
-# ---- nhánh vị trí & tên tài liệu (D3/D4 từ 2026-09-07: ba tầng, spec/plan/review là issue Linear) ----
+# D3/D4: one task plan is allowed; separate spec/review directories stay blocked.
 FIX=$(mktemp -d)
 mkdir -p "$FIX/repo/.git" "$FIX/repo/docs/specs" "$FIX/repo/docs/plans" \
          "$FIX/repo/docs/review/assets" "$FIX/repo/docs/internals" \
-         "$FIX/plainsrc/apps/web/src/docs" "$FIX/pipeline/.git" "$FIX/pipeline/docs"
+         "$FIX/plainsrc/apps/web/src/docs" "$FIX/pipeline/.git" "$FIX/pipeline/docs" "$FIX/planrepo/.git"
 : > "$FIX/repo/docs/PRD.md"
 : > "$FIX/repo/docs/ARCHITECTURE.md"
 : > "$FIX/repo/docs/specs/2026-07-27-legacy-design.md"
@@ -54,16 +54,17 @@ check "docs: user/ chưa tồn tại vẫn cho qua"    0 block "$(jp "$FIX/repo/
 check "docs: operations/ cho qua"               0 block "$(jp "$FIX/repo/docs/operations/release.md")"
 check "docs: README.md cho qua"                 0 block "$(jp "$FIX/repo/docs/README.md")"
 check "docs: DESIGN-LANGUAGE.md cho qua"        0 block "$(jp "$FIX/repo/docs/DESIGN-LANGUAGE.md")"
-# spec/plan/review mới → chặn, kể cả tên đúng mẫu ngày cũ
+# Specs/reviews stay blocked; issue plans are allowed, including before the directory exists.
 check "docs: spec mới bị chặn"                  2 block "$(jp "$FIX/repo/docs/specs/2026-09-07-x-design.md")"
-check "docs: plan mới bị chặn"                  2 block "$(jp "$FIX/repo/docs/plans/2026-09-07-x.md")"
+check "docs: dated task plan is allowed"             0 block "$(jp "$FIX/repo/docs/plans/2026-09-18-export-csv.md")"
+check "docs: missing plans directory is allowed" 0 block "$(jp "$FIX/planrepo/docs/plans/2026-09-18-export-csv.md")"
 check "docs: review mới bị chặn"                2 block "$(jp "$FIX/repo/docs/review/2026-09-07-x.md")"
 check "docs: review/assets mới bị chặn"         2 block "$(jp "$FIX/repo/docs/review/assets/a.png")"
 check "docs: superpowers/ chưa tồn tại vẫn chặn" 2 block "$(jp "$FIX/repo/docs/superpowers/specs/x.md")"
 check "docs: intent/ bị chặn"                   2 block "$(jp "$FIX/repo/docs/intent/x.md")"
 check "docs: decisions/ bị chặn"                2 block "$(jp "$FIX/repo/docs/decisions/0030-x.md")"
 check "docs: mockups/ bị chặn"                  2 block "$(jp "$FIX/repo/docs/mockups/2026-09-07-x.html")"
-says  "docs: chặn spec nhắc tới issue Linear"   block "$(jp "$FIX/repo/docs/specs/2026-09-07-x-design.md")" "issue Linear"
+says  "docs: blocked spec points to local task plan" block "$(jp "$FIX/repo/docs/specs/2026-09-07-x-design.md")" "docs/plans/YYYY-MM-DD-<slug>.md"
 # tầng lạ, file HOA cũ
 check "docs: thư mục lạ bị chặn"                2 block "$(jp "$FIX/repo/docs/guides/x.md")"
 check "docs: CONTEXT.md MỚI bị chặn"            2 block "$(jp "$FIX/repo/docs/CONTEXT.md")"
@@ -76,7 +77,7 @@ check "docs: spec legacy đã tồn tại cho qua"    0 block "$(jp "$FIX/repo/d
 check "docs: PIPELINE.lock miễn trừ"            0 block "$(jp "$FIX/pipeline/docs/intent/x.md")"
 check "docs: docs trong src cho qua"            0 block "$(jp "$FIX/plainsrc/apps/web/src/docs/foo.md")"
 check "warn: .planning nhắc chuyển"             2 warn  '{"tool_input":{"file_path":"/repo/.planning/x.md","content":"x"}}'
-says  "warn: .planning nhắc tới issue Linear"   warn  '{"tool_input":{"file_path":"/repo/.planning/x.md","content":"x"}}' "issue Linear"
+says  "warn: .planning points to local task plan" warn '{"tool_input":{"file_path":"/repo/.planning/x.md","content":"x"}}' "docs/plans/YYYY-MM-DD-<slug>.md"
 rm -rf "$FIX"
 
 echo "----"

@@ -13,9 +13,10 @@ say() { echo "$1"; bad=1; }
 [ -f "$S" ] || { echo "❌ thiếu $S"; exit 1; }
 jq -e . "$S" >/dev/null 2>&1 || { echo "❌ $S không phải JSON hợp lệ"; exit 1; }
 
-# plansDirectory bỏ 2026-09-07 (MXR-38): plan sống trong issue Linear, không có thư mục plan trong repo.
+# Keep the global plansDirectory override unset. The planning skill owns canonical
+# dated repo task plans (D4); native planning scratch files are not that artifact.
 [ -z "$(jq -r '.plansDirectory // empty' "$S")" ] \
-  || say "❌ plansDirectory còn đặt ($(jq -r '.plansDirectory' "$S")) — xoá: plan là issue Linear (D4)"
+  || say "❌ plansDirectory còn đặt ($(jq -r '.plansDirectory' "$S")) — remove the global override; canonical repo plans are managed by the planning skill (D4)"
 
 for k in $(jq -r '.skillOverrides | keys[]' "$R"); do
   want=$(jq -r --arg k "$k" '.skillOverrides[$k]' "$R")

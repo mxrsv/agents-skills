@@ -11,14 +11,14 @@ paths:
 Loaded when touching `docs/**`, `AGENTS.md`, `README.md`, `CHANGELOG.md`.
 The always-on D-rules live in `~/.claude/rules/core/docs.md`.
 
-- **D6.** Behavior claims in `AGENTS.md`, `README.md`, `CHANGELOG.md` and every page under `docs/` MUST be anchored with a markdown link **relative to the file containing the link**, and the link must resolve (`docs-anchors.sh` scans both groups). **The intent labels `current`/`decided`/`building`/`deprecated` were retired on 2026-09-09** — those labels marked the state of a spec/plan/CONTEXT, and that set lives in Linear issues, not in the repo; a document still in the repo is presumed correct by default — if it is wrong, fix it rather than label it.
+- **D6.** Behavior claims in living docs (D1) MUST have resolving markdown links relative to the containing file; `docs-anchors.sh` scans these surfaces. Plans are execution records, outside that living-doc scan: verify active-plan paths against the checkout, distinguish planned files from existing ones, and keep task references reachable. Frozen plans describe their recorded revision, not current behavior. The intent labels `current`/`decided`/`building`/`deprecated` remain retired for living docs; the historical marker on a completed plan is a lifecycle marker, not a separate task tracker.
   - ✅ in `AGENTS.md`: `[move_pane_ownership](electron/coordinator.ts)`
 - **D11.** BEFORE creating a new doc → check whether a doc on the same topic already exists; update instead of duplicating.
-- **D15.** The language of the docs follows the repo's `AGENTS.md`; if not declared → follow the dominant language of the existing docs.
+- **D15.** Living-doc language follows the repo's `AGENTS.md`; if not declared, follow existing docs. Task plans, including requirements and handoff, are English under D4.
 
 ## Checklist when writing docs
 
-- [ ] Spec/plan/review goes to the Linear issue, not `docs/`? (D0/D4)
-- [ ] Right tier `user/` · `internals/` · `operations/`, and "a maintainer would get it wrong without it"? (D3/D9)
-- [ ] Rewrote instead of appending; every link resolves? (D1/D6)
+- [ ] Requirements and execution in one `docs/plans/` file when needed; reviews in chat or an explicitly requested PR; no duplicate checklist? (D0/D4)
+- [ ] Living docs in the right reader tier, or one canonical task plan? (D3/D9)
+- [ ] Updated active content in place; preserved frozen history; checked applicable links? (D1/D6)
 - [ ] Asked before committing? (D14)

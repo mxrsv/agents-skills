@@ -1,35 +1,34 @@
-# Docs & specs (D-rules)
+# Docs and task plans (D-rules)
 
-## The spec for a piece of work
+## One task, one working record
 
-- **D0.** The spec lives in the **Linear issue** by default: the description records the goal, scope, decisions and acceptance criteria. Read the issue and its decision comments before starting; a newer user decision replaces the older part it supersedes. If the issue is clear enough and has been handed over for implementation, do the work — do not ask for the same spec to be rewritten or re-approved in the repo.
-- Create a spec file in the repo only when the user explicitly asks. If there is no issue yet, the spec content may be drafted in the conversation; creating/updating the issue follows the scope the user assigned. Repo docs only link to the issue when needed; never keep two parallel copies of a spec. This rule takes precedence over any mandatory "write a spec file" step inside a skill.
-- Do not create checkpoints, dailies or per-day journals on your own; do not use hooks to force those steps. Living docs still get updated as the code changes; existing historical docs are left as they are.
+- **D0.** The conversation is where the user sets goals and approves decisions. For work that needs a plan (W2), keep requirements, scope, decisions, acceptance criteria, implementation tasks, verification and handoff together in one repo plan. A newer user decision supersedes the affected passage; update it in place. Small, clear work can stay in the conversation. Do not require Linear, an issue key, a claim comment or an external status update to start, review or hand off work. Use an external tracker only when the user explicitly asks for it in that task.
+- Do not create a separate spec, checkpoint, daily or journal by default. A brainstormed spec is the requirements section of the same plan; planning adds execution detail there. Follow existing task files instead of duplicating them. Older tracker records may remain as historical references; do not fetch, migrate or edit them automatically.
 
-## Three tiers of documentation
+## Living documentation and task history
 
-- **D1.** Living = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root; `docs/README.md`, `docs/DESIGN-LANGUAGE.md` and every file under `docs/{user,internals,operations}/` → update in place: when a decision changes, REWRITE or delete the old passage, do not append a second telling. Work in progress (spec, plan, research, review) = Linear issue (D0, D4), not committed to the repo; the merged PR is the record of what was actually done. Temporary = scratchpad → never committed.
-- **D2.** A repo with `PIPELINE.lock` → follow that pipeline's convention: **D3, D4, D6** are waived. **D5 is NOT waived** — every pipeline still needs the agent rule surface.
+- **D1.** Living = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root; `docs/README.md`, `docs/DESIGN-LANGUAGE.md` and every file under `docs/{user,internals,operations}/`. Rewrite or delete outdated passages in place. Plans in `docs/plans/` are task records: update the same file across sessions and PRs. After acceptance criteria and required approvals are met, mark the plan historical with a completion date and relevant implementation commits/PR links when available. Retain it in git; do not delete it in the closing PR or maintain it as a description of current behavior. Extract durable knowledge into living docs (D9). Raw logs, experiments and intermediate artifacts stay in scratchpad.
+- **D2.** A repo with `PIPELINE.lock` follows that pipeline's convention: D3, D4 and D6 are waived. D5 is not waived. A pipeline does not imply permission to use external services.
 
-## Location & naming
+## Location and naming
 
-- **D3.** The only valid subdirectories in `docs/` are the three reader tiers: `user/` (using the product), `internals/` (architecture decisions, cross-module constraints, traps hard to see from the code), `operations/` (maintainer runbooks: setup, release, debug). The only `.md` files directly in `docs/` are `README.md` (index) and `DESIGN-LANGUAGE.md` when the repo has codified design rules. `internals/` is the only place that accepts new docs, and only when "a maintainer would get it wrong without this passage"; if reading the code answers the question, drop it. Need a name outside this list → ASK. NEVER `docs/specs/`, `docs/plans/`, `docs/review/`, `docs/superpowers/`, `.planning/`.
-- **D4.** Spec → the Linear issue description (D0). Plan → a sub-issue of that issue, or a `## Plan` checklist section in the description when small. Review → a comment on the issue or a review comment on the PR; images/assets → issue attachments. Create a file in the repo only when the user explicitly asks, and then the file only links to the issue — never keep two parallel copies.
-- **D5.** Every repo MUST have the **pair** `AGENTS.md` + `CLAUDE.md` at the root, with `@AGENTS.md` as the first line of `CLAUDE.md`. Claude Code does NOT read `AGENTS.md` on its own — it must be imported; Codex and Cursor read it directly. Architecture, decisions still in force and traps → `docs/internals/` (entry point: `docs/internals/overview.md`); `docs/ARCHITECTURE.md` and `docs/CONTEXT.md` no longer exist — "what is being worked on" lives in the Linear issue.
+- **D3.** Valid `docs/` subdirectories: `user/` (using the product), `internals/` (architecture, constraints and traps), `operations/` (maintainer runbooks), and `plans/` (task records). The only root-level `.md` files in `docs/` are `README.md` and, when applicable, `DESIGN-LANGUAGE.md`. Add living docs only when the reader would otherwise get something wrong. Need another directory → ask. Do not create `docs/specs/`, `docs/review/`, `docs/superpowers/` or `.planning/`.
+- **D4.** When a plan is needed, use `docs/plans/YYYY-MM-DD-<slug>.md`, dated when the task starts; keep that path when resuming. Search for the existing task plan first, including older issue-keyed names, and update it rather than renaming or duplicating it. One plan holds the task's requirements, decisions, checklist, evidence and latest handoff; its body/headings are English independent of Output Style. Reviews are returned in chat by default, or posted to a specific PR when requested; do not auto-create report files or post externally. Record actionable review outcomes in the existing plan when continuing implementation, without changing a read-only review into an edit. Evidence files stay in scratchpad or a user-requested artifact destination. For cross-repo work, use one owning plan with explicit repo/checkout paths unless the user requests separate plans; do not keep duplicate checklists.
+- **D5.** Every repo needs the pair `AGENTS.md` + `CLAUDE.md`, with `@AGENTS.md` as the first line of `CLAUDE.md`. Claude Code imports it; Codex/Cursor read it directly. Architecture and constraints belong in `docs/internals/` (entry: `docs/internals/overview.md`). Task progress belongs in the plan, not a separate architecture/context journal.
 
-## Preventing drift from the code
+## Preventing drift
 
-- **D7.** Drift (doc says X, code does Y) found during a task → fix that doc passage right away if it is in scope; out of scope → file a Linear issue (or a comment on the issue being worked) with `file:line` on both sides. Do NOT keep a "Chưa khớp thực tế" ("not matching reality") table in the docs — that table is a backlog in disguise, retired 2026-09-07 (MXR-37).
-- **D8.** Deleting/renaming a module or removing a feature → MUST update the anchors in the living docs within the same task.
-- **D9.** A task that changes architecture, a cross-module constraint or adds a trap → update the related `docs/internals/` page in the same PR; a change in usage → `docs/user/`; a change in a runbook → `docs/operations/`. Only when "a maintainer would get it wrong without it"; PR summaries, file catalogs, control-flow retellings → NO. Part of the W4 checklist.
+- **D7.** Fix in-scope drift in living docs when found; raise out-of-scope findings in conversation with `file:line` evidence, without filing an external issue. Active plans must reflect approved decisions and actual progress; planned work is not a claim of current behavior. Frozen historical plans are excluded from current-code drift maintenance. Do not keep a drift backlog inside living docs.
+- **D8.** Removing/renaming a module or feature requires updating its living-doc anchors in the same task.
+- **D9.** Document architectural decisions, cross-module constraints or traps in `docs/internals/`; usage changes in `docs/user/`; runbook changes in `docs/operations/`. Only write what a reader would otherwise get wrong. Do not create file catalogs, control-flow retellings or duplicate PR summaries.
 
-## Process
+## Approval and completion
 
-- **D10.** A feature that went through brainstorming needs an approved spec before code; the Linear issue content plus the decisions the user has locked in count as a valid spec (D0) — no extra file or duplicate approval round needed.
-- **D12.** A change in public behavior (API, CLI, UI flow) → update `README.md`/`CHANGELOG.md` if the repo has them.
-- **D13.** Absolute dates `YYYY-MM-DD`, NEVER "today/last week".
-- **D14.** NEVER `git commit` docs (`AGENTS.md`, `docs/**`) before the user has approved the content — even when a skill says to commit first. When updating a Linear issue/document, present the content in the conversation before writing it, unless the user has explicitly delegated that.
+- **D10.** Approve unclear requirements and material design decisions before implementing them. The conversation's existing decisions count; do not ask for duplicate approval because they were written into a plan. When a plan is needed, present its concrete approach before implementation unless that approach is already approved. Routine in-scope implementation choices remain the agent's responsibility.
+- **D12.** A change in public behavior (API, CLI, UI flow) requires updating existing `README.md`/`CHANGELOG.md` where relevant.
+- **D13.** Use absolute dates `YYYY-MM-DD`, not relative dates.
+- **D14.** Do not commit docs (`AGENTS.md`, `docs/**`) before the user approves their content. Approval of a specific plan covers committing it and routine in-scope progress, verification, handoff, PR/commit links and the final historical marker. Material scope, approach or risk changes need renewed approval. This does not approve unrelated living-doc changes, merge, deploy or release. Do not add a separate approval round just to save routine progress in the plan.
 
 ## While editing docs
 
-- **D6, D11, D15** and the doc-writing checklist → `~/.claude/rules/docs/living-docs.md`, loaded automatically when touching `docs/**`, `AGENTS.md`, `README.md`, `CHANGELOG.md`.
+- D6, D11, D15 and the writing checklist live in `~/.claude/rules/docs/living-docs.md`.

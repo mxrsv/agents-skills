@@ -13,7 +13,7 @@ empty() { local out; out=$(bash "$S" "$2" 2>&1)
   if [ -z "$out" ]; then pass=$((pass+1)); echo "PASS: $1"
   else fail=$((fail+1)); echo "FAIL: $1"; echo "  out: $out"; fi; }
 
-R=$(mktemp -d); mkdir -p "$R/docs/specs" "$R/docs/internals/pty" "$R/docs/user" "$R/src"
+R=$(mktemp -d); mkdir -p "$R/docs/specs" "$R/docs/plans" "$R/docs/internals/pty" "$R/docs/user" "$R/src"
 printf 'line\n%.0s' $(seq 50) > "$R/src/real.ts"
 printf 'const AGENT_ALLOWLIST = ["a"];\n#[allow(dead_code)]\npty_spawn();\n' > "$R/src/sym.rs"
 : > "$R/docs/internals/sibling.md"
@@ -35,6 +35,7 @@ printf '# deep\n[lồng sâu chết](../../../src/nope.ts)\n' > "$R/docs/interna
 printf '# user\n[trang chị em](../internals/overview.md)\n[chết](missing.md)\n' > "$R/docs/user/getting-started.md"
 printf '# index\n[u](user/getting-started.md)\n[ảnh phá cache](../src/real.ts?v=1.0.0)\n' > "$R/docs/README.md"
 printf '[đóng băng](../src/gone.ts)\n' > "$R/docs/specs/2026-07-27-x-design.md"
+printf '# Historical plan\n[former source](../../src/removed.ts)\n' > "$R/docs/plans/2026-09-18-export-csv.md"
 
 hasnt "link anh em cùng thư mục resolve đúng"  "$R" "[sibling.md]"
 hasnt "link ../../src/real.ts resolve đúng"    "$R" "[../../src/real.ts] —"
@@ -51,6 +52,7 @@ hasnt "user/ link sang internals resolve đúng" "$R" "[../internals/overview.md
 hasnt "docs/README.md link đúng không báo"     "$R" "README.md:2"
 hasnt "query string ?v= không làm link chết"   "$R" "README.md:3"
 hasnt "docs/specs/ legacy, không quét"         "$R" "2026-07-27-x-design.md"
+hasnt "historical plans are not living docs"   "$R" "2026-09-18-export-csv.md"
 
 R2=$(mktemp -d); mkdir -p "$R2/docs/internals"
 printf '# A\n[ok](x.md)\n[heading](x.md#10-verification-and-acceptance)\n[em dash](x.md#pane-detach--phase-a-landed-2026-08-10)\n' > "$R2/docs/internals/overview.md"

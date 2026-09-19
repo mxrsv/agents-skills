@@ -177,6 +177,8 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 
 ### Discovery & planning
 
+Under the [documentation rules](rules/core/docs.md), the conversation supplies goals and approvals; the [planning skill](skills/planning/SKILL.md) keeps requirements, implementation, verification and handoff in one `docs/plans/YYYY-MM-DD-<slug>.md` file. No issue key or external tracker is required. Completed plans remain as historical records; durable knowledge belongs in living docs. Small, clear tasks do not require a plan.
+
 | Skill                                                                               | Description                                                  |
 | ----------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                          | Before building — clarify, compare approaches, lock the spec |

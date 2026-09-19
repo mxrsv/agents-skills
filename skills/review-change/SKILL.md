@@ -9,7 +9,7 @@ description: Review a change you just implemented — correctness against its ca
 
 Three reviewer contracts over one change: `correctness`, `tests`, `security-code`. Contracts live in [reviewers/](reviewers/) and are the prompt bodies you dispatch — read them, do not summarize them.
 
-Shared report format, finding schema and freshness rules: `~/.claude/templates/review-report.md` (absolute path on purpose — this directory is also reached through the `~/.agents/skills/` symlink used by Codex and Cursor, where a relative `../../templates/` would resolve elsewhere). **The report is a comment on the Linear issue that owns the change** (`save_comment`, template §1) — never a file in the repo. Ask for the issue id up front if the conversation has not named one.
+Shared report format, finding schema and freshness rules: `~/.claude/templates/review-report.md` (absolute path on purpose — this directory is also reached through the `~/.agents/skills/` symlink used by Codex and Cursor, where a relative `../../templates/` would resolve elsewhere). **Return the report in chat by default** (template §1); post to a specified PR only when requested. No issue id or external write is required.
 
 ## 1. Resolve the source
 
@@ -94,18 +94,18 @@ CONTRACT:
 
 **Do not pre-bundle the evidence.** Reading the diff, the callers and the tests yourself and pasting them into three prompts fails three ways at once: this session floods with the context that subagents exist to keep out, the same evidence is duplicated three times, and a reviewer cannot follow a caller or a trust boundary that falls outside the bundle you chose. Pass objective, range and manifest. Each reviewer reads for itself.
 
-## 4. Collect and post one report
+## 4. Collect and return one report
 
-Subagents return findings as text. **Only this skill posts the comment.** N subagents posting into the issue race each other and drift in format.
+Subagents return findings as text. Only the parent assembles the report and returns it in chat, or posts to an explicitly requested PR.
 
 1. **Dedupe.** Same root cause reported twice → keep the copy owned by the scope boundaries in each contract's *Out of scope* section, and note that another reviewer concurred. Same file:line with genuinely different causes → keep both.
 2. **Rank** by severity, then confidence.
-3. **Post** `save_comment { issueId: <ISSUE-ID>, body }` on the issue that owns the change, body per `~/.claude/templates/review-report.md` §2–§4 with `profile: change`.
+3. **Return the report in chat**, body per `~/.claude/templates/review-report.md` §2–§4 with `profile: change`.
    - `scope`: `<base7>-<head7>` for a range, `worktree` for the working tree.
    - `run_id`: `LC_ALL=C tr -dc 'a-z0-9' < /dev/urandom | head -c 6`
    - Header, then the coverage table — every reviewer listed as `ran` / `blocked` / `skipped`, with a reason for anything that is not `ran`. Omitting a reviewer from that table is a defect in the report.
-   - No Linear MCP in this harness → print the same body in chat as one fenced block and name the issue. Never a file.
-4. **Report to the user**: blockers first, then the comment URL. Do not bury findings under a summary, and do not fix anything unless asked.
+   - Preserve the header and evidence for later synthesis; do not auto-create report files or upload artifacts.
+4. **Report to the user**: blockers first; include a PR comment URL only if posting was requested and succeeded. Do not bury findings under a summary, and do not fix anything unless asked.
 
 Finding keys use the 8 domains fixed in the template — one per reviewer. This command produces `code/*` (correctness), `tests/*` and `sec/*`. A finding that wants any other domain belongs to another command; see each contract's *Out of scope*.
 
@@ -113,5 +113,5 @@ Finding keys use the 8 domains fixed in the template — one per reviewer. This 
 
 - Route conservatively; never return 0 reviewers.
 - Never pre-bundle evidence into subagent prompts.
-- One report comment per run, posted by this skill; never a file in the repo.
+- One report per run, returned by the parent in chat or posted to a PR only when explicitly requested.
 - Report findings; do not apply fixes in review mode.

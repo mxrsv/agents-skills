@@ -2,21 +2,17 @@
 
 Every reviewer contract and every `/review-*` skill points here. Change it here; never duplicate it.
 
-**A report is a comment on the Linear issue that owns the work — never a file in the repo** (D4, since 2026-09-07 / MXR-37). `docs/review/` no longer exists as a destination; `file-guard.sh` warns after a write there (it runs PostToolUse, so it does not refuse — the rule is yours to keep).
+**Return review reports in chat by default.** Post a PR comment only when the user explicitly requests it. Do not require a tracker, issue key or remote write to complete a review. Separate `docs/review/` files remain disallowed (D4).
 
 ## 1. Where a report lives
 
-```
-save_comment { issueId: "<ISSUE-ID>", body: <report> }     # Linear MCP — Claude Code tool id: mcp__plugin_linear_linear__save_comment
-```
+- The parent returns one structured report per run in the conversation. Preserve the report header and evidence so it can be supplied to `review-release` later.
+- A new run gets a new report; do not silently rewrite the evidence or timestamp of a previous run. Discussion is separate from the report.
+- Reference screenshots/logs through actual scratchpad paths or user-requested artifact links; disclose when evidence is unavailable. Do not upload automatically or link files you are about to delete.
+- During authorized implementation, capture actionable outcomes and remaining blockers in the existing task plan. A read-only review does not edit that plan. The full report remains in chat or the explicitly requested PR comment.
+- If the user requests a portable full report, save an artifact in scratchpad and provide its path. Do not invent a permanent report directory or auto-create an external issue.
 
-- `<ISSUE-ID>` — the issue the user is working under (`MXR-123`). Not given → ask which issue; every task has one (D0). Do not pick one by guessing from the branch name.
-- One comment per run, posted **once**, never edited afterwards. `save_comment` with `id` on a report comment is forbidden: a milestone record is immutable, and `/review-release` ranks runs by `reviewed_at` inside the body, so a rewritten body corrupts the ordering.
-- A reply thread under the report is free for discussion; findings stay in the top-level comment.
-- Screenshots and other evidence files → `prepare_attachment_upload` → `PUT` → `create_attachment_from_upload` on the same issue, **one file at a time** (the signed URL expires in 60 s). The finding's `evidence` cites the attachment title. No Linear MCP in the harness (Codex without it) → describe the evidence in the comment text; never save it into the repo.
-- No Linear MCP at all → print the whole report in chat as one fenced markdown block and say which issue it belongs on. **Never write a file** as the fallback.
-
-## 2. Required header — the first thing in the comment body
+## 2. Required header — the first thing in the report body
 
 ````markdown
 ## Review: <profile> · <scope> · <run_id>
@@ -42,7 +38,7 @@ deploy_rev:    <only when source_kind=url; null if not determinable>
   - profile `release` → `worktree`, with `source_kind: working-tree`. It reviews no range; the point in time is anchored by `head_sha` + `reviewed_at`, and `run_id` keeps runs apart.
 - `<run_id>` — 6 random base36 characters: `LC_ALL=C tr -dc 'a-z0-9' < /dev/urandom | head -c 6`
 
-The heading line and the fenced `yaml` block are what `/review-release` parses out of `list_comments`. A comment without both is not a report.
+The heading line and the fenced `yaml` block are what `/review-release` reads from supplied report blocks. Text without both is not a structured report.
 
 ⚠️ `tree_digest` must be built from **`git status --porcelain`**, never from `git diff`. `git diff` is blind to untracked files — a matching digest with completely different behavior is entirely possible.
 
@@ -75,7 +71,7 @@ Status: `ran` · `blocked` (no evidence available to read) · `skipped` (the rou
 key:        <domain>/<area>/<problem>
 severity:   blocker | high | medium | low
 confidence: high | medium | low
-evidence:   <attachment title · log excerpt · file:line>
+evidence:   <artifact path/link · log excerpt · file:line>
 impact:     <who is affected, and when>
 action:     <a concrete step that can be taken now>
 ```
@@ -114,20 +110,12 @@ Any condition off → report it as **stale** and do NOT return `SHIP`.
 
 ## 6b. Which reports to read — `/review-release`
 
-```
-list_comments { issueId: "<ISSUE-ID>", limit: 250 }     # page with `cursor` until hasNextPage=false
-```
+Read reports already present in the conversation, explicitly supplied report artifacts, or comments on a specific PR when the user requests that source. Do not fetch a tracker or search the repo for an implicit report store. A task-plan summary is not a full report.
 
-Keep only top-level comments whose body starts with `## Review:` and carries the §2 `yaml` block. Take the **most recent report per profile**, ranked by the `reviewed_at` field in that block.
+Keep report blocks whose heading starts with `## Review:` and includes the §2 header. Select the most recent report per profile by `reviewed_at`. Missing/malformed timestamps make ordering uncertain; do not guess from chat order or filesystem modification time, and do not use that report to justify `SHIP` until clarified.
 
-- Do not use the comment's `createdAt` (a late repost of an older run carries a newer timestamp). Do not use the order `list_comments` returns.
-- Missing or malformed `reviewed_at` → fall back to the comment's `createdAt`, and mark that row `ordering-uncertain`.
-- Replies (comments with a parent) are discussion, not reports — skip them.
+Do not filter by current `head_sha`: freshness classifies evidence rather than filtering it. Stale evidence is still useful context but cannot support `SHIP`. If prior runs are unavailable, disclose the history gap instead of claiming all earlier blockers were checked.
 
-⚠️ **Do NOT filter by `head_sha` matching the current head.** Reports are always written *before* the later commits the release decision covers, so that filter returns empty in the most common case and the freshness rules become dead code.
+## 7. Who returns the report
 
-> **Freshness CLASSIFIES evidence; it does not FILTER evidence.** A stale `health` report is still worth reading — it just cannot support a `SHIP` decision.
-
-## 7. Who posts the comment
-
-**Only the parent skill posts the report.** Reviewers return findings as text; they never call `save_comment` themselves. N reviewers posting one report race each other and produce inconsistent formatting.
+Only the parent assembles and returns the report. Reviewers return findings as text; they do not post comments, write task plans or create report files. External posting requires the user's explicit request.

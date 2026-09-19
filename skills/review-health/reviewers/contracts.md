@@ -92,7 +92,7 @@ Domain prefix is always **`docs/`** — including schema, config and build-assum
 
 Evidence must show both halves: the script's `❌` line, or `<doc>:<line>` next to `<source>:<line>`.
 
-Return the findings as text. **Do not write any file, and do not post to Linear.**
+Return the findings as text. **Do not write any file, and do not post externally.**
 
 ## Hard rules
 

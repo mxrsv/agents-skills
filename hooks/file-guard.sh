@@ -5,8 +5,8 @@
 #   PostToolUse (Write) → file-guard.sh warn    # exit 2 = nhắc agent (tool đã chạy, không chặn)
 # Từ 2026-07-27: CÓ kiểm vị trí + tên tài liệu (D3/D4). Lý do đảo chủ đích cũ: F2 dạng
 # văn bản đã thất bại — 4 đường dẫn song song, 21 file bị .gitignore chôn ở deck.
-# Từ 2026-09-07 (MXR-37/38): docs/ chỉ còn ba tầng user/ internals/ operations/ + README.md
-# + DESIGN-LANGUAGE.md; spec/plan/review là issue Linear nên specs/ plans/ review/ bị chặn.
+# Since 2026-09-18: docs/ allows three living tiers plus technical plans/.
+# Requirements share the task plan; reports default to chat. Separate spec/review directories stay blocked.
 # Documentation root xác định KHÔNG qua git (xem docs_path_violation).
 set -u
 
@@ -16,7 +16,7 @@ file_path=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty' 2>/dev
 [ -z "$file_path" ] && exit 0
 base=$(basename "$file_path")
 
-LINEAR_HINT="spec → description issue Linear; plan → sub-issue hoặc mục '## Plan'; review → comment trên issue/PR (D4)"
+WORKFLOW_HINT="requirements + plan + handoff → docs/plans/YYYY-MM-DD-<slug>.md; review → chat or an explicitly requested PR (D4)"
 
 # Documentation root = tổ tiên gần nhất có `docs/` là con trực tiếp VÀ có marker.
 # KHÔNG dùng git: PreToolUse chạy TRƯỚC khi Write tạo thư mục cha, nên
@@ -31,16 +31,16 @@ docs_path_violation() { # $1 = file_path; in lý do chặn ra stdout, rỗng = c
   [ -e "$p" ] && return 0                    # chỉ chặn TẠO FILE MỚI (doc legacy vẫn sửa được)
   rel="${p#"$root"/}"
   case "$rel" in
-    docs/user/*|docs/internals/*|docs/operations/*) ;;   # D3 — ba tầng theo người đọc
-    docs/specs/*|docs/plans/*|docs/review/*|docs/superpowers/*|docs/intent/*|docs/decisions/*|docs/daily/*|docs/archive/*|docs/mockups/*)
-      echo "⛔ D4: '$rel' — không tạo file spec/plan/review/ledger trong repo nữa: $LINEAR_HINT. Ảnh/asset → attachment của issue." ;;
+    docs/user/*|docs/internals/*|docs/operations/*|docs/plans/*) ;; # D3/D4
+    docs/specs/*|docs/review/*|docs/superpowers/*|docs/intent/*|docs/decisions/*|docs/daily/*|docs/archive/*|docs/mockups/*)
+      echo "⛔ D4: '$rel' — do not create spec/review/ledger files in the repo: $WORKFLOW_HINT. Evidence → scratchpad or a requested artifact destination." ;;
     docs/*/*)
-      echo "⛔ D3: thư mục con hợp lệ trong docs/ chỉ có user/, internals/, operations/ — nhận '$rel'. Nội dung về việc đang làm → issue Linear." ;;
+      echo "⛔ D3: allowed docs/ directories: user/, internals/, operations/, plans/ — got '$rel'. Requirements, tasks and handoff → docs/plans/." ;;
     docs/*)
       base="${rel#docs/}"
       case "$base" in
         README.md|DESIGN-LANGUAGE.md) ;;
-        *) echo "⛔ D3: file thẳng trong docs/ chỉ được là README.md (index) hoặc DESIGN-LANGUAGE.md — nhận '$base'. Kiến trúc/quyết định → docs/internals/, trạng thái đang làm → issue Linear." ;;
+        *) echo "⛔ D3: file thẳng trong docs/ chỉ được là README.md (index) hoặc DESIGN-LANGUAGE.md — nhận '$base'. Kiến trúc/quyết định → docs/internals/, task progress → docs/plans/." ;;
       esac ;;
   esac
   return 0
@@ -73,7 +73,7 @@ case "$base" in
     ;;
 esac
 case "$file_path" in
-  */.planning/*) warn="${warn}${warn:+ }⚠️ D4: '.planning/' không còn dùng — $LINEAR_HINT." ;;
+  */.planning/*) warn="${warn}${warn:+ }⚠️ D4: '.planning/' không còn dùng — $WORKFLOW_HINT." ;;
 esac
 if [ -n "$warn" ]; then
   echo "$warn" >&2

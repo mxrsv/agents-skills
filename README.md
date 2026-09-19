@@ -177,6 +177,8 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 
 ### Khám phá & lập plan
 
+Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt quyết định trong chat; [skill planning](skills/planning/SKILL.md) giữ yêu cầu, kế hoạch, checklist, kiểm chứng và bàn giao trong một file `docs/plans/YYYY-MM-DD-<slug>.md`. Không cần issue key hay dịch vụ theo dõi bên ngoài. Khi việc hoàn tất, plan được giữ làm lịch sử; kiến thức còn áp dụng được chắt vào tài liệu sống. Việc nhỏ, rõ ràng không bắt buộc có plan.
+
 | Skill                                                                            | Mô tả                                                          |
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                       | Trước khi build — làm rõ nhu cầu, so hướng làm, chốt spec      |

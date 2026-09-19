@@ -74,7 +74,7 @@ RECOMMENDATION (draft — requires human review):
 
 - Separate **Facts** (sourced) from **Interpretations** (analysis)
 - Include source credibility and confidence levels
-- Return the draft as text. A draft that should persist goes into the Linear issue or a Linear document the caller names — never into `docs/` (research notes are not committed, D4)
+- Return the draft as text. Relevant research, approved decisions and rejected alternatives belong in the caller's task plan under `docs/plans/` (D4); do not create a separate research document. Raw exploratory notes stay in scratchpad. Without a task plan, return findings in conversation; do not require or create a tracker issue.
 - Checkpoints: after scope confirmation, after data gathering, after interpretation, before finalizing
 
 ## Domain Expertise

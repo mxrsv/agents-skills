@@ -90,16 +90,16 @@ MANIFEST:  <verbatim `git status --porcelain` output, or "clean working tree">
 
 **Do not pre-collect evidence.** Do not read the code tree, run the audit tool, or run the docs scripts and paste the results into the prompts. That defeats the reason for using subagents: your own context fills up, the same evidence is duplicated three times, and a reviewer can no longer follow a thread out of whatever bundle you happened to assemble. You pass objective + scope + manifest. Nothing else.
 
-**Do not let subagents write files or post comments.** Three writers racing on one issue produce conflicts and inconsistent format. They return findings as text; you post once.
+**Do not let subagents write files or post comments.** Reviewers return findings as text; the parent assembles one report.
 
-## 5. Merge and post ONE report
+## 5. Merge and return ONE report
 
-Format, header fields, finding schema, domain list, budget and freshness rules all live in `~/.claude/templates/review-report.md`. Follow it; do not restate it here and do not invent fields. The report is `save_comment { issueId: <ISSUE-ID>, body }` on the issue the review was asked under — ask for the id if none was named; never a file in the repo.
+Format, header fields, finding schema, domain list, budget and freshness rules all live in `~/.claude/templates/review-report.md`. Follow it; do not restate it here and do not invent fields. Return the report in chat; post to a specific PR only when the user asks. No tracker id or external write is required.
 
 Fixed for this profile:
 
 ```
-where:        comment on issue <ISSUE-ID>
+where:        conversation (or explicitly requested PR comment)
 profile:      health
 scope:        worktree
 source_kind:  working-tree
@@ -118,13 +118,13 @@ Merging:
 
 ## 6. Report back
 
-Give the user: the comment URL, the coverage line in one sentence, and the blockers plus the highest-severity findings. Do not paste the whole report back.
+Return the report with coverage and evidence; lead with blockers and the highest-severity findings. Include a comment URL only if PR posting was requested and succeeded.
 
-Findings live in the report comment and nowhere else. Anything the user decides to act on, they turn into a Linear issue or a `docs/internals/` rewrite by hand. There is no register and no auto-filing.
+This read-only review returns findings in chat. During later authorized implementation, actionable outcomes may be captured in the existing task plan and in-scope living-doc corrections applied. Do not create a separate register or auto-file external issues.
 
 ## Hard rules
 
-- The parent posts the report. Reviewers never do. No file in the repo.
+- The parent returns the report. Reviewers never post externally or edit the plan.
 - `git status --porcelain` for the manifest and the digest — never `git diff`.
 - All three dispatch calls in one message.
 - No finding without evidence. `blocked` with a reason beats a plausible guess.
