@@ -5,22 +5,10 @@
 - **W3.** Edit only within the task's scope. Out-of-scope work discovered (drive-by refactors, other bugs) → RAISE IT, do not do it yourself.
 - **W4.** NEVER report "done / fixed / passing" without running the verification command (test / typecheck / build / screenshot) and pasting the output as evidence.
 - **W5.** Conventional commits with a scope — `type(scope): description`. One commit = one complete piece of work.
-- **W6.** Follow the branching rules in CLAUDE.md: do not create branches on your own; a branch (when requested) always comes with a worktree.
-- **W7.** Starting a significant new feature → look for a battle-tested skeleton/foundation before building from scratch.
 - **W8.** At the end of a task → delete the experimental/debug files you created; check every NEW file against the F-rules checklist.
 - **W9.** Commands that change state in hard-to-reverse ways (delete, DB reset, deploy, migrate) → re-check that the evidence supports that specific action; unsure → ask. For changes with material data-loss, security or operational risk, present the approach, verification and recovery plan before editing and obtain approval unless that scope is already approved. Investigation may proceed; significant departures need renewed approval.
-- **W10.** Frontend: follow `<frontend_gate>` in CLAUDE.md — lock IDEA + APPROACH before doing UI work.
 - **W11.** Before editing the first file → `git status --porcelain`. Work on the current checkout and branch by default, even when there are `M`/`??` files; leave changes outside the task's scope untouched. Do NOT create or switch to a worktree just because the checkout has uncommitted changes. Always commit with `git commit -- <paths>`, NEVER `git add -A` / `git commit -a`. Verification fails → determine whether the failure belongs to the task's changes before concluding; a clean worktree is not required for verification.
 
 - **W13.** Evidence before conclusions: call a finding or root cause confirmed only with checkable evidence connecting the trigger, reachable execution path, and incorrect behavior. Include the relevant command/steps and observed result, or a concrete code-path proof with valid input; identify the environment/revision when material. A provable defect is not automatically the cause of the reported incident. Without sufficient evidence, label it "Hypothesis — unverified", keep it separate from confirmed findings, and state the next discriminating check. Passing tests after a fix alone do not establish causality. Investigation and minimal diagnostic experiments may continue within the authorized scope; read-only review remains read-only.
 
 - **W14.** Resume from the task plan's decisions, verification and latest handoff, then inspect the actual checkout before editing. Preserve other agents' changes and coordinate overlapping edits; do not introduce an external claim protocol. At handoff, record progress, checkout/branch/PR if any, observed verification, remaining work and blockers in the same plan. A merge is not acceptance: mark the task complete only when acceptance criteria and required approvals are met; report unrun gates explicitly. Merge/deploy/release require the applicable user authorization.
-
-## Checklist before reporting completion
-
-- [ ] Ran verification and pasted the output? (W4)
-- [ ] Each confirmed finding/root cause has checkable evidence; unverified hypotheses and remaining evidence gaps are explicit? (W13)
-- [ ] Changed anything outside the scope? (W3)
-- [ ] Temporary files cleaned up, new files checked against F-rules? (W8)
-- [ ] Commit message follows the convention? (W5)
-- [ ] Committed by path, without sweeping in another session's files? (W11)

@@ -67,7 +67,7 @@ Hard rules — a violation is an error, no exceptions. Details: [`rules/core/`](
 - **L5.** NEVER report "done/fixed/passing" without running the verification command and pasting the output as evidence ([W4](../../rules/core/workflow.md)) · skill [`verification`](../../skills/verification/SKILL.md)
 - **L6.** Edit only within the task's scope; out-of-scope work → raise it, do not do it yourself ([W3](../../rules/core/workflow.md))
 - **L7.** New creative work → [`brainstorm`](../../skills/brainstorm/SKILL.md) first; with a spec → [`write-plan`](../../skills/write-plan/SKILL.md) / [`planning`](../../skills/planning/SKILL.md) before code ([W1](../../rules/core/workflow.md), [W2](../../rules/core/workflow.md))
-- **L8.** Commits: conventional commits with a scope, one commit per piece of work; follow `<branching>` below ([W5](../../rules/core/workflow.md), [W6](../../rules/core/workflow.md))
+- **L8.** Commits: conventional commits with a scope, one commit per piece of work; follow `<branching>` below ([W5](../../rules/core/workflow.md))
 - **L9.** Specs/plans/docs → follow [`rules/core/docs.md`](../../rules/core/docs.md) (D-rules) · `~/.claude/rules/core/docs.md`
 - **L10.** Repo without an `AGENTS.md` → generate it from [`templates/AGENTS.template.md`](../../templates/AGENTS.template.md), recording only the DELTA from the global standard · `~/.claude/templates/AGENTS.template.md`
   </hard_rules>
@@ -93,7 +93,7 @@ Hard rules — a violation is an error, no exceptions. Details: [`rules/core/`](
 | **L5**  | No “done/fixed/passing” without verification evidence      | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W4                                                                                                                | `~/.claude/rules/core/workflow.md`           |
 | **L6**  | Stay within the task's scope                               | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W3                                                                                                                | same as L5                                   |
 | **L7**  | Creative work → brainstorm; with a spec → plan             | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W1–W2 · skill [`brainstorm`](../../skills/brainstorm/SKILL.md) · [`write-plan`](../../skills/write-plan/SKILL.md) | `~/.claude/skills/brainstorm` / `write-plan` |
-| **L8**  | Conventional commits + branching rules                     | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W5–W6                                                                                                             | same as L5                                   |
+| **L8**  | Conventional commits + branching rules                     | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W5                                                                                                                | same as L5                                   |
 | **L9**  | Specs / plans / docs follow the D-rules                    | [`rules/core/docs.md`](../../rules/core/docs.md)                                                                                                                            | `~/.claude/rules/core/docs.md`               |
 | **L10** | Missing `AGENTS.md` → template, record only the delta      | [`templates/AGENTS.template.md`](../../templates/AGENTS.template.md)                                                                                                        | `~/.claude/templates/AGENTS.template.md`     |
 
