@@ -135,7 +135,6 @@ Claude Code discovers agents (`Agent` tool) and skills (`Skill` tool) from each 
 | -------------------------- | ------------------------------------------------------- |
 | [`agents/`](agents/)       | Specialized subagents (review, planning, research…)     |
 | [`skills/`](skills/)       | Skills — source of truth; symlinked into `~/.agents/skills` for Codex / Cursor |
-| [`commands/`](commands/)   | Custom slash commands                                   |
 | [`rules/`](rules/)         | Always-loaded + path-scoped rules                       |
 | [`templates/`](templates/) | `AGENTS.md` / `CLAUDE.md` starters + project structures |
 | [`presets/`](presets/)     | Named `CLAUDE.md` presets (live vibe-coding)            |
@@ -252,6 +251,28 @@ cp templates/CLAUDE.template.md ~/.claude/CLAUDE.md   # or start from template
 Presets write `CLAUDE.md` at the install target. Pair with [`rules/`](rules/) so hard-rule links resolve. Fork the preset — language and emoji policy are taste, not law.
 
 ## Rules & templates
+
+How rules load in a session:
+
+```mermaid
+flowchart TD
+    S([Claude Code session]) --> A["CLAUDE.md<br/>from presets/ or templates/<br/>communication · run summary · hard rules L1–L10"]
+    S --> O["output-styles/<br/>reply language"]
+    S --> C["rules/core/<br/>F · W · D · C · P — always loaded"]
+    S --> T{"Which file is touched?"}
+    T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
+    T -- "*.tsx / *.jsx" --> R["rules/react/"]
+    T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
+    S --> K["skills/<br/>loaded when a task matches"]
+    S --> AG["agents/<br/>subagents on demand"]
+    WR["Write"] --> H["hooks/file-guard.sh<br/>warns on junk names / oversized files"]
+    subgraph CX["Codex / Cursor"]
+        G["scripts/render-agent-rules.sh"] --> X["~/.codex/AGENTS.md"]
+        L["~/.agents/skills"]
+    end
+    A & C & D --> G
+    K -- symlink --> L
+```
 
 | Path                                                               | What                                                                                     |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |

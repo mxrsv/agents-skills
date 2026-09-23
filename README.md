@@ -135,7 +135,6 @@ Claude Code tự nhận agents (`Agent` tool) và skills (`Skill` tool) từ fro
 | -------------------------- | ---------------------------------------------------- |
 | [`agents/`](agents/)       | Subagent chuyên biệt (review, planning, research…)   |
 | [`skills/`](skills/)       | Skill — nguồn chuẩn; symlink sang `~/.agents/skills` cho Codex / Cursor |
-| [`commands/`](commands/)   | Slash command tự viết                                |
 | [`rules/`](rules/)         | Rules luôn nạp + theo path                           |
 | [`templates/`](templates/) | Starter `AGENTS.md` / `CLAUDE.md` + cấu trúc project |
 | [`presets/`](presets/)     | Preset `CLAUDE.md` có tên (live vibe-coding)         |
@@ -252,6 +251,28 @@ cp templates/CLAUDE.template.md ~/.claude/CLAUDE.md   # hoặc bắt đầu từ
 Presets ghi `CLAUDE.md` vào target cài. Ghép với [`rules/`](rules/) để link hard-rule resolve được. Fork preset thoải mái — ngôn ngữ và emoji là gu, không phải luật.
 
 ## Rules & templates
+
+Luật được nạp thế nào trong một phiên:
+
+```mermaid
+flowchart TD
+    S([Phiên Claude Code]) --> A["CLAUDE.md<br/>từ presets/ hoặc templates/<br/>giao tiếp · run summary · hard rules L1–L10"]
+    S --> O["output-styles/<br/>ngôn ngữ trả lời"]
+    S --> C["rules/core/<br/>F · W · D · C · P — luôn nạp"]
+    S --> T{"Đang đụng file nào?"}
+    T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
+    T -- "*.tsx / *.jsx" --> R["rules/react/"]
+    T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
+    S --> K["skills/<br/>nạp khi task khớp"]
+    S --> AG["agents/<br/>subagent gọi khi cần"]
+    WR["Write"] --> H["hooks/file-guard.sh<br/>cảnh báo tên file junk / file quá lớn"]
+    subgraph CX["Codex / Cursor"]
+        G["scripts/render-agent-rules.sh"] --> X["~/.codex/AGENTS.md"]
+        L["~/.agents/skills"]
+    end
+    A & C & D --> G
+    K -- symlink --> L
+```
 
 | Path                                                               | Nội dung                                                                       |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
