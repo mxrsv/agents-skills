@@ -107,43 +107,9 @@ For each design decision, document:
 - **Caching Layers**: Redis, CDN
 - **Eventual Consistency**: For distributed systems
 
-## Architecture Decision Records (ADRs)
+## Recording Decisions
 
-For significant architectural decisions, create ADRs:
-
-```markdown
-# ADR-001: Use Redis for Semantic Search Vector Storage
-
-## Context
-Need to store and query 1536-dimensional embeddings for semantic market search.
-
-## Decision
-Use Redis Stack with vector search capability.
-
-## Consequences
-
-### Positive
-- Fast vector similarity search (<10ms)
-- Built-in KNN algorithm
-- Simple deployment
-- Good performance up to 100K vectors
-
-### Negative
-- In-memory storage (expensive for large datasets)
-- Single point of failure without clustering
-- Limited to cosine similarity
-
-### Alternatives Considered
-- **PostgreSQL pgvector**: Slower, but persistent storage
-- **Pinecone**: Managed service, higher cost
-- **Weaviate**: More features, more complex setup
-
-## Status
-Accepted
-
-## Date
-2025-01-15
-```
+For significant decisions, include context, decision, consequences and rejected alternatives in your output; the caller records them in the task plan (D4) or `docs/internals/` (D9).
 
 ## System Design Checklist
 
@@ -186,31 +152,6 @@ Watch for these architectural anti-patterns:
 - **Magic**: Unclear, undocumented behavior
 - **Tight Coupling**: Components too dependent
 - **God Object**: One class/component does everything
-
-## Project-Specific Architecture (Example)
-
-Example architecture for an AI-powered SaaS platform:
-
-### Current Architecture
-- **Frontend**: Next.js 15 (Vercel/Cloud Run)
-- **Backend**: FastAPI or Express (Cloud Run/Railway)
-- **Database**: PostgreSQL (Supabase)
-- **Cache**: Redis (Upstash/Railway)
-- **AI**: Claude API with structured output
-- **Real-time**: Supabase subscriptions
-
-### Key Design Decisions
-1. **Hybrid Deployment**: Vercel (frontend) + Cloud Run (backend) for optimal performance
-2. **AI Integration**: Structured output with Pydantic/Zod for type safety
-3. **Real-time Updates**: Supabase subscriptions for live data
-4. **Immutable Patterns**: Spread operators for predictable state
-5. **Many Small Files**: High cohesion, low coupling
-
-### Scalability Plan
-- **10K users**: Current architecture sufficient
-- **100K users**: Add Redis clustering, CDN for static assets
-- **1M users**: Microservices architecture, separate read/write databases
-- **10M users**: Event-driven architecture, distributed caching, multi-region
 
 ## Output Format
 

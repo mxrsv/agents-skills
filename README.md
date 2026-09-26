@@ -171,10 +171,9 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 
 | Agent                                      | Mô tả                                                                                  |
 | ------------------------------------------ | -------------------------------------------------------------------------------------- |
-| [`analyst`](agents/analyst.md)             | Nghiên cứu, phân tích thị trường/đối thủ, hỗ trợ brainstorm; draft docs để người duyệt |
+| [`analyst`](agents/analyst.md)             | Nghiên cứu, phân tích thị trường/đối thủ, hỗ trợ brainstorm; trả draft dạng text để người duyệt |
 | [`architect`](agents/architect.md)         | Kiến trúc hệ thống và quyết định kỹ thuật cho feature/refactor lớn                     |
 | [`planner`](agents/planner.md)             | Lập plan chi tiết cho feature và refactor phức tạp                                     |
-| [`plan-reviewer`](agents/plan-reviewer.md) | Gate 2 — kiểm tra plan có chạy được với codebase không (chỉ đọc)                       |
 
 ### Code review & độ tin cậy
 
@@ -192,7 +191,7 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 | ---------------------------------------------------------- | ---------------------------------------------------- |
 | [`performance-optimizer`](agents/performance-optimizer.md) | Điểm nghẽn, chi phí runtime, kích thước bundle       |
 | [`refactor-cleaner`](agents/refactor-cleaner.md)           | Dọn code chết / trùng lặp (knip, depcheck, ts-prune) |
-| [`doc-updater`](agents/doc-updater.md)                     | Codemap và docs sống (`README`, `docs/CODEMAPS`)     |
+| [`doc-updater`](agents/doc-updater.md)                     | Đồng bộ docs sống (`README`, `CHANGELOG`, `docs/`) với code |
 
 ## Skills
 

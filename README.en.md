@@ -171,10 +171,9 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 
 | Agent                                      | Description                                                                              |
 | ------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| [`analyst`](agents/analyst.md)             | Research, market/competitive analysis, brainstorming facilitation; draft docs for review |
+| [`analyst`](agents/analyst.md)             | Research, market/competitive analysis, brainstorming facilitation; returns drafts as text for review |
 | [`architect`](agents/architect.md)         | System architecture and technical decisions for large features/refactors                 |
 | [`planner`](agents/planner.md)             | Detailed planning for complex features and refactors                                     |
-| [`plan-reviewer`](agents/plan-reviewer.md) | Gate 2 — verifies a plan is executable against the codebase (read-only)                  |
 
 ### Code review & reliability
 
@@ -192,7 +191,7 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 | ---------------------------------------------------------- | ---------------------------------------------------------- |
 | [`performance-optimizer`](agents/performance-optimizer.md) | Bottlenecks, runtime cost, bundle size                     |
 | [`refactor-cleaner`](agents/refactor-cleaner.md)           | Dead code / duplication cleanup (knip, depcheck, ts-prune) |
-| [`doc-updater`](agents/doc-updater.md)                     | Codemaps and living docs (`README`, `docs/CODEMAPS`)       |
+| [`doc-updater`](agents/doc-updater.md)                     | Keeps living docs (`README`, `CHANGELOG`, `docs/`) in line with code |
 
 ## Skills
 
