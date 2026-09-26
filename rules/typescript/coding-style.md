@@ -197,4 +197,3 @@ const validated: UserInput = userSchema.parse(input);
 
 - No `console.log` statements in production code
 - Use proper logging libraries instead
-- See hooks for automatic detection

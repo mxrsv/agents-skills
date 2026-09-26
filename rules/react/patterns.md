@@ -73,7 +73,7 @@ component-name/
 
 Pure functions (parsing, math) → `lib/`, NOT inside the component folder.
 
-**Dependency flow — CRITICAL**:
+**Dependency flow** (a `lib/` → `components/` import creates a cycle):
 
 - ALWAYS: `components/ → lib/`
 - NEVER: `lib/ → components/`, even type-only imports

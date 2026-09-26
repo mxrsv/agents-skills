@@ -2,7 +2,7 @@
 
 Language-agnostic. Language-specific rules extend these in `rules/<language>/`.
 
-## Immutability (CRITICAL)
+## Immutability
 
 - **C1.** ALWAYS create new objects; NEVER mutate existing ones.
 
