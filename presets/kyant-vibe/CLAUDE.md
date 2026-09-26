@@ -64,9 +64,9 @@ Hard rules — a violation is an error, no exceptions. Details: [`rules/core/`](
 - **L2.** BEFORE planning a new file/module structure → read [`templates/project-structure.md`](../../templates/project-structure.md) · `~/.claude/templates/project-structure.md` (path-scoped rules only load when a file is TOUCHED — during planning you must read it proactively)
 - **L3.** NEVER create `.bak`/`.old`/`.orig`/`-v2`/`-v3`/`-final`/`-copy` files — edit the original, git keeps the history ([F3](../../rules/core/file-creation.md))
 - **L4.** Temporary/experimental/debug files → scratchpad, NEVER in the repo ([F4](../../rules/core/file-creation.md))
-- **L5.** NEVER report "done/fixed/passing" without running the verification command and pasting the output as evidence ([W4](../../rules/core/workflow.md)) · skill [`verification`](../../skills/verification/SKILL.md)
+- **L5.** NEVER report "done/fixed/passing" without running the verification command and pasting the output as evidence ([W4](../../rules/core/workflow.md))
 - **L6.** Edit only within the task's scope; out-of-scope work → raise it, do not do it yourself ([W3](../../rules/core/workflow.md))
-- **L7.** New creative work → [`brainstorm`](../../skills/brainstorm/SKILL.md) first; with a spec → [`write-plan`](../../skills/write-plan/SKILL.md) / [`planning`](../../skills/planning/SKILL.md) before code ([W1](../../rules/core/workflow.md), [W2](../../rules/core/workflow.md))
+- **L7.** Default is TAKE THE TASK AND DO IT — no mandatory brainstorm → spec → plan. Only set up that process when a W1 threshold is hit ([W1](../../rules/core/workflow.md), [W2](../../rules/core/workflow.md)). This rule overrides `superpowers:brainstorming` and any skill that forces brainstorming or plan mode on its own.
 - **L8.** Commits: conventional commits with a scope, one commit per piece of work; follow `<branching>` below ([W5](../../rules/core/workflow.md))
 - **L9.** Specs/plans/docs → follow [`rules/core/docs.md`](../../rules/core/docs.md) (D-rules) · `~/.claude/rules/core/docs.md`
 - **L10.** Repo without an `AGENTS.md` → generate it from [`templates/AGENTS.template.md`](../../templates/AGENTS.template.md), recording only the DELTA from the global standard · `~/.claude/templates/AGENTS.template.md`
@@ -92,7 +92,7 @@ Hard rules — a violation is an error, no exceptions. Details: [`rules/core/`](
 | **L4**  | Temp/debug → scratchpad, never in the repo                 | [`rules/core/file-creation.md`](../../rules/core/file-creation.md) §F4                                                                                                      | same as L1                                   |
 | **L5**  | No “done/fixed/passing” without verification evidence      | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W4                                                                                                                | `~/.claude/rules/core/workflow.md`           |
 | **L6**  | Stay within the task's scope                               | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W3                                                                                                                | same as L5                                   |
-| **L7**  | Creative work → brainstorm; with a spec → plan             | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W1–W2 · skill [`brainstorm`](../../skills/brainstorm/SKILL.md) · [`write-plan`](../../skills/write-plan/SKILL.md) | `~/.claude/skills/brainstorm` / `write-plan` |
+| **L7**  | Do the work; brainstorm/plan only at a W1 threshold        | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W1–W2 | same as L5 |
 | **L8**  | Conventional commits + branching rules                     | [`rules/core/workflow.md`](../../rules/core/workflow.md) §W5                                                                                                                | same as L5                                   |
 | **L9**  | Specs / plans / docs follow the D-rules                    | [`rules/core/docs.md`](../../rules/core/docs.md)                                                                                                                            | `~/.claude/rules/core/docs.md`               |
 | **L10** | Missing `AGENTS.md` → template, record only the delta      | [`templates/AGENTS.template.md`](../../templates/AGENTS.template.md)                                                                                                        | `~/.claude/templates/AGENTS.template.md`     |
@@ -121,18 +121,13 @@ Hard rules — a violation is an error, no exceptions. Details: [`rules/core/`](
 | [`templates/CLAUDE.template.md`](../../templates/CLAUDE.template.md)             | Neutral `CLAUDE.md` (no Kyant voice)      |
 | [`templates/AGENTS.template.md`](../../templates/AGENTS.template.md)             | Per-repo delta skeleton (L10)             |
 | [`templates/project-structure.md`](../../templates/project-structure.md)         | Standard directory tree (L2)              |
-| [`templates/ARCHITECTURE.template.md`](../../templates/ARCHITECTURE.template.md) | Architecture doc starter                  |
-| [`templates/CONTEXT.template.md`](../../templates/CONTEXT.template.md)           | Starter doc context                       |
 
 ### Skills this preset relies on
 
 | Skill                                                                                                           | Role                                                                        |
 | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| [`skills/brainstorm/SKILL.md`](../../skills/brainstorm/SKILL.md)                                                | L7 — lock the spec before creative builds                                   |
-| [`skills/write-plan/SKILL.md`](../../skills/write-plan/SKILL.md) · [`planning`](../../skills/planning/SKILL.md) | L7 — execution plan from the spec                                           |
+| [`skills/brainstorm/SKILL.md`](../../skills/brainstorm/SKILL.md) · [`planning`](../../skills/planning/SKILL.md) | W1/W2 — only when a threshold is hit |
 | [`skills/frontend-design-bar/SKILL.md`](../../skills/frontend-design-bar/SKILL.md)                              | The `<frontend_design>` bar                                                 |
-| [`skills/verification/SKILL.md`](../../skills/verification/SKILL.md)                                            | L5 — evidence required before saying “done”                                 |
-| [`skills/finish/SKILL.md`](../../skills/finish/SKILL.md)                                                        | Closing out — final re-verification                                         |
 | Full catalog                                                                                                    | [`README.md` → Skills](../../README.md#skills) · [`agents/`](../../agents/) |
 
 ### Install
