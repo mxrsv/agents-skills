@@ -7,7 +7,7 @@ description: Use to audit token consumption across always-loaded guidance — ag
 
 ## The Rule
 
-**KNOW YOUR TOKEN COSTS. EVERY COMPONENT HAS A PRICE.**
+Every always-loaded component costs tokens on every request; measure before cutting.
 
 Agent descriptions load every time. MCP tools cost ~500 tokens each. Skills load on invocation. Bloat accumulates silently.
 
@@ -29,7 +29,7 @@ Scan and estimate token cost for each component. Audit the harness you are runni
 | **Agents** | `words × 1.3` | `.claude/agents/*.md` (project) + `~/.claude/agents/*.md` (user) | `~/.codex/agents/*.toml` |
 | **Skills** | `words × 1.3` (SKILL.md only — extra files load on demand) | `~/.claude/skills/*/SKILL.md` | `~/.codex/skills/*/SKILL.md` + `~/.agents/skills/*/SKILL.md` |
 | **Instructions** | `words × 1.3` | all `CLAUDE.md` files | all `AGENTS.md` files |
-| **Rules** | `words × 1.3` | `~/.claude/rules/*.md` | already folded into `~/.codex/AGENTS.md` |
+| **Rules** | `words × 1.3` | `~/.claude/rules/**/*.md` | already folded into `~/.codex/AGENTS.md` |
 | **MCP servers** | `~500 tokens per tool` | `/mcp` or `settings.json` | `[mcp_servers.*]` in `~/.codex/config.toml` |
 | **Hooks / config** | read once, always on | `settings.json` hooks | `~/.codex/hooks.json`, `config.toml` |
 

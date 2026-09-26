@@ -14,10 +14,6 @@ The non-negotiable quality bar a UI must clear before it counts as "done".
 and it is **judged by eye, not by code**. A compiler cannot tell whether a UI is
 beautiful; a green build proves nothing about design.
 
-**Violating the letter of this bar is violating the spirit of it.** A
-structurally-correct landing made of stacked correct sections still fails if it
-reads as generated.
-
 ## Clarify First — Hard Gate
 
 <HARD-GATE>
@@ -59,7 +55,7 @@ production, promote-then-clear), else you judge the wrong thing.
 - Prototyping a new template, hero, or signature screen.
 - The UI works but reads flat / generic / static / one-note.
 
-**Use alongside** `frontend-design-direction` (pick the direction) — this skill is
+Direction is picked in `references/pipeline.md` Phase 0; this skill is
 the gate the result must pass. Project-specific gate docs (e.g. a `PRODUCTION-BAR`)
 implement this bar locally; this is the portable standard.
 

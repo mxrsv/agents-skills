@@ -20,20 +20,11 @@ Before writing anything in apply mode: run `git status --porcelain` and report i
 
 `bash ~/.claude/scripts/docs-anchors.sh <doc-root>` to get the list of dead anchors. Those are certain drift, no need to re-verify.
 
-## Step 1 — extract claims with their intent
+## Step 1 — extract claims
 
 Living docs = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root + `docs/README.md`, `docs/DESIGN-LANGUAGE.md`, every file under `docs/{user,internals,operations}/` (+ legacy UPPERCASE `docs/*.md` not yet cleaned up: `ARCHITECTURE.md`, `CONTEXT.md`, `PRD.md`…). Do NOT treat `docs/plans/` as living docs: active plans are checked against approved requirements and code during plan review; completed plans are frozen history (D1/D7). Retired `specs/`, `review/`, `mockups/` remain outside this scan.
 
-Each claim has an **intent** (backticked label after the anchor; missing label → default `current`):
-
-| Label        | Meaning                              |
-| ------------ | ------------------------------------ |
-| `current`    | describes the current state          |
-| `decided`    | decided, not started                 |
-| `building`   | in progress                          |
-| `deprecated` | removed, kept for reference          |
-
-**Audit ONLY `current` claims.** A `decided`/`building` claim the code does not have yet is **legitimate backlog** — do NOT mark it as drift, do NOT put it in a "Chưa khớp thực tế" table. Skip passages that mark themselves "net-new / gap" as well.
+Living docs carry no intent labels (D6): every behavior claim describes current behavior and is audited. Planned work lives in `docs/plans/`, not in living docs; a passage that marks itself net-new or a gap is drift to fix or delete, not backlog.
 
 ## Step 2 — verify with code, not with other docs
 
@@ -61,6 +52,6 @@ Each claim has an **intent** (backticked label after the anchor; missing label �
 
 ## Output with `--apply`
 
-1. Return the ledger in chat: claim, source doc, intent, status, evidence and HEAD sha at audit time. Do not require an issue id, post externally or write a report file.
+1. Return the ledger in chat: claim, source doc, status, evidence and HEAD sha at audit time. Do not require an issue id, post externally or write a report file.
 2. Drifted passages in the living docs: rewrite them correctly, or delete them — **after the diff is approved** (D1, D7).
 3. A list of items needing a human decision, ordered by the risk of leaving them as is; each item is one line in the report. Keep follow-up decisions in chat; do not auto-file them.

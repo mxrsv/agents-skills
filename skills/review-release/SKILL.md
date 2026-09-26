@@ -182,7 +182,7 @@ This lane is inline, so it assembles and returns the report itself (template §7
 
 **This command only runs when you remember to type it, or when an agent recognises the moment and calls it.** No hook enforces it, and none can — the framework is manual by design.
 
-The failure mode is specific: the moment you most need this lane is when you are stuck and going in circles, and being stuck is exactly the state in which you do not step back and notice you are stuck. An agent mid-task has the same blind spot. The `description` names "stuck, unsure whether to ship or fix" precisely so that model-invocation has a chance to fire in that state — but that is a mitigation, not a fix, and it depends on the agent noticing. Treat a missed `/review-release` as expected, not exceptional.
+The failure mode is specific: the moment you most need this lane is when you are stuck and going in circles, and being stuck is exactly the state in which you do not step back and notice you are stuck. An agent mid-task has the same blind spot. Model invocation can only fire from the `description` — that is a mitigation, not a fix, and it depends on the agent noticing. Treat a missed `/review-release` as expected, not exceptional.
 
 ## Contract
 

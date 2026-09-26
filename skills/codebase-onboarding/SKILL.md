@@ -51,7 +51,7 @@ Map the recon results to the right files per the D-rules:
 Rules when generating:
 
 - **NEVER overwrite an existing file.** Already exists → skip it and report "already exists". Fixing an old file to comply with D1/D6 is separate manual work, NOT part of bootstrap.
-- Behavior claims in `AGENTS.md` MUST be markdown links **relative to the file containing the link** + an intent label (D6). In `docs/internals/*.md`, links out to code → start with `../../`; no label needed.
+- Behavior claims in `AGENTS.md` MUST be markdown links **relative to the file containing the link** (D6). In `docs/internals/*.md`, links out to code → start with `../../`; no label needed.
 - `docs/internals/overview.md` keeps only what "a maintainer would get wrong without it": decisions + rationale, cross-module constraints, traps. No file catalogs, no control-flow retelling (D9).
 - Do not make things up. Cannot verify → write `unknown`.
 - When done, run `bash ~/.claude/scripts/docs-compliance.sh <repo>` and `bash ~/.claude/scripts/docs-anchors.sh <repo>`, and paste the output.

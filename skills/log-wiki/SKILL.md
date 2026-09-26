@@ -103,7 +103,6 @@ Report the files touched and the new `lastLoggedAt` when the script succeeds.
 
 ## Errors / common situations
 
-- `collect.js` / `record-capture.js` missing → stop, say the scripts are not there yet (another agent
-  is on it); you can still ask the narrator and keep the draft pending.
+- `collect.js` / `record-capture.js` missing → stop and say which script is missing; you can still ask the narrator and keep the draft pending.
 - `lastLoggedAt` missing → ask for the initial mark, do not guess silently.
 - Empty collect → still ask; the writer's memory is the entry's source of truth.
