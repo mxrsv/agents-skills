@@ -25,7 +25,7 @@ needed (typo, copy string, an already-specified value changed per explicit user
 instruction) may proceed directly.
 </HARD-GATE>
 
-**Ask whenever ambiguous — one question at a time.** Mirror the `brainstorming`
+**Ask whenever ambiguous — one question at a time.** Mirror the `brainstorm`
 discipline: one focused question per message, prefer multiple-choice, don't overwhelm.
 Keep asking until intent + demo surface are unambiguous; only then start building. "This
 looks obvious, I'll just start" is the exact rationalization this gate exists to stop.

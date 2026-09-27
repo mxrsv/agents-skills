@@ -27,4 +27,4 @@ The two branches produce very different artifacts — getting this wrong wastes 
 
 ## When done
 
-The _answer_ is the only thing worth keeping from a prototype. Capture it somewhere durable (commit message, ADR, issue, or a `NOTES.md` next to the prototype) along with the question it was answering. If the user is around, that capture is a quick conversation; if not, leave the placeholder so they (or you, on the next pass) can fill in the verdict before deleting the prototype.
+The _answer_ is the only thing worth keeping from a prototype. Capture it, with the question it was answering, in the task plan (`docs/plans/`, D4) when one exists, otherwise in the commit message that absorbs or deletes the prototype; a durable architectural decision goes where D9 places it. If the user is around, that capture is a quick conversation; if not, record the open verdict in the plan's handoff so it is settled before the prototype is deleted.

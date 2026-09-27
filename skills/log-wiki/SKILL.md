@@ -10,14 +10,13 @@ This is a HUMAN-IN-THE-LOOP process, not a one-shot script that emits a result.
 the entry content MUST come from the writer's own account; the agent only reshapes that account; the writer
 MUST approve before anything is written to the vault.
 
-Complements, does not replace, `/activity` (log-day): `/activity` = lessons about how work went;
-`log-wiki` = knowledge vault (facts, decisions, notes found wrong/missing, open questions).
+`log-wiki` captures knowledge (facts, decisions, notes found wrong/missing, open questions), not lessons about how the work went.
 
 ## Hard warnings
 
 - An empty/thin collect **≠** nothing to tell — still ask the writer.
 - Do **not** use `/insights` or `usage-data` (frozen).
-- Complements `/activity`, does not replace it; do not re-ask the log-day style "what did you struggle with today" angle.
+- Ask about knowledge, not the "what did you struggle with today" angle.
 - Do **not** patch the target Tolaria note yourself — only suggest `[[note]]`; after approval,
   `record-capture.js` appends the monthly note + updates `lastLoggedAt`.
 - Do **not** dump secrets, full prompts, tool stdout, or sensitive transcript content.
