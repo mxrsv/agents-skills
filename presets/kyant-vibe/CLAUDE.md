@@ -1,4 +1,4 @@
-<!-- Last Updated: 2026-08-10 -->
+<!-- Last Updated: 2026-09-27 -->
 <!--
   kyant-vibe — personal daily CLAUDE.md (shared as a preset).
   Install: npx github:mxrsv/agents-skills install --preset kyant-vibe
@@ -63,7 +63,7 @@ Hard rules — a violation is an error, no exceptions. Details: [`rules/core/`](
 - **L1.** BEFORE creating a new file → run through the checklist at the end of [`rules/core/file-creation.md`](../../rules/core/file-creation.md) (F-rules) · `~/.claude/rules/core/file-creation.md`
 - **L2.** BEFORE planning a new file/module structure → read [`templates/project-structure.md`](../../templates/project-structure.md) · `~/.claude/templates/project-structure.md` (path-scoped rules only load when a file is TOUCHED — during planning you must read it proactively)
 - **L3.** NEVER create `.bak`/`.old`/`.orig`/`-v2`/`-v3`/`-final`/`-copy` files — edit the original, git keeps the history ([F3](../../rules/core/file-creation.md))
-- **L4.** Temporary/experimental/debug files → scratchpad, NEVER in the repo ([F4](../../rules/core/file-creation.md))
+- **L4.** Temporary/experimental/debug files → scratchpad, NEVER in the repo; only `prototype` skill output is exempt ([F4](../../rules/core/file-creation.md))
 - **L5.** NEVER report "done/fixed/passing" without running the verification command and pasting the output as evidence ([W4](../../rules/core/workflow.md))
 - **L6.** Edit only within the task's scope; out-of-scope work → raise it, do not do it yourself ([W3](../../rules/core/workflow.md))
 - **L7.** Default is TAKE THE TASK AND DO IT — no mandatory brainstorm → spec → plan. Only set up that process when a W1 threshold is hit ([W1](../../rules/core/workflow.md), [W2](../../rules/core/workflow.md)). This rule overrides `superpowers:brainstorming` and any skill that forces brainstorming or plan mode on its own.

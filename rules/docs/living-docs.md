@@ -11,7 +11,7 @@ paths:
 Loaded when touching `docs/**`, `AGENTS.md`, `README.md`, `CHANGELOG.md`.
 The always-on D-rules live in `~/.claude/rules/core/docs.md`.
 
-- **D6.** Behavior claims in living docs (D1) MUST have resolving markdown links relative to the containing file; `docs-anchors.sh` scans these surfaces. Plans are execution records, outside that living-doc scan: verify active-plan paths against the checkout, distinguish planned files from existing ones, and keep task references reachable. Frozen plans describe their recorded revision, not current behavior. The intent labels `current`/`decided`/`building`/`deprecated` remain retired for living docs; the historical marker on a completed plan is a lifecycle marker, not a separate task tracker.
+- **D6.** Behavior claims in living docs (D1) MUST have resolving markdown links relative to the containing file; `docs-anchors.sh` scans these surfaces. Plans are execution records, outside that living-doc scan: verify active-plan paths against the checkout, distinguish planned files from existing ones, and keep task references reachable. Frozen plans describe their recorded revision, not current behavior. The historical marker on a completed plan is a lifecycle marker, not a task tracker.
   - ✅ in `AGENTS.md`: `[move_pane_ownership](electron/coordinator.ts)`
 - **D11.** BEFORE creating a new doc → check whether a doc on the same topic already exists; update instead of duplicating.
 - **D15.** Living-doc language follows the repo's `AGENTS.md`; if not declared, follow existing docs. Task plans, including requirements and handoff, are English under D4.
