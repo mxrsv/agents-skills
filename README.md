@@ -204,8 +204,6 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                       | Trước khi build — làm rõ nhu cầu, so hướng làm, chốt spec      |
 | [`planning`](skills/planning/SKILL.md)                                           | Plan thực thi khi phạm vi đã rõ                                |
 | [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                     | Bản đồ kiến trúc nhanh cho repo lạ                             |
-| [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md) | Cơ hội refactor / đào sâu kiến trúc                            |
-| [`domain-modeling`](skills/domain-modeling/SKILL.md)                             | Ngôn ngữ dùng chung, thuật ngữ domain, ADR                     |
 | [`interview-me`](skills/interview-me/SKILL.md)                                   | Phỏng vấn từng câu để moi ý định thật                          |
 | [`find-skills`](skills/find-skills/SKILL.md)                                     | Tìm / cài agent skills                                         |
 | [`explain`](skills/explain/SKILL.md)                                             | Giảng khái niệm, bug, hoặc quyết định thiết kế theo style chọn |

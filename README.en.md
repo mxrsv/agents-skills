@@ -204,8 +204,6 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                          | Before building — clarify, compare approaches, lock the spec |
 | [`planning`](skills/planning/SKILL.md) | Execution plan once scope is clear                           |
 | [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                        | Fast architecture map for unfamiliar repos                   |
-| [`improve-codebase-architecture`](skills/improve-codebase-architecture/SKILL.md)    | Refactor / deepen architecture opportunities                 |
-| [`domain-modeling`](skills/domain-modeling/SKILL.md)                                | Ubiquitous language, domain terms, ADRs                      |
 | [`interview-me`](skills/interview-me/SKILL.md)                                      | One-question-at-a-time interview to extract real intent      |
 | [`find-skills`](skills/find-skills/SKILL.md)                                        | Discover / install agent skills                              |
 | [`explain`](skills/explain/SKILL.md)                                                | Teach a concept, bug, or design decision in a chosen style   |
