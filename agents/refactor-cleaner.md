@@ -45,7 +45,7 @@ For each item to remove:
 - Start with SAFE items only
 - Remove one category at a time: deps -> exports -> files -> duplicates
 - Run tests after each batch
-- Commit after each batch
+- Do not commit; report each batch so the caller can commit it as one conventional commit (`type(scope): description`)
 
 ### 4. Consolidate Duplicates
 - Find duplicate components/utilities
@@ -64,14 +64,14 @@ Before removing:
 After each batch:
 - [ ] Build succeeds
 - [ ] Tests pass
-- [ ] Committed with descriptive message
+- [ ] Batch reported to the caller for commit
 
 ## Key Principles
 
 1. **Start small** -- one category at a time
 2. **Test often** -- after every batch
 3. **Be conservative** -- when in doubt, don't remove
-4. **Document** -- descriptive commit messages per batch
+4. **Document** -- list what each batch removed and why
 5. **Never remove** during active feature development or before deploys
 
 ## When NOT to Use
