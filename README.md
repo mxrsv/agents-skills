@@ -252,6 +252,10 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | [`impeccable`](skills/impeccable/SKILL.md)                       | [pbakaus/impeccable](https://github.com/pbakaus/impeccable)                       |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                         |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                   |
+| [`ponytail`](skills/ponytail/SKILL.md)                           | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
+| [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
+| [`ponytail-audit`](skills/ponytail-audit/SKILL.md)               | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
+| [`ponytail-debt`](skills/ponytail-debt/SKILL.md)                 | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
 
 ## CLAUDE.md presets (vibe coding)
 
