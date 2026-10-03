@@ -256,6 +256,9 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
 | [`ponytail-audit`](skills/ponytail-audit/SKILL.md)               | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
 | [`ponytail-debt`](skills/ponytail-debt/SKILL.md)                 | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
+| [`caveman`](skills/caveman/SKILL.md)                             | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                 |
+| [`ultracave`](skills/ultracave/SKILL.md)                         | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                 |
+| [`megacave`](skills/megacave/SKILL.md)                           | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                 |
 
 ## CLAUDE.md presets (vibe coding)
 
