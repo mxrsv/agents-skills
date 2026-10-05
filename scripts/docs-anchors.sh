@@ -58,6 +58,8 @@ for doc in "${living[@]}"; do
   while IFS= read -r hit; do
     lineno="${hit%%:*}"; link="${hit#*:}"
     target=$(printf '%s' "$link" | sed -E 's/^\[[^]]*\]\((.*)\)$/\1/')
+    # CommonMark: đích <...> chạy tới dấu > đóng (được chứa ngoặc tròn) → bỏ <> trước khi tách path/#fragment
+    case "$target" in '<'*) target="${target#<}"; target="${target%%>*}" ;; esac
     case "$target" in http://*|https://*|mailto:*|'#'*|'') continue ;; esac
     path="${target%%#*}"; frag="${target#"$path"}"; frag="${frag#\#}"
     path="${path%%\?*}"                      # bỏ query string (README hay dùng ?v=1.0.0 để phá cache ảnh)
@@ -80,13 +82,14 @@ for doc in "${living[@]}"; do
         || {
         echo "❌ $rel_doc:$lineno  [$path#$frag] — symbol không có trong file"; problems=$((problems+1)); }
     fi
-  done < <(grep -noE '\[[^]]*\]\([^)]+\)' "$doc" 2>/dev/null || true)
+  done < <(grep -noE '\[[^]]*\]\((<[^>]*>|[^)]+)\)' "$doc" 2>/dev/null || true)
 done
 
 # Lệnh trong AGENTS.md đối chiếu package.json
 if [ -f "$root/AGENTS.md" ] && [ -f "$root/package.json" ]; then
   while IFS= read -r cmd; do
     script="${cmd##* }"
+    case "$script" in install|i|ci) continue ;; esac   # lệnh built-in của package manager, không phải script
     jq -e --arg s "$script" '.scripts | has($s)' "$root/package.json" >/dev/null 2>&1 \
       || { echo "⚠️ AGENTS.md — lệnh \`$cmd\`: không có script '$script' trong package.json"; problems=$((problems+1)); }
   done < <(grep -oE '`(pnpm|npm|yarn|bun) [a-z0-9:_-]+`' "$root/AGENTS.md" | tr -d '`' | sort -u)

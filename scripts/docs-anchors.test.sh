@@ -13,8 +13,9 @@ empty() { local out; out=$(bash "$S" "$2" 2>&1)
   if [ -z "$out" ]; then pass=$((pass+1)); echo "PASS: $1"
   else fail=$((fail+1)); echo "FAIL: $1"; echo "  out: $out"; fi; }
 
-R=$(mktemp -d); mkdir -p "$R/docs/specs" "$R/docs/plans" "$R/docs/internals/pty" "$R/docs/user" "$R/src"
+R=$(mktemp -d); mkdir -p "$R/docs/specs" "$R/docs/plans" "$R/docs/internals/pty" "$R/docs/user" "$R/src/app/(frontend)"
 printf 'line\n%.0s' $(seq 50) > "$R/src/real.ts"
+printf 'line\n%.0s' $(seq 50) > "$R/src/app/(frontend)/page.tsx"
 printf 'const AGENT_ALLOWLIST = ["a"];\n#[allow(dead_code)]\npty_spawn();\n' > "$R/src/sym.rs"
 : > "$R/docs/internals/sibling.md"
 
@@ -29,6 +30,9 @@ Symbol có — [z](../../src/sym.rs#AGENT_ALLOWLIST)
 Symbol chứa regex — [w](../../src/sym.rs##[allow(dead_code)])
 Symbol sai — [v](../../src/sym.rs#pty.spawn)
 Ngoài — [u](https://example.com) và [t](#muc-1)
+Ngoặc nhọn có () — [ok](<../../src/app/(frontend)/page.tsx#L10-L20>)
+Ngoặc nhọn chết — [dead](<../../src/app/(gone)/page.tsx>)
+Ngoặc nhọn dòng quá — [range](<../../src/app/(frontend)/page.tsx#L9999>)
 Không phải anchor: `@preact/signals` `--text-primary/muted` `mxrsv/stackgrid` `TabView.unread`
 EOF
 printf '# deep\n[lồng sâu chết](../../../src/nope.ts)\n' > "$R/docs/internals/pty/ownership.md"
@@ -51,6 +55,9 @@ has   "user/ được quét"                        "$R" "user/getting-started.m
 hasnt "user/ link sang internals resolve đúng" "$R" "[../internals/overview.md]"
 hasnt "docs/README.md link đúng không báo"     "$R" "README.md:2"
 hasnt "query string ?v= không làm link chết"   "$R" "README.md:3"
+hasnt "link <...> chứa () resolve đúng"       "$R" "[<../../src/app/(frontend"
+has   "link <...> chết báo path đã bỏ <>"      "$R" "[../../src/app/(gone)/page.tsx] — file không tồn tại"
+has   "link <...> tách #fragment sau khi bỏ <>" "$R" "[../../src/app/(frontend)/page.tsx#L9999]"
 hasnt "docs/specs/ legacy, không quét"         "$R" "2026-07-27-x-design.md"
 hasnt "historical plans are not living docs"   "$R" "2026-09-18-export-csv.md"
 
@@ -62,5 +69,14 @@ empty "tài liệu sạch im lặng" "$R2"
 R3=$(mktemp -d)
 empty "repo không có tài liệu sống" "$R3"
 
-rm -rf "$R" "$R2" "$R3"
+R4=$(mktemp -d)
+printf '{"scripts":{"build":"tsc"}}\n' > "$R4/package.json"
+printf '# A\n`npm install` `pnpm i` `npm ci` `pnpm build` `pnpm lint`\n' > "$R4/AGENTS.md"
+hasnt "npm install là lệnh built-in"           "$R4" "'install'"
+hasnt "pnpm i là lệnh built-in"                "$R4" "'i'"
+hasnt "npm ci là lệnh built-in"                "$R4" "'ci'"
+hasnt "script có trong package.json không báo" "$R4" "'build'"
+has   "script thiếu vẫn bị báo"                "$R4" "'lint'"
+
+rm -rf "$R" "$R2" "$R3" "$R4"
 echo "----"; echo "pass=$pass fail=$fail"; [ "$fail" -eq 0 ]
