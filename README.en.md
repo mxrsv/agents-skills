@@ -6,7 +6,7 @@ How rules load in a session:
 
 ```mermaid
 flowchart TD
-    S([Claude Code session]) --> A["CLAUDE.md<br/>from presets/ or templates/<br/>communication · run summary · hard rules L1–L10"]
+    S([Claude Code session]) --> A["CLAUDE.md<br/>from presets/ or templates/<br/>communication · reply format · hard rules L1–L10"]
     S --> O["output-styles/<br/>reply language"]
     S --> C["rules/core/<br/>F · W · D · C · P — always loaded"]
     S --> T{"Which file is touched?"}
@@ -172,6 +172,7 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 | Agent                                      | Description                                                                              |
 | ------------------------------------------ | ---------------------------------------------------------------------------------------- |
 | [`analyst`](agents/analyst.md)             | Research, market/competitive analysis, brainstorming facilitation; returns drafts as text for review |
+| [`Explore`](agents/explore.md)             | Overrides built-in Explore: read-only codebase search on Haiku (`effort: medium`) to cut cost |
 | [`architect`](agents/architect.md)         | System architecture and technical decisions for large features/refactors                 |
 | [`planner`](agents/planner.md)             | Detailed planning for complex features and refactors                                     |
 
@@ -197,7 +198,7 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 
 ### Discovery & planning
 
-Under the [documentation rules](rules/core/docs.md), the conversation supplies goals and approvals; the [planning skill](skills/planning/SKILL.md) keeps requirements, implementation, verification and handoff in one `docs/plans/YYYY-MM-DD-<slug>.md` file. No issue key or external tracker is required. Completed plans remain as historical records; durable knowledge belongs in living docs. Small, clear tasks do not require a plan.
+Under the [documentation rules](rules/core/docs.md), the conversation supplies goals and approvals. Specs in `docs/specs/YYYY-MM-DD-<slug>.md` own requirements and acceptance criteria; the [planning skill](skills/planning/SKILL.md) keeps technical approach, tasks, verification and handoff in `docs/plans/YYYY-MM-DD-<slug>.md`, linking to the spec instead of copying requirements. No issue key or external tracker is required. Specs and plans whose full scope is accepted remain as historical records; durable knowledge belongs in living docs. Small, clear tasks require neither a spec nor a plan.
 
 | Skill                                                                               | Description                                                  |
 | ----------------------------------------------------------------------------------- | ------------------------------------------------------------ |

@@ -36,7 +36,7 @@ check "warn: debug-* trong repo"       2 warn  '{"tool_input":{"file_path":"/rep
 check "warn: debug-* trong scratchpad OK" 0 warn '{"tool_input":{"file_path":"/private/tmp/claude-501/x/scratchpad/debug-probe.js","content":"x"}}'
 check "warn: *.log trong repo"         2 warn  '{"tool_input":{"file_path":"/repo/out.log","content":"x"}}'
 
-# D3/D4: one task plan is allowed; separate spec/review directories stay blocked.
+# D3/D4: separate specs and plans are allowed; review/ledger directories stay blocked.
 FIX=$(mktemp -d)
 mkdir -p "$FIX/repo/.git" "$FIX/repo/docs/specs" "$FIX/repo/docs/plans" \
          "$FIX/repo/docs/review/assets" "$FIX/repo/docs/internals" \
@@ -54,8 +54,9 @@ check "docs: user/ chưa tồn tại vẫn cho qua"    0 block "$(jp "$FIX/repo/
 check "docs: operations/ cho qua"               0 block "$(jp "$FIX/repo/docs/operations/release.md")"
 check "docs: README.md cho qua"                 0 block "$(jp "$FIX/repo/docs/README.md")"
 check "docs: DESIGN-LANGUAGE.md cho qua"        0 block "$(jp "$FIX/repo/docs/DESIGN-LANGUAGE.md")"
-# Specs/reviews stay blocked; issue plans are allowed, including before the directory exists.
-check "docs: spec mới bị chặn"                  2 block "$(jp "$FIX/repo/docs/specs/2026-09-07-x-design.md")"
+# Specs and plans are allowed, including before their directories exist.
+check "docs: new spec is allowed"              0 block "$(jp "$FIX/repo/docs/specs/2026-09-07-x-design.md")"
+check "docs: missing specs directory is allowed" 0 block "$(jp "$FIX/planrepo/docs/specs/2026-10-03-export-csv.md")"
 check "docs: dated task plan is allowed"             0 block "$(jp "$FIX/repo/docs/plans/2026-09-18-export-csv.md")"
 check "docs: missing plans directory is allowed" 0 block "$(jp "$FIX/planrepo/docs/plans/2026-09-18-export-csv.md")"
 check "docs: review mới bị chặn"                2 block "$(jp "$FIX/repo/docs/review/2026-09-07-x.md")"
@@ -64,7 +65,8 @@ check "docs: superpowers/ chưa tồn tại vẫn chặn" 2 block "$(jp "$FIX/re
 check "docs: intent/ bị chặn"                   2 block "$(jp "$FIX/repo/docs/intent/x.md")"
 check "docs: decisions/ bị chặn"                2 block "$(jp "$FIX/repo/docs/decisions/0030-x.md")"
 check "docs: mockups/ bị chặn"                  2 block "$(jp "$FIX/repo/docs/mockups/2026-09-07-x.html")"
-says  "docs: blocked spec points to local task plan" block "$(jp "$FIX/repo/docs/specs/2026-09-07-x-design.md")" "docs/plans/YYYY-MM-DD-<slug>.md"
+says  "docs: blocked review points to specs" block "$(jp "$FIX/repo/docs/review/2026-10-03-export-csv.md")" "docs/specs/YYYY-MM-DD-<slug>.md"
+says  "docs: blocked review points to plans" block "$(jp "$FIX/repo/docs/review/2026-10-03-export-csv.md")" "docs/plans/YYYY-MM-DD-<slug>.md"
 # tầng lạ, file HOA cũ
 check "docs: thư mục lạ bị chặn"                2 block "$(jp "$FIX/repo/docs/guides/x.md")"
 check "docs: CONTEXT.md MỚI bị chặn"            2 block "$(jp "$FIX/repo/docs/CONTEXT.md")"

@@ -58,7 +58,7 @@ hasnt "query string ?v= không làm link chết"   "$R" "README.md:3"
 hasnt "link <...> chứa () resolve đúng"       "$R" "[<../../src/app/(frontend"
 has   "link <...> chết báo path đã bỏ <>"      "$R" "[../../src/app/(gone)/page.tsx] — file không tồn tại"
 has   "link <...> tách #fragment sau khi bỏ <>" "$R" "[../../src/app/(frontend)/page.tsx#L9999]"
-hasnt "docs/specs/ legacy, không quét"         "$R" "2026-07-27-x-design.md"
+hasnt "specifications are not living docs"      "$R" "2026-07-27-x-design.md"
 hasnt "historical plans are not living docs"   "$R" "2026-09-18-export-csv.md"
 
 R2=$(mktemp -d); mkdir -p "$R2/docs/internals"

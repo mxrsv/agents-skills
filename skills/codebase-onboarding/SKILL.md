@@ -1,6 +1,6 @@
 ---
 name: codebase-onboarding
-description: Use when entering a new codebase, needing a fast architecture map, or generating onboarding notes from an unfamiliar project. Focuses on reconnaissance first, then targeted reads.
+description: Use when entering a new codebase, needing a fast architecture map, or generating onboarding notes from an unfamiliar project. Focuses on reconnaissance first, then targeted reads. Describes the repo for navigation only; to judge architecture, dependency risk or docs drift, use review-health.
 ---
 
 # Codebase Onboarding
@@ -42,7 +42,6 @@ Map the recon results to the right files per the D-rules:
 | Recon item                                   | Target file                                                     | Template                                             |
 | -------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------- |
 | Stack, Common commands, Conventions, Gotchas | `AGENTS.md` (repo root)                                         | `~/.claude/templates/AGENTS.template.md`             |
-| —                                            | `CLAUDE.md` (repo root) — content is exactly one line `@AGENTS.md` | —                                                 |
 | Architecture, request/data flow, Key directories | `docs/internals/overview.md`                                | `~/.claude/templates/internals-overview.template.md` |
 | —                                            | `docs/README.md` — index pointing to `user/`, `internals/`, `operations/` (omit tiers that do not exist) | — |
 
@@ -58,8 +57,4 @@ Rules when generating:
 
 ## Permissions
 
-| write             | approve                       | stage | commit |
-| ----------------- | ----------------------------- | ----- | ------ |
-| ✅ (no overwrite) | ✅ present to the user for approval | ❌ | ❌     |
-
-NO `git add`, NO `git commit` (D14).
+Bootstrap authorizes creating the missing files above without overwriting existing ones. Routine documentation needs no separate approval; unclear requirements and material decisions follow D10. Staging and committing follow the task's authorization.

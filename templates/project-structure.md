@@ -17,18 +17,18 @@ src/
 ├─ hooks/                   # shared hooks: use-*.ts
 └─ types/                   # shared types
 e2e/                        # Playwright specs
-docs/                       # documentation (D-rules) — three living reader tiers plus technical plans
+docs/                       # documentation (D-rules) — three living reader tiers plus specs and plans
   README.md                 #   index
   internals/overview.md     #   living — architecture, decisions + reasons, constraints, traps (entry point, D5)
   internals/<topic>.md      #   only when "a maintainer would get it wrong without it"
   user/<task>.md            #   usage guides, product voice, no implementation detail
   operations/<runbook>.md   #   setup, release, debug for maintainers
   DESIGN-LANGUAGE.md        #   only for repos with codified design rules
-  plans/YYYY-MM-DD-<slug>.md # requirements, tasks, evidence, handoff; retain as history (D1/D4)
+  specs/YYYY-MM-DD-<slug>.md # requirements, scope, design decisions, acceptance criteria (D0/D4)
+  plans/YYYY-MM-DD-<slug>.md # link to spec; technical tasks, progress, evidence, handoff (D0/D4)
   # review → chat or explicitly requested PR; evidence → scratchpad/requested artifacts
-  # NO specs/, review/, superpowers/ or .planning/; small work needs no plan
+  # NO review/, superpowers/ or .planning/; small work needs neither spec nor plan
 AGENTS.md                   # repo-specific rules — required (D5)
-CLAUDE.md                   # first line `@AGENTS.md` — required (D5)
 ```
 
 - One-way dependency: `components/ → lib/`; NEVER `lib/ → components/` (even type-only).

@@ -5,8 +5,8 @@
 #   PostToolUse (Write) → file-guard.sh warn    # exit 2 = nhắc agent (tool đã chạy, không chặn)
 # Từ 2026-07-27: CÓ kiểm vị trí + tên tài liệu (D3/D4). Lý do đảo chủ đích cũ: F2 dạng
 # văn bản đã thất bại — 4 đường dẫn song song, 21 file bị .gitignore chôn ở deck.
-# Since 2026-09-18: docs/ allows three living tiers plus technical plans/.
-# Requirements share the task plan; reports default to chat. Separate spec/review directories stay blocked.
+# Since 2026-10-03: docs/ allows three living tiers plus separate specs/ and plans/.
+# Specs own requirements; plans own execution. Reviews default to chat.
 # Documentation root xác định KHÔNG qua git (xem docs_path_violation).
 set -u
 
@@ -16,7 +16,7 @@ file_path=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty' 2>/dev
 [ -z "$file_path" ] && exit 0
 base=$(basename "$file_path")
 
-WORKFLOW_HINT="requirements + plan + handoff → docs/plans/YYYY-MM-DD-<slug>.md; review → chat or an explicitly requested PR (D4)"
+WORKFLOW_HINT="requirements + acceptance criteria → docs/specs/YYYY-MM-DD-<slug>.md; implementation + verification + handoff → docs/plans/YYYY-MM-DD-<slug>.md (link to spec); review → chat or an explicitly requested PR (D4)"
 
 # Documentation root = tổ tiên gần nhất có `docs/` là con trực tiếp VÀ có marker.
 # KHÔNG dùng git: PreToolUse chạy TRƯỚC khi Write tạo thư mục cha, nên
@@ -31,11 +31,11 @@ docs_path_violation() { # $1 = file_path; in lý do chặn ra stdout, rỗng = c
   [ -e "$p" ] && return 0                    # chỉ chặn TẠO FILE MỚI (doc legacy vẫn sửa được)
   rel="${p#"$root"/}"
   case "$rel" in
-    docs/user/*|docs/internals/*|docs/operations/*|docs/plans/*) ;; # D3/D4
-    docs/specs/*|docs/review/*|docs/superpowers/*|docs/intent/*|docs/decisions/*|docs/daily/*|docs/archive/*|docs/mockups/*)
-      echo "⛔ D4: '$rel' — do not create spec/review/ledger files in the repo: $WORKFLOW_HINT. Evidence → scratchpad or a requested artifact destination." ;;
+    docs/user/*|docs/internals/*|docs/operations/*|docs/specs/*|docs/plans/*) ;; # D3/D4
+    docs/review/*|docs/superpowers/*|docs/intent/*|docs/decisions/*|docs/daily/*|docs/archive/*|docs/mockups/*)
+      echo "⛔ D4: '$rel' — do not create review/ledger files in the repo: $WORKFLOW_HINT. Evidence → scratchpad or a requested artifact destination." ;;
     docs/*/*)
-      echo "⛔ D3: allowed docs/ directories: user/, internals/, operations/, plans/ — got '$rel'. Requirements, tasks and handoff → docs/plans/." ;;
+      echo "⛔ D3: allowed docs/ directories: user/, internals/, operations/, specs/, plans/ — got '$rel'. Requirements → docs/specs/; implementation and handoff → docs/plans/." ;;
     docs/*)
       base="${rel#docs/}"
       case "$base" in

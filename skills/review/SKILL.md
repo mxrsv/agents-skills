@@ -1,6 +1,6 @@
 ---
 name: review
-description: Review a spec or a plan before implementation starts — completeness, ambiguity, feasibility, executable steps, missing dependencies. For reviewing the project itself (code, UX, architecture, deps, docs) use the /review-change, /review-experience, /review-health and /review-release commands instead.
+description: Review a spec or a plan before implementation starts — completeness, ambiguity, feasibility, executable steps, missing dependencies. For reviewing the project itself (code, UX, architecture, deps, docs) use the /review-change, /review-experience, /review-health and /review-release commands instead. Critiques a written artifact via an independent reviewer; to question the user interactively about undecided choices, use grilling.
 ---
 
 # Review (specs and plans)
@@ -38,7 +38,7 @@ Agent tool:
     Review criteria: {inline the contents of rules/review-criteria.md}
 ```
 
-Requirements and implementation share the task plan under `docs/plans/` (D0/D4). Resolve the artifact from the supplied path or conversation; search for the existing task plan if necessary. For a spec review, read its requirements/decisions; for a plan review, read the technical tasks against those requirements and the checkout. Small tasks may provide their requirements in chat. If no artifact or goal can be identified, ask for that missing content, not a tracker id. Pass the actual artifact text to the reviewer. Historical plans describe their recorded revision and are not proposals for current behavior.
+Requirements belong in `docs/specs/`; implementation plans belong in `docs/plans/` and link to their spec (D0/D4). Resolve the artifact from the supplied path or conversation; search both directories if necessary. For a spec review, read its requirements/decisions; for a plan review, read the linked spec and check technical tasks against its acceptance criteria and the checkout. Small tasks may provide their requirements in chat. If no artifact or goal can be identified, ask for that missing content, not a tracker id. Pass the actual artifact text to the reviewer. Historical plans describe their recorded revision and are not proposals for current behavior.
 
 Do NOT paste codebase contents — the subagent can read and search the codebase and should look for itself.
 
@@ -51,7 +51,7 @@ Do NOT paste codebase contents — the subagent can read and search the codebase
 
 - **EXECUTABLE: Yes** → present the report. Done.
 - **EXECUTABLE: Partial** → present the report. The user decides whether to proceed.
-- **EXECUTABLE: No** → report HIGH/CRITICAL findings. If revision was authorized, edit the relevant requirements or tasks in the same repo plan (D14), then re-dispatch. Otherwise wait for direction. Max 3 iterations; changed scope/approach requires renewed approval.
+- **EXECUTABLE: No** → report HIGH/CRITICAL findings. If revision was authorized, edit requirements in the owning spec or tasks in the owning plan (D0/D4), then re-dispatch. Otherwise wait for direction. Max 3 iterations; changed scope/approach requires renewed approval.
 - **3 iterations exhausted** → stop and escalate to the user.
 
 ## Rules

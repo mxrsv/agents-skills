@@ -12,14 +12,14 @@ Scripts first. They are deterministic and cheap; your reading time is neither.
 
 ```bash
 bash ~/.claude/scripts/docs-anchors.sh <repo-root>      # D6 — are the anchors still alive (AGENTS.md, README.md, CHANGELOG.md, docs/README.md, docs/{user,internals,operations}/**)
-bash ~/.claude/scripts/docs-compliance.sh <repo-root>   # D5/D6 — AGENTS.md + CLAUDE.md pair, intent labels on root docs, legacy docs/ dirs
+bash ~/.claude/scripts/docs-compliance.sh <repo-root>   # D5/D6 — AGENTS.md required (CLAUDE.md optional), intent labels on root docs, legacy docs/ dirs
 ```
 
 Both take the repo root as their one argument, and both use the same exit codes: `0` clean, `1` problems found, `2` the path is not a directory. Output is one `❌ <file>:<line>  <detail>` per problem (Vietnamese text — quote the line verbatim as evidence rather than translating it).
 
 `docs-anchors.sh` answers *"do the links in living docs still point at something real"*; `docs-compliance.sh` answers *"do the required docs exist and carry the required structure"*. They are not interchangeable — run both. These calls take an argument, so they may trigger a permission prompt; that is expected. Do not rewrite the command to dodge it.
 
-**A missing required document is a finding, not a `blocked`.** If `docs-compliance.sh` reports `thiếu AGENTS.md (D5)` or a `CLAUDE.md` without its `@AGENTS.md` first line, file it: the contract says the file must exist, and it does not. That is drift in its purest form. A `⚠️ docs/specs/ còn tồn tại` line is a finding too (`docs/layout/legacy-dir`): spec, plan and review content belongs in the issue tracker, not the tree (D4) — unless an issue for that cleanup already exists, in which case cite it and move on.
+**A missing required document is a finding, not a `blocked`.** If `docs-compliance.sh` reports `thiếu AGENTS.md (D5)`, file it: the contract says the file must exist, and it does not. A `CLAUDE.md` without its `@AGENTS.md` first line is a lower-severity finding: it hides `AGENTS.md` from Claude Code unless that is intended. Specs in `docs/specs/` and plans in `docs/plans/` are allowed (D3/D4); do not report their presence as drift. A retired directory warning such as `⚠️ docs/review/ còn tồn tại` is a layout finding; report it in chat without filing or fetching an external issue.
 
 **2. Read what the scripts structurally cannot see.** They check anchors that exist; they cannot flag a behavior claim that never linked to anything. Open the living docs (`AGENTS.md`, `README.md`, `docs/README.md`, `docs/internals/**`, `docs/operations/**`) and look for statements about how the system behaves that carry no anchor at all. Verify two or three of the load-bearing ones against the code by hand. A `docs/internals/` page that narrates control flow or catalogs files is drift of a second kind — the t3code test is "what would a maintainer get wrong without it"; if the code answers, the page should go.
 
@@ -60,7 +60,7 @@ NEVER assert drift you did not verify on both sides. "The doc says X" plus "the 
 
 - Living docs describing behavior the code no longer has, or never had.
 - Anchors pointing at moved, renamed or deleted symbols and files.
-- Required documents missing outright (D5); spec/plan/review directories still in the tree (D3/D4); a stale "Chưa khớp thực tế" table still carried in a living doc (retired D7 — drift now goes to an issue).
+- Required documents missing outright (D5); retired review/ledger directories still in the tree (D3/D4); a stale "Chưa khớp thực tế" table still carried in a living doc (retired D7 — drift now goes to an issue).
 - Anchors in `AGENTS.md`, `README.md`, `CHANGELOG.md` without an intent label — `current` / `decided` / `building` / `deprecated` (D6).
 - Env vars read but undocumented, or documented but unread.
 - Schema and model disagreeing on columns, types or nullability.

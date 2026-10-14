@@ -31,8 +31,7 @@ The index is [docs/README.md](docs/README.md) `current`.
 - `docs/internals/` holds architectural decisions and their reasons, constraints that span
   modules, and traps that are hard to discover from the source. Before adding a paragraph,
   ask what a maintainer would get wrong without it. If reading the relevant code answers the
-  question, leave it out. It is the one place in the repository that still takes new
-  documentation.
+  question, leave it out.
 - `docs/user/` helps users accomplish tasks, in the voice of the shipped product, with no
   implementation detail and no contributor tooling. Update the feature's section when how to
   use it changes; a UI tweak needs no entry and a new control needs no page.
@@ -43,8 +42,11 @@ The index is [docs/README.md](docs/README.md) `current`.
   documented decision changes, rewrite or remove the text; never append a second account of
   the new behaviour. Keep a local explanation in a code comment; use an internal page only
   when the reasoning crosses boundaries.
-- Plans, specs, research notes and review reports are not committed. A merged PR is the
-  implementation record, and active work lives in the issue that owns it.
+- Specs in `docs/specs/` own requirements and acceptance criteria. Plans in `docs/plans/`
+  link to specs and own technical tasks, progress, verification and handoff (D0/D4).
+  Retain completed records as history. Small work
+  needs neither document. Reviews stay in chat or an explicitly requested PR; raw
+  research artifacts stay in scratchpad. No external tracker is required.
 
 {{Delete the tiers the repo does not have (a CLI repo has no user/ …). This section does NOT name the tracker tool — choosing the tool is the user's call, and the global rules D0/D4 already cover it.}}
 

@@ -6,7 +6,7 @@ Luật được nạp thế nào trong một phiên:
 
 ```mermaid
 flowchart TD
-    S([Phiên Claude Code]) --> A["CLAUDE.md<br/>từ presets/ hoặc templates/<br/>giao tiếp · run summary · hard rules L1–L10"]
+    S([Phiên Claude Code]) --> A["CLAUDE.md<br/>từ presets/ hoặc templates/<br/>giao tiếp · format trả lời · hard rules L1–L10"]
     S --> O["output-styles/<br/>ngôn ngữ trả lời"]
     S --> C["rules/core/<br/>F · W · D · C · P — luôn nạp"]
     S --> T{"Đang đụng file nào?"}
@@ -172,6 +172,7 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 | Agent                                      | Mô tả                                                                                  |
 | ------------------------------------------ | -------------------------------------------------------------------------------------- |
 | [`analyst`](agents/analyst.md)             | Nghiên cứu, phân tích thị trường/đối thủ, hỗ trợ brainstorm; trả draft dạng text để người duyệt |
+| [`Explore`](agents/explore.md)             | Ghi đè Explore built-in: tìm kiếm codebase chỉ-đọc, chạy Haiku (`effort: medium`) cho rẻ |
 | [`architect`](agents/architect.md)         | Kiến trúc hệ thống và quyết định kỹ thuật cho feature/refactor lớn                     |
 | [`planner`](agents/planner.md)             | Lập plan chi tiết cho feature và refactor phức tạp                                     |
 
@@ -197,7 +198,7 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 
 ### Khám phá & lập plan
 
-Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt quyết định trong chat; [skill planning](skills/planning/SKILL.md) giữ yêu cầu, kế hoạch, checklist, kiểm chứng và bàn giao trong một file `docs/plans/YYYY-MM-DD-<slug>.md`. Không cần issue key hay dịch vụ theo dõi bên ngoài. Khi việc hoàn tất, plan được giữ làm lịch sử; kiến thức còn áp dụng được chắt vào tài liệu sống. Việc nhỏ, rõ ràng không bắt buộc có plan.
+Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt quyết định trong chat. Spec ở `docs/specs/YYYY-MM-DD-<slug>.md` giữ yêu cầu và tiêu chí nghiệm thu; [skill planning](skills/planning/SKILL.md) viết cách triển khai, checklist, bằng chứng kiểm chứng và bàn giao vào `docs/plans/YYYY-MM-DD-<slug>.md`, liên kết tới spec thay vì chép lại yêu cầu. Không cần issue key hay dịch vụ theo dõi bên ngoài. Khi toàn bộ phạm vi được nghiệm thu, spec và plan được giữ làm lịch sử; kiến thức còn áp dụng được chắt vào tài liệu sống. Việc nhỏ, rõ ràng không bắt buộc có spec hay plan.
 
 | Skill                                                                            | Mô tả                                                          |
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------- |

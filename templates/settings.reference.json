@@ -1,5 +1,5 @@
 {
-  "_note": "Documentation workflow updated 2026-09-18: requirements, implementation and handoff share docs/plans/YYYY-MM-DD-<slug>.md, retained as task history; no external tracker is required. The global plansDirectory override remains unset; the planning skill manages canonical files. settings.json is untracked; this is its reproducible reference without permissions, env or marketplace settings.",
+  "_note": "Documentation workflow updated 2026-10-03: requirements and acceptance criteria belong in docs/specs/YYYY-MM-DD-<slug>.md; implementation, verification and handoff belong in docs/plans/YYYY-MM-DD-<slug>.md with links to the spec. Both are retained as task history; no external tracker is required. The global plansDirectory override remains unset; the planning skill manages canonical files. settings.json is untracked; this is its reproducible reference without permissions, env or marketplace settings.",
   "skillOverrides": {
     "brainstorm": "off",
     "planning": "off"

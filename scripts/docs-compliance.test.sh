@@ -50,11 +50,11 @@ printf '# a\n[x](y.md)\n`current`\n' > "$E2/AGENTS.md"
 printf '@AGENTS.md\n' > "$E2/CLAUDE.md"
 code "nhãn D6 ở dòng kế tiếp exit 0" "$E2" 0
 
-F=$(mktemp -d); mkdir -p "$F/docs/specs"; : > "$F/PIPELINE.lock"
+F=$(mktemp -d); mkdir -p "$F/docs/review"; : > "$F/PIPELINE.lock"
 printf '# a\n[x](y.md)\n' > "$F/AGENTS.md"
 printf '@AGENTS.md\n' > "$F/CLAUDE.md"
 code  "PIPELINE.lock đủ D5 exit 0"       "$F" 0
-hasnt "PIPELINE.lock bỏ qua cảnh báo D3" "$F" "docs/specs/"
+hasnt "PIPELINE.lock bỏ qua cảnh báo D3" "$F" "docs/review/"
 
 G=$(mktemp -d); mkdir -p "$G/docs"; : > "$G/PIPELINE.lock"
 code "PIPELINE.lock KHÔNG miễn D5" "$G" 1
@@ -63,7 +63,7 @@ code "PIPELINE.lock KHÔNG miễn D5" "$G" 1
 H=$(mktemp -d); mkdir -p "$H/docs/specs" "$H/docs/review" "$H/docs/internals" "$H/docs/plans"
 printf '# a\n' > "$H/AGENTS.md"
 printf '@AGENTS.md\n' > "$H/CLAUDE.md"
-has  "cảnh báo docs/specs/ còn tồn tại"  "$H" "⚠️ docs/specs/"
+hasnt "specifications are not legacy"   "$H" "⚠️ docs/specs/"
 has  "cảnh báo docs/review/ còn tồn tại" "$H" "⚠️ docs/review/"
 hasnt "technical plans are not legacy"   "$H" "⚠️ docs/plans/"
 code "thư mục legacy không làm exit 1"   "$H" 0
