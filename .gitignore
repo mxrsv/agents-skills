@@ -31,3 +31,8 @@ Thumbs.db
 *~
 .*.swp
 *.bak
+
+# Local-only skill dirs: trash, sync buckets, externally managed plugins
+/skills/.trash/
+/skills/synced/
+/skills/superset/
