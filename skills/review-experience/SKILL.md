@@ -1,6 +1,6 @@
 ---
 name: review-experience
-description: Review the real user experience of a running app in a real browser — walk the affected flows, force loading/error/empty states, check 375/768/1440, capture console and network evidence. Use after UI, navigation or flow changes when a dev or staging URL is reachable, or when the app is reported confusing or broken in actual use. Not for code-level bugs (use /review-change), not for architecture or docs health (use /review-health). Requires a running app; for a static principle-based audit use frontend-design-audit; for Core Web Vitals measurement use web-perf.
+description: Review the real user experience of a running app in a real browser — walk the affected flows, force loading/error/empty states, check 375/768/1440, capture console and network evidence. Use after UI, navigation or flow changes when a dev or staging URL is reachable, or when the app is reported confusing or broken in actual use. Not for code-level bugs (use /review-change), not for architecture or docs health (use /review-health). Requires a running app; for a static design critique or audit from code use impeccable; for Core Web Vitals measurement use web-perf.
 ---
 
 # Review: experience
@@ -131,7 +131,8 @@ Everything else the walk needs — **`browser_network_requests`** (load-bearing 
 | `/review-change` | code-level bugs, missing tests, insecure code — anything whose evidence is the diff |
 | `/review-health` | architecture, coupling, dependencies, docs drift |
 | `/review-release` | the ship decision; this profile produces evidence, not verdicts |
-| `frontend-design-bar` | making new UI look designed. This skill judges what exists. |
+| `impeccable` | building, redesigning or critiquing UI from code. This skill judges what runs. |
+| `frontend-design-bar` | the screenshot gate before UI counts as done. |
 
 Do not fix anything. Report findings; the user decides. If a fix is obvious, put it in `action` and move on.
 

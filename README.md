@@ -226,10 +226,10 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 
 | Skill                                                            | Mô tả                                         |
 | ---------------------------------------------------------------- | --------------------------------------------- |
-| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)     | UI trông như được thiết kế, không generic     |
-| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | Audit dùng thử cho UI sẵn có / site đang chạy |
+| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)     | Cổng screenshot: UI trông được thiết kế chưa  |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | Tắt — dùng `impeccable` critique/audit        |
 | [`prototype`](skills/prototype/SKILL.md)                         | Prototype bỏ được trước khi chốt hướng        |
-| [`impeccable`](skills/impeccable/SKILL.md)                       | Phê, mài, cải giao diện                       |
+| [`impeccable`](skills/impeccable/SKILL.md)                       | Dựng, thiết kế lại, phê, mài giao diện        |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | Component shadcn/ui, registry, chat UI        |
 
 ### Nội dung, docs & quy trình

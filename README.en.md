@@ -226,10 +226,10 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 
 | Skill                                                                      | Description                                    |
 | -------------------------------------------------------------------------- | ---------------------------------------------- |
-| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)               | UI that looks designed, not generic            |
-| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | Usability audit for existing UIs / live sites  |
+| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)               | Screenshot gate: does the UI look designed     |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | Off — use `impeccable` critique/audit          |
 | [`prototype`](skills/prototype/SKILL.md)                                   | Throwaway prototype before committing          |
-| [`impeccable`](skills/impeccable/SKILL.md)                                 | Critique, polish, improve interfaces           |
+| [`impeccable`](skills/impeccable/SKILL.md)                                 | Build, redesign, critique, polish interfaces   |
 | [`shadcn`](skills/shadcn/SKILL.md)                                         | shadcn/ui components, registries, chat UI      |
 
 ### Content, docs & workflow

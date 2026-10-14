@@ -1,6 +1,6 @@
 ---
 name: frontend-design-bar
-description: Use when building, reshaping, or reviewing any web UI (landing page, hero, dashboard, component, marketing site) and it must look designed, not generated. Triggers — a UI that reads flat, generic, templated, or static; calling UI "done" from code/build/TypeScript without looking at a screenshot; deciding whether a design is good enough to ship; prototyping a new template or hero. Judges visual craft only; for usability or accessibility audits of an existing UI use frontend-design-audit; for chart or stat-tile rendering use dataviz if available.
+description: Acceptance gate for web UI work (landing page, hero, dashboard, component, marketing site) — judge on a screenshot or recording whether the result looks designed, not generated, before calling it done. Triggers — calling UI "done" from code/build/TypeScript without looking at a screenshot; deciding whether a design is good enough to ship; a finished UI that reads flat, generic, templated, or static. Judges visual craft only; to build, redesign, polish, critique or audit a UI use impeccable; for chart or stat-tile rendering use dataviz if available.
 metadata:
   origin: user
 ---
