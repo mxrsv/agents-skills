@@ -78,56 +78,9 @@ Check for inefficient algorithms:
 | Deep cloning large objects    | O(n) each time  | Use shallow copy or immer    |
 | Recursion without memoization | O(2^n)          | Add memoization              |
 
-```typescript
-// BAD: O(n²) - searching array in loop
-for (const user of users) {
-    const posts = allPosts.filter((p) => p.userId === user.id); // O(n) per user
-}
-
-// GOOD: O(n) - group once with Map
-const postsByUser = new Map<number, Post[]>();
-for (const post of allPosts) {
-    const userPosts = postsByUser.get(post.userId) || [];
-    userPosts.push(post);
-    postsByUser.set(post.userId, userPosts);
-}
-// Now O(1) lookup per user
-```
-
 ### 3. React Performance Optimization
 
 **Common React Anti-patterns:**
-
-```tsx
-// BAD: Inline function creation in render
-<Button onClick={() => handleClick(id)}>Submit</Button>
-
-// GOOD: Stable callback with useCallback
-const handleButtonClick = useCallback(() => handleClick(id), [handleClick, id]);
-<Button onClick={handleButtonClick}>Submit</Button>
-
-// BAD: Object creation in render
-<Child style={{ color: 'red' }} />
-
-// GOOD: Stable object reference
-const style = useMemo(() => ({ color: 'red' }), []);
-<Child style={style} />
-
-// BAD: Expensive computation on every render
-const sortedItems = items.sort((a, b) => a.name.localeCompare(b.name));
-
-// GOOD: Memoize expensive computations
-const sortedItems = useMemo(
-  () => [...items].sort((a, b) => a.name.localeCompare(b.name)),
-  [items]
-);
-
-// BAD: List without keys or with index
-{items.map((item, index) => <Item key={index} />)}
-
-// GOOD: Stable unique keys
-{items.map(item => <Item key={item.id} item={item} />)}
-```
 
 **React Performance Checklist:**
 
@@ -443,16 +396,3 @@ const fastCode = ...;
 | Memory usage growing | Check for leaks, review useEffect cleanup |
 | CPU spikes           | Profile with Chrome DevTools              |
 | Database query > 1s  | Add index, optimize query, cache results  |
-
-## Success Metrics
-
-- Lighthouse performance score > 90
-- All Core Web Vitals in "good" range
-- Bundle size under budget
-- No memory leaks detected
-- Test suite still passing
-- No performance regressions
-
----
-
-**Remember**: Performance is a feature. Users notice speed. Every 100ms of improvement matters. Optimize for the 90th percentile, not the average.

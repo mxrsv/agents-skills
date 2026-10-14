@@ -100,10 +100,3 @@ SUMMARY:
 
 ACTION: {list SAFE items to remove} — Awaiting approval
 ```
-
-## Success Metrics
-
-- All tests passing
-- Build succeeds
-- No regressions
-- Bundle size reduced

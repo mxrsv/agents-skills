@@ -65,14 +65,6 @@ Flag these patterns immediately:
 | No rate limiting              | HIGH     | Add `express-rate-limit`        |
 | Logging passwords/secrets     | MEDIUM   | Sanitize log output             |
 
-## Key Principles
-
-1. **Defense in Depth** — Multiple layers of security
-2. **Least Privilege** — Minimum permissions required
-3. **Fail Securely** — Errors should not expose data
-4. **Don't Trust Input** — Validate and sanitize everything
-5. **Update Regularly** — Keep dependencies current
-
 ## Common False Positives
 
 - Environment variables in `.env.example` (not actual secrets)
@@ -92,18 +84,6 @@ If you find a CRITICAL vulnerability, list it first with a detailed report and a
 
 **IMMEDIATELY:** Production incidents, dependency CVEs, user security reports, before major releases.
 
-## Success Metrics
-
-- No CRITICAL issues found
-- All HIGH issues addressed
-- No secrets in code
-- Dependencies up to date
-- Security checklist complete
-
 ## Reference
 
 For detailed vulnerability patterns, code examples, report templates, and PR review templates, see skill: `security-review`.
-
----
-
-**Why this matters**: one vulnerability can cost users real financial losses.

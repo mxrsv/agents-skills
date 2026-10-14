@@ -115,8 +115,4 @@ Verdict: OPTIMIZED / NEEDS WORK / BLOCKING
 - BLOCKING: CRITICAL found
 ```
 
----
-
-**Remember**: Database issues are often the root cause of application performance problems. Optimize queries and schema design early. Use EXPLAIN ANALYZE to verify assumptions. Always index foreign keys and RLS policy columns.
-
 _Patterns adapted from Supabase Agent Skills (credit: Supabase team) under MIT license._
