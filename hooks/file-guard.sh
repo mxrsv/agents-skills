@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # file-guard.sh — chốt chặn tên file rác + cảnh báo vùng xám cho AI agent.
 # Đăng ký trong ~/.claude/settings.json:
-#   PreToolUse  (Write) → file-guard.sh block   # exit 2 = CHẶN Write, stderr đưa cho agent
-#   PostToolUse (Write) → file-guard.sh warn    # exit 2 = nhắc agent (tool đã chạy, không chặn)
+#   PostToolUse (Write) → file-guard.sh warn    # đang đăng ký; exit 2 = nhắc agent (tool đã chạy, không chặn)
+#   PreToolUse  (Write) → file-guard.sh block   # script hỗ trợ nhưng CHƯA đăng ký (exit 2 sẽ chặn Write)
 # Từ 2026-07-27: CÓ kiểm vị trí + tên tài liệu (D3/D4). Lý do đảo chủ đích cũ: F2 dạng
 # văn bản đã thất bại — 4 đường dẫn song song, 21 file bị .gitignore chôn ở deck.
 # Since 2026-10-03: docs/ allows three living tiers plus separate specs/ and plans/.

@@ -287,4 +287,4 @@ Presets ghi `CLAUDE.md` vào target cài. Ghép với [`rules/`](rules/) để l
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Skeleton delta rules theo project                                              |
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Starter `CLAUDE.md` trung lập                                                  |
 | [`templates/project-structure.md`](templates/project-structure.md) | Cây thư mục chuẩn                                                              |
-| [`hooks/file-guard.sh`](hooks/file-guard.sh)                       | Chặn tên file junk; cảnh báo file quá lớn / sai chỗ                            |
+| [`hooks/file-guard.sh`](hooks/file-guard.sh)                       | Cảnh báo (PostToolUse) tên file junk, file quá lớn, sai chỗ; chế độ `block` chưa đăng ký |
