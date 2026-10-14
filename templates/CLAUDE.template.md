@@ -39,7 +39,7 @@ Hard rules — violations are errors. Details live in `{{~/.claude/rules/core/}}
 - L4. Temp / experiment / debug files → scratchpad, NEVER the repo.
 - L5. NEVER claim "done / fixed / passing" without running verification and pasting evidence.
 - L6. Stay in task scope; call out out-of-scope work, do not do it silently.
-- L7. New creative work → brainstorm first; with a spec → plan before code.
+- L7. Default is to take the task and do it; brainstorm, spec or plan only when a workflow threshold is hit (ambiguous outcome, architecture/data-model/public-contract change, explicit request).
 - L8. Commits: conventional commits with scope; one commit, one concern; follow <branching>.
 - L9. Specs / plans / docs → follow your docs rules.
 - L10. Repo without AGENTS.md → generate from the AGENTS template; record only deltas vs global baseline.
