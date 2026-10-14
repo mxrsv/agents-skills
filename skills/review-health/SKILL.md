@@ -1,6 +1,6 @@
 ---
 name: review-health
-description: Structural health review of a repo — architecture and coupling, dependency risk, and drift between living docs/schema/config and the code. Use at a milestone, after a big refactor or merge, or as the first review on a never-reviewed repo; needs only the repo, no running app and no diff. Not for a specific change or diff (use /review-change), not for UX or runtime behavior (use /review-experience), not for a ship decision (use /review-release).
+description: Structural health review of a repo — architecture and coupling, dependency risk, and drift between living docs/schema/config and the code. Use at a milestone, after a big refactor or merge, or as the first review on a never-reviewed repo; needs only the repo, no running app and no diff. Not for a specific change or diff (use /review-change), not for UX or runtime behavior (use /review-experience), not for a ship decision (use /review-release). Not for hunting what to delete or replace with stdlib/native code (use ponytail-audit).
 ---
 
 # /review-health

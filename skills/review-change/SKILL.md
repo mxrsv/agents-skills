@@ -1,6 +1,6 @@
 ---
 name: review-change
-description: Review a change you just implemented — correctness against its callers, test quality, and code-level security — over a git range or the working tree. Run right after finishing a unit of implementation and before committing it. Not for reviewing a spec or a plan (use /review), not for whole-repo architecture, dependencies or docs drift (use /review-health), not for user flow in a browser (use /review-experience).
+description: Review a change you just implemented — correctness against its callers, test quality, and code-level security — over a git range or the working tree. Run right after finishing a unit of implementation and before committing it. Not for reviewing a spec or a plan (use /review), not for whole-repo architecture, dependencies or docs drift (use /review-health), not for user flow in a browser (use /review-experience). Default for reviewing your own just-finished change. For inline PR comments, auto-applied fixes or effort-tiered cloud review, use the harness's built-in code-review if available.
 ---
 
 # Review a change

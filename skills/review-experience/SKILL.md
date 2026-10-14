@@ -1,6 +1,6 @@
 ---
 name: review-experience
-description: Review the real user experience of a running app in a real browser — walk the affected flows, force loading/error/empty states, check 375/768/1440, capture console and network evidence. Use after UI, navigation or flow changes when a dev or staging URL is reachable, or when the app is reported confusing or broken in actual use. Not for code-level bugs (use /review-change), not for architecture or docs health (use /review-health).
+description: Review the real user experience of a running app in a real browser — walk the affected flows, force loading/error/empty states, check 375/768/1440, capture console and network evidence. Use after UI, navigation or flow changes when a dev or staging URL is reachable, or when the app is reported confusing or broken in actual use. Not for code-level bugs (use /review-change), not for architecture or docs health (use /review-health). Requires a running app; for a static principle-based audit use frontend-design-audit; for Core Web Vitals measurement use web-perf.
 ---
 
 # Review: experience

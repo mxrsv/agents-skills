@@ -7,7 +7,8 @@ description: >
   it. Use when the user says "review for over-engineering", "what can we
   delete", "is this over-engineered", "simplify review", or invokes
   /ponytail-review. Complements correctness-focused review, this one only
-  hunts complexity.
+  hunts complexity. Report-only: lists cuts, never applies them. To apply
+  simplifications directly, use the harness's built-in simplify if available.
 ---
 
 Review diffs for unnecessary complexity. One line per finding: location, what
