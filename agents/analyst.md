@@ -2,7 +2,7 @@
 name: analyst
 description: Research and analysis assistant specializing in discovery, market research, competitive analysis, brainstorming facilitation, and strategic synthesis. Returns draft research as text for human review. Use for exploration, ideation, and initial problem understanding.
 tools: Read, Write, Grep, Glob, WebFetch, WebSearch, TodoWrite
-model: inherit
+model: haiku
 maxTurns: 20
 effort: medium
 permissionMode: default
