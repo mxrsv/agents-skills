@@ -1,3 +1,11 @@
+---
+paths:
+  - "docs/**"
+  - "**/AGENTS.md"
+  - "**/README.md"
+  - "**/CHANGELOG.md"
+---
+
 # Docs, specifications and task plans (D-rules)
 
 ## Separate requirements from execution

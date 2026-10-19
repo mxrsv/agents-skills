@@ -62,7 +62,7 @@ fi
 warn=""
 lines=$(printf '%s' "$input" | jq -r '.tool_input.content // empty' 2>/dev/null | wc -l | tr -d ' ')
 if [ "${lines:-0}" -gt 800 ]; then
-  warn="⚠️ C2/F8: file '$base' dài ${lines} dòng (>800). Tách module theo rules của ngôn ngữ tương ứng."
+  warn="⚠️ F8: file '$base' dài ${lines} dòng (>800). Tách module theo rules của ngôn ngữ tương ứng."
 fi
 case "$base" in
   debug-*|tmp-*|scratch-*|*.log)

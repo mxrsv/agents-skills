@@ -41,7 +41,7 @@ AGENTS.md                   # repo-specific rules — required (D5)
 src/
 ├─ routes/                  # HTTP handlers, thin
 ├─ services/                # business logic
-├─ repositories/            # data access (P1/P2 — repository pattern)
+├─ repositories/            # data access (repository pattern)
 ├─ lib/                     # pure utilities
 └─ types/
 prisma/                     # schema + migrations (if using Prisma)
