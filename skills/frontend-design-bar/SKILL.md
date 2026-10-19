@@ -14,34 +14,30 @@ The non-negotiable quality bar a UI must clear before it counts as "done".
 and it is **judged by eye, not by code**. A compiler cannot tell whether a UI is
 beautiful; a green build proves nothing about design.
 
-## Clarify First — Hard Gate
+## Clarify First — One Batch
 
 <HARD-GATE>
-Do NOT write code, scaffold, generate a skeleton, or apply any treatment until BOTH
-are locked: (1) the DIRECTION/intent (idea — what/why), and (2) the DEMO SURFACE the
-user will review on. If either is missing or ambiguous, STOP and ask — never infer
-silently. Exception: edits with no design/behavior ambiguity and no new review surface
-needed (typo, copy string, an already-specified value changed per explicit user
-instruction) may proceed directly.
+Do NOT write code, scaffold, generate a skeleton, or apply any treatment until the
+DIRECTION/intent (what/why) and the DEMO SURFACE are settled. If the direction is
+unclear, ask ONE batch of up to 4 questions in a single message, each with your best
+guess attached, then build on the answers. The demo surface needs no question: default
+to the local dev URL plus screenshots. Exception: edits with no design/behavior
+ambiguity (typo, copy string, an already-specified value changed per explicit user
+instruction) proceed directly.
 </HARD-GATE>
 
-**Ask whenever ambiguous — one question at a time.** Mirror the `brainstorm`
-discipline: one focused question per message, prefer multiple-choice, don't overwhelm.
-Keep asking until intent + demo surface are unambiguous; only then start building. "This
-looks obvious, I'll just start" is the exact rationalization this gate exists to stop.
-
 _Ambiguous_ = an adjective-only brief ("modern / clean / bold") with no concrete
-reference or compositional thesis — see `references/pipeline.md` Phase 0 gate. This text
-Q&A locks WHAT (intent) and WHERE (demo surface); it is SEPARATE from Phase 0's Gu Offer
-(`references/pipeline.md`), which resolves HOW-IT-LOOKS via generated specimens when no
-reference exists — don't conflate the two.
+reference or compositional thesis — see `references/pipeline.md` Phase 0 gate. This
+batch locks WHAT (intent) and WHERE (demo surface); it is SEPARATE from Phase 0's Gu
+Offer (`references/pipeline.md`), which resolves HOW-IT-LOOKS via generated specimens
+when no reference exists — don't conflate the two.
 
-**Always present the demo-surface options and let the USER pick** (never choose silently):
+**Default demo surface** (switch only when the batch answers say otherwise):
 
 | Option              | What it is                                                                                                                                                                                   | Best when                                                                                        |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **Page-route demo** | A route on the dedicated **demo server** — same stack/framework as production (e.g. React), but a server SEPARATE from the production app; see `references/pipeline.md` "The review surface" | Default. Reviewing Treatment / Motion / Final — in-stack so you judge the artifact that ships   |
 | **HTML demo**       | Standalone static HTML/CSS mockup, throwaway                                                                                                                                                 | Fast look-and-feel exploration, greybox, or a Phase-0 direction specimen — medium-free artifacts |
-| **Page-route demo** | A route on the dedicated **demo server** — same stack/framework as production (e.g. React), but a server SEPARATE from the production app; see `references/pipeline.md` "The review surface" | Reviewing Treatment / Motion / Final — in-stack so you judge the artifact that actually ships    |
 
 Reconcile with Rule 0 + "The review surface" (`references/pipeline.md`): an HTML demo of
 a React app is a DIFFERENT artifact — fine for greybox / direction specimens, but
@@ -98,7 +94,7 @@ phase). Read `references/pipeline.md` before building — don't work from memory
 
 ## Red Flags — STOP
 
-- **Starting to build while direction OR demo surface is still ambiguous** — STOP and ask (one question at a time), never infer. Only a typo / copy string / pre-specified value skips the gate. See "Clarify First — Hard Gate".
+- **Starting to build while the direction is still unclear and no batch of questions has been asked** — ask one batch (up to 4 questions, each with a guess), then build. Only a typo / copy string / pre-specified value skips the batch. See "Clarify First — One Batch".
 - About to call UI "done" without looking at a screenshot/recording.
 - Hand-rolling basic CSS instead of assembling motion lib + custom assets.
 - Can't describe the standout point in one sentence.
@@ -126,7 +122,7 @@ phase). Read `references/pipeline.md` before building — don't work from memory
 | "I applied the change, here's the result"                             | Applying then declaring done skips the eye-review gate. You can't judge beauty. Propose → user steers → apply → render → the user reviews. Never the agent's call.                                                                                                                                                                                                                                                          |
 | "The skeleton is just structure; I'll make it look good in treatment" | Composition IS the macro aesthetic lever and is committed at generate-time — Treatment only decorates elements, it can't un-generic a centred-stack skeleton. Commit composition in Phase 2a (offer divergent greyboxes, user picks) before content.                                                                                                                                                                        |
 | "I'll mock it up in HTML to preview, then build the React version"    | An HTML mockup of a React app is a DIFFERENT artifact — you'd review the wrong thing. Exceptions are medium-free: a greybox, and a **Phase-0 gu/direction specimen** (the generated cousin of a reference / mood-board) — both are fine in static HTML even for a React target. Spikes iterate standalone then port back + re-review in-stack; Treatment / Motion / Final are reviewed in-stack on a dedicated demo server. |
-| "The direction is probably X, I'll just start"                        | Ambiguity means STOP and ask — one question at a time until intent + demo surface are locked. Never infer silently; only a typo / copy string / pre-specified value skips the gate.                                                                                                                                                                                                                                         |
+| "The direction is probably X, I'll just start"                        | An unclear direction gets ONE batch of up to 4 questions, each with your guess, before any build. Only a typo / copy string / pre-specified value skips the batch.                                                                                                                                                                                                                                                         |
 
 ## Reference files (read on demand)
 

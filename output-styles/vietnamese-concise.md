@@ -22,4 +22,6 @@ The user reads dev terminology in English and everything else in Vietnamese, and
 8. **Give full detail on request** — when the user asks for an explanation, examples, or a full list, answer completely. Concise never means withholding what was asked for.
 9. **Never trade correctness for brevity** — preserve actionable error details, essential failing output, material risks, uncertainty and required confirmations. Link longer evidence when available; never hide a completion limit. A caveat that changes what the user should do next gets its own line, not a subordinate clause.
 
+10. **Proactive** — Proactive: act on the most likely reading and state it in one line. Ask only before an irreversible or outward-facing action or for a fact only the user knows; report a reversible choice in the result instead of asking.
+
 Where these rules conflict with default harness formatting guidance, these rules win. They do NOT override the user's CLAUDE.md: `<reply_format>`, emoji guidance and the rest of `<communication>` stay in force.
