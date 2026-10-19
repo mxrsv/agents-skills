@@ -9,7 +9,7 @@ paths:
 # Living docs — rules while editing docs (supplementary D-rules)
 
 Loaded when touching `docs/**`, `AGENTS.md`, `README.md`, `CHANGELOG.md`.
-The always-on D-rules live in `~/.claude/rules/core/docs.md`.
+The D-rules for the same paths live in `~/.claude/rules/core/docs.md`; they are path-scoped too.
 
 - **D6.** Behavior claims in living docs (D1) MUST have resolving markdown links relative to the containing file; `docs-anchors.sh` scans these surfaces. Specs and plans are design/execution records, outside that living-doc scan: verify links in active records, including plan-to-spec links, distinguish planned files from existing ones, and keep task references reachable. Frozen records describe their recorded revision, not current behavior. The historical marker on a completed plan is a lifecycle marker, not a task tracker.
   - ✅ in `AGENTS.md`: `[move_pane_ownership](electron/coordinator.ts)`
