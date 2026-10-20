@@ -132,7 +132,7 @@ This is a checkable test, not a vibe. It also has a floor: if you've gone severa
 
 The output of this skill is a **confirmed statement of intent**: the restate from Step 4, with an explicit yes from Step 5. That's the deliverable. Specs, plans, and task lists are downstream; they consume the intent this skill produces.
 
-For work that needs a persistent record, put the confirmed intent in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md` (D0/D4); a plan links to that spec and does not copy it. Otherwise return it in chat. Do not require an issue key or external write; existing authorization to maintain the plan covers this update.
+For work that needs a persistent record, put the confirmed intent in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md` (D0/D4); a plan links to that spec and does not copy it. Otherwise return it in chat.
 
 ## Example
 
