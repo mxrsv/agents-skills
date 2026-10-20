@@ -98,6 +98,7 @@ CRITICAL ({n}):
   [C1] {issue} — {file/query location}
        EXPLAIN: {key finding from EXPLAIN ANALYZE}
        Fix: {recommendation}
+       Evidence: {command and observed result; if unverified, "Hypothesis — unverified"}
 
 HIGH ({n}):
   [H1] {issue} — {location} — Fix: {recommendation}

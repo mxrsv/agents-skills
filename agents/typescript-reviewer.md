@@ -35,7 +35,7 @@ You DO NOT refactor or rewrite code — you report findings only.
 
 ### CRITICAL -- Security
 - **Injection via `eval` / `new Function`**: User-controlled input passed to dynamic execution — never execute untrusted strings
-- **XSS**: Unsanitised user input assigned to `innerHTML`, `dangerouslySetInnerHTML`, or `document.write`
+- **XSS via `dangerouslySetInnerHTML`**: Unsanitised user input rendered as HTML (JSX specifics: react-reviewer)
 - **SQL/NoSQL injection**: String concatenation in queries — use parameterised queries or an ORM
 - **Path traversal**: User-controlled input in `fs.readFile`, `path.join` without `path.resolve` + prefix validation
 - **Hardcoded secrets**: API keys, tokens, passwords in source — use environment variables
@@ -54,11 +54,13 @@ You DO NOT refactor or rewrite code — you report findings only.
 - **Floating promises**: Fire-and-forget without error handling in event handlers or constructors
 - **`async` with `forEach`**: `array.forEach(async fn)` does not await — use `for...of` or `Promise.all`
 
+### HIGH -- Security
+- **XSS via `innerHTML` / `document.write`**: Unsanitised user input assigned to either
+
 ### HIGH -- Error Handling
 - **Swallowed errors**: Empty `catch` blocks or `catch (e) {}` with no action
 - **`JSON.parse` without try/catch**: Throws on invalid input — always wrap
 - **Throwing non-Error objects**: `throw "message"` — always `throw new Error("message")`
-- **Missing error boundaries**: React trees without `<ErrorBoundary>` around async/data-fetching subtrees
 
 ### HIGH -- Idiomatic Patterns
 - **Mutable shared state**: Module-level mutable variables — prefer immutable data and pure functions
@@ -73,17 +75,10 @@ You DO NOT refactor or rewrite code — you report findings only.
 - **Unvalidated `process.env` access**: Access without fallback or startup validation
 - **`require()` in ESM context**: Mixing module systems without clear intent
 
-### MEDIUM -- React / Next.js (when applicable)
-- **Missing dependency arrays**: `useEffect`/`useCallback`/`useMemo` with incomplete deps — use exhaustive-deps lint rule
-- **State mutation**: Mutating state directly instead of returning new objects
-- **Key prop using index**: `key={index}` in dynamic lists — use stable unique IDs
-- **`useEffect` for derived state**: Compute derived values during render, not in effects
-- **Server/client boundary leaks**: Importing server-only modules into client components in Next.js
+React-specific checks (hooks, keys, state mutation, render performance, server/client boundaries) belong to react-reviewer.
 
 ### MEDIUM -- Performance
-- **Object/array creation in render**: Inline objects as props cause unnecessary re-renders — hoist or memoize
 - **N+1 queries**: Database or API calls inside loops — batch or use `Promise.all`
-- **Missing `React.memo` / `useMemo`**: Expensive computations or components re-running on every render
 - **Large bundle imports**: `import _ from 'lodash'` — use named imports or tree-shakeable alternatives
 
 ### MEDIUM -- Best Practices

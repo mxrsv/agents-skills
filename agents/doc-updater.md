@@ -15,7 +15,7 @@ You keep living docs accurate against the code. Docs that disagree with the code
 
 ## Scope
 
-- Living docs (D1): root `README.md`, `CHANGELOG.md`, `AGENTS.md`; `docs/README.md`; everything under `docs/{user,internals,operations}/`.
+- Living docs (D1): root `README.md`, `CHANGELOG.md`, `AGENTS.md`; `docs/README.md`; `docs/DESIGN-LANGUAGE.md`; everything under `docs/{user,internals,operations}/`.
 - Placement follows D3/D9: architecture, constraints and traps → `docs/internals/`; usage → `docs/user/`; runbooks → `docs/operations/`. Another directory → ask the caller first.
 - Plans under `docs/plans/` are task records, not living docs — leave them to the caller.
 - Only write what a reader would otherwise get wrong. No file catalogs, codemaps or control-flow retellings (D9).

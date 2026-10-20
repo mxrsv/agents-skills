@@ -118,43 +118,9 @@ du -sh node_modules/* | sort -hr | head -20
 | Lodash              | Use lodash-es or native methods    |
 | Large icons library | Import only needed icons           |
 
-```javascript
-// BAD: Import entire library
-import _ from "lodash";
-import moment from "moment";
-
-// GOOD: Import only what you need
-import debounce from "lodash/debounce";
-import { format, addDays } from "date-fns";
-
-// Or use lodash-es with tree shaking
-import { debounce, throttle } from "lodash-es";
-```
-
 ### 5. Database & Query Optimization
 
-**Query Optimization Patterns:**
-
-```sql
--- BAD: Select all columns
-SELECT * FROM users WHERE active = true;
-
--- GOOD: Select only needed columns
-SELECT id, name, email FROM users WHERE active = true;
-
--- BAD: N+1 queries (in application loop)
--- 1 query for users, then N queries for each user's orders
-
--- GOOD: Single query with JOIN or batch fetch
-SELECT u.*, o.id as order_id, o.total
-FROM users u
-LEFT JOIN orders o ON u.id = o.user_id
-WHERE u.active = true;
-
--- Add index for frequently queried columns
-CREATE INDEX idx_users_active ON users(active);
-CREATE INDEX idx_orders_user_id ON orders(user_id);
-```
+Query and index specifics: defer to database-reviewer.
 
 **Database Performance Checklist:**
 
@@ -168,37 +134,6 @@ CREATE INDEX idx_orders_user_id ON orders(user_id);
 
 ### 6. Network & API Optimization
 
-**Network Optimization Strategies:**
-
-```typescript
-// BAD: Multiple sequential requests
-const user = await fetchUser(id);
-const posts = await fetchPosts(user.id);
-const comments = await fetchComments(posts[0].id);
-
-// GOOD: Parallel requests when independent
-const [user, posts] = await Promise.all([fetchUser(id), fetchPosts(id)]);
-
-// GOOD: Batch requests when possible
-const results = await batchFetch(["user1", "user2", "user3"]);
-
-// Implement request caching
-const fetchWithCache = async (url: string, ttl = 300000) => {
-    const cached = cache.get(url);
-    if (cached) return cached;
-
-    const data = await fetch(url).then((r) => r.json());
-    cache.set(url, data, ttl);
-    return data;
-};
-
-// Debounce rapid API calls
-const debouncedSearch = debounce(async (query: string) => {
-    const results = await searchAPI(query);
-    setResults(results);
-}, 300);
-```
-
 **Network Optimization Checklist:**
 
 - [ ] Parallel independent requests with `Promise.all`
@@ -211,57 +146,7 @@ const debouncedSearch = debounce(async (query: string) => {
 
 ### 7. Memory Leak Detection
 
-**Common Memory Leak Patterns:**
-
-```typescript
-// BAD: Event listener without cleanup
-useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    // Missing cleanup!
-}, []);
-
-// GOOD: Clean up event listeners
-useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-}, []);
-
-// BAD: Timer without cleanup
-useEffect(() => {
-    setInterval(() => pollData(), 1000);
-    // Missing cleanup!
-}, []);
-
-// GOOD: Clean up timers
-useEffect(() => {
-    const interval = setInterval(() => pollData(), 1000);
-    return () => clearInterval(interval);
-}, []);
-
-// BAD: Holding references in closures
-const Component = () => {
-    const largeData = useLargeData();
-    useEffect(() => {
-        eventEmitter.on("update", () => {
-            console.log(largeData); // Closure keeps reference
-        });
-    }, [largeData]);
-};
-
-// GOOD: Use refs or proper dependencies
-const largeDataRef = useRef(largeData);
-useEffect(() => {
-    largeDataRef.current = largeData;
-}, [largeData]);
-
-useEffect(() => {
-    const handleUpdate = () => {
-        console.log(largeDataRef.current);
-    };
-    eventEmitter.on("update", handleUpdate);
-    return () => eventEmitter.off("update", handleUpdate);
-}, []);
-```
+Check effect and timer cleanup, listener removal and retained closures.
 
 **Memory Leak Detection:**
 
@@ -296,30 +181,7 @@ npx lighthouse https://your-app.com --only-categories=performance
 
 ### Performance Budgets
 
-```json
-// package.json
-{
-    "bundlesize": [
-        {
-            "path": "./build/static/js/*.js",
-            "maxSize": "200 kB"
-        }
-    ]
-}
-```
-
-### Web Vitals Monitoring
-
-```typescript
-// Track Core Web Vitals (web-vitals v4 API)
-import { onCLS, onINP, onLCP, onFCP, onTTFB } from "web-vitals";
-
-onCLS(console.log); // Cumulative Layout Shift
-onINP(console.log); // Interaction to Next Paint
-onLCP(console.log); // Largest Contentful Paint
-onFCP(console.log); // First Contentful Paint
-onTTFB(console.log); // Time to First Byte
-```
+Set a size budget per bundle in the build or CI tooling, and track Core Web Vitals (LCP, INP, CLS, FCP, TTFB) with the `web-vitals` library.
 
 ## Performance Report Template
 

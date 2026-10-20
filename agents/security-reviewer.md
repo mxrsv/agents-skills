@@ -58,6 +58,7 @@ Flag these patterns immediately:
 | Shell command with user input | CRITICAL | Use safe APIs or execFile       |
 | String-concatenated SQL       | CRITICAL | Parameterized queries           |
 | `innerHTML = userInput`       | HIGH     | Use `textContent` or DOMPurify  |
+| `dangerouslySetInnerHTML` with user HTML | CRITICAL | Sanitize with DOMPurify at the call site |
 | `fetch(userProvidedUrl)`      | HIGH     | Whitelist allowed domains       |
 | Plaintext password comparison | CRITICAL | Use `bcrypt.compare()`          |
 | No auth check on route        | CRITICAL | Add authentication middleware   |
@@ -86,4 +87,4 @@ If you find a CRITICAL vulnerability, list it first with a detailed report and a
 
 ## Reference
 
-For detailed vulnerability patterns, code examples, report templates, and PR review templates, see skill: `security-review`.
+For detailed vulnerability patterns and code examples, Read `~/.claude/skills/security-review/SKILL.md`.

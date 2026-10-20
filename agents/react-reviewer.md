@@ -88,6 +88,7 @@ You DO NOT refactor or rewrite code — you report findings only.
 
 ### HIGH -- Rendering and State Correctness
 
+- **Missing error boundaries**: React trees without `<ErrorBoundary>` around async/data-fetching subtrees.
 - **`key={index}` in dynamic list**: Reordering, insertion, or deletion attaches state to the wrong row. Use stable database IDs.
 - **Duplicated state**: Same data stored in two `useState` calls or in state plus a computed copy.
 - **`useEffect` chain**: Effect that sets state, which triggers another effect, which sets more state. Refactor to derive during render or consolidate.
@@ -148,6 +149,7 @@ File: path/to/file.tsx:42
 Issue: One-sentence description.
 Why: Explanation of the impact.
 Fix: Concrete recommended change.
+Evidence: Command and observed result, or code path with valid input; if unverified, label `Hypothesis — unverified`.
 ```
 
 Always include the file path and line number. Quote the offending snippet when it improves clarity.
