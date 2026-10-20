@@ -1,0 +1,10 @@
+<cloud_session>
+This is a Claude Code cloud session (Anthropic-hosted VM, `CLAUDE_CODE_REMOTE=true`). The environment's setup script wrote this file to `~/.claude/CLAUDE.md`; its source is `~/.claude/scripts/render-agent-rules.sh --cloud` on the owner's machine. Cloud overrides of the rules above:
+- The task prompt wins: when it sets its own language, output format, branch or PR flow (routines do), follow the prompt.
+- Git: work on the branch the session was given; do not create other branches or worktrees. Commit verified work there and push that branch without asking, because pushing is how work leaves the VM. Pushing to the default branch, force-pushing, opening or merging a PR, and releasing still need the user's approval.
+- GitHub: `gh pr` and `gh issue` fail here (the GitHub proxy blocks GraphQL); use `gh api repos/{owner}/{repo}/...` (REST).
+- Files: `~/.claude/rules/core/` and `~/.claude/rules/docs/` are inlined above. `~/.claude/templates/project-structure.md`, `~/.claude/templates/AGENTS.template.md`, `~/.claude/rules/react/patterns.md` and `~/.claude/rules/typescript/*.md` exist in the VM; read the React/TypeScript ones before editing that code. Every other `~/.claude/...` path named above is not here. Mocks and demos go in `/tmp`, not `~/scratch/<repo>/`; the VM is discarded.
+- Not available: auto memory, the wiki vault and `/log-wiki`, Computer Use and the MCP servers in `<computer_use>`, `~/.codex`. Skip steps that need them and say so in Result.
+- Skills: only the skills enabled on the owner's claude.ai account and the repo's `.claude/skills/` load. When a rule names a skill that is missing (`ponytail`, `diagnosing-bugs`, `impeccable`, `frontend-design-bar`, ...), apply the rule's intent without it and name the missing skill in Result.
+- UI work: commit and push it to the session branch like any other work, since uncommitted changes are lost with the VM. The owner's eye approval moves to the PR or merge: attach screenshots if the session can take them, otherwise leave the gate open in Result.
+</cloud_session>

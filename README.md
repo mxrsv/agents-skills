@@ -20,7 +20,11 @@ flowchart TD
         G["scripts/render-agent-rules.sh"] --> X["~/.codex/AGENTS.md"]
         L["~/.agents/skills"]
     end
+    subgraph CL["Cloud session (claude.ai/code)"]
+        SS["Setup script của environment"] --> CM["~/.claude/CLAUDE.md trong VM"]
+    end
     A & C & D --> G
+    G -- "--cloud" --> SS
     K -- symlink --> L
 ```
 
@@ -242,6 +246,10 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 ### Dùng chung với Codex / Cursor
 
 Skill tự viết ở `skills/` là **nguồn chuẩn** (git track). [`scripts/sync-agents-skills.sh`](scripts/sync-agents-skills.sh) tạo symlink `~/.agents/skills/<x> → ~/.claude/skills/<x>` cho mọi skill được git track; Codex đọc `~/.agents/skills` natively và theo symlink, nên Claude Code, Codex và Cursor dùng đúng một bản — hết copy trôi. Codex gọi skill bằng `$name` thay vì `/name`. Chạy với `--check` để rà lệch: symlink thiếu, frontmatter dùng khoá không harness nào đọc, bản copy trùng tên trong `~/.codex/skills`.
+
+### Cloud session (claude.ai/code, routine)
+
+Cloud session không đọc `~/.claude` của máy local. [`scripts/render-agent-rules.sh`](scripts/render-agent-rules.sh) `--cloud | pbcopy` in ra một setup script tự chứa: nó ghi `~/.claude/CLAUDE.md` trong VM (bộ luật như bản Codex + [`templates/cloud-extra.md`](templates/cloud-extra.md)) và các template / rules mà luật trỏ tới theo path. Dán vào ô **Setup script** của environment (nối vào script đang có, đừng ghi đè), rồi chạy `/context` trong một cloud session mới để thấy `/root/.claude/CLAUDE.md` ở mục Memory files. Environment được cache khoảng 7 ngày; mỗi lần đổi luật thì render và dán lại — dòng hash trong script đổi theo nội dung nên cache được dựng lại. Skill local không theo lên cloud; bật skill cần dùng trên tài khoản claude.ai.
 
 ### Skills ngoài dùng chung
 

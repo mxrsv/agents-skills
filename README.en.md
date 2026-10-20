@@ -20,7 +20,11 @@ flowchart TD
         G["scripts/render-agent-rules.sh"] --> X["~/.codex/AGENTS.md"]
         L["~/.agents/skills"]
     end
+    subgraph CL["Cloud session (claude.ai/code)"]
+        SS["Environment setup script"] --> CM["~/.claude/CLAUDE.md in the VM"]
+    end
     A & C & D --> G
+    G -- "--cloud" --> SS
     K -- symlink --> L
 ```
 
@@ -242,6 +246,10 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 ### Sharing with Codex / Cursor
 
 Self-authored skills under `skills/` are the **source of truth** (git-tracked). [`scripts/sync-agents-skills.sh`](scripts/sync-agents-skills.sh) creates `~/.agents/skills/<x> → ~/.claude/skills/<x>` symlinks for every git-tracked skill; Codex reads `~/.agents/skills` natively and follows symlinks, so Claude Code, Codex and Cursor all use the same copy — no more drifting duplicates. Codex invokes a skill as `$name` instead of `/name`. Run with `--check` to detect drift: missing symlinks, frontmatter keys no harness reads, same-name copies in `~/.codex/skills`.
+
+### Cloud sessions (claude.ai/code, routines)
+
+Cloud sessions don't read your local `~/.claude`. [`scripts/render-agent-rules.sh`](scripts/render-agent-rules.sh) `--cloud | pbcopy` prints a self-contained setup script: it writes `~/.claude/CLAUDE.md` in the VM (the same bundle as Codex plus [`templates/cloud-extra.md`](templates/cloud-extra.md)) and the templates / rules the bundle points to by path. Paste it into the environment's **Setup script** field (append to any existing script, don't replace it), then run `/context` in a fresh cloud session and look for `/root/.claude/CLAUDE.md` under Memory files. The environment is cached for about 7 days; after changing the rules, render and paste again — the hash line changes with the content, so the cache rebuilds. Local skills don't reach the cloud; enable the ones you need on your claude.ai account.
 
 ### Shared external skills
 
