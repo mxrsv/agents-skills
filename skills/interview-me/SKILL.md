@@ -1,6 +1,6 @@
 ---
 name: interview-me
-description: Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified ("build me X" without "for whom" or "why now"), when the user explicitly invokes ("interview me"), or when you catch yourself silently filling in ambiguous requirements before any plan, spec, or code exists. Pre-decision only; to stress-test a plan or decision that already exists, use grilling.
+description: Extracts what the user actually wants when an ask hits a W1 threshold (several readings with materially different outcomes, or an architecture, data-model or public-contract change) and the intent is unclear, or when the user says "interview me". One-question-at-a-time interview until ~95% confidence about the underlying intent. Pre-decision only; to stress-test a plan or decision that already exists, use grilling.
 ---
 
 # Interview Me
@@ -11,16 +11,13 @@ What people ask for and what they actually want are different things. They ask f
 
 The cheapest moment to find this gap is before any plan, spec, or code exists. Once you've started building, switching costs are real, and the user will rationalize the wrong thing into a "good enough" thing. The misfit gets locked in.
 
-This skill closes the gap before it costs anything. Interview-me runs before `brainstorm` (settles requirements) and `planning` (writes the task plan); `grilling` stress-tests a plan after it exists. Interview-me is the part before all of those, where you ask one question at a time, with your best guess attached, until you can predict what the user is going to say before they say it.
+This skill closes the gap before it costs anything. Interview-me is pre-decision only. It hands off to `brainstorm` or `planning` when W1 or W2 applies; `grilling` stress-tests a plan after it exists. Interview-me is the part before all of those, where you ask one question at a time, with your best guess attached, until you can predict what the user is going to say before they say it.
 
 ## When to Use
 
 Apply this skill when:
 
-- The ask is missing at least one of: **who** the user is, **why** they want it, what **success** looks like, what the binding **constraint** is
-- The request is conventional rather than specific ("build me X", "make it faster") and you can't unpack the convention without guessing
-- You're tempted to start with assumptions you haven't surfaced
-- The user hasn't said which value they're optimizing for when two reasonable ones are in tension (simplicity vs. flexibility, cost vs. speed)
+- A W1 threshold is hit and the outcome is unclear: the ask is missing at least one of **who** the user is, **why** they want it, what **success** looks like, what the binding **constraint** is
 - The user explicitly invokes: "interview me", "before we start, are we sure?"
 
 **When NOT to use:**
@@ -135,7 +132,7 @@ This is a checkable test, not a vibe. It also has a floor: if you've gone severa
 
 The output of this skill is a **confirmed statement of intent**: the restate from Step 4, with an explicit yes from Step 5. That's the deliverable. Specs, plans, and task lists are downstream; they consume the intent this skill produces.
 
-For work needing a persistent plan, capture the agreed intent in the Goal and scope section of the same `docs/plans/YYYY-MM-DD-<slug>.md` task file (D0/D4); update an existing plan instead of creating a second artifact. Otherwise return it in chat. Do not require an issue key or external write; existing authorization to maintain the plan covers this update.
+For work that needs a persistent record, put the confirmed intent in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md` (D0/D4); a plan links to that spec and does not copy it. Otherwise return it in chat. Do not require an issue key or external write; existing authorization to maintain the plan covers this update.
 
 ## Example
 
@@ -187,7 +184,6 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 
 | Rationalization | Reality |
 |---|---|
-| "The ask is clear enough" | If you can't write the user's desired outcome in one sentence right now, the ask isn't clear. Run Step 1 before deciding. |
 | "Asking too many questions wastes their time" | Time wasted by 4–6 targeted questions is small. Time wasted by building the wrong thing is enormous, and the user is the one bearing that cost. |
 | "I'll figure it out as I build" | Switching costs after code exists are 10x what they are now. Discovery during implementation is rework. |
 | "They said 'whatever you think,' so I should just decide" | "Whatever you think" is delegation, not decision. Re-ask with two concrete options as a choice. |

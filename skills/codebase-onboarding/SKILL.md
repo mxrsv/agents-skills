@@ -42,7 +42,7 @@ Map the recon results to the right files per the D-rules:
 | Recon item                                   | Target file                                                     | Template                                             |
 | -------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------- |
 | Stack, Common commands, Conventions, Gotchas | `AGENTS.md` (repo root)                                         | `~/.claude/templates/AGENTS.template.md`             |
-| Architecture, request/data flow, Key directories | `docs/internals/overview.md`                                | `~/.claude/templates/internals-overview.template.md` |
+| Architecture, request/data flow | `docs/internals/overview.md`                                | `~/.claude/templates/internals-overview.template.md` |
 | —                                            | `docs/README.md` — index pointing to `user/`, `internals/`, `operations/` (omit tiers that do not exist) | — |
 
 "Current status" belongs in the existing task plan's Handoff section, or in chat for small work (D0/D4). Do not create a separate status document or require a tracker.

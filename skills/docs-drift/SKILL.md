@@ -1,6 +1,7 @@
 ---
 name: docs-drift
-description: Cross-check the living docs against the real code to find places where the docs describe behavior the code does not have. Default is a READ-ONLY scan that writes no file. With --apply, fix verified in-scope drift without a separate diff-approval round. Fires ONLY when the user types /docs-drift.
+description: Cross-check the living docs against the real code to find places where the docs describe behavior the code does not have. Default is a READ-ONLY scan that writes no file. With --apply, fix verified in-scope drift without a separate diff-approval round.
+disable-model-invocation: true
 ---
 
 # docs-drift — audit the docs against the code
@@ -32,7 +33,7 @@ Living docs carry no intent labels (D6): every behavior claim describes current 
 2. Run the related tests.
 3. `git log --all -S'<symbol>' -- ':!docs/'` when you need to know whether the symbol ever existed.
 
-⚠️ **`-S` poisons itself — `-- ':!docs/'` is MANDATORY.** A previous audit recorded `git log --all -S'FileSidebar'` → 0 commits; rerun afterwards → 1 commit, the very commit containing the audit. Without excluding `docs/`, every `not-in-history` conclusion breaks itself after the first run.
+⚠️ **`-S` also matches its own audit output — `-- ':!docs/'` is MANDATORY.** Without excluding `docs/`, a `not-in-history` result flips after the audit is committed.
 
 ## Step 3 — classify
 

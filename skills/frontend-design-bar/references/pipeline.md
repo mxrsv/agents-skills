@@ -2,7 +2,7 @@
 
 The single source of truth for HOW to build a UI in this skill. Each gate has an
 explicit owner: the **user sets the ceiling & brings taste**, the **agent executes**.
-Built from the user's own pipeline (2026-06-26) + the agreed patches.
+The user's own pipeline.
 
 ## Rule 0 — the eye-review gate (governs EVERY phase)
 
@@ -57,7 +57,7 @@ medium-free for greybox, port-back-and-re-review for spikes.
 - **Compositional thesis** — the signature layout move (where the focal sits;
   grid-break / asymmetry / overlap). A SEPARATE artifact from restraint — intensity ≠
   structure. Gates **Skeleton (2a)**, the phase that commits composition. Do NOT let the
-  composition map skip the very phase it governs (the old bug: it gated 3 + 4 but not 2).
+  composition map skip the very phase it governs (Treatment and Motion gates cannot fix a bad skeleton).
 - **Responsive is design, not harden** — ≥2 breakpoints (mobile + desktop) are part of
   the **Skeleton** and **Treatment** gates, never deferred to Phase 5.
 

@@ -21,7 +21,7 @@ Do NOT write code, scaffold, generate a skeleton, or apply any treatment until t
 DIRECTION/intent (what/why) and the DEMO SURFACE are settled. If the direction is
 unclear, ask ONE batch of up to 4 questions in a single message, each with your best
 guess attached, then build on the answers. The demo surface needs no question: default
-to the local dev URL plus screenshots. Exception: edits with no design/behavior
+to the page-route demo on the dedicated demo server (table below), plus screenshots. Exception: edits with no design/behavior
 ambiguity (typo, copy string, an already-specified value changed per explicit user
 instruction) proceed directly.
 </HARD-GATE>
@@ -46,7 +46,7 @@ production, promote-then-clear), else you judge the wrong thing.
 
 ## When to Use
 
-- Building or reshaping any web UI that needs to feel intentional, not templated.
+- Judging whether a web UI (landing page, hero, dashboard, component, marketing site) is good enough to count as done.
 - Reviewing whether a design is good enough to ship.
 - Prototyping a new template, hero, or signature screen.
 - The UI works but reads flat / generic / static / one-note.
@@ -88,9 +88,9 @@ implement this bar locally; this is the portable standard.
 
 ## Workflow
 
-The full build process is the canonical pipeline (Direction → Tokens → Skeleton →
-Treatment → Motion → Harden, with **Rule 0 — the eye-review gate** governing every
-phase). Read `references/pipeline.md` before building — don't work from memory.
+The gates and their order (Direction → Tokens → Skeleton → Treatment → Motion → Harden, with
+**Rule 0 — the eye-review gate** governing every phase) are in `references/pipeline.md`;
+read it when judging or steering a UI — don't work from memory.
 
 ## Red Flags — STOP
 
