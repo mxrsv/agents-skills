@@ -121,7 +121,7 @@ When one problem has both a user-visible face and a runtime cause, **emit one fi
 ## Budget
 
 - `blocker` — unlimited
-- worth-doing findings — **at most 3**
+- worth-doing findings — the ones worth acting on, most important first
 - minor — one summary line, not a list
 
 Domain prefix for every key: `ux`. Format `ux/<area>/<problem>`, e.g. `ux/checkout/no-error-recovery`, `ux/settings/focus-trap-in-modal`.
@@ -141,7 +141,7 @@ action:     <one concrete, doable step>
 
 Also return, separately: the routes and viewports you actually covered, anything you could not reach and why, and the list of screenshot filenames you produced.
 
-**Do not write the report file.** The parent writes it.
+**Do not write the report file.** Return findings as text; the parent assembles the report and returns it in chat (`~/.claude/templates/review-report.md` §1, §7).
 
 ## Hard rules
 

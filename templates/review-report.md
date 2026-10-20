@@ -2,7 +2,7 @@
 
 Every reviewer contract and every `/review-*` skill points here. Change it here; never duplicate it.
 
-**Return review reports in chat by default.** Post a PR comment only when the user explicitly requests it. Do not require a tracker, issue key or remote write to complete a review. Separate `docs/review/` files remain disallowed (D4).
+**Return review reports in chat by default.** Post a PR comment only when the user explicitly requests it. Separate `docs/review/` files remain disallowed (D4).
 
 ## 1. Where a report lives
 
@@ -94,7 +94,7 @@ Examples: `ux/checkout/error-recovery` · `arch/auth/circular-import` · `code/a
 ## 5. Budget per reviewer
 
 - `blocker` — unlimited
-- actionable findings — **at most 3**
+- actionable findings — the ones worth acting on, most important first
 - minor — collapse into a single summary line; do not enumerate
 
 A hard cap like "at most 5 findings" is wrong: with 8 blockers you cannot hide 3 of them.

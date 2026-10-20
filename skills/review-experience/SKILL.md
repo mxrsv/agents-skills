@@ -92,7 +92,7 @@ The subagent returns findings and screenshot paths. The parent returns one repor
 
 1. Keep referenced screenshots in scratchpad or a user-requested artifact destination; provide actual accessible paths/links. Do not upload them automatically.
 2. Cite those paths/links in each finding's `evidence`, or describe the evidence gap if an artifact is unavailable.
-3. Return the report per `~/.claude/templates/review-report.md` §2–§4, `profile: experience`. No tracker id or remote write is required.
+3. Return the report per `~/.claude/templates/review-report.md` §2–§4, `profile: experience`.
 
 Header specifics for this profile:
 

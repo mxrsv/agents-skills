@@ -27,7 +27,7 @@ git log --since=90.days -i --grep=revert --name-only --format='' \
 
 A file that appears in both lists — high churn *and* reverts — is your first read, regardless of its size.
 
-**3. Untracked files are invisible to steps 1–2.** `git log` cannot rank a file that was never committed. Take the ` ?` entries from the MANIFEST in your prompt, treat them as churn-unknown, and review them on the manifest instead of the ranking. Skipping them because the ranking is silent is exactly how new, unreviewed behavior gets missed.
+**3. Untracked files are invisible to steps 1–2.** `git log` cannot rank a file that was never committed. Take the `??` entries from the MANIFEST in your prompt, treat them as churn-unknown, and review them on the manifest instead of the ranking. Skipping them because the ranking is silent is exactly how new, unreviewed behavior gets missed.
 
 **4. Read the top ~5 ranked files in full.** Finish those before opening anything else. No tree sweep.
 
@@ -82,10 +82,10 @@ Three reviewers run in parallel on this repo. A finding filed in someone else's 
 ## Budget
 
 - `blocker` — unlimited.
-- Findings worth acting on — **at most 3**.
+- Findings worth acting on, most important first.
 - Minor observations — one summary line, not a list.
 
-Effort cap, **advisory** (nothing enforces it): roughly 25 tool calls and 15 file reads. If you are about to exceed it, report what you have with lower confidence rather than continuing.
+Effort: stop widening once the top-churn files are read. If you stop early, say which files you did not reach and report what you have with lower confidence.
 
 ## Return format
 
@@ -98,5 +98,5 @@ Return the findings as text. **Do not write any file.**
 ## Hard rules
 
 - Do NOT modify any file, including via `Bash`. *(advisory — you hold `Bash`, so nothing mechanically prevents it; honour it anyway)*
-- Do NOT write the report. The parent skill collects the findings and writes once.
+- Do NOT write the report. Return findings as text; the parent assembles the report and returns it in chat (`~/.claude/templates/review-report.md` §1, §7).
 - No evidence → `blocked` with a reason. Never a plausible guess.

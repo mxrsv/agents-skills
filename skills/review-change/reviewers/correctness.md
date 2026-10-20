@@ -107,7 +107,7 @@ Do not file these. If you notice one, put it in a single `notes for other review
 
 ## Budget
 
-Blockers: unlimited. Worth-doing findings: at most 3. Minor items: one summary line, not a list.
+Blockers: never collapsed. Worth-doing findings: the ones worth acting on, most important first. Minor items: one summary line, not a list.
 
 Effort ceiling (advisory — nothing enforces it): complete all four evidence steps for every file in the manifest. If the manifest is larger than about 20 files, rank by risk — logic changes over renames, moves and formatting — and state in your return which files you did not reach.
 
@@ -126,7 +126,7 @@ action:     the concrete fix
 
 Close with one coverage line: which of the four evidence steps you completed, and what you could not read.
 
-Return the findings as text. Do NOT write a file — the parent skill writes the single report.
+Return the findings as text; do not write a file. The parent assembles the report and returns it in chat (`~/.claude/templates/review-report.md` §1, §7).
 
 ## Hard rules
 

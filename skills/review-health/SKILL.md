@@ -17,7 +17,7 @@ Reviews **the repo as it stands** — not a diff, not a running app.
 
 Three genuinely independent evidence sources. They never read the same thing twice, so fanning out is a real saving here — unlike `/review-change`, where all three reviewers share one diff.
 
-**Cold start.** A repo that has never been reviewed starts here. This profile needs nothing but the repo — no dev server, no credentials, no base commit. Its output (churn ranking + drift) is what tells you where to point `/review-change` and `/review-experience` next. `/review-release` is meaningless until at least two profiles have run.
+**Cold start.** A repo that has never been reviewed starts here. This profile needs nothing but the repo — no dev server, no credentials, no base commit. Its output (churn ranking + drift) is what tells you where to point `/review-change` and `/review-experience` next. `/review-release` gives only a provisional verdict until two profiles have run; `SHIP` needs at least two.
 
 ## 1. Collect the manifest — parent, once
 
@@ -83,7 +83,7 @@ The tail appended to every prompt:
 OBJECTIVE: health review of <repo> at <head_sha><, dirty> — <one line on why it is being reviewed now>
 SCOPE:     repo root <absolute path>. source_kind=working-tree.
 MANIFEST:  <verbatim `git status --porcelain` output, or "clean working tree">
-           ` ?` entries are untracked and invisible to git history — treat them as churn-unknown.
+           `??` entries are untracked and invisible to git history — treat them as churn-unknown.
 ```
 
 ### What the parent does NOT do
@@ -94,12 +94,11 @@ MANIFEST:  <verbatim `git status --porcelain` output, or "clean working tree">
 
 ## 5. Merge and return ONE report
 
-Format, header fields, finding schema, domain list, budget and freshness rules all live in `~/.claude/templates/review-report.md`. Follow it; do not restate it here and do not invent fields. Return the report in chat; post to a specific PR only when the user asks. No tracker id or external write is required.
+Format, header fields, finding schema, domain list, budget and freshness rules all live in `~/.claude/templates/review-report.md`. Follow it; do not restate it here and do not invent fields. Return the report in chat; post to a specific PR only when the user asks.
 
 Fixed for this profile:
 
 ```
-where:        conversation (or explicitly requested PR comment)
 profile:      health
 scope:        worktree
 source_kind:  working-tree

@@ -74,10 +74,10 @@ When one problem has both a user-visible face and a runtime cause, **emit one fi
 ## Budget
 
 - `blocker` — unlimited
-- worth-doing findings — **at most 3**
+- worth-doing findings — the ones worth acting on, most important first
 - minor — one summary line (`"3 dev-mode hydration warnings on /dashboard, no behavioural effect"`), not a list
 
-Domain prefix: `perf` for slowness the user can feel; `ux` for functional breakage — a crash, a failed request, or a stuck state. There is no `runtime` domain; the report template fixes the list at `ux · arch · tests · sec · deps · docs · perf`. Format `<domain>/<area>/<problem>`, e.g. `ux/orders/submit-returns-500`, `perf/dashboard/serial-request-waterfall`.
+Domain prefix: `perf` for slowness the user can feel; `ux` for functional breakage — a crash, a failed request, or a stuck state. There is no `runtime` domain; the list is fixed in `~/.claude/templates/review-report.md` §4. Use `ux` or `perf` here. Format `<domain>/<area>/<problem>`, e.g. `ux/orders/submit-returns-500`, `perf/dashboard/serial-request-waterfall`.
 
 ## Return format
 
@@ -96,7 +96,7 @@ Quote evidence **verbatim**. A paraphrased stack trace is unverifiable and the n
 
 Also return, separately: which routes you harvested, whether the final `all: true` console sweep ran, and anything you could not observe and why.
 
-**Do not write the report file.** The parent writes it.
+**Do not write the report file.** Return findings as text; the parent assembles the report and returns it in chat (`~/.claude/templates/review-report.md` §1, §7).
 
 ## Hard rules
 

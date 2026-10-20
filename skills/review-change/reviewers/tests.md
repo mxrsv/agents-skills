@@ -86,7 +86,7 @@ Do not file these. Mention at most one line under `notes for other reviewers`.
 
 ## Budget
 
-Blockers: unlimited. Worth-doing findings: at most 3. Minor items: one summary line.
+Blockers: never collapsed. Worth-doing findings: the ones worth acting on, most important first. Minor items: one summary line.
 
 Effort ceiling (advisory): read every test file related to the manifest, plus run the suite once if it is cheap. Do not iterate on making a broken suite pass — that is implementation work, not review.
 
@@ -105,7 +105,7 @@ action:     the specific test to add or fix
 
 Close with one coverage line: which files you read, whether the suite ran, and what you could not measure.
 
-Return the findings as text. Do NOT write a file — the parent skill writes the single report.
+Return the findings as text; do not write a file. The parent assembles the report and returns it in chat (`~/.claude/templates/review-report.md` §1, §7).
 
 ## Hard rules
 

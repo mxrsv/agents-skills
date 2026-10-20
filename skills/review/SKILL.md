@@ -38,7 +38,7 @@ Agent tool:
     Review criteria: {inline the contents of rules/review-criteria.md}
 ```
 
-Requirements belong in `docs/specs/`; implementation plans belong in `docs/plans/` and link to their spec (D0/D4). Resolve the artifact from the supplied path or conversation; search both directories if necessary. For a spec review, read its requirements/decisions; for a plan review, read the linked spec and check technical tasks against its acceptance criteria and the checkout. Small tasks may provide their requirements in chat. If no artifact or goal can be identified, ask for that missing content, not a tracker id. Pass the actual artifact text to the reviewer. Historical plans describe their recorded revision and are not proposals for current behavior.
+Requirements belong in `docs/specs/`; implementation plans belong in `docs/plans/` and link to their spec (D0/D4). Resolve the artifact from the supplied path or conversation; search both directories if necessary. For a spec review, read its requirements/decisions; for a plan review, read the linked spec and check technical tasks against its acceptance criteria and the checkout. Small tasks may provide their requirements in chat. If no artifact or goal can be identified, ask for that missing content. Pass the actual artifact text to the reviewer. Historical plans describe their recorded revision and are not proposals for current behavior.
 
 Do NOT paste codebase contents — the subagent can read and search the codebase and should look for itself.
 

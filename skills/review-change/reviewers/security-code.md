@@ -86,7 +86,7 @@ Do not file these. At most one line under `notes for other reviewers`.
 
 ## Budget
 
-Blockers: unlimited. Worth-doing findings: at most 3. Minor items: one summary line.
+Blockers: never collapsed. Worth-doing findings: the ones worth acting on, most important first. Minor items: one summary line.
 
 Effort ceiling (advisory): one gitleaks run, one semgrep run, plus a full read of every boundary file in the manifest. Do not scan the whole repository's history unless the change itself is a history rewrite.
 
@@ -105,7 +105,7 @@ action:     the concrete fix
 
 Close with one coverage line: which scanners ran, their exit codes, and which boundary files you read.
 
-Return the findings as text. Do NOT write a file — the parent skill writes the single report.
+Return the findings as text; do not write a file. The parent assembles the report and returns it in chat (`~/.claude/templates/review-report.md` §1, §7).
 
 ## Hard rules
 

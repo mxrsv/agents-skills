@@ -92,10 +92,10 @@ Name the owner; do not file it.
 ## Budget
 
 - `blocker` — unlimited (an exploitable CVE in a shipped dependency is a blocker).
-- Findings worth acting on — **at most 3**. Group unrelated low-severity advisories into one line.
+- Findings worth acting on, most important first. Group unrelated low-severity advisories into one line.
 - Minor observations — one summary line.
 
-Effort cap, **advisory**: roughly 15 tool calls. This reviewer is mechanical; if it is running long, the stack detection was probably wrong — recheck step 1 instead of digging further.
+Effort: this reviewer is mechanical; if stack detection takes more than one pass, recheck step 1 instead of digging further.
 
 ## Return format
 
@@ -109,5 +109,5 @@ Return the findings as text. **Do not write any file.**
 
 - Do NOT modify any file, including via `Bash`. In particular: do not run `npm audit fix`, `npm install`, `cargo update` or any command that writes a lockfile. *(advisory — nothing mechanically prevents it)*
 - Do NOT install tools.
-- Do NOT write the report. The parent skill collects the findings and writes once.
+- Do NOT write the report. Return findings as text; the parent assembles the report and returns it in chat (`~/.claude/templates/review-report.md` §1, §7).
 - No evidence → `blocked` with a reason. Never a plausible guess.

@@ -12,10 +12,10 @@ Scripts first. They are deterministic and cheap; your reading time is neither.
 
 ```bash
 bash ~/.claude/scripts/docs-anchors.sh <repo-root>      # D6 — are the anchors still alive (AGENTS.md, README.md, CHANGELOG.md, docs/README.md, docs/{user,internals,operations}/**)
-bash ~/.claude/scripts/docs-compliance.sh <repo-root>   # D5/D6 — AGENTS.md required (CLAUDE.md optional), intent labels on root docs, legacy docs/ dirs
+bash ~/.claude/scripts/docs-compliance.sh <repo-root>   # D5 — AGENTS.md required (CLAUDE.md optional); warns on retired docs/ dirs (D3)
 ```
 
-Both take the repo root as their one argument, and both use the same exit codes: `0` clean, `1` problems found, `2` the path is not a directory. Output is one `❌ <file>:<line>  <detail>` per problem (Vietnamese text — quote the line verbatim as evidence rather than translating it).
+Both take the repo root as their one argument, and both use the same exit codes: `0` clean, `1` problems found, `2` the path is not a directory. `docs-anchors.sh` prints one `❌ <file>:<line>  <detail>` per broken anchor; `docs-compliance.sh` prints `❌ <detail>` per missing required item, and its `⚠️` lines do not change the exit code (Vietnamese text — quote the line verbatim as evidence rather than translating it).
 
 `docs-anchors.sh` answers *"do the links in living docs still point at something real"*; `docs-compliance.sh` answers *"do the required docs exist and carry the required structure"*. They are not interchangeable — run both. These calls take an argument, so they may trigger a permission prompt; that is expected. Do not rewrite the command to dodge it.
 
@@ -60,8 +60,7 @@ NEVER assert drift you did not verify on both sides. "The doc says X" plus "the 
 
 - Living docs describing behavior the code no longer has, or never had.
 - Anchors pointing at moved, renamed or deleted symbols and files.
-- Required documents missing outright (D5); retired review/ledger directories still in the tree (D3/D4); a stale "Chưa khớp thực tế" table still carried in a living doc (retired D7 — drift now goes to an issue).
-- Anchors in `AGENTS.md`, `README.md`, `CHANGELOG.md` without an intent label — `current` / `decided` / `building` / `deprecated` (D6).
+- Required documents missing outright (D5); retired review/ledger directories still in the tree (D3/D4); a stale "Chưa khớp thực tế" table still carried in a living doc (drift is raised in chat with `file:line` evidence, per D7).
 - Env vars read but undocumented, or documented but unread.
 - Schema and model disagreeing on columns, types or nullability.
 - Documented commands that do not exist.
@@ -79,10 +78,10 @@ Name the owner; do not file it.
 ## Budget
 
 - `blocker` — unlimited.
-- Findings worth acting on — **at most 3**.
+- Findings worth acting on, most important first.
 - Minor observations — one summary line. Script output typically produces many small anchor breaks; group them (`docs-anchors.sh: 6 dead anchors in docs/internals/overview.md`) rather than filing each one.
 
-Effort cap, **advisory**: roughly 20 tool calls, of which at most 3 `context7` queries.
+Effort: keep `context7` lookups to the libraries that matter (see the library rule above).
 
 ## Return format
 
@@ -97,5 +96,5 @@ Return the findings as text. **Do not write any file, and do not post externally
 ## Hard rules
 
 - Do NOT modify any file, including via `Bash`. Do not "fix" a stale anchor while you are looking at it. *(advisory — nothing mechanically prevents it)*
-- Do NOT write the report. The parent skill collects the findings and writes once.
+- Do NOT write the report. Return findings as text; the parent assembles the report and returns it in chat (`~/.claude/templates/review-report.md` §1, §7).
 - No evidence → `blocked` with a reason. Never a plausible guess.

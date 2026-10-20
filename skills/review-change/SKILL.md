@@ -9,7 +9,7 @@ description: Review a change you just implemented — correctness against its ca
 
 Three reviewer contracts over one change: `correctness`, `tests`, `security-code`. Contracts live in [reviewers/](reviewers/) and are the prompt bodies you dispatch — read them, do not summarize them.
 
-Shared report format, finding schema and freshness rules: `~/.claude/templates/review-report.md` (absolute path on purpose — this directory is also reached through the `~/.agents/skills/` symlink used by Codex and Cursor, where a relative `../../templates/` would resolve elsewhere). **Return the report in chat by default** (template §1); post to a specified PR only when requested. No issue id or external write is required.
+Shared report format, finding schema and freshness rules: `~/.claude/templates/review-report.md` (absolute path on purpose — this directory is also reached through the `~/.agents/skills/` symlink used by Codex and Cursor, where a relative `../../templates/` would resolve elsewhere). **Return the report in chat by default** (template §1); post to a specified PR only when requested.
 
 ## 1. Resolve the source
 

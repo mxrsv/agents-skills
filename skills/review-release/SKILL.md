@@ -31,7 +31,7 @@ SHIP · FIX FIRST · REFACTOR · CONTINUE BUILDING · RETHINK
 - FORBIDDEN: reading, grepping or globbing source, tests, configs, lockfiles or general docs to discover/verify findings. Only explicitly supplied report content may be read as an artifact; a task-plan summary is not a full report.
 - FORBIDDEN: spawning subagents. This lane is inline.
 
-Resolve evidence from the conversation and explicitly supplied report paths. Missing reports → ask for those reports or state the coverage gap; do not require a tracker id or fetch remote state implicitly.
+Resolve evidence from the conversation and explicitly supplied report paths. Missing reports → ask for those reports or state the coverage gap; do not fetch remote state implicitly.
 
 ## Step 1 — anchor the current state
 
@@ -174,7 +174,7 @@ Header per `~/.claude/templates/review-report.md` §2, with:
 - `scope: worktree` — the template defines three scope forms and none of them is release-specific. `worktree` is the accurate one of the three; the head anchor lives in `head_sha`, and `run_id` keeps runs apart.
 - `head_sha`, `dirty`, `tree_digest` — the values captured in Step 1.
 
-Body order: **coverage table first** (template §3, adapted — rows are the three source profiles, with `fresh` / `stale` / `never-ran` and the commit distance), then verdict, then reasoning, then the ≤3 actions, then carried blockers, then acknowledged gaps.
+Body order: **coverage table first** (template §3, adapted — rows are the three source profiles plus the strategy reviewer's own ran/blocked row, with `fresh` / `stale` / `never-ran` and the commit distance), then verdict, then reasoning, then the ≤3 actions, then carried blockers, then acknowledged gaps.
 
 This lane is inline, so it assembles and returns the report itself (template §7). The verdict is advice; `SHIP` does not grant merge/deploy/release permission.
 

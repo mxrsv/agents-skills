@@ -17,7 +17,7 @@ Read in this order. Do not add sources.
    ```
    Empty `git status --porcelain` means `dirty: false`.
 
-2. **Resolve supplied reports.** Use structured reports already in conversation, explicitly supplied artifact paths, or comments on a specified PR when requested. A report starts with `## Review:` and carries the template §2 `yaml` block. Discussion and plan summaries are not full reports. No tracker or issue key is required.
+2. **Resolve supplied reports.** Use structured reports already in conversation, explicitly supplied artifact paths, or comments on a specified PR when requested. A report starts with `## Review:` and carries the template §2 `yaml` block. Discussion and plan summaries are not full reports.
 
 3. **Select one report per source profile** (`change`, `experience`, `health`): most recent by `reviewed_at`. Missing/malformed timestamps make ordering uncertain; request clarification and do not treat the report as fresh. Do not infer order from chat position or filesystem timestamps.
 
@@ -66,7 +66,7 @@ NEVER invent a finding, NEVER infer one from a filename, and NEVER assume a prof
 
 ## Budget
 
-- Coverage rows: exactly one per source profile — three, always, including the ones that never ran.
+- Coverage rows: one per source profile — three, including the ones that never ran — plus the strategy reviewer's own ran/blocked row.
 - Verdict: exactly one.
 - Next actions: **at most 3**, ordered. More candidates than that means ranking them is the work — do not widen the list to dodge the choice.
 - Reasoning: 2–4 sentences, each tied to a finding key or to the stated product direction.
