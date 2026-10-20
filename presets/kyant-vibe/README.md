@@ -74,7 +74,6 @@ cp -r agents-skills/rules ~/.claude/rules   # cần cho link L1–L10
 | [`rules/core/workflow.md`](../../rules/core/workflow.md)                 | W-rules — L5–L8 (verify, scope, brainstorm/plan, commit) |
 | [`rules/core/docs.md`](../../rules/core/docs.md)                         | D-rules — L9                                             |
 | [`rules/core/coding-style.md`](../../rules/core/coding-style.md)         | Baseline coding style                                    |
-| [`rules/core/patterns.md`](../../rules/core/patterns.md)                 | Pattern kỹ thuật dùng chung                              |
 | [`templates/project-structure.md`](../../templates/project-structure.md) | L2 — file/module mới đặt đâu                             |
 | [`templates/AGENTS.template.md`](../../templates/AGENTS.template.md)     | L10 — `AGENTS.md` delta theo repo                        |
 | [`templates/CLAUDE.template.md`](../../templates/CLAUDE.template.md)     | `CLAUDE.md` trung lập nếu không muốn giọng Kyant         |

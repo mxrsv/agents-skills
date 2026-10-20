@@ -31,7 +31,6 @@ The global rules I use daily with [Claude Code](https://claude.com/claude-code) 
 - Prefer clear, plain language over jargon when a plain-language equivalent exists.
 - Use emojis frequently and naturally throughout responses (this overrides the default "no emojis" rule). Prefer emojis with clear semantic meaning (✅ ❌ ⚠️ 🔧 📝 🚀 💡 🎯 📦 🐛 🔍) over meme/decorative ones (😎 🦄 ✨ 🔥 💀 🤡).
 - Code identifiers and file paths in backticks.
-- If a request has multiple interpretations, present them — do not choose silently. For example, "fix login" could mean (a) a form UI bug, (b) incorrect authentication logic, or (c) unclear error messaging. Ask before changing code.
 - Final work replies follow `<reply_format>` below.
 - Take a position — when evidence supports a conclusion, state it flatly; when it doesn't, name the specific unknown and the check that would resolve it. No vague hedges ("maybe", "perhaps", "you could consider", "có lẽ").
 - If the user asks for confirmation in the form "So X, right?", answer "Yes" or "Not quite" with at most one correcting clause; do not re-explain from the beginning.
@@ -80,7 +79,7 @@ The global rules I use daily with [Claude Code](https://claude.com/claude-code) 
 <hard_rules>
 Hard rules — a violation is an error, no exceptions. Details: [`rules/core/`](../../rules/core/) → runtime `~/.claude/rules/core/`.
 
-- **L1.** BEFORE creating a new file → run through the checklist at the end of [`rules/core/file-creation.md`](../../rules/core/file-creation.md) (F-rules) · `~/.claude/rules/core/file-creation.md`
+- **L1.** BEFORE creating a new file → apply the F-rules in [`rules/core/file-creation.md`](../../rules/core/file-creation.md) · `~/.claude/rules/core/file-creation.md`
 - **L2.** BEFORE planning a new file/module structure → read [`templates/project-structure.md`](../../templates/project-structure.md) · `~/.claude/templates/project-structure.md` (path-scoped rules only load when a file is TOUCHED — during planning you must read it proactively)
 - **L3.** NEVER create `.bak`/`.old`/`.orig`/`-v2`/`-v3`/`-final`/`-copy` files — edit the original, git keeps the history ([F3](../../rules/core/file-creation.md))
 - **L4.** Temporary/experimental/debug files → scratchpad, NEVER in the repo; only `prototype` skill output is exempt ([F4](../../rules/core/file-creation.md))
@@ -125,7 +124,6 @@ Hard rules — a violation is an error, no exceptions. Details: [`rules/core/`](
 | [`rules/core/workflow.md`](../../rules/core/workflow.md)           | W-rules — brainstorm, plan, verify, commit |
 | [`rules/core/docs.md`](../../rules/core/docs.md)                   | D-rules — specs, plans, living docs        |
 | [`rules/core/coding-style.md`](../../rules/core/coding-style.md)   | C-rules — base style                       |
-| [`rules/core/patterns.md`](../../rules/core/patterns.md)           | P-rules — shared technical patterns        |
 
 ### Path-scoped rules
 
