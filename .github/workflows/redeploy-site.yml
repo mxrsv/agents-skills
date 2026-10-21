@@ -1,0 +1,15 @@
+name: Redeploy kyant.dev
+
+# kyant.dev reads this repo at build time (scripts/build-content.mjs),
+# so every push must trigger a new Vercel build.
+on:
+  push:
+    branches: [main]
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl --fail --silent --show-error -X POST "$VERCEL_DEPLOY_HOOK_URL"
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
