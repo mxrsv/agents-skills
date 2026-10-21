@@ -28,6 +28,28 @@ flowchart TD
     K -- symlink --> L
 ```
 
+Một task đi qua workflow thế nào:
+
+```mermaid
+flowchart TD
+    R([Task]) --> B{"Bug?"}
+    B -- "có" --> DB["diagnosing-bugs<br/>bằng chứng trước khi sửa"]
+    B -- "không" --> W1{"Ngưỡng W1?"}
+    W1 -- "mơ hồ · kiến trúc · được yêu cầu" --> SP["Spec<br/>docs/specs/"]
+    SP -- "kéo dài nhiều phiên" --> PL["Plan<br/>docs/plans/"]
+    W1 -- "task rõ ràng" --> I["Làm đúng scope<br/>git status trước"]
+    DB --> I
+    SP -- "trong một phiên" --> I
+    PL --> I
+    I --> UI{"Đổi UI?"}
+    UI -- "có" --> IM["impeccable + screenshot<br/>user duyệt bằng mắt"]
+    UI -- "không" --> RC["review-change"]
+    IM --> RC
+    RC --> V["Kiểm chứng<br/>test · typecheck · build"]
+    V --> C["git commit -- paths"]
+    C --> P(["push · merge · release<br/>khi user duyệt"])
+```
+
 <p align="center">
   <strong>Tiếng Việt</strong> ·
   <a href="README.en.md">English</a>

@@ -28,6 +28,28 @@ flowchart TD
     K -- symlink --> L
 ```
 
+How a task moves through the workflow:
+
+```mermaid
+flowchart TD
+    R([Task]) --> B{"Bug?"}
+    B -- "yes" --> DB["diagnosing-bugs<br/>evidence before the fix"]
+    B -- "no" --> W1{"W1 threshold?"}
+    W1 -- "ambiguous · architecture · asked" --> SP["Spec<br/>docs/specs/"]
+    SP -- "spans sessions" --> PL["Plan<br/>docs/plans/"]
+    W1 -- "clear task" --> I["Implement in scope<br/>git status first"]
+    DB --> I
+    SP -- "one session" --> I
+    PL --> I
+    I --> UI{"UI change?"}
+    UI -- "yes" --> IM["impeccable + screenshot<br/>user approves by eye"]
+    UI -- "no" --> RC["review-change"]
+    IM --> RC
+    RC --> V["Verify<br/>test · typecheck · build"]
+    V --> C["git commit -- paths"]
+    C --> P(["push · merge · release<br/>after the user approves"])
+```
+
 <p align="center">
   <a href="README.md">Tiếng Việt</a> ·
   <strong>English</strong>
