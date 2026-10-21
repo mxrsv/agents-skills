@@ -25,7 +25,7 @@ fi
 EXTRA="$SRC/templates/$TARGET-extra.md"
 OUT="$HOME/.codex/AGENTS.md"
 # File luật nhắc tới bằng path nhưng không nối vào CLAUDE.md (template, rules nạp theo path) — chép nguyên vào VM.
-CLOUD_FILES="templates/project-structure.md templates/AGENTS.template.md rules/react/patterns.md rules/typescript/coding-style.md rules/typescript/patterns.md"
+CLOUD_FILES="templates/project-structure.md templates/AGENTS.template.md rules/react/patterns.md rules/typescript/coding-style.md rules/typescript/patterns.md rules/quality/ui.md rules/quality/code.md"
 EOF_MARK="__AGENT_RULES_EOF__"
 # Output style đang bật (settings.json → outputStyle, khớp với `name:` trong output-styles/*.md).
 # Codex và cloud session không đọc output style của máy này nên thân style được nối thẳng vào bộ luật.

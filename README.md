@@ -12,6 +12,7 @@ flowchart TD
     S --> T{"Đang đụng file nào?"}
     T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
     T -- "*.tsx / *.jsx" --> R["rules/react/"]
+    T -- "UI, *.css, code" --> Q["rules/quality/<br/>U1–U5 · Q1–Q2"]
     T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
     S --> K["skills/<br/>nạp khi task khớp"]
     S --> AG["agents/<br/>subagent gọi khi cần"]
@@ -256,6 +257,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | Tắt — dùng `impeccable` critique/audit        |
 | [`prototype`](skills/prototype/SKILL.md)                         | Prototype bỏ được trước khi chốt hướng        |
 | [`impeccable`](skills/impeccable/SKILL.md)                       | Dựng, thiết kế lại, phê, mài giao diện        |
+| [`quality-gates`](skills/quality-gates/SKILL.md)                 | Gate chất lượng UI + code: study, probe, cài lint gate, primitive, sheet trạng thái, review UI |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | Component shadcn/ui, registry, chat UI        |
 
 ### Nội dung, docs & quy trình
@@ -314,6 +316,7 @@ Presets ghi `CLAUDE.md` vào target cài. Ghép với [`rules/`](rules/) để l
 | [`rules/core/`](rules/core/)                                       | Luôn nạp: tạo file (F), workflow (W), docs (D), coding style (C) |
 | [`rules/typescript/`](rules/typescript/)                           | Path-scoped cho `*.ts/tsx/js/jsx`                                              |
 | [`rules/react/`](rules/react/)                                     | Path-scoped cho `*.tsx/jsx`                                                    |
+| [`rules/quality/`](rules/quality/)                                 | Path-scoped: UI (U1–U5) và code (Q1–Q2); quy trình ở skill `quality-gates`     |
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Skeleton delta rules theo project                                              |
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Starter `CLAUDE.md` trung lập                                                  |
 | [`templates/project-structure.md`](templates/project-structure.md) | Cây thư mục chuẩn                                                              |

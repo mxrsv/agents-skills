@@ -1,0 +1,81 @@
+// Template: the parts of `.oxlintrc.json` that `gates` adds. Replace the placeholders:
+//   <controls>  the folder of shared controls, e.g. src/components/ui
+//   <gallery>   a specimen or playground folder exploration may use freely, or drop it
+//   <legacy-N>  pre-preset controls living in <controls>, by module name
+// Keep every existing rule entry the project already has: an override REPLACES a rule's
+// options for the files it matches (lessons.md).
+{
+  "jsPlugins": ["./scripts/oxlint-plugin/index.mjs", "@shadcn/lint"],
+  "settings": {
+    "shadcn": {
+      "ui": "@/components/ui",
+      // Pre-preset controls in <controls> take legacy classes; they are not preset components.
+      "ignoreImports": ["(^|/)ui/(legacy-1|legacy-2)$"],
+      "note": "Rules: AGENTS.md <numbers>."
+    }
+  },
+  "rules": {
+    // Q1, Q2: repo-wide.
+    "local/require-suppression-reason": "error",
+    "local/no-unreasoned-skip": "error"
+  },
+  "overrides": [
+    {
+      // U2: recipes, the headless library and the icon package only through <controls>.
+      // Repeat the project's existing no-restricted-imports entries here.
+      "files": ["src/**/*.{ts,tsx}"],
+      "excludeFiles": ["<controls>/**", "<gallery>/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**/ui/*"],
+                "importNames": ["buttonVariants", "badgeVariants", "toggleVariants"],
+                "message": "Render the control instead of borrowing its class recipe."
+              },
+              {
+                "group": ["@base-ui/react", "@base-ui/react/*"],
+                "message": "Reach the headless library through a <controls> primitive."
+              },
+              {
+                "group": ["@hugeicons/*"],
+                "message": "Icons go through one wrapper in <controls>."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      // U3/U4 on generated primitives: their own classes are upstream source, so restyle and
+      // arbitrary-value checks stay off. Adaptations (e.g. an inset focus ring) are linted here.
+      "files": ["<controls>/**/*.tsx"],
+      "excludeFiles": ["<controls>/**/*.test.tsx", "<controls>/legacy-1.tsx", "<controls>/legacy-2.tsx"],
+      "rules": {
+        "shadcn/no-raw-colors": "error",
+        "shadcn/no-unknown-classes": "error",
+        "local/no-outset-state-indicators": "error"
+      }
+    },
+    {
+      // U1/U3/U4 for callers.
+      "files": ["src/**/*.{ts,tsx}"],
+      "excludeFiles": ["<controls>/**", "<gallery>/**", "**/*.test.{ts,tsx}"],
+      "rules": {
+        "shadcn/no-restyle": ["error", { "allow": ["layout"] }],
+        "shadcn/no-arbitrary-values": ["error", { "allow": ["layout"] }],
+        "shadcn/require-static-classes": "error",
+        "shadcn/no-raw-colors": "error",
+        "local/no-outset-state-indicators": "error"
+      }
+    },
+    {
+      // U3 on surfaces already moved to the preset: legacy class names would all be "unknown".
+      // This list grows by one entry per migrated surface.
+      "files": ["src/<migrated-surface>/**"],
+      "rules": { "shadcn/no-unknown-classes": "error" }
+    }
+  ]
+}

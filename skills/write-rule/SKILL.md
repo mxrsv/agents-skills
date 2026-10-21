@@ -32,6 +32,12 @@ Check how the repo runs lint before choosing it: a hook that runs `--quiet` on c
 silences warnings and fails on every touched legacy file. With legacy code, prefer a ratchet
 test (baseline file, count may only go down) or a lint rule with a shrinking allowlist.
 
+For a lint tier, measure before enabling: skill `quality-gates`, module `probe`, counts the
+hits per rule per path group, unscoped and scoped. A `warn` level is no ratchet when the hook
+is quiet and CI fails only on errors. Exempt legacy files by name at error level, give each
+exemption a comment, and add a test that every named exemption still exists. An override
+replaces the rule's options for the files it matches, so repeat the existing entries in it.
+
 ## 3. Write it
 
 One bullet, in this order, no preamble:

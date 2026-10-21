@@ -12,6 +12,7 @@ flowchart TD
     S --> T{"Which file is touched?"}
     T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
     T -- "*.tsx / *.jsx" --> R["rules/react/"]
+    T -- "UI, *.css, code" --> Q["rules/quality/<br/>U1–U5 · Q1–Q2"]
     T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
     S --> K["skills/<br/>loaded when a task matches"]
     S --> AG["agents/<br/>subagents on demand"]
@@ -256,6 +257,7 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | Off — use `impeccable` critique/audit          |
 | [`prototype`](skills/prototype/SKILL.md)                                   | Throwaway prototype before committing          |
 | [`impeccable`](skills/impeccable/SKILL.md)                                 | Build, redesign, critique, polish interfaces   |
+| [`quality-gates`](skills/quality-gates/SKILL.md)                           | UI + code quality gates: study, probe, lint gates, primitives, state sheets, UI review |
 | [`shadcn`](skills/shadcn/SKILL.md)                                         | shadcn/ui components, registries, chat UI      |
 
 ### Content, docs & workflow
@@ -314,6 +316,7 @@ Presets write `CLAUDE.md` at the install target. Pair with [`rules/`](rules/) so
 | [`rules/core/`](rules/core/)                                       | Always-loaded: file creation (F), workflow (W), docs (D), coding style (C) |
 | [`rules/typescript/`](rules/typescript/)                           | Path-scoped for `*.ts/tsx/js/jsx`                                                        |
 | [`rules/react/`](rules/react/)                                     | Path-scoped for `*.tsx/jsx`                                                              |
+| [`rules/quality/`](rules/quality/)                                 | Path-scoped: UI (U1–U5) and code (Q1–Q2); procedures in skill `quality-gates`            |
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Per-project delta rules skeleton                                                         |
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Neutral `CLAUDE.md` starter                                                              |
 | [`templates/project-structure.md`](templates/project-structure.md) | Canonical directory trees                                                                |
