@@ -8,7 +8,7 @@ How rules load in a session:
 flowchart TD
     S([Claude Code session]) --> A["CLAUDE.md<br/>from presets/ or templates/<br/>communication · reply format · hard rules L1–L10"]
     S --> O["output-styles/<br/>reply language"]
-    S --> C["rules/core/<br/>F · W · D · C · P — always loaded"]
+    S --> C["rules/core/<br/>F · W · D · C — always loaded"]
     S --> T{"Which file is touched?"}
     T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
     T -- "*.tsx / *.jsx" --> R["rules/react/"]
@@ -289,7 +289,7 @@ Presets write `CLAUDE.md` at the install target. Pair with [`rules/`](rules/) so
 
 | Path                                                               | What                                                                                     |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| [`rules/core/`](rules/core/)                                       | Always-loaded: file creation (F), workflow (W), docs (D), coding style (C), patterns (P) |
+| [`rules/core/`](rules/core/)                                       | Always-loaded: file creation (F), workflow (W), docs (D), coding style (C) |
 | [`rules/typescript/`](rules/typescript/)                           | Path-scoped for `*.ts/tsx/js/jsx`                                                        |
 | [`rules/react/`](rules/react/)                                     | Path-scoped for `*.tsx/jsx`                                                              |
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Per-project delta rules skeleton                                                         |

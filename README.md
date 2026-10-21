@@ -8,7 +8,7 @@ Luật được nạp thế nào trong một phiên:
 flowchart TD
     S([Phiên Claude Code]) --> A["CLAUDE.md<br/>từ presets/ hoặc templates/<br/>giao tiếp · format trả lời · hard rules L1–L10"]
     S --> O["output-styles/<br/>ngôn ngữ trả lời"]
-    S --> C["rules/core/<br/>F · W · D · C · P — luôn nạp"]
+    S --> C["rules/core/<br/>F · W · D · C — luôn nạp"]
     S --> T{"Đang đụng file nào?"}
     T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
     T -- "*.tsx / *.jsx" --> R["rules/react/"]
@@ -289,7 +289,7 @@ Presets ghi `CLAUDE.md` vào target cài. Ghép với [`rules/`](rules/) để l
 
 | Path                                                               | Nội dung                                                                       |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| [`rules/core/`](rules/core/)                                       | Luôn nạp: tạo file (F), workflow (W), docs (D), coding style (C), patterns (P) |
+| [`rules/core/`](rules/core/)                                       | Luôn nạp: tạo file (F), workflow (W), docs (D), coding style (C) |
 | [`rules/typescript/`](rules/typescript/)                           | Path-scoped cho `*.ts/tsx/js/jsx`                                              |
 | [`rules/react/`](rules/react/)                                     | Path-scoped cho `*.tsx/jsx`                                                    |
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Skeleton delta rules theo project                                              |
