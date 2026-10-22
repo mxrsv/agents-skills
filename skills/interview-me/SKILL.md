@@ -118,6 +118,17 @@ The gate is an explicit "yes." The following are **not** yes:
 
 If they correct you, fold the correction in and restate. Loop until you get an explicit yes.
 
+### Step 6: Stop at the yes, unless it carries a go-ahead
+
+When the user confirms the restate with an explicit yes:
+
+1. **Deliver the confirmed statement of intent**, with any last corrections folded in.
+2. **Read the yes:**
+   - **Yes plus a go-ahead** ("yes, làm luôn đi", "approve, build it"): the work is authorized. Continue into it in the same turn; do not ask again.
+   - **Bare yes** ("yes", "đúng", "ok"): offer the next step in one line (implement now, or write the spec in `docs/specs/` first when W1/W2 applies) and **stop the turn**. Do not invoke tools or start downstream work until the user picks.
+
+A bare yes confirms what the user wants, not that work starts now. Stopping there gives one checkpoint before files change; stopping after a go-ahead only adds a round trip.
+
 ### The 95% Confidence Stop
 
 You're done when you can answer yes to this:
@@ -203,6 +214,7 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 - Three or more rounds without your confidence visibly rising: you're asking the wrong questions, step back and reframe
 - A confidence number below ~70% with no reason attached: the user can't help close the gap if they don't know what's missing
 - Saving the intent doc before the user has confirmed (the doc itself implies a yes the user didn't give)
+- Invoking tools or starting downstream work right after a bare yes, or asking again after a yes that already said to go ahead
 - Skipping the "Out of scope" line in the restate (silent disagreement about non-goals is half of misalignment)
 
 ## Verification
@@ -216,4 +228,5 @@ After applying interview-me:
 - [ ] A concrete restate (Outcome / User / Why now / Success / Constraint / Out of scope) was written back to the user
 - [ ] The user confirmed the restate with an explicit yes (not "whatever you think," not "sounds good," not silence)
 - [ ] At the stop point, the agent could predict reactions to the next three questions it would ask
+- [ ] After the yes: continued only if it carried a go-ahead; otherwise delivered the intent, offered the next step and stopped the turn
 - [ ] Any handoff to a downstream skill (`brainstorm`, `planning`) was framed in terms of the confirmed intent, not the original underspecified ask
