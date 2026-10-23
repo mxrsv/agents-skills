@@ -1,0 +1,12 @@
+{
+  "name": "kyant-skills",
+  "owner": { "name": "mxrsv" },
+  "metadata": { "description": "Kyant's own Claude Code skills" },
+  "plugins": [
+    {
+      "name": "kyant",
+      "source": "./kyant-plugin",
+      "description": "Kyant's own skills for cloud sessions and routines"
+    }
+  ]
+}

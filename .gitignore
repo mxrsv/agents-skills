@@ -15,6 +15,8 @@
 !/assets/
 !/hooks/
 !/.github/
+!/.claude-plugin/
+!/kyant-plugin/
 !/scripts/
 !/bin/
 !/README.md

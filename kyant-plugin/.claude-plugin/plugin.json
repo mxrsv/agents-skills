@@ -1,0 +1,6 @@
+{
+  "name": "kyant",
+  "description": "Kyant's own skills: intent interview, kanban, review suite, git tidy, rule writing, bug diagnosis, quality gates, scaffolding",
+  "version": "0.1.0",
+  "author": { "name": "mxrsv" }
+}
