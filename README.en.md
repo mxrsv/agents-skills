@@ -232,7 +232,8 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                          | Before building — clarify, compare approaches, lock the spec |
 | [`planning`](skills/planning/SKILL.md) | Execution plan once scope is clear                           |
 | [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                        | Fast architecture map for unfamiliar repos                   |
-| [`kyant-intent`](skills/kyant-intent/SKILL.md)                                      | One-question-at-a-time interview to extract real intent      |
+| [`interview-me`](skills/interview-me/SKILL.md)                                      | One-question-at-a-time interview to extract real intent      |
+| [`kyant-intent`](skills/kyant-intent/SKILL.md)                                      | Kyant's custom take on `interview-me`                        |
 | [`find-skills`](skills/find-skills/SKILL.md)                                        | Discover / install agent skills                              |
 | [`explain`](skills/explain/SKILL.md)                                                | Teach a concept, bug, or design decision in a chosen style   |
 

@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-description: Clarify ambiguous requirements or material architecture, data-model and public-contract changes before implementation. Settle decisions in conversation and capture durable requirements in docs/specs/, separate from implementation plans. Not for stress-testing an existing decision (use grilling) or for intent extraction before any ask is clear (use kyant-intent).
+description: Clarify ambiguous requirements or material architecture, data-model and public-contract changes before implementation. Settle decisions in conversation and capture durable requirements in docs/specs/, separate from implementation plans. Not for stress-testing an existing decision (use grilling) or for intent extraction before any ask is clear (use interview-me).
 argument-hint: "[task description or spec path]"
 ---
 
