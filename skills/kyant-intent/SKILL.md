@@ -1,148 +1,175 @@
 ---
 name: kyant-intent
-description: Turn a short, loose ask into a confirmed statement of intent before anything changes. One question per turn, each with a grounded guess, until the agent can predict the user's next answers; ends in a restate the user approves. Works for any ask whose intent is unclear (a feature, a UI direction, a workflow or setup change, a roadmap, a product bet). Not for stress-testing a decision that already exists (use grilling).
+description: Find out what the user actually wants before any plan, spec or code exists, when an ask hits a W1 threshold with unclear intent or the user calls /kyant-intent. Runs Read → Ask → Dig → Stop → Lock, one question per turn with a guess attached, until ~95% confidence; ends in a restate the user confirms. Pre-decision only; to stress-test a plan or decision that already exists, use grilling.
 ---
 
 # Kyant Intent
 
-Adapted from [Addy Osmani's interview-me](https://github.com/addyosmani/agent-skills/blob/main/skills/interview-me/SKILL.md) (MIT), reshaped around how this user works: short dictated prompts, one-token answers, mocks over prose for taste.
+A short ask goes in; a confirmed statement of intent comes out. What people ask for and what they want differ: they ask for "a dashboard" because that is what one asks for, or "make it faster" with no number to hit. The cheapest moment to close that gap is before any plan, spec or code exists; once building starts, switching costs are real, the user rationalizes the wrong thing into "good enough", and the misfit gets locked in.
 
-The ask is short on purpose. The agent fills the gap by reading what already exists, then asks only what the code, docs and memory cannot answer. The deliverable is a restate the user says yes to; specs, plans and code come after.
+## When to call
 
-## When to use
-
-- The user types `/kyant-intent`, usually with a one-line ask.
-- The ask names a direction but not who it serves, why now, what done looks like, or the binding limit.
-
-Skip it when the ask is already clear (just do the work) or is a pure information question. Never run it non-interactively (CI, scheduled jobs, `/loop`): report the missing intent as a blocker instead of guessing.
+- **Call** when a W1 threshold is hit and the intent is unclear: the ask is missing at least one of **who** the user is, **why** they want it, what **success** looks like, or the binding **constraint**. Also when the user invokes it: `/kyant-intent`, "interview me", "before we start, are we sure?"
+- **Don't call** when the ask is unambiguous and self-contained ("rename this variable", "fix this typo"), the user asked for speed over verification, it is a pure information request ("how does X work?"), it is a mechanical operation (renames, formats, file moves), or you already have ≥95% confidence (run the Stop test before assuming you don't).
+- **Live user only.** Never run in CI pipelines, scheduled runs, `/loop` or autonomous loops. There, flag the underspecified ask as a blocker instead of guessing.
 
 ## The loop
 
-### 0. Ground before the first question
+`Read → Ask → Dig → Stop → Lock`. Read opens the interview; Ask and Dig repeat each turn; Stop decides when to Lock.
 
-Read the repo instructions, related specs and plans, the code the ask touches, memory about the user's taste and past decisions, and live state when the ask is about something running. A short prompt works only because this step supplies what the user left out. Keep it proportionate: enough to make the first guess specific. Never ask what a file can answer.
+### Read
 
-### 1. Open with a read
-
-One sentence for what the user wants, plus an honest confidence number. Below ~70%, name what is missing on the same line.
+Before asking anything, write your best read of what the user wants in **one sentence**, plus an honest confidence number (0–100%):
 
 ```
-HYPOTHESIS: You want TinySift to stop costing CPU while nobody is looking at it.
-CONFIDENCE: ~40% — missing: when you saw the cost, and what number counts as fixed
+HYPOTHESIS: You want a way to answer "how are we doing?" in standup, and "dashboard" was the convention that came to mind.
+CONFIDENCE: ~30% — missing: who it's for, what "metrics" means in context, and what success looks like
 ```
 
-If you cannot predict the user's reaction to your next three questions, the number is too high.
+The number forces honesty. If you wrote a high number but cannot predict the user's reactions to the next three questions you would ask, the number is wrong; start at the level you can defend. Below ~70%, append on the same line what is still unresolved or missing, so the user knows what the interview needs to surface.
 
-### 2. One question per turn, guess attached
+### Ask
+
+One question per turn, with your guess attached:
 
 ```
-Q:     <one question>
-GUESS: <your answer for them, the reason, and what it rests on>
+Q:     <one focused question>
+GUESS: <your hypothesis for the answer, with the reasoning that produced it>
 ```
 
-- **One per turn.** The next question usually depends on this answer, and a batch gets skimmed.
-- **Ground the guess.** Cite the file, spec line, measurement or memory it comes from. Tag each fact claim as verified (checked this session) or hypothesis; a wrong fact inside a guess gets accepted along with the guess.
-- **Options for concrete forks.** When the choice is between known alternatives, offer (a)/(b)/(c) and guess one, so the user can answer "A". Keep open questions for who, why and success, where options would plant an answer.
-- **Be visibly willing to be wrong.** Now and then guess in a direction you expect the user to push back on.
+Wait for the user to react before asking the next one.
 
-### 3. Branch when words are the wrong medium
+**Why one at a time:**
 
-- **Taste or visual direction** (look, layout, motion): build a quick mock with 2–3 directions in `~/scratch/<repo>/` and let the user pick by eye. The pick answers the question; resume the loop.
-- **Needs outside evidence** ("how do others do this?"): run the research or scout, report the finding in a few lines, then re-ask the pending question.
-- **Tangent** (the user asks something unrelated): answer briefly, re-ask the pending question once, then wait. Do not repeat it on every later message.
-- **Pivot** (an answer changes the frame): drop the confidence number, say which earlier answers it invalidates, and continue from the new frame.
+- The user can't react to your hypotheses if you bury them in a list.
+- Batches encourage skim-reading and surface answers.
+- The third question often depends on the answer to the first; asking them together locks in the wrong framing.
+- The user's energy for careful thinking is finite; spend it one question at a time.
 
-### 4. Probe "want vs. should want"
+**Why attach a guess:**
 
-Answers that sound like best practice ("scalable", "clean", "the standard way", "I should probably…") hide the real want. Ask:
+- The user reacts faster to a wrong guess than they generate an answer from scratch.
+- It commits you to a hypothesis you can be visibly wrong about, which keeps you honest.
+- It surfaces *your* assumptions, which is what the interview is meant to expose.
+
+The risk is a polite user agreeing with your guess to be agreeable. Be visibly willing to be wrong, and now and then guess in a direction you expect the user to push back on.
+
+### Dig
+
+The most dangerous answers are the ones where the user says what a thoughtful answer *sounds like* rather than what they actually want. Watch for:
+
+- best-practice talk without specifics ("I want it to be scalable", "clean architecture");
+- deference to convention ("the way most apps do it", "the standard approach");
+- "I should probably…", "I think I'm supposed to…", "good engineering practice says…";
+- buzzwords as goals: "modern", "scalable", "robust" instead of a specific outcome.
+
+When you hear one, ask:
 
 > *"If you didn't have to justify this to anyone, what would you actually want?"*
 
-### 5. Stop test
+That single question often does more work than the previous five.
 
-Stop asking when you can predict the user's reaction to the next three questions. If several rounds pass and you still cannot, say so: "I've asked N questions and still can't predict your answers. Something foundational is missing. Step back?"
+### Stop
 
-### 6. Restate
+You are done asking when you can answer yes to:
 
-Write it back in the user's words, one line each, so they can correct line by line:
+> *Can I predict the user's reaction to the next three questions I would ask?*
+
+If yes, you have shared understanding: stop and Lock. If no, ask the next question. This is a checkable test, not a vibe. It also has a floor: if several rounds pass and you still can't predict, that is information about the ask, not a reason to keep grinding. Tell the user: "I've asked X questions and I still can't predict your reactions. Something foundational is missing. Want to step back?"
+
+### Lock
+
+**Restate.** Write back what you now think the user wants, tight (5–8 lines), in their language where possible, so they can confirm or correct line by line:
 
 ```
+Here's what I now think you want:
+
 - Outcome:      <one line>
-- User:         <who benefits>
-- Why now:      <what changed>
-- Success:      <how we know it worked>
-- Constraint:   <the binding limit>
-- Out of scope: <what we are explicitly not doing>
+- User:         <one line — who benefits>
+- Why now:      <one line — what changed>
+- Success:      <one line — how we know it worked>
+- Constraint:   <one line — the binding limit>
+- Out of scope: <one line — what we're explicitly not doing>
+
+Yes / no / refine?
 ```
 
-`Out of scope` is mandatory; silent disagreement about non-goals is half of misalignment. Tag lines the user accepted only by taking your guess with `(agent's pick)`, so they can revisit them.
+`Out of scope` is non-negotiable. Half of misalignment is silent disagreement about what is *not* being built.
 
-### 7. The yes
+**Get an explicit yes.** These are **not** yes:
 
-**Answers vs. delegation.** "theo guess", "A" or "đúng" in reply to a concrete proposal accepts something specific: take it as answered. "Whatever you think" with nothing on the table is delegation: re-ask as a choice between two concrete options.
+- "Whatever you think is best." → The user is delegating, so they don't have 95% confidence either. Re-ask with two concrete options framed as a choice.
+- "Sounds good." → Ambiguous. Ask "Anything you'd refine?" Silence isn't confirmation.
+- "Sure, let's go." → Often a polite exit, not an endorsement. Same follow-up.
+- Silence followed by "okay let's start." → The user has given up on the interview, not converged. Stop and ask whether you've missed something.
 
-**The restate gate.** Only an explicit yes to the restate ends the loop. "Sounds good" (ask what to refine) and "sure, let's go" said to escape the interview (ask whether something is missing) are not yes. Fold corrections in and restate until the yes is explicit.
+If they correct you, fold the correction in and restate. Loop until the yes is explicit.
 
 **After the yes:**
 
-- **Yes plus a go-ahead** ("yes, làm luôn đi", "approve, build it"): the work is authorized. Continue in the same turn; do not ask again.
-- **Bare yes** ("yes", "đúng", "ok"): deliver the confirmed intent, offer the next step in one line (implement now, or write the spec in `docs/specs/` first when W1/W2 applies) and **stop the turn**. Do not invoke tools or start downstream work until the user picks.
+1. Deliver the confirmed statement of intent, with any last corrections folded in.
+2. Read the yes:
+   - **Yes plus a go-ahead** ("yes, làm luôn đi", "approve, build it"): the work is authorized. Continue into it in the same turn; do not ask again.
+   - **Bare yes** ("yes", "đúng", "ok"): offer the next step in one line (implement now, or write the spec in `docs/specs/` first when W1/W2 applies) and **stop the turn**. Do not invoke tools or start downstream work until the user picks.
 
-A bare yes confirms what the user wants, not that work starts now.
+A bare yes confirms what the user wants, not that work starts now. Stopping there gives one checkpoint before files change; stopping after a go-ahead only adds a round trip.
 
 ## Output
 
-A confirmed statement of intent. When the work needs a durable record, it goes in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md` (D0/D4); a plan links to that spec instead of copying it. Otherwise it stays in chat. To stress-test the decision afterwards, the user can run `grilling`.
+The deliverable is the **confirmed statement of intent**: the restate with an explicit yes. Specs, plans and task lists are downstream and consume it. When the work needs a durable record, put the intent in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md` (D0/D4); a plan links to that spec instead of copying it. Otherwise return it in chat. To stress-test a decision once it exists, use `grilling`.
 
-## Example
+## Real run
 
-A real run, condensed (TinySift, 2026-10-22). Ask: "xử lý vấn đề performance khi tinysift chạy, chiếm khá nhiều CPU và RAM".
+TinySift, 2026-10-22, condensed. The ask: "xử lý vấn đề về performance khi tinysift chạy nó chiếm khá nhiều CPU và RAM, cần điều tra tinysift đang run trên máy tôi trước". The user asked for an investigation first, so the agent measured before the first question: ~21% of one core with the window open, a spike on every 2 s refresh, and a hidden window that still refreshed its list.
 
 ```
-(ground)    Measured first: ~21% of one core with the window open, a spike on every
-            2 s refresh, and the hidden window still refreshing its list.
-HYPOTHESIS: You want TinySift to stop burning CPU while you are not looking at it.
-
 Q:     When you saw the cost, were you looking at TinySift or working in another app?
 GUESS: another app. Then the fix is to stop reading and redrawing when you are not looking.
 User:  ngừng đọc khi không focus app đúng không
-Agent: Not quite: stop when the window is not visible (hidden, minimized, covered,
+Agent: Not quite: stop when the window is not visible (hidden, minimized, fully covered,
        another Space), not on focus loss; on a second monitor you are still reading it.
-       CONFIDENCE: ~65% — missing: the trade-off on return, and the target number.
+       CONFIDENCE: ~65% — missing: the trade-off on return, and what counts as fixed.
 Q:     Stopping while hidden leaves a gap in the 5-minute chart. Acceptable?
 GUESS: yes; you open it to see the machine now, not five minutes ago.
 User:  chấp nhận, ẩn thì ngừng hẳn
-Q:     Also cut the cost while the window is visible, or only the hidden case for now?
+Q:     Also cut the redraw cost while the window is visible, or only the hidden case for now?
 GUESS: hidden case only; the visible redraw cost is a separate, riskier UI job.
 User:  theo guess
-Agent: <restate, Out of scope: redraw cost while visible>
+Agent: <restate; Out of scope: redraw cost while visible>
 User:  yes làm luôn đi        ← yes plus a go-ahead: build in the same turn
 ```
 
-Hidden CPU went from ~21% to 0.7% of one core and RAM from ~205 MB to 56 MB. The scope cut and the focus-vs-visibility correction both happened before any code changed.
+Hidden CPU dropped from ~21% to 0.7% of one core and RAM from ~205 MB to 56 MB. The scope cut and the focus-vs-visibility correction both landed before any code changed.
 
-## Red flags
+## Traps
 
-- Asking something a file, spec or memory already answers
-- Two or more questions in one message
-- A question without a guess, or a guess that presents an unchecked fact as verified
-- A confidence number below ~70% with no reason
-- Three rounds without confidence rising: reframe instead of grinding
-- Debating taste in prose when a mock would settle it
-- Re-asking the pending question on every message after a tangent
-- Accepting "whatever you think" with nothing on the table
-- Accepting a buzzword answer ("scalable", "clean", "modern") without the "didn't have to justify it" probe
-- A restate without `Out of scope`
-- Writing a spec, plan or code before the restate gets an explicit yes
-- Starting tools or downstream work after a bare yes, or asking again after a yes that already said go
+| Trap | Do instead |
+|---|---|
+| "Asking too many questions wastes their time." | 4–6 targeted questions cost little; building the wrong thing costs far more, and the user bears it. |
+| "I'll figure it out as I build." | Discovery after code exists is rework; switching costs are ~10x what they are now. |
+| Accepting "whatever you think is best" as an answer | It is delegation, not decision. Re-ask with two concrete options as a choice. |
+| "I should give them several options to pick from." | Options work when the user knows what they want and is choosing between trade-offs. Before that, listing options widens the search; asking narrows it. |
+| "If I attach my guess, I'm leading them." | Leading is the point; reacting beats generating from scratch. The risk is sycophancy, so stay visibly willing to be wrong. |
+| "We've talked enough, I get it." | Run the Stop test. If you can't predict their reaction to the next three questions, you don't get it yet. |
+| "The user said yes, we're done." | A yes after a vague restate or an open-ended "sounds good" is hollow. Restate concretely and re-confirm. |
+| Three or more questions in one message | That is batching, not interviewing. Ask one. |
+| A question without your guess | That is surveying, not committing. Attach the guess. |
+| Questions framed as "what would be best practice?" | Ask what they actually want. |
+| Accepting a sophistication-signaling answer ("scalable", "clean", "modern") | Run the Dig probe before accepting it. |
+| Three or more rounds without confidence visibly rising | You are asking the wrong questions. Step back and reframe. |
+| A confidence number below ~70% with no reason | Name what is missing; the user can't close a gap they can't see. |
+| Producing a spec, plan or task list, or saving the intent doc, before an explicit yes | The artifact implies a yes the user didn't give. Wait for the yes. |
+| Tools or downstream work right after a bare yes, or asking again after a yes that already said go | Follow the Lock rule for reading the yes. |
+| Skipping `Out of scope` in the restate | Silent disagreement about non-goals is half of misalignment. Always include it. |
 
-## Verification
+## Self-check
 
-- [ ] Grounding came before the first question; no question asked what a file could answer
-- [ ] The first turn had a hypothesis and confidence; every number below ~70% had a reason
-- [ ] One question per turn, each with a grounded guess; fact claims tagged verified or hypothesis
-- [ ] Taste questions, if any, went to a mock instead of prose
-- [ ] The "didn't have to justify it" probe ran on any buzzword or convention answer
-- [ ] The restate had all six lines, including `Out of scope`, with agent picks tagged
-- [ ] The yes to the restate was explicit; after it, work continued only on a go-ahead, otherwise the turn stopped
-- [ ] At the stop, the next three reactions were predictable
+- [ ] Read: the first turn stated a hypothesis with a confidence number
+- [ ] Every confidence number below ~70% came with a one-line reason
+- [ ] Ask: one question per turn, each with the agent's guess attached
+- [ ] Dig: the "didn't have to justify it" probe ran on any sophistication- or convention-signaling answer
+- [ ] Stop: at the stop point, the agent could predict reactions to the next three questions
+- [ ] Lock: the restate covered Outcome / User / Why now / Success / Constraint / Out of scope
+- [ ] Lock: the user confirmed with an explicit yes (not "whatever you think", not "sounds good", not silence)
+- [ ] After the yes: continued only if it carried a go-ahead; otherwise delivered the intent, offered the next step and stopped the turn
+- [ ] Any handoff (spec, plan or `grilling`) was framed in terms of the confirmed intent, not the original underspecified ask

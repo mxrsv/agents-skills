@@ -233,7 +233,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`planning`](skills/planning/SKILL.md)                                           | Plan thực thi khi phạm vi đã rõ                                |
 | [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                     | Bản đồ kiến trúc nhanh cho repo lạ                             |
 | [`interview-me`](skills/interview-me/SKILL.md)                                   | Phỏng vấn từng câu để moi ý định thật                          |
-| [`kyant-intent`](skills/kyant-intent/SKILL.md)                                   | Bản custom của `interview-me` theo cách làm việc của Kyant     |
+| [`kyant-intent`](skills/kyant-intent/SKILL.md)                                   | Khung riêng của `interview-me`: Read → Ask → Dig → Stop → Lock |
 | [`find-skills`](skills/find-skills/SKILL.md)                                     | Tìm / cài agent skills                                         |
 | [`explain`](skills/explain/SKILL.md)                                             | Giảng khái niệm, bug, hoặc quyết định thiết kế theo style chọn |
 
@@ -280,19 +280,21 @@ Cloud session không đọc `~/.claude` của máy local. [`scripts/render-agent
 
 Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặc định bỏ qua symlink hỏng; dùng `--with-symlinks` khi target đã tồn tại.
 
-| Skill                                                            | Upstream                                                                          |
-| ---------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit) |
-| [`impeccable`](skills/impeccable/SKILL.md)                       | [pbakaus/impeccable](https://github.com/pbakaus/impeccable)                       |
-| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                         |
-| [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                   |
-| [`ponytail`](skills/ponytail/SKILL.md)                           | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
-| [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
-| [`ponytail-audit`](skills/ponytail-audit/SKILL.md)               | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
-| [`ponytail-debt`](skills/ponytail-debt/SKILL.md)                 | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)             |
-| [`caveman`](skills/caveman/SKILL.md)                             | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                 |
-| [`ultracave`](skills/ultracave/SKILL.md)                         | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                 |
-| [`megacave`](skills/megacave/SKILL.md)                           | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                 |
+| Skill                                                            | Upstream                                                                                        |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit)               |
+| [`impeccable`](skills/impeccable/SKILL.md)                       | [pbakaus/impeccable](https://github.com/pbakaus/impeccable)                                     |
+| [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
+| [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
+| [`ponytail`](skills/ponytail/SKILL.md)                           | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
+| [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
+| [`ponytail-audit`](skills/ponytail-audit/SKILL.md)               | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
+| [`ponytail-debt`](skills/ponytail-debt/SKILL.md)                 | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
+| [`caveman`](skills/caveman/SKILL.md)                             | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                               |
+| [`ultracave`](skills/ultracave/SKILL.md)                         | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                               |
+| [`megacave`](skills/megacave/SKILL.md)                           | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                               |
+| [`interview-me`](skills/interview-me/SKILL.md)                   | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (MIT, © 2025 Addy Osmani) |
+| [`kyant-intent`](skills/kyant-intent/SKILL.md)                   | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (MIT, © 2025 Addy Osmani) |
 
 ## CLAUDE.md presets (vibe coding)
 
