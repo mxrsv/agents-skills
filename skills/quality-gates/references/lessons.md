@@ -40,6 +40,16 @@ measurement contradicts.
   and `context.report({ loc })` all work. Test rules by spawning the real binary on fixtures,
   one process per rule file. (2026-10-22)
 
+- **`swift format lint` always reports pretty-printer findings** (`Indentation`, `LineLength`,
+  `AddLines`, `RemoveLine`, `Spacing`, `TrailingComma`, `EndOfLineComment`); no `rules` switch
+  turns them off. On an unformatted Swift tree they were ~3800 of ~4300 findings. Without
+  reformatting, drop those categories by name in the gate and fail on everything else.
+  `TrailingWhitespace` also flags a second blank line and is cheap to keep. (2026-10-24)
+- **`swift format lint` repeats some rule diagnostics** (`DoNotUseSemicolons` up to 8× per
+  location), so count with `sort -u`. `.swift-format` accepts `//` comments, so per-rule
+  reasons can sit beside the switches. Config and parse errors exit 1; findings exit 0 unless
+  `--strict`. (2026-10-24)
+
 ## Focus and state styling
 
 - **`ring-inset` alone is not enough on a preset with a translucent ring.** With
