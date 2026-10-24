@@ -1,0 +1,169 @@
+{
+  "source": "../../source/day46-source-1080p.mp4",
+  "work_dir": "/tmp/day46-work/day46-api-cost",
+  "output": "day46-api-cost.mp4",
+  "clip_origin": 5913.0,
+  "clip_len": 57,
+  "language": "vi",
+  "audio": "vocals",
+  "keep": [
+    [
+      2.35,
+      5.4
+    ],
+    [
+      6.35,
+      13.7
+    ],
+    [
+      15.9,
+      40.3
+    ],
+    [
+      42.4,
+      47.3
+    ],
+    [
+      50.55,
+      56.2
+    ]
+  ],
+  "bg_color": "0x080808",
+  "cam_box": [
+    1444,
+    718,
+    476,
+    362
+  ],
+  "screen_area": [
+    0,
+    300,
+    1080,
+    800
+  ],
+  "cam_area": [
+    0,
+    1100,
+    1080,
+    820
+  ],
+  "regions": {
+    "panel": [
+      1515,
+      118,
+      400,
+      547
+    ],
+    "cost": [
+      1515,
+      458,
+      400,
+      207
+    ],
+    "number": [
+      1520,
+      460,
+      390,
+      92
+    ],
+    "number_tight": [
+      1525,
+      483,
+      265,
+      69
+    ],
+    "allowance": [
+      1515,
+      125,
+      400,
+      300
+    ]
+  },
+  "shots": [
+    [
+      0.0,
+      3.05,
+      "number_tight"
+    ],
+    [
+      3.05,
+      10.4,
+      "cost"
+    ],
+    [
+      10.4,
+      17.2,
+      "cost"
+    ],
+    [
+      17.2,
+      29.4,
+      "number"
+    ],
+    [
+      29.4,
+      34.8,
+      "allowance"
+    ],
+    [
+      34.8,
+      39.7,
+      "panel"
+    ],
+    [
+      39.7,
+      99.0,
+      "number_tight"
+    ]
+  ],
+  "header": [
+    {
+      "style": "Title",
+      "y": 72,
+      "text": "VIBE CODE TỐN BAO NHIÊU?"
+    },
+    {
+      "style": "Sub",
+      "y": 178,
+      "text": "Token quy đổi ≈ $3,900 giá API"
+    },
+    {
+      "style": "Sub",
+      "y": 236,
+      "text": "Thực trả: gói tháng $300–500"
+    }
+  ],
+  "caption_y": 1200,
+  "captions": [
+    [
+      0.15,
+      1.05,
+      "Cái *API cost* kia"
+    ],
+    [
+      1.05,
+      3.05,
+      "là bạn phải trả?"
+    ],
+    [
+      3.15,
+      4.3,
+      "Mình giải thích"
+    ],
+    [
+      4.3,
+      5.9,
+      "cho mọi người nhé"
+    ],
+    [
+      5.9,
+      6.8,
+      "Cái *API cost* này"
+    ],
+    [
+      6.8,
+      8.2,
+      "tức là chúng ta tính ra"
+    ]
+  ]
+}
