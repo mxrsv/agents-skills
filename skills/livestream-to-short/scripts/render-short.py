@@ -181,10 +181,16 @@ def write_captions(cfg):
     print(out)
 
 
+def loudnorm_args(cfg):
+    """Optional `audio_pre` filter (e.g. a compressor), then loudnorm towards `target_lufs`."""
+    pre = cfg.get("audio_pre")
+    return (f"{pre}," if pre else "") + f"loudnorm=I={cfg.get('target_lufs', TARGET_LUFS)}:TP={TRUE_PEAK}:LRA=11"
+
+
 def measure_loudness(cfg):
     graph = ";".join(audio_cut_filter(cfg, "0:a", "aout"))
     stderr = run(["ffmpeg", "-hide_banner", *audio_input(cfg), "-filter_complex",
-                  graph + f";[aout]loudnorm=I={TARGET_LUFS}:TP={TRUE_PEAK}:LRA=11:print_format=json[m]",
+                  graph + f";[aout]{loudnorm_args(cfg)}:print_format=json[m]",
                   "-map", "[m]", "-f", "null", "-"]).stderr
     # loudnorm prints its JSON after other log lines; slice to the last brace.
     return json.loads(stderr[stderr.rindex("{"):stderr.rindex("}") + 1])
@@ -236,7 +242,7 @@ def video_graph(cfg, audio_label, loud):
     audio = audio_cut_filter(cfg, audio_label, "acut")
     parts.extend(audio)
     parts.append(
-        f"[acut]loudnorm=I={TARGET_LUFS}:TP={TRUE_PEAK}:LRA=11:measured_I={loud['input_i']}:"
+        f"[acut]{loudnorm_args(cfg)}:measured_I={loud['input_i']}:"
         f"measured_TP={loud['input_tp']}:measured_LRA={loud['input_lra']}:"
         f"measured_thresh={loud['input_thresh']}:offset={loud['target_offset']}:linear=true,"
         f"aresample=48000[aout]"

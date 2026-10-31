@@ -1,7 +1,7 @@
 """Verify a rendered Short: format, duration, loudness, plus a contact sheet to eyeball.
 
 Usage:
-  python3 -I check-short.py short.mp4 [contact-sheet.jpg]
+  python3 -I check-short.py short.mp4 [contact-sheet.jpg] [target-lufs]
 Prints PASS/FAIL per check and the contact sheet path (default /tmp/<name>-contact-sheet.jpg).
 Exit code 1 when any check fails.
 """
@@ -56,7 +56,8 @@ def contact_sheet(path, duration, out):
     return times
 
 
-def main(path, sheet=None):
+def main(path, sheet=None, target=LUFS_TARGET):
+    target = float(target)
     path = Path(path)
     info = probe(path)
     video = next(s for s in info["streams"] if s["codec_type"] == "video")
@@ -71,7 +72,7 @@ def main(path, sheet=None):
         ("audio stream present", audio is not None, "yes" if audio else "no"),
         (f"A/V drift <= {AV_DRIFT_MAX}s", drift is not None and drift <= AV_DRIFT_MAX,
          f"{drift:.3f}s" if drift is not None else "n/a"),
-        (f"loudness {LUFS_TARGET:.0f}±{LUFS_TOLERANCE:.0f} LUFS", abs(lufs - LUFS_TARGET) <= LUFS_TOLERANCE, f"{lufs} LUFS"),
+        (f"loudness {target:.0f}±{LUFS_TOLERANCE:.0f} LUFS", abs(lufs - target) <= LUFS_TOLERANCE, f"{lufs} LUFS"),
         (f"true peak <= {PEAK_MAX} dBFS", peak <= PEAK_MAX, f"{peak} dBFS"),
     ]
     for name, ok, observed in checks:
@@ -83,6 +84,6 @@ def main(path, sheet=None):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) not in (2, 3):
+    if len(sys.argv) not in (2, 3, 4):
         sys.exit(__doc__)
     sys.exit(0 if main(*sys.argv[1:]) else 1)
