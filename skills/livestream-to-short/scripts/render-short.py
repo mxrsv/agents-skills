@@ -44,6 +44,7 @@ Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour,
 Style: Title,SFProDisplay-Heavy,80,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,8,40,40,0,1
 Style: Sub,SFProDisplay-Bold,50,&H000AD6FF,&H000AD6FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,8,40,40,0,1
 Style: Cap,SFProDisplay-Heavy,68,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,0,0,0,0,100,100,0,0,1,7,3,5,60,60,0,1
+Style: Label,SFProDisplay-Heavy,44,&H00000000,&H00000000,&H000AD6FF,&H00000000,0,0,0,0,100,100,0,0,3,10,0,5,0,0,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -171,6 +172,9 @@ def write_captions(cfg):
         f"Dialogue: 0,{ass_time(s)},{ass_time(e)},Cap,,0,0,0,,"
         f"{{\\pos({OUT_W // 2},{caption_y}){CAPTION_POP}}}{ass_text(text)}"
         for s, e, text in cfg.get("captions", [])
+    ] + [
+        f"Dialogue: 2,{ass_time(s)},{ass_time(e)},Label,,0,0,0,,{{\\pos({x},{y}){CAPTION_POP}}}{ass_text(text)}"
+        for s, e, x, y, text in cfg.get("labels", [])
     ]
     out = cfg["dir"] / CAPTIONS_FILE
     out.write_text(ASS_HEADER + "\n".join(lines) + "\n", encoding="utf-8")
@@ -191,9 +195,12 @@ def fit_region(cfg, name, label_in, label_out):
     x, y, w, h = cfg["regions"][name]
     _, _, area_w, area_h = cfg["screen_area"]
     scale = min(area_w / w, area_h / h)
+    # Masks paint over source pixels (e.g. the facecam and an OBS overlay inside a wide crop); the cam crop is untouched.
+    masks = "".join(f"drawbox={mx}:{my}:{mw}:{mh}:color={cfg['bg_color']}:t=fill,"
+                    for mx, my, mw, mh in cfg.get("masks", []))
     sw, sh = round(w * scale / 2) * 2, round(h * scale / 2) * 2
     return (
-        f"[{label_in}]crop={w}:{h}:{x}:{y},scale={sw}:{sh}:flags=lanczos,unsharp=5:5:0.5,"
+        f"[{label_in}]{masks}crop={w}:{h}:{x}:{y},scale={sw}:{sh}:flags=lanczos,unsharp=5:5:0.5,"
         f"pad={area_w}:{area_h}:(ow-iw)/2:(oh-ih)/2:color={cfg['bg_color']}[{label_out}]"
     )
 

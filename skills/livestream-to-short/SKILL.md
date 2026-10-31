@@ -93,6 +93,8 @@ Recommend one. Under 60 s, a single topic beats a recap of the whole stream. The
    - `regions`: named source boxes.
    - `shots`: `[start, end, region]` on the output timeline. Change regions when the speaker's subject changes.
    - `screen_area` / `cam_area`: output boxes. Screen goes on top, facecam at the bottom.
+   - `masks` (optional): `[x, y, w, h]` source boxes painted `bg_color`, for a wide crop that can't avoid the facecam or an OBS overlay.
+   - `labels` (optional): `[start, end, x, y, text]` yellow tags in output coordinates, to point at parts of the screen.
 4. **Prepare the audio.** Run `python3 -I $S/render-short.py prepare short.json`.
    - It extracts the clip and runs Demucs, then prints the mean level of each stem.
    - `"audio": "vocals"` is the default and strips music for Content ID.
