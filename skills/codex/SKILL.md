@@ -6,7 +6,7 @@ description: Use when the user asks to run Codex CLI (codex exec, codex resume) 
 # Codex Skill Guide
 
 ## Running a Task
-1. For a new session (resumes inherit the prior model/effort — see step 5), ask the user (via `AskUserQuestion`) which **model** AND which **reasoning effort** to use, in a **single prompt with two questions**. When the user expresses no preference, default to `gpt-6-astra` at `high`.
+1. For a new session (resumes inherit the prior model/effort — see step 5), do not ask which model or reasoning effort to use: run with `gpt-6-astra` at `high` unless the user's request names a different model or effort.
    - **Model** — default `gpt-6-astra`:
      - *GPT-6:* `gpt-6-astra` (frontier / most capable — **default**), `gpt-6.1-sol` (latest workhorse for coding and everyday work), `gpt-6-sol` (previous-generation workhorse), `gpt-6-luna` (fast & affordable, easier tasks)
      - *GPT-5.6:* `gpt-5.6-sol` (reliable agentic workhorse), `gpt-5.6-terra` (balanced, everyday), `gpt-5.6-luna` (fast & affordable)
