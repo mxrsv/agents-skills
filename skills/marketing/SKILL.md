@@ -1,9 +1,11 @@
 ---
 name: marketing
-description: Router for vendored marketing skill bundles (coreyhaines31/marketingskills, 52 skills) — copywriting, CRO, SEO/AI SEO, pricing, launch, positioning, emails, ads, analytics and conversion tracking, growth loops, sales enablement, competitor research. Use whenever the task is marketing, growth or go-to-market work; it picks the matching sub-skill and follows it. Not for in-product UI copy such as labels, errors and empty states (use impeccable clarify).
+description: The owner's marketing standard for every product, plus a router for vendored bundles (coreyhaines31/marketingskills, samber/developer-relations-skills) — product demo and social videos, build in public, launch, positioning, copywriting, CRO, SEO, pricing, emails, ads, analytics, developer relations. Use whenever the task is marketing, growth or go-to-market work, including "làm video marketing", "quảng bá" or a demo video; it applies the house method, then picks the matching sub-skill. Not for in-product UI copy such as labels, errors and empty states (use impeccable clarify).
 ---
 
 # Marketing router
+
+For anything that plans or makes public marketing of the owner's products, read `references/house-method.md` first: it sets the order and the limits, and overrides a sub-skill where they differ.
 
 Each bundle is a sparse clone in `.vendor/<prefix>/` next to this file; its sub-skills live in `.vendor/<prefix>/skills/<name>/SKILL.md`. Claude Code only discovers top-level skill folders and Codex skips hidden ones, so only this router costs context; keep the leading dot.
 
@@ -14,6 +16,7 @@ A sub-skill's ID is `<prefix>/<name>` (e.g. `coreyhaines31/copywriting`), so bun
 | Prefix | Repo | Sparse paths |
 |---|---|---|
 | `coreyhaines31` | `https://github.com/coreyhaines31/marketingskills` | `/skills/` `/tools/` |
+| `samber` | `https://github.com/samber/developer-relations-skills` | `/skills/` |
 
 ## Route
 
