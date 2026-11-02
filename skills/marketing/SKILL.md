@@ -1,6 +1,6 @@
 ---
 name: marketing
-description: The owner's marketing standard for every product, plus a router for vendored bundles (coreyhaines31/marketingskills, samber/developer-relations-skills) — product demo and social videos, build in public, launch, positioning, copywriting, CRO, SEO, pricing, emails, ads, analytics, developer relations. Use whenever the task is marketing, growth or go-to-market work, including "làm video marketing", "quảng bá" or a demo video; it applies the house method, then picks the matching sub-skill. Not for in-product UI copy such as labels, errors and empty states (use impeccable clarify).
+description: The owner's marketing standard for every product, plus a router for a vendored bundle (coreyhaines31/marketingskills, trimmed to what is used) — product demo and social videos, launch, positioning, copywriting, CRO, SEO audit, community, competitor profiles, marketing psychology. Use whenever the task is marketing, growth or go-to-market work, including "làm video marketing", "quảng bá" or a demo video; it applies the house method, then picks the matching sub-skill. Not for in-product UI copy such as labels, errors and empty states (use impeccable clarify).
 ---
 
 # Marketing router
@@ -15,8 +15,7 @@ A sub-skill's ID is `<prefix>/<name>` (e.g. `coreyhaines31/copywriting`), so bun
 
 | Prefix | Repo | Sparse paths |
 |---|---|---|
-| `coreyhaines31` | `https://github.com/coreyhaines31/marketingskills` | `/skills/` `/tools/` |
-| `samber` | `https://github.com/samber/developer-relations-skills` | `/skills/` |
+| `coreyhaines31` | `https://github.com/coreyhaines31/marketingskills` | `/tools/` `/skills/cro/` `/skills/social/` `/skills/launch/` `/skills/community-marketing/` `/skills/video/` `/skills/seo-audit/` `/skills/product-marketing/` `/skills/competitor-profiling/` `/skills/marketing-psychology/` `/skills/copywriting/` |
 
 ## Route
 
@@ -38,4 +37,5 @@ A sub-skill's ID is `<prefix>/<name>` (e.g. `coreyhaines31/copywriting`), so bun
 
 - `.vendor/coreyhaines31/tools/integrations/` includes paid partners of the upstream repo (`partners.json`). Never present one as the default; name it alongside at least one alternative.
 - Update: `git -C .vendor/<prefix> pull` (never edit files under `.vendor/`; changes are lost on pull).
+- Only sub-skills that past sessions opened are checked out, because step 2 lists every one on each use. Need another: add its path to the row and run `git -C .vendor/<prefix> sparse-checkout add /skills/<name>/`.
 - Add a bundle: one table row, prefix = the repo owner (`<owner>-<repo>` if that owner already has a row), then step 1. Bundles of another domain get their own router named after the domain, not a row here.
