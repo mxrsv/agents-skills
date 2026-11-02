@@ -217,8 +217,6 @@ Claude Code discovers these via the `Agent` tool (frontmatter `description`). Co
 
 | Agent                                                      | Description                                                |
 | ---------------------------------------------------------- | ---------------------------------------------------------- |
-| [`performance-optimizer`](agents/performance-optimizer.md) | Bottlenecks, runtime cost, bundle size                     |
-| [`refactor-cleaner`](agents/refactor-cleaner.md)           | Dead code / duplication cleanup (knip, depcheck, ts-prune) |
 | [`doc-updater`](agents/doc-updater.md)                     | Keeps living docs (`README`, `CHANGELOG`, `docs/`) in line with code |
 
 ## Skills
