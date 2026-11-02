@@ -10,7 +10,8 @@ An LLM works in code/text and **cannot judge whether a UI is beautiful**. So:
 
 - **Inside an approved plan, the gate batches.** Once the user has picked the direction on a mock,
   build through on that mock and bring every render to one eye-review after the last task, before
-  push or merge (`CLAUDE.md` `<frontend>`). The per-phase gates below apply while the direction is open.
+  push or merge (`CLAUDE.md` `<frontend>`). A W17 cut-over keeps its own gate. The per-phase gates
+  below apply while the direction is open.
 - **Never rush to apply a design/treatment as final.** Every phase output — and every
   small decision (a treatment, a lever value, a focal swap) — passes the user's **real
   eye-review** before it stands.
