@@ -1,6 +1,6 @@
 ---
 name: planning
-description: Turn clear requirements into an implementation plan in docs/plans/, linking to docs/specs/ for requirements and acceptance criteria. Use for multi-session or multi-commit work, or an explicit plan request. Use brainstorm first if the outcome is unclear.
+description: Write, execute or resume an implementation plan in docs/plans/, linking to docs/specs/ for requirements and acceptance criteria. Use for multi-session or multi-commit work, an explicit plan request, or when the user says "implement this plan <path>", "làm tiếp plan", or names a docs/plans/ file (jump to Workflow step 5 and Resume). Use brainstorm first if the outcome is unclear.
 argument-hint: "[task description or plan path]"
 ---
 
