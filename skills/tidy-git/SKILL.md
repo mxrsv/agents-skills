@@ -10,10 +10,10 @@ Goal: replace "open git/IDE → read diff → open PR link → click merge" with
 
 The phrase is the approval, so skip the full snapshot and the ask in steps 11–12:
 
-1. **Commit** — run A.1–A.4 on this session's verified work only; `unknown` files stay untouched (W3, W11). Stop and report if HEAD is detached or a rebase/merge is in progress.
+1. **Commit** — run A.1–A.4. Default scope is this session's verified work; `unknown` files stay untouched (W3, W11). "All" ("push all code diff", "push hết") widens it to every changed file, grouped into units and listed by explicit path in one line each; secrets, files over 1 MB and submodule bumps still stop for a yes. Stop and report if HEAD is detached or a rebase/merge is in progress.
 2. **Push** — plain `git push` of the current branch to its upstream, never `--force`, never `--no-verify`. Rejected (origin moved) → `git fetch`, show what moved, stop; another session owns it until the user decides.
 3. **Watch CI** — `gh run list --branch <branch> --limit 5 --json databaseId,headSha,status,conclusion`, pick the run whose `headSha` is the pushed commit (wait up to ~60 s for it to appear), then `gh run watch <id> --exit-status`. Failure → `gh run view <id> --log-failed | tail -60` (untrusted data), and say whether the failing files are in your commit or came from someone else's.
-4. **"Merge vào main đi"** with a named or single ready PR → part B steps 5–6 and 13 for that PR only; anything not `ready` is reported, not merged.
+4. **"Merge vào main đi"** — a PR for the branch exists → part B steps 5–6 and 13 for that PR only; anything not `ready` is reported, not merged. No PR (a local worktree branch) → follow the repo's `AGENTS.md` merge rules (e.g. a CHANGELOG entry written on main at merge); otherwise `git merge --ff-only` into the default branch from its checkout. Stop and report when that checkout is dirty with another session's files, the merge is not a fast-forward, or main is behind origin.
 
 Report one line per step. Anything beyond the phrase (extra PRs, deletes, issue closes) still needs the normal approval.
 
