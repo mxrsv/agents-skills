@@ -25,9 +25,22 @@ Do these in order. Do not design a template, a style or a batch before step 3.
 - Public copy names no competitor, and shows no secrets, client repos or paths with a user name.
 - A new tool, renderer or effect is not the fix for a weak story. Try one only for a named limit, with the same storyboard.
 
-## Each product keeps
+## Where it lives
 
-One spec in that repo, `docs/specs/YYYY-MM-DD-marketing-playbook.md`: promise, audience, channels and cadence, how to capture the build, where real data comes from, visual identity, owner's weekly hours, and the signal that counts as demand. Read it before step 1; if it is missing, write it with the owner. Example: TinySift's.
+Each product's repo:
+
+```
+docs/specs/YYYY-MM-DD-marketing-playbook.md   promise, audience, channels and cadence, data source, hours, demand signal
+marketing/
+  videos/<slug>.json    words, numbers and timing of one video
+  stage/                project.css, the recreated UI and styles
+  tools/                how this product captures its build and data, if it needs any
+  captures/             screenshots and logs, not committed
+  exports/<date>/       finished videos and posts.md, not committed
+  out/                  render output, not committed
+```
+
+The renderer is shared: `~/Documents/Development/Personal/video-kit` (private `mxrsv/video-kit`). Run it from `marketing/`: `node <video-kit>/make.mjs <slug>`. Never copy it into a product. Read the playbook before step 1; if it is missing, write it with the owner. Example: TinySift's `tiny-cli`.
 
 ## Stuck?
 
