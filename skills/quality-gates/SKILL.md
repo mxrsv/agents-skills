@@ -36,7 +36,8 @@ one at a time. Name the chosen module(s) to the user in one line.
 - **New or reshaped control:** `primitive` → `states` → `review` → `frontend-design-bar`.
 - **A mistake made twice:** skill `write-rule` picks the tier; a lint tier goes `probe` →
   `gates`, and the new check gets a row in `references/rule-map.md`.
-- **Before a UI commit:** the repo's lint (installed by `gates`) → `review` → eye approval.
+- **Before a UI commit:** the repo's lint (installed by `gates`) → `review`.
+- **Before a UI push or merge:** eye approval.
 
 ## Outside this bundle
 
