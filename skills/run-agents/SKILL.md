@@ -48,7 +48,8 @@ Stop only for:
 - nothing left can proceed.
 
 Anything else: take the recommended option, record it in the plan, report it at the end. Eye
-approval comes once, after the last wave (`CLAUDE.md` `<frontend>`). A task that fails: retry once
+approval comes once, after the last wave (`CLAUDE.md` `<frontend>`), even if an older plan lists it
+between tasks: leave those boxes open and keep building. A task that fails: retry once
 with the error in the brief; still failing → mark it blocked, finish the rest, report it.
 
 ## 5. Review once, at the end
