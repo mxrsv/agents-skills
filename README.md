@@ -265,6 +265,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | -------------------------------------------------- | --------------------------------------------- |
 | [`hand-off`](skills/hand-off/SKILL.md)             | Nén hội thoại để agent khác nhận việc         |
 | [`context-budget`](skills/context-budget/SKILL.md) | Rà token qua agents, skills, MCP, `CLAUDE.md` |
+| [`run-agents`](skills/run-agents/SKILL.md)         | Giao việc cho subagent, build một mạch plan   |
 
 ### Dùng chung với Codex / Cursor
 
