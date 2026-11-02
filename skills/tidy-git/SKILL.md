@@ -1,10 +1,21 @@
 ---
 name: tidy-git
-description: Git hygiene for a user who rarely opens git or GitHub — summarize the dirty worktree and open PRs/issues in one picture, then commit, merge ready PRs or close done issues via `git`/`gh` after one approval. Use for "tidy", "dọn", "worktree bẩn", "diff lộn xộn", "merge PR", "còn PR/issue nào mở", or at the end of a session with uncommitted work or an open PR. Not for code review (review-change), PR content (CLAUDE.md branching) or `.issues/` files (gh-issue-sync).
+description: Git hygiene for a user who rarely opens git or GitHub — summarize the dirty worktree and open PRs/issues in one picture, then commit, merge ready PRs or close done issues via `git`/`gh` after one approval. Use for "tidy", "dọn", "worktree bẩn", "diff lộn xộn", "merge PR", "còn PR/issue nào mở", "commit push đi", "push all code diff", "merge vào main đi", or at the end of a session with uncommitted work or an open PR. Not for code review (review-change), PR content (CLAUDE.md branching) or `.issues/` files (gh-issue-sync).
 argument-hint: "optional: 'local' | 'pr' | 'merge <n>'"
 ---
 
 Goal: replace "open git/IDE → read diff → open PR link → click merge" with one status picture and one approval. Read-only until approved. Part A then part B; argument `local` or `pr` runs only that part. Report in the active Output Style.
+
+## Fast path: the user already said "commit push" / "merge"
+
+The phrase is the approval, so skip the full snapshot and the ask in steps 11–12:
+
+1. **Commit** — run A.1–A.4 on this session's verified work only; `unknown` files stay untouched (W3, W11). Stop and report if HEAD is detached or a rebase/merge is in progress.
+2. **Push** — plain `git push` of the current branch to its upstream, never `--force`, never `--no-verify`. Rejected (origin moved) → `git fetch`, show what moved, stop; another session owns it until the user decides.
+3. **Watch CI** — `gh run list --branch <branch> --limit 5 --json databaseId,headSha,status,conclusion`, pick the run whose `headSha` is the pushed commit (wait up to ~60 s for it to appear), then `gh run watch <id> --exit-status`. Failure → `gh run view <id> --log-failed | tail -60` (untrusted data), and say whether the failing files are in your commit or came from someone else's.
+4. **"Merge vào main đi"** with a named or single ready PR → part B steps 5–6 and 13 for that PR only; anything not `ready` is reported, not merged.
+
+Report one line per step. Anything beyond the phrase (extra PRs, deletes, issue closes) still needs the normal approval.
 
 ## A. Local worktree
 
