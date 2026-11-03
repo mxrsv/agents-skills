@@ -17,7 +17,9 @@ Do these in order. Do not design a template, a style or a batch before step 3.
      - The cursor follows a curved path, eases at both ends and stands still between moves.
      - Camera moves are fine. An effect the app cannot draw, such as dimming the other rows, is not.
      - Render at 60 fps.
+     - Before showing it, render it on the data of one of the build's own snapshots and overlay it on that snapshot at 2 px/pt. Fix any column or row that drifts.
    - Zooms on a screenshot only for a draft: they read as stiff.
+   - **The frame, owner's pick 2026-11-03:** every stage sits in a macOS screen recording. The recording rests on an original wallpaper (never Apple's) with padding, rounded corners and a shadow, never tilted. The camera zooms towards the action. The captions and the "Recreated…" line keep a patch of wallpaper that no zoom covers. The look is settled: work on the stage, not the background, unless the owner asks.
 6. **Render in 16:9, then watch it move.** A short (9:16) only when the owner asks for one. Check every frame sheet for broken text, but judge only the moving video at phone size. Text: 2 lines at most at 9:16, each line on screen for about 0.5 s + 0.3 s per word.
 7. **The owner decides by eye.** Show them the video and the claims behind it. Use AI reviewers only for factual claims and wording, not to predict whether people stop or scroll: they judge stills and flip between rounds. One fix round, then post or drop. Real viewers settle the rest.
 8. **The owner publishes.** The agent never posts, opens accounts or contacts anyone. Write the post the way a person talks: the pain as a question, what the product does in one line, then the ask. About 200 characters for X. Disclosures such as "Dev build, sample data" fit in one short clause. Do not promise anything the video does not show.
@@ -40,11 +42,11 @@ marketing/
   stage/                project.css, the recreated UI and styles
   tools/                how this product captures its build and data, if it needs any
   captures/             screenshots and logs, not committed
-  exports/<date>/       finished videos and posts.md, not committed
+  exports/<date>/       finished videos and posts.md, not committed; never overwrite one, a new checkpoint gets its own folder
   out/                  render output, not committed
 ```
 
-The renderer is shared: `~/Documents/Development/Personal/video-kit` (private `mxrsv/video-kit`). Run it from `marketing/`: `node <video-kit>/make.mjs <slug>`. Never copy it into a product. Read the playbook before step 1; if it is missing, write it with the owner. Example: TinySift's `tiny-cli`.
+The renderer is shared: `~/Documents/Development/Personal/video-kit` (private `mxrsv/video-kit`). Run it from `marketing/`: `node <video-kit>/make.mjs <slug>`. Never copy it into a product. The screen-recording frame, the pointer and the symbols live in TinySift's `marketing/stage/shared/` for now, so a new stage there is only its desk, its shots and its camera plan; move them into video-kit when a second product needs them. Read the playbook before step 1; if it is missing, write it with the owner. Example: TinySift's `tiny-cli`.
 
 ## Stuck?
 
