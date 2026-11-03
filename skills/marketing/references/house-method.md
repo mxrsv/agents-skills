@@ -13,10 +13,14 @@ Do these in order. Do not design a template, a style or a batch before step 3.
 5. **Pick the stage, in this order:**
    - A real recording of the real app. Most credible; needs the owner's time.
    - A recreated UI in HTML: copies the build's look, sort order and scales, replays logged numbers, and says "Recreated from my dev build" on screen and in the post. Name any changed data. It never shows a state the build cannot reach.
+     - It also copies the build's behaviour, or it reads as a stiff mock next to a recording: the build's refresh rate, figures that change once per reading, its animation curves, re-sorting, hover and the hand cursor, scrolling.
+     - The cursor follows a curved path, eases at both ends and stands still between moves.
+     - Camera moves are fine. An effect the app cannot draw, such as dimming the other rows, is not.
+     - Render at 60 fps.
    - Zooms on a screenshot only for a draft: they read as stiff.
 6. **Render, then watch it move.** Check every frame sheet for broken text, but judge only the moving video at phone size. Text: 2 lines at most at 9:16, each line on screen for about 0.5 s + 0.3 s per word.
 7. **The owner decides by eye.** Show them the video and the claims behind it. Use AI reviewers only for factual claims and wording, not to predict whether people stop or scroll: they judge stills and flip between rounds. One fix round, then post or drop. Real viewers settle the rest.
-8. **The owner publishes.** The agent never posts, opens accounts or contacts anyone.
+8. **The owner publishes.** The agent never posts, opens accounts or contacts anyone. Write the post the way a person talks: the pain as a question, what the product does in one line, then the ask. About 200 characters for X. Disclosures such as "Dev build, sample data" fit in one short clause. Do not promise anything the video does not show.
 
 ## Limits
 
