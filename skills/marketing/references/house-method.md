@@ -18,7 +18,7 @@ Do these in order. Do not design a template, a style or a batch before step 3.
      - Camera moves are fine. An effect the app cannot draw, such as dimming the other rows, is not.
      - Render at 60 fps.
    - Zooms on a screenshot only for a draft: they read as stiff.
-6. **Render, then watch it move.** Check every frame sheet for broken text, but judge only the moving video at phone size. Text: 2 lines at most at 9:16, each line on screen for about 0.5 s + 0.3 s per word.
+6. **Render in 16:9, then watch it move.** A short (9:16) only when the owner asks for one. Check every frame sheet for broken text, but judge only the moving video at phone size. Text: 2 lines at most at 9:16, each line on screen for about 0.5 s + 0.3 s per word.
 7. **The owner decides by eye.** Show them the video and the claims behind it. Use AI reviewers only for factual claims and wording, not to predict whether people stop or scroll: they judge stills and flip between rounds. One fix round, then post or drop. Real viewers settle the rest.
 8. **The owner publishes.** The agent never posts, opens accounts or contacts anyone. Write the post the way a person talks: the pain as a question, what the product does in one line, then the ask. About 200 characters for X. Disclosures such as "Dev build, sample data" fit in one short clause. Do not promise anything the video does not show.
 
