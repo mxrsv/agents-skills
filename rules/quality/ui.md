@@ -31,3 +31,12 @@ which check enforces which rule.
 - **U5. Nothing repaints while idle.** A looping animation runs only while its state exists,
   stops under reduced motion and pauses while hidden. No `requestAnimationFrame` loop or timer
   that exists only to drive visuals.
+- **U6. Every actionable element shows its states.** Anything clicked, toggled or dragged has a
+  pointer cursor, hover, focus-visible, active and disabled (loading when async). Its hit area
+  includes its padding, and a control the user needs is visible without hover. Set the cursor
+  and states once in the shared control or the base layer, never per call site. Why: a missing
+  `cursor-pointer` was reported on six separate days. Eye pass in `frontend-design-bar`.
+- **U7. A mock is matched by measurement.** For a screen built from a mock or reference, diff the
+  computed styles of both per surface (padding, gap, size, radius, hover and focus colours) and
+  fix every delta or list it as an accepted difference; side by side per W20, never by eye
+  alone or token-only. Doc only.

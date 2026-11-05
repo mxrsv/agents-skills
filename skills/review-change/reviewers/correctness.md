@@ -90,6 +90,7 @@ Report only failures attributable to this change. Pre-existing noise is not your
 - **Regression** — an input class absent from the diff that used to work and now does not.
 - **Dead or unreachable code** introduced by the change; a branch that can no longer be entered.
 - **Hardcoded values** where the surrounding code reads config or constants.
+- **Shown values** — a number, percentage, size, count, version or feature list displayed to users that does not trace to its source or runs the wrong way (used vs remaining, promised vs actual); a version or feature list typed in instead of derived (W23).
 
 ## Out of scope
 

@@ -11,6 +11,8 @@ the global ID in the project's commit messages or config comments so the two can
 | U3 style from the theme | `shadcn/no-raw-colors`, `shadcn/no-arbitrary-values` (`allow: ["layout"]`), `shadcn/require-static-classes`, `shadcn/no-unknown-classes` on migrated paths | new global CSS, static inline `style`, hand-written `.dark` selectors | `gates`, `review` |
 | U4 state marks stay visible | `local/no-outset-state-indicators` | whether the indicator is actually visible: a state sheet | `states`, `gates` |
 | U5 nothing repaints while idle | none | loops, timers, `requestAnimationFrame` | `review` |
+| U6 every actionable element shows its states | none; the shared control or base layer sets cursor and states once | raw elements (U2 exemptions), hit area, hover-only controls: the hover pass in `frontend-design-bar` | `primitive`, `review` |
+| U7 a mock is matched by measurement | none | computed-style diff against the mock | `review` |
 | Q1 every exception says why | `local/require-suppression-reason`; `oxlint-exemptions.test.ts` keeps named exemptions real | an override comment that names nothing | `gates` |
 | Q2 tests assert behaviour | `local/no-unreasoned-skip` | tests that mirror the implementation | `gates`, skill `review-change` |
 

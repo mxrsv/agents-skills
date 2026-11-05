@@ -84,7 +84,10 @@ implement this bar locally; this is the portable standard.
 
 **States & responsive**
 
-- [ ] Mobile is its own design, not a squished desktop. Hover / focus / responsive states are part of the design, not extras.
+- [ ] Mobile is its own design, not a squished desktop.
+- [ ] Hover pass (U6): move the pointer over every clickable thing → pointer cursor, hover, focus-visible, active, disabled; the whole row including padding is the hit area; nothing the user needs appears only on hover.
+- [ ] Text-node audit: list every text node on the surface; delete any that repeats a label, heading or the control itself.
+- [ ] Mock fidelity (U7): computed-style diff against the mock per surface, shot from the runtime the owner uses (W22), not by eye alone.
 
 ## Workflow
 
