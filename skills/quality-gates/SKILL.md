@@ -11,7 +11,7 @@ costs context. Read the chosen module's `SKILL.md` in full and follow it as if i
 directly; paths inside a module (`scripts/…`, `assets/…`, `references/…`) are relative to that
 module's folder. Never invoke a module through the Skill tool — it is not registered.
 
-The rules these modules serve are path-scoped and load on their own: U1–U5 in
+The rules these modules serve are path-scoped and load on their own: U1–U7 in
 `~/.claude/rules/quality/ui.md`, Q1–Q2 in `~/.claude/rules/quality/code.md`. Which check
 enforces which rule: [`references/rule-map.md`](references/rule-map.md). Traps already measured:
 [`references/lessons.md`](references/lessons.md) — read it before configuring anything.

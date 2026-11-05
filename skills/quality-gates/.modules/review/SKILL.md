@@ -14,7 +14,7 @@ there is no finding.
 ## Before reading
 
 - Find the repo's rules: its `AGENTS.md` numbering (e.g. "R11 control owns its look") if
-  present, else U1–U5 from `~/.claude/rules/quality/ui.md`. Cite the repo's numbers.
+  present, else U1–U7 from `~/.claude/rules/quality/ui.md`. Cite the repo's numbers.
 - Find the controls folder and any carve-outs the repo lists (native selects over a pill,
   terminal or editor surfaces).
 - Run the repo's linter on the changed files. Report its output as it is; do not repeat what
@@ -50,6 +50,12 @@ there is no finding.
 - Flag a new infinite animation, `requestAnimationFrame` loop or interval that drives visuals
   while nothing changes, unless it runs only while its state exists and stops under reduced
   motion.
+
+## 5. Actionable states (U6)
+
+- Flag a new raw element with a click or drag handler (`onClick`, `role="button"`, a resize
+  handle) that sets no matching cursor, and a control the user needs that shows only on hover
+  (`opacity-0 group-hover:opacity-100`). Controls from the controls folder already carry theirs.
 
 ## Reporting
 

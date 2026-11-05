@@ -37,7 +37,7 @@ Stop at the first rung that holds:
 2. **Already in this codebase?** A helper, util, type, or pattern that already lives here → reuse it. Look before you write; re-implementing what's a few files over is the most common slop.
 3. **Stdlib does it?** Use it.
 4. **Native platform feature covers it?** `<input type="date">` over a picker lib, CSS over JS, DB constraint over app code.
-5. **Already-installed dependency solves it?** Use it. Never add a new one for what a few lines can do.
+5. **Already-installed dependency solves it?** Use it. Never add a new one for what a few lines can do. Same for a service, tool, OS target or setup step the owner must run or approve (Xcode, dev certificate, Redis, `git init`, a Linux test, an ISO): one line of why and the cheaper path, before adding it.
 6. **Can it be one line?** One line.
 7. **Only then:** the minimum code that works.
 
