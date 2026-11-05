@@ -87,7 +87,7 @@ Here's what I now think you want:
 - Outcome:      <one line>
 - User:         <one line — who benefits>
 - Why now:      <one line — what changed>
-- Success:      <one line — how we know it worked>
+- Success:      <one line — how we know it worked; name the real-world check (e.g. "app side by side with the mock matches"), not a proxy like a test count>
 - Constraint:   <one line — the binding limit>
 - Out of scope: <one line — what we're explicitly not doing>
 
