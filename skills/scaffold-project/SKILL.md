@@ -12,7 +12,7 @@ Turns an empty target into a repo that already passes lint, typecheck and build,
 
 - Project name (kebab-case) and a one-line purpose. Missing name → ask; missing purpose → leave the AGENTS.md one-liner for the user to fill and say so.
 - Target `./<name>` must not exist. Never scaffold into a non-empty directory.
-- Stack: Next.js unless the user names another. Node API or Vite + Tauri → use that section of `~/.claude/templates/project-structure.md` with the stack's official generator and propose the commands before running them. Anything else → propose the structure first (template, "Every project type").
+- Stack: Next.js unless the user names another. Node API or Vite + Tauri → use that section of `~/.claude/templates/project-structure.md` with the stack's official generator and propose the commands before running them. Anything else → propose the structure first (template, "Every project type"). Landing page → the Next.js path below, Tailwind and shadcn included. Desktop app → name the updater in the proposal (template, "Required by product type").
 
 ## Next.js App Router
 

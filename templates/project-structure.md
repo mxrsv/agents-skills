@@ -69,3 +69,10 @@ scripts/                    # build / pipeline scripts
 
 - File with no obvious home → ASK before creating it (F2), propose a location with a reason.
 - Project type not in the list above (Python pipeline, extension, notes…) → follow the repo's existing convention; empty repo → propose the structure in the plan for approval first.
+
+## Required by product type
+
+Owner decisions; the repo's `AGENTS.md` records the concrete setup. Doc only, no check catches a slip.
+
+- **Landing page or marketing site** → section 1 with Tailwind and shadcn (`scaffold-project` generates both). No other CSS framework or hand-written stylesheet; an existing landing page on another stack moves over only when the owner asks.
+- **Desktop app** → in-app auto-update from the first public build, with a signed feed: native macOS (Swift) uses Sparkle (`SUFeedURL` + `SUPublicEDKey`, private key kept in the owner's Keychain); Electron uses `electron-updater` and Tauri its updater plugin, since Sparkle cannot run inside them. Before each release, install the previous public build and confirm it finds and installs the new one (a 0.3.0 build that could not see updates went unnoticed until the owner tried it).
