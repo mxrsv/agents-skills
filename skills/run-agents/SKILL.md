@@ -62,12 +62,12 @@ or touch the files it left dirty wait; the rest finish.
 
 ## 5. Review once, at the end
 
-After the last wave, never per task, skipped only if no file changed: run `/code-review` on
+After the last wave, never per task, skipped only if no file changed: run the `code-reviewer` agent on
 `<baseline>..HEAD`. Without that range it reads only the last commit. Fix its confirmed blocker, high
 and medium findings in the work just built, re-run the checks, commit. Report the rest. A blocker you
 cannot resolve means the work is not done: say so.
 
-A plain review ask goes to built-in `/code-review`. Spawn reviewers directly only for what it
+A plain review ask goes to the `code-reviewer` agent (severity-ranked); built-in `/code-review` only for PR comments or `--fix`. Spawn reviewers directly only for what it
 skips (a mock, a video) or when the owner names the agents or criteria.
 
 ## 6. Report
