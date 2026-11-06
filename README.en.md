@@ -44,7 +44,7 @@ flowchart TD
     PL --> I
     I --> UI{"UI change?"}
     UI -- "yes" --> IM["impeccable + screenshot<br/>user approves by eye"]
-    UI -- "no" --> RC["review-change"]
+    UI -- "no" --> RC["/code-review"]
     IM --> RC
     RC --> V["Verify<br/>test · typecheck · build"]
     V --> C["git commit -- paths"]
@@ -239,10 +239,6 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 
 | Skill                                                                | Description                                       |
 | -------------------------------------------------------------------- | ------------------------------------------------- |
-| [`review-change`](skills/review-change/SKILL.md)         | Review a change you just made — correctness, tests, security |
-| [`review-experience`](skills/review-experience/SKILL.md) | Real user flow in a browser — states, viewports, a11y        |
-| [`review-health`](skills/review-health/SKILL.md)         | Repo health — architecture, dependencies, docs drift         |
-| [`review-release`](skills/review-release/SKILL.md)       | Synthesize reports → SHIP / FIX / REFACTOR / RETHINK         |
 | [`review`](skills/review/SKILL.md)                                   | Findings-first review of specs, plans, or code    |
 | [`security-review`](skills/security-review/SKILL.md)                 | Auth, input, secrets, payments                    |
 | [`docs-drift`](skills/docs-drift/SKILL.md)                           | Docs vs real code behavior (read-only by default) |

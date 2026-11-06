@@ -1,6 +1,6 @@
 ---
 name: codebase-onboarding
-description: Use when entering a new codebase, needing a fast architecture map, or generating onboarding notes from an unfamiliar project. Focuses on reconnaissance first, then targeted reads. Describes the repo for navigation only; to judge architecture, dependency risk or docs drift, use review-health.
+description: Use when entering a new codebase, needing a fast architecture map, or generating onboarding notes from an unfamiliar project. Focuses on reconnaissance first, then targeted reads. Describes the repo for navigation only.
 ---
 
 # Codebase Onboarding

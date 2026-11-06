@@ -1,6 +1,6 @@
 ---
 name: review
-description: Review a spec or a plan before implementation starts — completeness, ambiguity, feasibility, executable steps, missing dependencies. For reviewing the project itself (code, UX, architecture, deps, docs) use the /review-change, /review-experience, /review-health and /review-release commands instead. Critiques a written artifact via an independent reviewer; to question the user interactively about undecided choices, use grilling.
+description: Review a spec or a plan before implementation starts — completeness, ambiguity, feasibility, executable steps, missing dependencies. For reviewing code use the built-in /code-review. Critiques a written artifact via an independent reviewer; to question the user interactively about undecided choices, use grilling.
 ---
 
 # Review (specs and plans)
@@ -9,14 +9,7 @@ description: Review a spec or a plan before implementation starts — completene
 
 This skill reviews **artifacts you are about to build from** — a spec or a plan.
 
-**It does not review the project.** Code, UX, runtime, tests, security, dependencies and docs drift are covered by the review framework commands:
-
-| Command | Reviews |
-| --- | --- |
-| `/review-change` | correctness, tests, security of a change |
-| `/review-experience` | real user flow in a browser |
-| `/review-health` | architecture, dependencies, docs/contracts |
-| `/review-release` | synthesis of the above into a ship decision |
+**It does not review code** — use the built-in `/code-review`.
 
 ## Dispatch, don't self-review
 

@@ -42,7 +42,7 @@ one at a time. Name the chosen module(s) to the user in one line.
 ## Outside this bundle
 
 `write-rule` (rule tiers, any domain), `scout` (research pipeline `study` reuses), `impeccable`
-(build UI), `frontend-design-bar` (visual acceptance), `review-change` (correctness),
+(build UI), `frontend-design-bar` (visual acceptance), `/code-review` (correctness),
 `shadcn` (component docs; vendored, never edited).
 
 ## Guardrails

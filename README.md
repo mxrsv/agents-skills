@@ -44,7 +44,7 @@ flowchart TD
     PL --> I
     I --> UI{"Đổi UI?"}
     UI -- "có" --> IM["impeccable + screenshot<br/>user duyệt bằng mắt"]
-    UI -- "không" --> RC["review-change"]
+    UI -- "không" --> RC["/code-review"]
     IM --> RC
     RC --> V["Kiểm chứng<br/>test · typecheck · build"]
     V --> C["git commit -- paths"]
@@ -239,10 +239,6 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 
 | Skill                                                | Mô tả                                              |
 | ---------------------------------------------------- | -------------------------------------------------- |
-| [`review-change`](skills/review-change/SKILL.md)         | Review thay đổi vừa làm — đúng sai, test, security  |
-| [`review-experience`](skills/review-experience/SKILL.md) | User flow thật trên browser — state, viewport, a11y |
-| [`review-health`](skills/review-health/SKILL.md)         | Sức khoẻ repo — kiến trúc, dependency, docs drift   |
-| [`review-release`](skills/review-release/SKILL.md)       | Gộp report → SHIP / FIX / REFACTOR / RETHINK        |
 | [`review`](skills/review/SKILL.md)                   | Review spec hoặc plan trước khi code               |
 | [`security-review`](skills/security-review/SKILL.md) | Auth, input, secrets, thanh toán                   |
 | [`docs-drift`](skills/docs-drift/SKILL.md)           | Docs vs hành vi code thật (mặc định chỉ đọc)       |

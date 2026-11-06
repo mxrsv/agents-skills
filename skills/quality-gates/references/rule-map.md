@@ -14,7 +14,7 @@ the global ID in the project's commit messages or config comments so the two can
 | U6 every actionable element shows its states | none; the shared control or base layer sets cursor and states once | raw handlers without a cursor and hover-only controls on changed lines (`review` §5); hit area and states: the hover pass in `frontend-design-bar` | `primitive`, `review` |
 | U7 a mock is matched by measurement | none | computed-style diff against the mock | `review` |
 | Q1 every exception says why | `local/require-suppression-reason`; `oxlint-exemptions.test.ts` keeps named exemptions real | an override comment that names nothing | `gates` |
-| Q2 tests assert behaviour | `local/no-unreasoned-skip` | tests that mirror the implementation | `gates`, skill `review-change` |
+| Q2 tests assert behaviour | `local/no-unreasoned-skip` | tests that mirror the implementation | `gates` |
 
 `local/` is the plugin name the project gives `assets/oxlint-plugin/` (rename `meta.name`).
 

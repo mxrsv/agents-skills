@@ -5,7 +5,7 @@ description: Review the changed lines of a UI diff for what lint cannot see — 
 
 # Review — a styling guard on changed lines
 
-Not a general review (skill `review-change`) and not a visual judgement (screenshots and the
+Not a general review (built-in `/code-review`) and not a visual judgement (screenshots and the
 owner's eye). Read only the changed lines (`git diff` against the commit's base) and answer the
 questions below. Do not build, run the app, inspect emitted CSS, trace selector consumers
 across the codebase or ask for screenshots. If the diff does not make a violation obvious,

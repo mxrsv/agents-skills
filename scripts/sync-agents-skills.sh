@@ -3,7 +3,7 @@
 #   - Skill chính = thư mục THẬT trong ~/.claude/skills mà git đang track.
 #   - Mỗi skill chính: ~/.agents/skills/<x> phải là symlink → ../../.claude/skills/<x>
 #     (Codex đọc ~/.agents/skills natively và theo symlink; Claude Code đọc ~/.claude/skills).
-#   - ~/.agents/templates → ../.claude/templates (review-report.md dùng chung).
+#   - ~/.agents/templates → ../.claude/templates.
 #   - Frontmatter: `name` khớp tên thư mục (Codex gọi $name); chỉ dùng khoá Claude Code hoặc Codex đọc.
 #   - Báo bản copy trùng tên trong ~/.codex/skills — Codex sẽ thấy hai skill cùng tên.
 # Chạy: bash ~/.claude/scripts/sync-agents-skills.sh [--check]

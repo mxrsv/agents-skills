@@ -1,6 +1,6 @@
 ---
 name: run-agents
-description: Delegate the owner's work to subagents with house defaults — split it into tasks, pick the model per job, run independent tasks in parallel, carry a whole plan through without stopping, review once at the end. Use when the owner asks, in any language, to run or hand work to subagents ("run các subagent", "chạy subagent", "gọi agent", "dùng subagent sonnet", "chạy 5 agents review", "build song song", "làm song song các task"). Not for a plain review of a change, repo or running app with no ask for agents (use review-change, review-health or review-experience), not when agents are only the product or topic being discussed, and not for a Workflow script.
+description: Delegate the owner's work to subagents with house defaults — split it into tasks, pick the model per job, run independent tasks in parallel, carry a whole plan through without stopping, review once at the end. Use when the owner asks, in any language, to run or hand work to subagents ("run các subagent", "chạy subagent", "gọi agent", "dùng subagent sonnet", "chạy 5 agents review", "build song song", "làm song song các task"). Not for a plain review of a change, repo or running app with no ask for agents (use built-in /code-review), not when agents are only the product or topic being discussed, and not for a Workflow script.
 argument-hint: "[plan path | task] [model] [number of agents]"
 ---
 
@@ -62,14 +62,13 @@ or touch the files it left dirty wait; the rest finish.
 
 ## 5. Review once, at the end
 
-After the last wave, never per task, skipped only if no file changed: run `review-change` on
+After the last wave, never per task, skipped only if no file changed: run `/code-review` on
 `<baseline>..HEAD`. Without that range it reads only the last commit. Fix its confirmed blocker, high
 and medium findings in the work just built, re-run the checks, commit. Report the rest. A blocker you
 cannot resolve means the work is not done: say so.
 
-A review ask goes to the skill that owns it: a change → `review-change`, the whole repo →
-`review-health`, a running app → `review-experience`. Spawn reviewers directly only for what those
-skip (a mock, a video) or when the owner names the agents or criteria.
+A plain review ask goes to built-in `/code-review`. Spawn reviewers directly only for what it
+skips (a mock, a video) or when the owner names the agents or criteria.
 
 ## 6. Report
 
