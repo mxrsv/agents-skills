@@ -302,6 +302,7 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | [`kyant-intent`](skills/kyant-intent/SKILL.md)                   | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (MIT, © 2025 Addy Osmani) |
 | [`click-path-audit`](skills/click-path-audit/SKILL.md)           | [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT), rút gọn                                  |
 | [`skill-comply`](skills/skill-comply/SKILL.md)                   | [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT), bỏ tests/fixtures                        |
+| [`github-actions-efficiency`](skills/github-actions-efficiency/SKILL.md) | [github/awesome-copilot](https://github.com/github/awesome-copilot)                     |
 
 ## CLAUDE.md presets (vibe coding)
 
