@@ -252,6 +252,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`docs-drift`](skills/docs-drift/SKILL.md)           | Docs vs hành vi code thật (mặc định chỉ đọc)       |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md) | Bug khó và tụt hiệu năng                           |
 | [`click-path-audit`](skills/click-path-audit/SKILL.md) | Lần theo từng nút qua chuỗi state, bắt bug các hàm tự triệt tiêu nhau (nút "không làm gì") |
+| [`skill-comply`](skills/skill-comply/SKILL.md)       | Đo agent có thật sự theo một skill/rule không (3 kịch bản, chạy `claude -p`, tốn token) |
 
 ### Frontend & prototype
 
@@ -299,6 +300,8 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | [`megacave`](skills/megacave/SKILL.md)                           | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)                               |
 | [`interview-me`](skills/interview-me/SKILL.md)                   | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (MIT, © 2025 Addy Osmani) |
 | [`kyant-intent`](skills/kyant-intent/SKILL.md)                   | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (MIT, © 2025 Addy Osmani) |
+| [`click-path-audit`](skills/click-path-audit/SKILL.md)           | [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT), rút gọn                                  |
+| [`skill-comply`](skills/skill-comply/SKILL.md)                   | [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT), bỏ tests/fixtures                        |
 
 ## CLAUDE.md presets (vibe coding)
 
