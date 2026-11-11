@@ -216,6 +216,7 @@ Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`).
 | [`go-reviewer`](agents/go-reviewer.md)                     | Go sâu: xử lý lỗi, goroutine, idiom |
 | [`rust-reviewer`](agents/rust-reviewer.md)                 | Rust sâu: ownership, lifetime, `unsafe`, xử lý lỗi |
 | [`pr-test-analyzer`](agents/pr-test-analyzer.md)           | Chấm test của một thay đổi: có phủ hành vi và bắt được bug thật không |
+| [`type-design-analyzer`](agents/type-design-analyzer.md)   | Chấm type: có chặn được illegal state không (encapsulation, invariant, enforcement) |
 
 ### Hiệu năng & bảo trì
 
@@ -250,6 +251,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`security-review`](skills/security-review/SKILL.md) | Auth, input, secrets, thanh toán                   |
 | [`docs-drift`](skills/docs-drift/SKILL.md)           | Docs vs hành vi code thật (mặc định chỉ đọc)       |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md) | Bug khó và tụt hiệu năng                           |
+| [`click-path-audit`](skills/click-path-audit/SKILL.md) | Lần theo từng nút qua chuỗi state, bắt bug các hàm tự triệt tiêu nhau (nút "không làm gì") |
 
 ### Frontend & prototype
 
