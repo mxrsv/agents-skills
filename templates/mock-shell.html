@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="vi" data-mock-shell="1">
+<!--
+  MOCK SHELL: the one frame every HTML mock uses (rule UP8, ~/.claude/rules/quality/ui-process.md).
+  Copy this file, then edit ONLY the two blocks marked MOCK: the stage CSS and the MOCK object.
+  Everything marked SHELL stays byte-identical, so the controls are in the same place in every mock:
+    right rail = presets (keys 1-9), one radio group per axis, "Mock chưa vẽ", Copy, Hide (key H).
+  The choice lives in the URL query (?layout=b&state=empty), so a link or a headless screenshot
+  reproduces any combination. Nothing mock-only may be drawn inside #stage.
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mock</title>
+<style>
+/* ---------- SHELL (do not edit) ---------- */
+:root{
+  --rail-w:288px; --rail:#17181a; --rail-line:#ffffff17; --rail-ink:#ecece8; --rail-dim:#a0a2a5;
+  --rail-well:#ffffff0d; --rail-hover:#ffffff14; --on:#ecece8; --on-ink:#141517;
+  --canvas:#26272a; --ui:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:11px ui-monospace,"SF Mono",Menlo,monospace;
+}
+body[data-theme=light]{--canvas:#e6e6e2}
+*{box-sizing:border-box;margin:0}
+body{height:100vh;display:grid;grid-template-columns:minmax(0,1fr) var(--rail-w);background:var(--canvas)}
+#canvas{display:flex;overflow:auto;padding:40px}
+#stage{margin:auto}
+#rail{display:flex;flex-direction:column;min-height:0;background:var(--rail);color:var(--rail-ink);
+  font:var(--ui);box-shadow:-1px 0 0 var(--rail-line);color-scheme:dark}
+#rail ::selection{background:#ecece840}
+:where(#rail) button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+#rail button:focus-visible,#rail input:focus-visible+span{outline:2px solid var(--on);outline-offset:2px}
+#rail h1{padding:18px 18px 14px;font-size:15px;font-weight:600;line-height:1.3;text-wrap:balance}
+#rail .body{flex:1;overflow:auto;padding:2px 18px 20px;display:flex;flex-direction:column;gap:22px;
+  scrollbar-width:thin;scrollbar-color:#ffffff2e transparent}
+#rail h2{display:flex;align-items:center;gap:6px;margin-bottom:7px;font-size:11.5px;font-weight:600;color:var(--rail-dim)}
+#rail .diff h2::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--on)}
+#rail kbd{font:var(--mono);padding:1px 5px;border-radius:4px;box-shadow:inset 0 0 0 1px currentColor;opacity:.6}
+.presets{display:flex;flex-direction:column;gap:2px}
+.presets button{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:34px;
+  padding:0 10px;border-radius:8px;text-align:left;font-weight:500}
+.presets button:hover{background:var(--rail-hover)}
+.presets button[aria-pressed=true]{background:var(--on);color:var(--on-ink)}
+.opts{display:flex;flex-wrap:wrap;gap:2px;padding:3px;border-radius:9px;background:var(--rail-well)}
+.opts label{position:relative;flex:1 1 auto;cursor:pointer}
+.opts input{position:absolute;opacity:0;pointer-events:none}
+.opts span{display:block;min-height:28px;padding:5px 10px;border-radius:6px;text-align:center;
+  font-weight:500;color:var(--rail-dim);transition:background .12s,color .12s}
+.opts label:hover span{background:var(--rail-hover);color:var(--rail-ink)}
+.opts input:checked+span{background:var(--on);color:var(--on-ink)}
+.gaps ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px}
+.gaps li{position:relative;padding-left:12px}
+.gaps li::before{content:"";position:absolute;left:0;top:.62em;width:4px;height:4px;border-radius:50%;background:var(--rail-dim)}
+#rail footer{display:flex;gap:8px;padding:12px 18px 16px;box-shadow:0 -1px 0 var(--rail-line)}
+#rail footer button{display:flex;align-items:center;justify-content:center;gap:8px;height:34px;padding:0 12px;
+  border-radius:8px;font-weight:600;box-shadow:inset 0 0 0 1px #ffffff38}
+#rail footer button:hover{background:var(--rail-hover)}
+#copy{flex:1}
+#grip{display:none}
+body.rail-min{grid-template-columns:minmax(0,1fr) 14px}
+body.rail-min #rail>:not(#grip){display:none}
+body.rail-min #grip{display:block;flex:1}
+body.rail-min #grip:hover{background:var(--rail-hover)}
+.shell-error{max-width:46ch;padding:16px 18px;border-radius:10px;background:#17181a;color:#ecece8;font:var(--ui)}
+
+/* ---------- MOCK: stage CSS (replace this demo) ---------- */
+#stage{width:860px;--w-bg:#1d1e21;--w-side:#151618;--w-ink:#ececea;--w-dim:#9b9da1;--w-line:#ffffff17;--w-card:#ffffff0a}
+body[data-theme=light] #stage{--w-bg:#fbfbf9;--w-side:#f0f0ec;--w-ink:#1b1c1e;--w-dim:#64676c;--w-line:#0000001f;--w-card:#00000008}
+.win{height:540px;display:grid;grid-template-columns:190px minmax(0,1fr);border-radius:12px;overflow:hidden;
+  background:var(--w-bg);color:var(--w-ink);font:13px/1.4 system-ui,sans-serif;box-shadow:0 0 0 1px var(--w-line),0 24px 60px -24px #000c}
+.win nav{padding:18px 10px;background:var(--w-side);display:flex;flex-direction:column;gap:2px}
+.win nav b{padding:7px 10px;border-radius:7px;font-weight:500;color:var(--w-dim)}
+.win nav b.on{background:var(--w-card);color:var(--w-ink)}
+.win section{display:flex;flex-direction:column;min-width:0;padding:20px 22px}
+.win header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.win h3{font-size:18px;font-weight:650}
+.win .btn{padding:6px 12px;border-radius:7px;background:var(--w-card);box-shadow:inset 0 0 0 1px var(--w-line);font-weight:500}
+.win .list{display:flex;flex-direction:column;min-width:0}
+.win .row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 14px;padding:9px 0;box-shadow:0 1px 0 var(--w-line)}
+.win .row i,.win .card i,.win .detail i{grid-column:1;font-style:normal;color:var(--w-dim);font-size:12px}
+.win .row b,.win .row i,.win .card b,.win .card i,.win .detail i{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.win .row b,.win .card b{font-weight:550}
+.win .row u{grid-row:1/3;grid-column:2;align-self:center;text-decoration:none;font-variant-numeric:tabular-nums}
+.win .split{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:20px;min-height:0}
+.win .detail{padding:16px;border-radius:10px;background:var(--w-card);align-self:start;display:flex;flex-direction:column;gap:6px;min-width:0}
+.win .detail u{text-decoration:none;font-size:26px;font-weight:650;font-variant-numeric:tabular-nums}
+.win .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.win .card{display:flex;flex-direction:column;gap:3px;padding:14px;border-radius:10px;background:var(--w-card)}
+.win .card u{margin-top:10px;text-decoration:none;font-size:17px;font-weight:650;font-variant-numeric:tabular-nums}
+.win .empty{margin:auto;display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--w-dim)}
+</style>
+</head>
+<body>
+<main id="canvas"><div id="stage"></div></main>
+<aside id="rail" aria-label="Điều khiển mock"></aside>
+
+<script>
+/* ---------- MOCK: declaration (replace this demo) ----------
+   axes:     [key, name, [[value, label], ...]]. Use the key `theme` (dark | light) when the mock has both.
+   presets:  [name, { key: value }]. The FIRST is the recommendation and must name every axis; it is the default.
+   notShown: what this mock does not draw and what the build will do there ("Lỗi mạng → dialog chung của app").
+   render:   draw the stage from S. Called on every change; S is never mutated. */
+const DEMO = [['tiny-cli', '~/Development/tinysift', '4.2 GB'], ['video-kit', '~/Development/video-kit', '2.8 GB'],
+  ['spacevibe-hub', '~/Development/spacevibe', '1.9 GB'], ['kyant.dev', '~/Development/kyant.dev', '940 MB'],
+  ['model-lab', '~/scratch/model-lab', '610 MB'], ['obs-backup', '~/scratch/obs-backup', '88 MB']];
+const MOCK = {
+  title: 'Projects · chọn bố cục',
+  axes: [
+    ['layout', 'Bố cục', [['a', 'A · Danh sách'], ['b', 'B · Danh sách + chi tiết'], ['c', 'C · Lưới thẻ']]],
+    ['state', 'Dữ liệu', [['normal', 'Thường'], ['long', 'Tên dài'], ['empty', 'Rỗng']]],
+    ['theme', 'Theme', [['dark', 'Dark'], ['light', 'Light']]],
+  ],
+  presets: [
+    ['Đề xuất', { layout: 'a', state: 'normal', theme: 'dark' }],
+    ['Đang chạy trong app', { layout: 'c', state: 'normal' }],
+  ],
+  notShown: ['Đang quét → thanh tiến trình chung của app', 'Lỗi đọc thư mục → dialog chung của app'],
+  render(S, stage) {
+    const items = S.state === 'empty' ? [] : S.state === 'long'
+      ? DEMO.map(([n, p, s]) => [`${n}-with-a-very-long-experimental-branch-name`, `${p}/packages/experimental/nested`, s]) : DEMO;
+    const row = ([n, p, s]) => `<div class="row"><b>${n}</b><i>${p}</i><u>${s}</u></div>`;
+    const card = ([n, p, s]) => `<div class="card"><b>${n}</b><i>${p}</i><u>${s}</u></div>`;
+    const body = !items.length ? '<div class="empty">No projects yet<span class="btn">Add Project</span></div>'
+      : S.layout === 'c' ? `<div class="grid">${items.map(card).join('')}</div>`
+      : S.layout === 'b' ? `<div class="split"><div class="list">${items.map(row).join('')}</div>
+          <div class="detail"><b>${items[0][0]}</b><u>${items[0][2]}</u><i>${items[0][1]}</i></div></div>`
+      : `<div class="list">${items.map(row).join('')}</div>`;
+    stage.innerHTML = `<div class="win"><nav><b>Overview</b><b class="on">Projects</b><b>Settings</b></nav>
+      <section><header><h3>Projects</h3>${items.length ? '<span class="btn">Add Project</span>' : ''}</header>${body}</section></div>`;
+  },
+};
+
+/* ---------- SHELL (do not edit) ---------- */
+(() => {
+  const stage = document.getElementById('stage'), rail = document.getElementById('rail');
+  const REC = MOCK.presets[0][1];
+  const label = (k, v) => MOCK.axes.find(a => a[0] === k)[2].find(o => o[0] === v)?.[1];
+  const bad = MOCK.axes.filter(([k]) => !label(k, REC[k])).map(a => a[0]);
+  document.title = MOCK.title;
+  if (bad.length) {
+    stage.innerHTML = `<p class="shell-error">Preset đầu tiên (đề xuất) thiếu giá trị hợp lệ cho: ${bad.join(', ')}.</p>`;
+    return;
+  }
+  const Q = new URLSearchParams(location.search);
+  let S = Object.fromEntries(MOCK.axes.map(([k]) => [k, label(k, Q.get(k)) ? Q.get(k) : REC[k]]));
+
+  rail.innerHTML = `<button id="grip" title="Hiện bảng (H)" aria-label="Hiện bảng điều khiển"></button>
+    <h1>${MOCK.title}</h1><div class="body">
+    <div class="presets" aria-label="Bộ chọn sẵn">${MOCK.presets.map(([n], i) =>
+      `<button data-preset="${i}">${n}<kbd>${i + 1}</kbd></button>`).join('')}</div>
+    ${MOCK.axes.map(([k, n, o]) => `<div class="axis" data-axis="${k}" role="radiogroup" aria-labelledby="ax-${k}">
+      <h2 id="ax-${k}">${n}</h2><div class="opts">${o.map(([v, t]) =>
+      `<label><input type="radio" name="${k}" value="${v}"><span>${t}</span></label>`).join('')}</div></div>`).join('')}
+    <div class="gaps"><h2>Mock chưa vẽ</h2><ul>${(MOCK.notShown.length ? MOCK.notShown : ['Chưa liệt kê'])
+      .map(t => `<li>${t}</li>`).join('')}</ul></div></div>
+    <footer><button id="copy">Chép lựa chọn</button><button id="hide">Ẩn<kbd>H</kbd></button></footer>`;
+
+  const summary = () => {
+    const diff = MOCK.axes.filter(([k]) => S[k] !== REC[k]).map(([k, n]) => `${n} (đề xuất: ${label(k, REC[k])})`);
+    return `Mock: ${MOCK.title}\nChọn: ${MOCK.axes.map(([k, n]) => `${n} = ${label(k, S[k])}`).join('; ')}\n`
+      + `Khác đề xuất: ${diff.join('; ') || 'không'}\nLink: ${location.href}`;
+  };
+  const sync = () => {
+    for (const [k] of MOCK.axes) {
+      const ax = rail.querySelector(`[data-axis="${k}"]`), changed = S[k] !== REC[k];
+      ax.querySelector(`input[value="${S[k]}"]`).checked = true;
+      ax.classList.toggle('diff', changed);
+      ax.querySelector('h2').title = changed ? 'Khác đề xuất' : '';
+    }
+    rail.querySelectorAll('[data-preset]').forEach(b => b.setAttribute('aria-pressed',
+      Object.entries(MOCK.presets[b.dataset.preset][1]).every(([k, v]) => S[k] === v)));
+    document.body.dataset.theme = S.theme || 'dark';
+    history.replaceState(null, '', '?' + new URLSearchParams(S));
+    MOCK.render(S, stage);
+  };
+  const set = patch => { S = { ...S, ...patch }; sync(); };
+  const toggleRail = () => document.body.classList.toggle('rail-min');
+
+  rail.addEventListener('change', e => set({ [e.target.name]: e.target.value }));
+  rail.addEventListener('click', async e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.preset) return set(MOCK.presets[b.dataset.preset][1]);
+    if (b.id === 'hide' || b.id === 'grip') return toggleRail();
+    if (b.id !== 'copy') return;
+    try { await navigator.clipboard.writeText(summary()); b.textContent = 'Đã chép'; }
+    catch { prompt('Chép dòng này:', summary()); }
+    setTimeout(() => { b.textContent = 'Chép lựa chọn'; }, 1500);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey || e.target.matches?.('input:not([type=radio]),textarea,select,[contenteditable]')) return;
+    if (e.key.toLowerCase() === 'h') return toggleRail();
+    const preset = MOCK.presets[Number(e.key) - 1]; if (preset) set(preset[1]);
+  });
+  sync();
+})();
+</script>
+</body>
+</html>
