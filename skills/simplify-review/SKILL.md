@@ -1,49 +1,36 @@
 ---
 name: simplify-review
-description: After a feature or a run of features has landed, send ONE read-only subagent through the whole app to find what can be removed or made simpler, both in the UI (copy, controls, steps, two patterns for one job) and in the code (screens with no way in, hidden tabs, leftover switches, near-duplicate components), every finding either proven or labelled as opinion and checked against the owner's recorded decisions; then show the cheap ones as real before/after renders so the owner approves by eye. Use when the owner says "rà soát tối giản", "có gì thừa không", "cái gì lược bỏ được", "tối giản UI/UX", "simplify review", "what can we remove", or asks for an agent to look for unnecessary or redundant things after building. Not for the code changed in this session (built-in /simplify), a code-only over-engineering audit (ponytail-audit), bugs (code-review), or tightening one screen (impeccable distill).
+description: After a feature lands, send a read-only subagent through the app to find UI and code that can be removed or simplified, each finding proven or labelled as opinion and checked against the owner's recorded decisions, then show the picks as real before/after renders. Use when the owner says "rà soát tối giản", "có gì thừa không", "lược bỏ được gì", "simplify review", "what can we remove", or asks for an agent to look for unnecessary or redundant things. Not for this session's diff (/simplify), a code-only audit (ponytail-audit), bugs (code-review) or one screen (impeccable distill).
 argument-hint: "[screen or area] [model]"
 ---
 
 # Simplify review: what can go?
 
-The session that built a feature reads its own work kindly and has little context left to read the
-rest of the app. So the review runs in one fresh subagent, and this session's job is the brief: the
-agent knows only what the brief says. Three things in the brief decide the quality of the result:
-the product's facts, the owner's taste and decisions, and the evidence rule. Generic "simplify this"
-prompts return opinions mixed with facts and flag things the owner chose on purpose.
+Run the review in a fresh subagent, never in the session that built the work. The agent knows only
+the brief, so the brief carries the product's facts, the owner's taste and decisions, and the
+evidence rule.
 
 ## 1. Gather what the agent cannot know
 
-- **Scope:** the area the owner named, else the whole app; say which in one line. Leave out what
-  they leave out (a website, marketing).
-- **Paths:** repo roots and how to run git in them, `AGENTS.md`, product and design-language docs,
-  where specs, plans and decision ledgers live, earlier review reports it must not repeat.
-- **How to see a screen without opening a window:** the repo's snapshot or story script, with the
-  exact command. None → the agent reads source only.
-- **The owner's taste:** three to seven one-line rules from memory and the design-language doc.
-  They are a filter: what follows them is not a finding, what breaks them is.
-- **The machine:** assume the owner is working on it. No app launch, no window, no `open`.
-- **Output folder:** `~/scratch/<repo>/<YYYY-MM-DD>-simplify-review/` (F4). The harness refuses a
-  subagent's report file, so the agent returns the report as text and this session saves it
-  unchanged as `report.md`.
+- **Scope:** the area the owner named, else the whole app; say which.
+- **Paths:** repo roots and how to run git there, `AGENTS.md`, product and design docs, where specs
+  and decision ledgers live, earlier reports not to repeat.
+- **Render command:** the repo's snapshot or story script. None → source only.
+- **Taste:** three to seven one-line rules from memory and the design doc. What follows them is not
+  a finding; what breaks them is.
+- **Output:** `~/scratch/<repo>/<YYYY-MM-DD>-simplify-review/` (F4). The agent returns the report as
+  text (the harness refuses its file); save it unchanged as `report.md`.
 
-## 2. Spawn the agent
+## 2. Spawn
 
-Pass `model: "opus"` and `effort: "high"` to every review agent (the owner's default, set
-2026-11-13); a model or effort they name in the ask wins. Run in the background and tell the owner
-the scope, the finding classes and the report path in one message.
+Pass `model: "opus"` and `effort: "high"`; a model, effort or agent count the owner names wins. Run
+in the background.
 
-How many agents (the owner's number wins):
-
-- **A feature or one area → one agent.** One reader ranks its own list, and nothing overlaps.
-- **The whole app → split by kind of work,** at most four: one agent for B and C (reachability,
-  dead code, duplicates: repo-wide searches) and one agent for A per group of about five screens
-  (judgement on renders). Why: the first whole-app run with a single agent ran out of room and
-  left several surfaces and every light-theme render unexamined.
-- **When split:** every agent gets the same brief except "What to look for" and its screen list,
-  is told which parts belong to the others so it does not report them, and returns its own ranked
-  list. This session merges them: drop duplicates, re-rank into one list of 25, keep each
-  finding's class and tag, and carry every agent's "did not get to" into the report.
+- **A feature or one area:** one agent.
+- **The whole app:** up to four, split by kind of work, because a single agent runs out of room: one
+  for B and C, one for A per five or so screens. Each gets the brief minus the others' parts and is
+  told what the others cover. Merge their lists into one ranked 25, keeping every class, tag and
+  "did not get to".
 
 ```text
 You are doing a read-only "what can we remove or simplify" review of <product, platform, stack>.
@@ -106,45 +93,40 @@ you did not get to.
 
 ## 3. Report, then stop once
 
-Save the report. Open the cited `path:line` of every item you are about to call safe to remove: a
-subagent's mistakes arrive in the same confident voice as its findings (W13). Then tell the owner,
-in this order and in their language:
+Save the report, then open the `path:line` of every item you will call safe to remove (W13). Tell
+the owner, in their language, in this order:
 
 1. **Remove now:** small, provable, no decision involved.
-2. **Decided but not done:** dead code whose removal is already a task. Name the unticked task and
-   what blocks it (usually a pending eye approval). This is a queue to clear, not a new finding.
+2. **Decided but not done:** dead code whose removal is already a task; name the task and what
+   blocks it.
 3. **Defects exposed:** class C.
-4. **Judgement calls worth a look,** with the "Owner decision: reconsider?" items last.
+4. **Judgement calls,** "Owner decision: reconsider?" last.
 
-Change nothing yet. The owner picks; this is the one stop.
+Change nothing; the owner picks.
 
-## 4. Before and after, for the eye
+## 4. Before and after
 
-When the owner wants to see the picks ("xem thử", "before after"), spawn one `sonnet` agent:
+When the owner asks to see the picks, spawn one `sonnet` agent:
 
-- **Real renders, not a redrawn page.** Render "before" from the code as it is, make the smallest
-  view-level edit per item in the working tree (uncommitted; unused members, copy constants and
-  tests stay for now), render "after". No render path in the repo → skip the page, show the diff
-  per item, and say the eye check moves to the running app.
-- **The agent looks at every pair** and reports what moved. If a line it would remove is the only
-  place a consequence is stated, it keeps the line and says so.
-- **The page** is a copy of `~/.claude/templates/mock-shell.html` (UP8): axis `item` with one
-  option per change, axis `view` (`after` | `before`). Presets: the full recommendation first, then
-  `Trước` (`view: before`) and `Sau` (`view: after`), which name only `view` so keys 2 and 3 flip
-  the current item in place. `notShown` lists items with no visible change (a closed menu). The
-  stage shows the render plus a 2× crop of the changed region. It goes in the output folder beside
-  `before/` and `after/`.
+- **Real renders:** "before" from the code as it is; the smallest view-level edit per item,
+  uncommitted (unused members, copy and tests stay); then "after". No render command → show the
+  diff per item instead.
+- **It views every pair** and keeps any line that is the only place a consequence is stated.
+- **The page** is a copy of `~/.claude/templates/mock-shell.html` (UP8) in the output folder: axis
+  `item`, axis `view` (`after` | `before`), presets the full recommendation, then `Trước` and `Sau`
+  naming only `view`, `notShown` for items with no visible change, the render plus a 2× crop of the
+  changed region.
 
-Then check the page loads, view the "after" of each judgement item yourself, open the page (W18),
-and list per item what goes and any information that goes with it. Ask which items stay.
+View the "after" of each judgement item yourself, open the page (W18), list per item what goes and
+what information goes with it, and ask which items stay.
 
-## 5. Land what was approved
+## 5. Land
 
-- **Approved:** finish the removal: parameters, members and copy left unused, tests pinned to the
-  removed text, user docs, and a dated line in the spec or ledger that the owner approved it on the
-  render. Run the repo's gate, then `git commit -- <paths>`.
+- **Approved:** remove what the edit left unused (parameters, members, copy), fix tests pinned to
+  the removed text and the user docs, note the approval in the spec or ledger, run the repo's gate,
+  `git commit -- <paths>`.
 - **Not approved:** restore those hunks.
-- **Out of reach here:** code waiting on a cut-over (W17) or an eye approval keeps waiting; report
-  its task. An "Owner decision" item changes only on an explicit yes (W20).
+- **Waiting on a cut-over (W17) or an eye approval:** leave it and report its task. An "Owner
+  decision" item changes only on an explicit yes (W20).
 
-Say in the result that the proof is renders, not the running app (W22).
+The proof is renders, not the running app: say so (W22).
