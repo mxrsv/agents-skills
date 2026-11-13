@@ -90,6 +90,7 @@ body[data-theme=light] #stage{--w-bg:#fbfbf9;--w-side:#f0f0ec;--w-ink:#1b1c1e;--
 .win .empty{margin:auto;display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--w-dim)}
 </style>
 </head>
+<!-- ---------- SHELL (do not edit) ---------- -->
 <body>
 <main id="canvas"><div id="stage"></div></main>
 <aside id="rail" aria-label="Điều khiển mock"></aside>
@@ -158,7 +159,7 @@ const MOCK = {
   const summary = () => {
     const diff = MOCK.axes.filter(([k]) => S[k] !== REC[k]).map(([k, n]) => `${n} (đề xuất: ${label(k, REC[k])})`);
     return `Mock: ${MOCK.title}\nChọn: ${MOCK.axes.map(([k, n]) => `${n} = ${label(k, S[k])}`).join('; ')}\n`
-      + `Khác đề xuất: ${diff.join('; ') || 'không'}\nLink: ${location.href}`;
+      + `Khác đề xuất: ${diff.join('; ') || 'không'}\nMock chưa vẽ: ${MOCK.notShown.join('; ') || 'chưa liệt kê'}\nLink: ${location.href}`;
   };
   const sync = () => {
     for (const [k] of MOCK.axes) {
@@ -174,7 +175,10 @@ const MOCK = {
     MOCK.render(S, stage);
   };
   const set = patch => { S = { ...S, ...patch }; sync(); };
-  const toggleRail = () => document.body.classList.toggle('rail-min');
+  const toggleRail = () => {
+    const held = rail.contains(document.activeElement), min = document.body.classList.toggle('rail-min');
+    if (held) rail.querySelector(min ? '#grip' : '#hide').focus();
+  };
 
   rail.addEventListener('change', e => set({ [e.target.name]: e.target.value }));
   rail.addEventListener('click', async e => {

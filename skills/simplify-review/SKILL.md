@@ -129,4 +129,5 @@ what information goes with it, and ask which items stay.
 - **Waiting on a cut-over (W17) or an eye approval:** leave it and report its task. An "Owner
   decision" item changes only on an explicit yes (W20).
 
-The proof is renders, not the running app: say so (W22).
+Renders are not the running app: check the changed screens in the owner's dev runtime (W22), or say
+that only renders were checked.
