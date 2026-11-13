@@ -29,9 +29,9 @@ prompts return opinions mixed with facts and flag things the owner chose on purp
 
 ## 2. Spawn the agent
 
-Use the strongest review model on offer unless the owner names one (the first run used `fable`):
-the value is judgement over a lot of reading. Run in the background and tell the owner the scope,
-the finding classes and the report path in one message.
+Pass `model: "opus"` and `effort: "high"` to every review agent (the owner's default, set
+2026-11-13); a model or effort they name in the ask wins. Run in the background and tell the owner
+the scope, the finding classes and the report path in one message.
 
 How many agents (the owner's number wins):
 
