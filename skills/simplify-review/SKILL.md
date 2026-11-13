@@ -27,12 +27,23 @@ prompts return opinions mixed with facts and flag things the owner chose on purp
   subagent's report file, so the agent returns the report as text and this session saves it
   unchanged as `report.md`.
 
-## 2. Spawn one agent
+## 2. Spawn the agent
 
-One agent, the strongest review model on offer unless the owner names one (the first run used
-`fable`): the value is judgement over a lot of reading, and several agents would re-read the same
-repo and hand back overlapping lists nobody has ranked. Run it in the background and tell the owner
-the scope, the two finding classes and the report path in one message.
+Use the strongest review model on offer unless the owner names one (the first run used `fable`):
+the value is judgement over a lot of reading. Run in the background and tell the owner the scope,
+the finding classes and the report path in one message.
+
+How many agents (the owner's number wins):
+
+- **A feature or one area → one agent.** One reader ranks its own list, and nothing overlaps.
+- **The whole app → split by kind of work,** at most four: one agent for B and C (reachability,
+  dead code, duplicates: repo-wide searches) and one agent for A per group of about five screens
+  (judgement on renders). Why: the first whole-app run with a single agent ran out of room and
+  left several surfaces and every light-theme render unexamined.
+- **When split:** every agent gets the same brief except "What to look for" and its screen list,
+  is told which parts belong to the others so it does not report them, and returns its own ranked
+  list. This session merges them: drop duplicates, re-rank into one list of 25, keep each
+  finding's class and tag, and carry every agent's "did not get to" into the report.
 
 ```text
 You are doing a read-only "what can we remove or simplify" review of <product, platform, stack>.
