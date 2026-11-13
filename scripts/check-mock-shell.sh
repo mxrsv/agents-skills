@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# check-mock-shell.sh <mock.html>... — mock có dựng trên khung chung không (UP8, rules/quality/ui-process.md).
+#   1. <html> mang data-mock-shell.
+#   2. Hai khối SHELL (CSS và JS) giống hệt templates/mock-shell.html; mock chỉ được sửa hai khối MOCK.
+# Chạy: bash ~/.claude/scripts/check-mock-shell.sh path/to/mock.html   (exit 1 nếu lệch, 2 nếu gọi sai)
+# ponytail: chỉ so với template hiện tại — đổi khung thì mock cũ sẽ báo lệch; khi đó tăng số ở
+# data-mock-shell và so theo từng phiên bản.
+set -u
+TEMPLATE="$HOME/.claude/templates/mock-shell.html"
+[ $# -gt 0 ] || { echo "dùng: check-mock-shell.sh <mock.html>..." >&2; exit 2; }
+[ -f "$TEMPLATE" ] || { echo "❌ thiếu $TEMPLATE" >&2; exit 2; }
+
+# In các khối SHELL: từ dòng mốc SHELL tới dòng mốc MOCK kế tiếp hoặc tới </script>.
+shell_blocks() {
+  awk 'index($0, "---------- SHELL (do not edit) ----------") { on = 1 }
+       index($0, "---------- MOCK:") || index($0, "</script>") { on = 0 }
+       on' "$1"
+}
+
+want=$(shell_blocks "$TEMPLATE")
+[ -n "$want" ] || { echo "❌ không tìm thấy khối SHELL trong $TEMPLATE" >&2; exit 2; }
+bad=0
+for f in "$@"; do
+  if [ ! -f "$f" ]; then echo "❌ $f: không có file"; bad=1; continue; fi
+  if ! grep -q '<html[^>]*data-mock-shell' "$f"; then
+    echo "❌ $f: <html> thiếu data-mock-shell — chưa dựng từ templates/mock-shell.html"; bad=1; continue
+  fi
+  if [ "$(shell_blocks "$f")" = "$want" ]; then
+    echo "✅ $f"
+  else
+    echo "❌ $f: khối SHELL khác template — chỉ sửa hai khối MOCK"
+    diff <(printf '%s\n' "$want") <(shell_blocks "$f") | head -6
+    bad=1
+  fi
+done
+exit $bad
