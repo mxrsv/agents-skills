@@ -5,20 +5,22 @@ description: Grill the user relentlessly about a plan, decision, or idea. Use wh
 
 Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.
 
-Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask at most 3 per round: the decisions a wrong answer makes hard to undo, or that only the user knows (taste, priority, money, scope). Settle the rest of the frontier yourself with your recommended answer and list it under `Tự chốt`; the owner answers about one question in eight, so every extra one is reading for nothing. Ask the whole frontier only when the user asks for it. Number each question and give your recommended answer. Then wait for the user's answers before the next round.
+Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask at most 3 per round: the decisions a wrong answer makes hard to undo, or that only the user knows (taste, priority, money, scope). Settle the rest of the frontier yourself with your guess and list it under `Tự chốt`; the owner answers about one question in eight, so every extra one is reading for nothing. Ask the whole frontier only when the user asks for it. Number each question and attach a GUESS: the answer you expect, with the reason, so the user confirms a guess instead of composing an answer. List options only for taste or when two answers are close; a lone guess hides the alternatives. Then wait for the user's answers before the next round.
 
 Format a round like so:
 
 ```
-❓ **Q1** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
+❓ **Q1** - **<question title>**: <one focused question>
 
-➡️ <your recommended answer>
+GUESS: <the answer you expect, with the reason>
 
 ---
 
-❓ **Q2** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
+❓ **Q2** - **<question title>**: <question>
+- (a) <option>
+- (b) <option>
 
-➡️ <your recommended answer>
+GUESS: (b). <the reason>
 
 ---
 
@@ -26,7 +28,7 @@ Format a round like so:
 - S1 <decision>: <what you chose>
 ```
 
-`ok`, a question the reply skips, and a question the user asks back all take the ➡️: record it as recommended, accepted, and do not re-ask.
+`ok`, a question the reply skips, and a question the user asks back all take the GUESS: record it as guessed, accepted, and do not re-ask.
 
 Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one.
 
