@@ -7,8 +7,8 @@ argument-hint: "<feature or plan> [model]"
 # Build review: can it be broken?
 
 The builder already checks its own work (W4, W22, W23). This covers what a builder does not see in
-its own code: one run of agent `read-only-reviewer`, never the session that built; a model the
-owner names wins.
+its own code: one run of agent `read-only-reviewer` with `effort: "xhigh"`, never the session
+that built; a model or effort the owner names wins.
 
 Give it the spec with its acceptance criteria and the owner's decisions, the active plan with its
 verification evidence, the diff range, the product and core paths, and how to run the repo's checks.
