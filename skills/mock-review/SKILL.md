@@ -23,7 +23,7 @@ seven lines.
 | Numbers | a figure is shown | Meaning, source and direction against the real samples; without samples, unverified (W23). |
 | Safety | an action changes or runs something | Targets, defaults, consent and recovery, against what the engine can do. |
 | Progress | long or live work | How progress, cancel and refresh rate show; what will need measuring. |
-| Platform | it depends on the OS | What it needs and what the screen shows when refused; which native checks remain. |
+| Platform | it depends on something outside the screen | What it needs (a permission, a login, a network, a screen size) and what shows without it; which checks remain for the build. |
 
 Each finding names the element and the state.
 
