@@ -6,8 +6,8 @@ argument-hint: "<mock.html> [model]"
 
 # Mock review: what is decided here?
 
-A mock is where a decision is cheapest to change. A read-only subagent that did not draw it reviews
-it (`opus`, `high`; a model the owner names wins). It reports; it changes nothing.
+A mock is where a decision is cheapest to change. Agent `read-only-reviewer` reviews it, never the
+session that drew it; a model the owner names wins. It reports; it changes nothing.
 
 Give it the mock, the spec or ledger with the owner's quoted decisions, the app's design doc and
 shared blocks, what the engine can actually do, real sample data, and the owner's taste in three to

@@ -23,8 +23,8 @@ evidence rule.
 
 ## 2. Spawn
 
-Pass `model: "opus"` and `effort: "high"`; a model, effort or agent count the owner names wins. Run
-in the background.
+Spawn agent `read-only-reviewer` (`opus`, `high`); a model, effort or agent count the owner names
+wins. Run in the background.
 
 - **A feature or one area:** one agent.
 - **The whole app:** up to four, split by kind of work, because a single agent runs out of room: one
