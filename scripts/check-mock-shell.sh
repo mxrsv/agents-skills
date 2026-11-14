@@ -5,7 +5,7 @@
 #   3. CSS của mock không đụng tới selector của khung (dải phải, canvas).
 # Không kiểm: JS của mock có chạy không — mở trang lên xem.
 # Chạy: bash ~/.claude/scripts/check-mock-shell.sh path/to/mock.html   (exit 1 nếu lệch, 2 nếu gọi sai)
-# ponytail: chỉ so với template hiện tại — đổi khung thì mock cũ sẽ báo lệch; khi đó tăng số ở
+# Giới hạn: chỉ so với template hiện tại — đổi khung thì mock cũ sẽ báo lệch; khi đó tăng số ở
 # data-mock-shell và so theo từng phiên bản.
 set -u
 TEMPLATE="$HOME/.claude/templates/mock-shell.html"
