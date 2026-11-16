@@ -17,7 +17,7 @@ verification evidence, the diff range, the product and core paths, and how to ru
 | ----- | -------- | ----- |
 | Readiness | always | Do the promised scope, the integration tasks, the verification evidence and the recorded approvals agree? What is unfinished? |
 | Entry points | always | Each promised task, from a reachable control, route or endpoint to its outcome. Before a cut-over, the surface being removed too. |
-| Safety | it changes data, spends money or runs something | A wrong target, a default or missing check that lets through what cannot be undone, stale consent, a partial failure, input it trusts. |
+| Safety | it changes data, spends money or runs something | A wrong target, a default or missing check that lets through what cannot be undone, stale consent, a partial failure, input it trusts. A "read-only" claim is checked against every write call found in the code, not a hand-written list. |
 | Lifecycle | long, repeated or parallel work | Cancel, retry, leaving and coming back, restart, two at once. |
 | Platform | it depends on something outside the code | That thing refusing, changing or missing. |
 
