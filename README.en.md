@@ -258,6 +258,7 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | Off          |
 | [`prototype`](skills/prototype/SKILL.md)                                   | Throwaway prototype before committing          |
 | [`kyant-ui-rules`](skills/kyant-ui-rules/SKILL.md) | Owner's UI rulebook, read before any UI mock, build or review |
+| [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | iOS 26 Liquid Glass: SwiftUI, UIKit, WidgetKit |
 | [`quality-gates`](skills/quality-gates/SKILL.md)                           | UI + code quality gates: study, probe, lint gates, primitives, state sheets, UI review |
 | [`shadcn`](skills/shadcn/SKILL.md)                                         | shadcn/ui components, registries, chat UI      |
 
@@ -283,6 +284,7 @@ Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The C
 | Skill                                                            | Upstream                                                                                        |
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit)               |
+| [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
