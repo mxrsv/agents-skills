@@ -12,7 +12,7 @@ flowchart TD
     S --> T{"Which file is touched?"}
     T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
     T -- "*.tsx / *.jsx" --> R["rules/react/"]
-    T -- "UI, *.css, code" --> Q["rules/quality/<br/>U1–U5 · Q1–Q2"]
+    T -- "UI, *.css, code" --> Q["rules/frontend.md · rules/quality/<br/>FE0–FE10 · Q1–Q2"]
     T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
     S --> K["skills/<br/>loaded when a task matches"]
     S --> AG["agents/<br/>subagents on demand"]
@@ -43,7 +43,7 @@ flowchart TD
     SP -- "one session" --> I
     PL --> I
     I --> UI{"UI change?"}
-    UI -- "yes" --> IM["impeccable + screenshot<br/>user approves by eye"]
+    UI -- "yes" --> IM["kyant-ui-rules + screenshot<br/>user approves by eye"]
     UI -- "no" --> RC["/code-review"]
     IM --> RC
     RC --> V["Verify<br/>test · typecheck · build"]
@@ -255,10 +255,9 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 
 | Skill                                                                      | Description                                    |
 | -------------------------------------------------------------------------- | ---------------------------------------------- |
-| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)               | Screenshot gate: does the UI look designed     |
-| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | Off — use `impeccable` critique/audit          |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md)           | Off          |
 | [`prototype`](skills/prototype/SKILL.md)                                   | Throwaway prototype before committing          |
-| [`impeccable`](skills/impeccable/SKILL.md)                                 | Build, redesign, critique, polish interfaces   |
+| [`kyant-ui-rules`](skills/kyant-ui-rules/SKILL.md) | Owner's UI rulebook, read before any UI mock, build or review |
 | [`quality-gates`](skills/quality-gates/SKILL.md)                           | UI + code quality gates: study, probe, lint gates, primitives, state sheets, UI review |
 | [`shadcn`](skills/shadcn/SKILL.md)                                         | shadcn/ui components, registries, chat UI      |
 
@@ -284,7 +283,6 @@ Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The C
 | Skill                                                            | Upstream                                                                                        |
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit)               |
-| [`impeccable`](skills/impeccable/SKILL.md)                       | [pbakaus/impeccable](https://github.com/pbakaus/impeccable)                                     |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
@@ -319,7 +317,7 @@ Presets write `CLAUDE.md` at the install target. Pair with [`rules/`](rules/) so
 | [`rules/core/`](rules/core/)                                       | Always-loaded: file creation (F), workflow (W), docs (D), coding style (C) |
 | [`rules/typescript/`](rules/typescript/)                           | Path-scoped for `*.ts/tsx/js/jsx`                                                        |
 | [`rules/react/`](rules/react/)                                     | Path-scoped for `*.tsx/jsx`                                                              |
-| [`rules/quality/`](rules/quality/)                                 | Path-scoped: UI (U1–U5) and code (Q1–Q2); procedures in skill `quality-gates`            |
+| [`rules/quality/`](rules/quality/)                                 | Path-scoped: code (Q1–Q2); UI rules in [`rules/frontend.md`](rules/frontend.md) (always loaded) + skill `kyant-ui-rules`; gates in skill `quality-gates`            |
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Per-project delta rules skeleton                                                         |
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Neutral `CLAUDE.md` starter                                                              |
 | [`templates/project-structure.md`](templates/project-structure.md) | Canonical directory trees                                                                |

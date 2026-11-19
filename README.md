@@ -12,7 +12,7 @@ flowchart TD
     S --> T{"Đang đụng file nào?"}
     T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
     T -- "*.tsx / *.jsx" --> R["rules/react/"]
-    T -- "UI, *.css, code" --> Q["rules/quality/<br/>U1–U5 · Q1–Q2"]
+    T -- "UI, *.css, code" --> Q["rules/frontend.md · rules/quality/<br/>FE0–FE10 · Q1–Q2"]
     T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
     S --> K["skills/<br/>nạp khi task khớp"]
     S --> AG["agents/<br/>subagent gọi khi cần"]
@@ -43,7 +43,7 @@ flowchart TD
     SP -- "trong một phiên" --> I
     PL --> I
     I --> UI{"Đổi UI?"}
-    UI -- "có" --> IM["impeccable + screenshot<br/>user duyệt bằng mắt"]
+    UI -- "có" --> IM["kyant-ui-rules + screenshot<br/>user duyệt bằng mắt"]
     UI -- "không" --> RC["/code-review"]
     IM --> RC
     RC --> V["Kiểm chứng<br/>test · typecheck · build"]
@@ -258,10 +258,9 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 
 | Skill                                                            | Mô tả                                         |
 | ---------------------------------------------------------------- | --------------------------------------------- |
-| [`frontend-design-bar`](skills/frontend-design-bar/SKILL.md)     | Cổng screenshot: UI trông được thiết kế chưa  |
-| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | Tắt — dùng `impeccable` critique/audit        |
+| [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | Tắt        |
 | [`prototype`](skills/prototype/SKILL.md)                         | Prototype bỏ được trước khi chốt hướng        |
-| [`impeccable`](skills/impeccable/SKILL.md)                       | Dựng, thiết kế lại, phê, mài giao diện        |
+| [`kyant-ui-rules`](skills/kyant-ui-rules/SKILL.md) | Bộ luật UI của chủ, đọc trước mọi mock/build/review UI |
 | [`quality-gates`](skills/quality-gates/SKILL.md)                 | Gate chất lượng UI + code: study, probe, cài lint gate, primitive, sheet trạng thái, review UI |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | Component shadcn/ui, registry, chat UI        |
 
@@ -288,7 +287,6 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | Skill                                                            | Upstream                                                                                        |
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit)               |
-| [`impeccable`](skills/impeccable/SKILL.md)                       | [pbakaus/impeccable](https://github.com/pbakaus/impeccable)                                     |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
@@ -326,9 +324,9 @@ Presets ghi `CLAUDE.md` vào target cài. Ghép với [`rules/`](rules/) để l
 | [`rules/core/`](rules/core/)                                       | Luôn nạp: tạo file (F), workflow (W), docs (D), coding style (C) |
 | [`rules/typescript/`](rules/typescript/)                           | Path-scoped cho `*.ts/tsx/js/jsx`                                              |
 | [`rules/react/`](rules/react/)                                     | Path-scoped cho `*.tsx/jsx`                                                    |
-| [`rules/quality/`](rules/quality/)                                 | Path-scoped: UI (U1–U5) và code (Q1–Q2); quy trình ở skill `quality-gates`     |
+| [`rules/quality/`](rules/quality/)                                 | Path-scoped: code (Q1–Q2); luật UI ở [`rules/frontend.md`](rules/frontend.md) (luôn nạp) + skill `kyant-ui-rules`; gate ở skill `quality-gates`     |
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Skeleton delta rules theo project                                              |
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Starter `CLAUDE.md` trung lập                                                  |
 | [`templates/project-structure.md`](templates/project-structure.md) | Cây thư mục chuẩn                                                              |
-| [`templates/mock-shell.html`](templates/mock-shell.html)           | Khung chung cho mọi mock HTML có lựa chọn (UP8); kiểm bằng [`scripts/check-mock-shell.sh`](scripts/check-mock-shell.sh) |
+| [`templates/mock-shell.html`](templates/mock-shell.html)           | Khung chung cho mọi mock HTML có lựa chọn (FE-P1); kiểm bằng [`scripts/check-mock-shell.sh`](scripts/check-mock-shell.sh) |
 | [`hooks/file-guard.sh`](hooks/file-guard.sh)                       | Cảnh báo (PostToolUse) tên file junk, file quá lớn, sai chỗ; chế độ `block` chưa đăng ký |

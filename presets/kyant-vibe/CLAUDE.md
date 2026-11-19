@@ -65,14 +65,14 @@ The global rules I use daily with [Claude Code](https://claude.com/claude-code) 
 
 <frontend_design>
 
-- New/reshaped web UI: build with [`impeccable`](../../skills/impeccable/SKILL.md), then pass the [`frontend-design-bar`](../../skills/frontend-design-bar/SKILL.md) screenshot gate before calling it done. Design = assembly (motion, assets, interaction, depth), not generated static CSS.
+- New/reshaped UI: follow [`rules/frontend.md`](../../rules/frontend.md) and read skill [`kyant-ui-rules`](../../skills/kyant-ui-rules/SKILL.md) before building.
 - Not done until eye-approved on screenshot/recording — build passing ≠ finished.
   </frontend_design>
 
 <frontend_gate>
 
 - Scope: rendered output, interaction, or UI behavior — not refactors with unchanged output.
-- Before frontend work: lock user-confirmed IDEA + APPROACH (aesthetic UI also needs DEMO SURFACE). Gate runs before `impeccable` builds anything. Missing/ambiguous → stop, ask or offer 2–3 options; explicit go-ahead counts as confirmation.
+- Before frontend work: lock user-confirmed IDEA + APPROACH (aesthetic UI also needs DEMO SURFACE). Gate runs before any UI is built. Missing/ambiguous → stop, ask or offer 2–3 options; explicit go-ahead counts as confirmation.
 - Skip for trivial edits: typo, copy, user-specified value change.
   </frontend_gate>
 
@@ -145,7 +145,7 @@ Hard rules — a violation is an error, no exceptions. Details: [`rules/core/`](
 | Skill                                                                                                           | Role                                                                        |
 | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | [`skills/brainstorm/SKILL.md`](../../skills/brainstorm/SKILL.md) · [`planning`](../../skills/planning/SKILL.md) | W1/W2 — only when a threshold is hit |
-| [`skills/frontend-design-bar/SKILL.md`](../../skills/frontend-design-bar/SKILL.md)                              | The `<frontend_design>` bar                                                 |
+| [`skills/kyant-ui-rules/SKILL.md`](../../skills/kyant-ui-rules/SKILL.md)                                        | The `<frontend_design>` rulebook                                            |
 | Full catalog                                                                                                    | [`README.md` → Skills](../../README.md#skills) · [`agents/`](../../agents/) |
 
 ### Install

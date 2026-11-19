@@ -1,6 +1,6 @@
 ---
 name: metric-display-plan
-description: Before any UI mock, mock brief or design-direction round for a surface that shows several pieces of data (overview, dashboard, status page, summary card, settings with readings), work out per element what question the user brings to it and what kind of data it is, choose a form for each element from that, and only then generate ideas and layouts. Use it whenever you are about to mock, sketch, brief subagents for, or propose directions for a data-bearing screen — "làm mock", "dựng mock Overview", "đề xuất cách hiển thị", "thiết kế lại dashboard", "mock nhanh cho tôi", "redesign the overview" — and whenever every element on a screen is drifting into the same tile, the same number-plus-chart, or the owner says the ideas feel limited or samey. Not for judging a finished UI (frontend-design-bar) or building it (impeccable).
+description: Before any UI mock, mock brief or design-direction round for a surface that shows several pieces of data (overview, dashboard, status page, summary card, settings with readings), work out per element what question the user brings to it and what kind of data it is, choose a form for each element from that, and only then generate ideas and layouts. Use it whenever you are about to mock, sketch, brief subagents for, or propose directions for a data-bearing screen — "làm mock", "dựng mock Overview", "đề xuất cách hiển thị", "thiết kế lại dashboard", "mock nhanh cho tôi", "redesign the overview" — and whenever every element on a screen is drifting into the same tile, the same number-plus-chart, or the owner says the ideas feel limited or samey. Not for building or judging the finished UI (kyant-ui-rules).
 metadata:
   origin: user
 ---
@@ -27,7 +27,7 @@ The failure has three roots, and each step below closes one:
 ## When to run it
 
 Before the first mock or mock brief of any surface with two or more data elements, including a redesign,
-a new direction round (frontend-design-bar Phase 0, W16) and a `run-agents` mock wave. Run it again when
+a new direction round (FE-S1, FE-P8) and a `run-agents` mock wave. Run it again when
 the owner says a mock feels samey or limited. It takes one pass over the element list; it is not a
 replacement for the owner's decisions, it feeds them.
 
@@ -62,7 +62,7 @@ Kinds, briefly — they drive the form:
 - **status** (pressure Normal, connected): a word.
 
 If the data cannot be known (macOS gives no byte threshold for memory pressure, say), the sheet says so and
-the form must not invent it (W23).
+the form must not invent it (FE-D3).
 
 ## Step 3 — Choose a form per element
 
@@ -88,7 +88,7 @@ Before arranging anything, write at least three **organising ideas** — what th
 it is tiled. Examples from the TinySift round: *headroom* (everything as what is left), *a status sentence*
 (one generated line, details below), *today's digest* (what happened since morning), *two budgets* (machine
 vs account). Then, for the chosen idea(s), produce layout directions that differ in structure and
-storytelling (W16). A direction that only rearranges the same element forms is not a new direction.
+storytelling (FE-P8). A direction that only rearranges the same element forms is not a new direction.
 
 ## Step 6 — Hand it on
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# check-mock-shell.sh <mock.html>... — mock có dựng trên khung chung không (UP8, rules/quality/ui-process.md).
+# check-mock-shell.sh <mock.html>... — mock có dựng trên khung chung không (FE-P1, skill kyant-ui-rules).
 #   1. <html> mang data-mock-shell.
 #   2. Các khối SHELL (CSS, khung HTML, JS) giống hệt templates/mock-shell.html; mock chỉ được sửa hai khối MOCK.
 #   3. CSS của mock không đụng tới selector của khung (dải phải, canvas).

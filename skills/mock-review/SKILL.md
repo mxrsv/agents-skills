@@ -1,6 +1,6 @@
 ---
 name: mock-review
-description: Review an HTML mock before any code is written, by an agent that did not draw it. It asks whether each element has a job, whether the flow dead-ends, whether bad-data states are drawn or declared, whether the mock reuses the app's blocks, and which lines the owner approved. Use when the owner says "rà mock", "review mock", "mock này có gì thừa", or asks for a second look at a mock; run it unasked when a mock changes an existing task flow, before it becomes requirements. Not for the built app (build-review), removal in shipped code (simplify-review) or the visual craft of a web page (frontend-design-bar).
+description: Review an HTML mock before any code is written, by an agent that did not draw it. It asks whether each element has a job, whether the flow dead-ends, whether bad-data states are drawn or declared, whether the mock reuses the app's blocks, and which lines the owner approved. Use when the owner says "rà mock", "review mock", "mock này có gì thừa", or asks for a second look at a mock; run it unasked when a mock changes an existing task flow, before it becomes requirements. Not for the built app (build-review), removal in shipped code (simplify-review) or the look of a page (the owner's eye under kyant-ui-rules).
 argument-hint: "<mock.html> [model]"
 ---
 
@@ -20,7 +20,7 @@ seven lines.
 | Bad data | always | Empty, loading, error, long text: drawn, or declared in `notShown` with the intended behaviour? |
 | Consistency | always | Which blocks, words and meanings does the app already have, and where does the mock invent a second one? |
 | Decisions | always | Which lines are the owner's quoted approvals, and which are inference (W20)? |
-| Numbers | a figure is shown | Meaning, source and direction against the real samples; without samples, unverified (W23). |
+| Numbers | a figure is shown | Meaning, source and direction against the real samples; without samples, unverified (FE-D3). |
 | Safety | an action changes or runs something | Targets, defaults, consent and recovery, against what the engine can do. |
 | Progress | long or live work | How progress, cancel and refresh rate show; what will need measuring. |
 | Platform | it depends on something outside the screen | What it needs (a permission, a login, a network, a screen size) and what shows without it; which checks remain for the build. |

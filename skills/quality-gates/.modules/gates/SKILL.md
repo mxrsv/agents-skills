@@ -1,6 +1,6 @@
 ---
 name: gates
-description: Install quality gates in a project — the local oxlint plugin (Q1 suppression reasons, Q2 unreasoned skips, U4 outset focus rings), @shadcn/lint in three scoped tiers, import boundaries, the exemptions test and the AGENTS.md rules that name them.
+description: Install quality gates in a project — the local oxlint plugin (Q1 suppression reasons, Q2 unreasoned skips, FE-K5 outset focus rings), @shadcn/lint in three scoped tiers, import boundaries, the exemptions test and the AGENTS.md rules that name them.
 ---
 
 # Gates — install the checks
@@ -24,7 +24,7 @@ and legacy code is exempted by name, not by severity. Read `../../references/les
 | Module | Adds | Needs |
 | --- | --- | --- |
 | core | Q1 `local/require-suppression-reason`, Q2 `local/no-unreasoned-skip` | nothing |
-| ui | `@shadcn/lint` tiers, U2 import boundaries, U4 `local/no-outset-state-indicators` | Tailwind v4; oxlint ≥ 1.80 or ESLint ≥ 9.30 |
+| ui | `@shadcn/lint` tiers, FE-K1 import boundaries, FE-K5 `local/no-outset-state-indicators` | Tailwind v4; oxlint ≥ 1.80 or ESLint ≥ 9.30 |
 
 Adopting `@shadcn/lint` or bumping the linter is a dependency change: confirm it under the
 repo's fork rules before installing. Pin exact versions.

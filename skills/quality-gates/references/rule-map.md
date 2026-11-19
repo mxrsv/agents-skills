@@ -6,13 +6,13 @@ the global ID in the project's commit messages or config comments so the two can
 
 | Rule | Lint / test (installed by `gates`) | Left to review or eye | Modules |
 | --- | --- | --- | --- |
-| U1 control owns its look | `shadcn/no-restyle` with `allow: ["layout"]`, off inside the controls directory | height and size overrides (`h-*`, `size-*`) pass as layout; copied control markup | `primitive`, `review` |
-| U2 reuse before you add | `no-restricted-imports`: `*Variants` recipes, the headless library, the icon package outside the controls directory | a raw element dressed as a control | `primitive`, `review` |
-| U3 style from the theme | `shadcn/no-raw-colors`, `shadcn/no-arbitrary-values` (`allow: ["layout"]`), `shadcn/require-static-classes`, `shadcn/no-unknown-classes` on migrated paths | new global CSS, static inline `style`, hand-written `.dark` selectors | `gates`, `review` |
-| U4 state marks stay visible | `local/no-outset-state-indicators` | whether the indicator is actually visible: a state sheet | `states`, `gates` |
-| U5 nothing repaints while idle | none | loops, timers, `requestAnimationFrame` | `review` |
-| U6 every actionable element shows its states | none; the shared control or base layer sets cursor and states once | raw handlers without a cursor and hover-only controls on changed lines (`review` §5); hit area and states: the hover pass in `frontend-design-bar` | `primitive`, `review` |
-| U7 a mock is matched by measurement | none | computed-style diff against the mock | `review` |
+| FE-K1 only the repo's controls; callers never restyle | `shadcn/no-restyle` with `allow: ["layout"]`, off inside the controls directory | height and size overrides (`h-*`, `size-*`) pass as layout; copied control markup | `primitive`, `review` |
+| FE-K1 reuse before you add | `no-restricted-imports`: `*Variants` recipes, the headless library, the icon package outside the controls directory | a raw element dressed as a control | `primitive`, `review` |
+| FE-SP1 style from tokens | `shadcn/no-raw-colors`, `shadcn/no-arbitrary-values` (`allow: ["layout"]`), `shadcn/require-static-classes`, `shadcn/no-unknown-classes` on migrated paths | new global CSS, static inline `style`, hand-written `.dark` selectors | `gates`, `review` |
+| FE-K5 no outset ring; selection stays visible | `local/no-outset-state-indicators` | whether the indicator is actually visible: a state sheet | `states`, `gates` |
+| FE-M1 nothing loops while idle | none | loops, timers, `requestAnimationFrame` | `review` |
+| FE-K6 every interactive element shows its states | none; the shared control or base layer sets cursor and states once | raw handlers without a cursor and hover-only controls on changed lines (`review` §5); hit area and states: the break-test and screenshot pass (FE-P3, FE-P4) | `primitive`, `review` |
+| FE-P4 built UI checked beside the mock | none | computed-style diff against the mock | `review` |
 | Q1 every exception says why | `local/require-suppression-reason`; `oxlint-exemptions.test.ts` keeps named exemptions real | an override comment that names nothing | `gates` |
 | Q2 tests assert behaviour | `local/no-unreasoned-skip` | tests that mirror the implementation | `gates` |
 

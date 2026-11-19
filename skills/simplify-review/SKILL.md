@@ -1,6 +1,6 @@
 ---
 name: simplify-review
-description: After a feature lands, send a read-only subagent through the app to find UI and code that can be removed or simplified, each finding proven or labelled as opinion and checked against the owner's recorded decisions, then show the picks as real before/after renders. Use when the owner says "rà soát tối giản", "có gì thừa không", "lược bỏ được gì", "simplify review", "what can we remove", or asks for an agent to look for unnecessary or redundant things. Not for this session's diff (/simplify), a code-only audit (ponytail-audit), bugs (code-review) or one screen (impeccable distill).
+description: After a feature lands, send a read-only subagent through the app to find UI and code that can be removed or simplified, each finding proven or labelled as opinion and checked against the owner's recorded decisions, then show the picks as real before/after renders. Use when the owner says "rà soát tối giản", "có gì thừa không", "lược bỏ được gì", "simplify review", "what can we remove", or asks for an agent to look for unnecessary or redundant things. Not for this session's diff (/simplify), a code-only audit (ponytail-audit), bugs (code-review) or the look of one screen (kyant-ui-rules).
 argument-hint: "[screen or area] [model]"
 ---
 
@@ -112,12 +112,12 @@ When the owner asks to see the picks, spawn one `sonnet` agent:
   uncommitted (unused members, copy and tests stay); then "after". No render command → show the
   diff per item instead.
 - **It views every pair** and keeps any line that is the only place a consequence is stated.
-- **The page** is a copy of `~/.claude/templates/mock-shell.html` (UP8) in the output folder: axis
+- **The page** is a copy of `~/.claude/templates/mock-shell.html` (FE-P1) in the output folder: axis
   `item`, axis `view` (`after` | `before`), presets the full recommendation, then `Trước` and `Sau`
   naming only `view`, `notShown` for items with no visible change, the render plus a 2× crop of the
   changed region.
 
-View the "after" of each judgement item yourself, open the page (W18), list per item what goes and
+View the "after" of each judgement item yourself, open the page (FE-P5), list per item what goes and
 what information goes with it, and ask which items stay.
 
 ## 5. Land
@@ -126,8 +126,8 @@ what information goes with it, and ask which items stay.
   the removed text and the user docs, note the approval in the spec or ledger, run the repo's gate,
   `git commit -- <paths>`.
 - **Not approved:** restore those hunks.
-- **Waiting on a cut-over (W17) or an eye approval:** leave it and report its task. An "Owner
+- **Waiting on a cut-over (FE-P9) or an eye approval:** leave it and report its task. An "Owner
   decision" item changes only on an explicit yes (W20).
 
-Renders are not the running app: check the changed screens in the owner's dev runtime (W22), or say
+Renders are not the running app: check the changed screens in the owner's dev runtime (FE-P4), or say
 that only renders were checked.

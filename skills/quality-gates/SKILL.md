@@ -1,6 +1,6 @@
 ---
 name: quality-gates
-description: Router for UI and code quality gates — study how a reference repo enforces quality, measure a lint rule's noise before enabling it, install lint/test gates (suppression reasons, unreasoned skips, shadcn/Tailwind design-system checks, focus-ring and import boundaries), define a shared UI control that owns its look, capture light/dark state sheets for eye review, and review a UI diff for what lint cannot see. Use when setting up quality checks in a project, adopting a UI preset or registry, adding or reshaping a shared control, a feature restyling a shared component with its own class, changing focus or selection styling, or before committing UI changes. Not for building a screen (use impeccable) or judging visual craft (use frontend-design-bar).
+description: Router for UI and code quality gates — study how a reference repo enforces quality, measure a lint rule's noise before enabling it, install lint/test gates (suppression reasons, unreasoned skips, shadcn/Tailwind design-system checks, focus-ring and import boundaries), define a shared UI control that owns its look, capture light/dark state sheets for eye review, and review a UI diff for what lint cannot see. Use when setting up quality checks in a project, adopting a UI preset or registry, adding or reshaping a shared control, a feature restyling a shared component with its own class, changing focus or selection styling, or before committing UI changes. Not for building a screen or judging its look (kyant-ui-rules and the owner's eye).
 ---
 
 # Quality gates
@@ -11,8 +11,8 @@ costs context. Read the chosen module's `SKILL.md` in full and follow it as if i
 directly; paths inside a module (`scripts/…`, `assets/…`, `references/…`) are relative to that
 module's folder. Never invoke a module through the Skill tool — it is not registered.
 
-The rules these modules serve are path-scoped and load on their own: U1–U7 in
-`~/.claude/rules/quality/ui.md`, Q1–Q2 in `~/.claude/rules/quality/code.md`. Which check
+The rules these modules serve: FE-K1, FE-K5, FE-K6, FE-SP1, FE-M1, FE-P4 in skill
+`kyant-ui-rules` (summary in `~/.claude/rules/frontend.md`), Q1–Q2 in `~/.claude/rules/quality/code.md`. Which check
 enforces which rule: [`references/rule-map.md`](references/rule-map.md). Traps already measured:
 [`references/lessons.md`](references/lessons.md) — read it before configuring anything.
 
@@ -33,7 +33,7 @@ one at a time. Name the chosen module(s) to the user in one line.
 ## Flows
 
 - **New project or preset adoption:** `study` (optional) → `probe` → `gates`.
-- **New or reshaped control:** `primitive` → `states` → `review` → `frontend-design-bar`.
+- **New or reshaped control:** `primitive` → `states` → `review` → owner's eye (FE-P7).
 - **A mistake made twice:** skill `write-rule` picks the tier; a lint tier goes `probe` →
   `gates`, and the new check gets a row in `references/rule-map.md`.
 - **Before a UI commit:** the repo's lint (installed by `gates`) → `review`.
@@ -41,8 +41,8 @@ one at a time. Name the chosen module(s) to the user in one line.
 
 ## Outside this bundle
 
-`write-rule` (rule tiers, any domain), `scout` (research pipeline `study` reuses), `impeccable`
-(build UI), `frontend-design-bar` (visual acceptance), `/code-review` (correctness),
+`write-rule` (rule tiers, any domain), `scout` (research pipeline `study` reuses), `kyant-ui-rules`
+(UI rulebook), `/code-review` (correctness),
 `shadcn` (component docs; vendored, never edited).
 
 ## Guardrails

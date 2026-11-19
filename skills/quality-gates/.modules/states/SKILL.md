@@ -6,7 +6,7 @@ description: Capture keyboard-focus or hover states of real controls in light an
 # States — show the indicator, do not describe it
 
 Reading classes does not tell whether a focus ring is visible on a filled control in dark mode.
-A sheet does. Use it whenever focus, selection, hover, disabled or theme styling changes (U4).
+A sheet does. Use it whenever focus, selection, hover, disabled or theme styling changes (FE-K5).
 
 ## Needs
 

@@ -6,7 +6,7 @@ description: Decide and document how a shared UI control owns its look — props
 # Primitive — one place owns the look
 
 Controls drift when each feature writes its own class for "a button like that one". The fix is
-structural: the control owns its look; callers choose, never restyle (U1, U2).
+structural: the control owns its look; callers choose, never restyle (FE-K1, FE-K2).
 
 ## 1. Reuse test (before writing anything)
 
@@ -57,7 +57,7 @@ surfaces, where behaviour or geometry differs by design.
 
 ## 6. States
 
-Focus, selection, hover and disabled are part of the contract (U4). Keep indicators inside the
+Focus, selection, hover and disabled are part of the contract (FE-K5, FE-K6). Keep indicators inside the
 element where an ancestor may clip; prove a change with module `states` on light and dark —
 `ring-inset` alone faded to nothing on a filled control with a translucent ring colour
 (`../../references/lessons.md`).

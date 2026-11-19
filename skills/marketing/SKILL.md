@@ -1,6 +1,6 @@
 ---
 name: marketing
-description: The owner's marketing standard for every product, plus a router for a vendored bundle (coreyhaines31/marketingskills, trimmed to what is used) — product demo and social videos, launch, positioning, copywriting, CRO, SEO audit, community, competitor profiles, marketing psychology. Use whenever the task is marketing, growth or go-to-market work, including "làm video marketing", "quảng bá" or a demo video; it applies the house method, then picks the matching sub-skill. Not for in-product UI copy such as labels, errors and empty states (use impeccable clarify).
+description: The owner's marketing standard for every product, plus a router for a vendored bundle (coreyhaines31/marketingskills, trimmed to what is used) — product demo and social videos, launch, positioning, copywriting, CRO, SEO audit, community, competitor profiles, marketing psychology. Use whenever the task is marketing, growth or go-to-market work, including "làm video marketing", "quảng bá" or a demo video; it applies the house method, then picks the matching sub-skill. Not for in-product UI copy such as labels, errors and empty states (follow kyant-ui-rules).
 ---
 
 # Marketing router

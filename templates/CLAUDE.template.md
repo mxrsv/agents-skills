@@ -17,7 +17,7 @@
 
 <frontend_design>
 
-- New or reshaped web UI: invoke `{{frontend-design-bar}}` (or your design skill).
+- New or reshaped UI: read `{{kyant-ui-rules}}` (or your UI rulebook) before building.
 - Design means assembly (motion, assets, interaction, depth), not generated static CSS alone.
 - Not done until eye-approved on screenshot/recording — build passing ≠ finished.
   </frontend_design>

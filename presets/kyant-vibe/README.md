@@ -91,7 +91,7 @@ cp -r agents-skills/rules ~/.claude/rules   # cần cho link L1–L10
 | ---------------------------------- | -------------------------------------------------------- |
 | [README gốc repo](../../README.md) | Banner, catalog agent/skill đầy đủ, cách dùng CLI        |
 | [`agents/`](../../agents/)         | Subagent (planner, reviewers, …)                         |
-| [`skills/`](../../skills/)         | Skills gọi được (`brainstorm`, `frontend-design-bar`, …) |
+| [`skills/`](../../skills/)         | Skills gọi được (`brainstorm`, `kyant-ui-rules`, …) |
 | [`commands/`](../../commands/)     | Slash command                                            |
 | [`hooks/`](../../hooks/)           | File-guard (tên junk, file quá lớn)                      |
 | [`assets/`](../../assets/)         | Logo Kyant + banner README                               |

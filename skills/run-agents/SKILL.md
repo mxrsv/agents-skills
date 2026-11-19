@@ -46,15 +46,15 @@ sit in those paths), tick the plan, start the next wave. Waiting for agents is n
 Stop only for:
 
 - an irreversible or outward-facing action not already authorized, such as push, merge, release,
-  publish or deleting the owner's data. A W17 track they approved counts; temp files you made do not;
-- a W17 cut-over: removing a switch or an old surface needs their eye approval first;
+  publish or deleting the owner's data. An FE-P9 track they approved counts; temp files you made do not;
+- an FE-P9 cut-over: removing a switch or an old surface needs their eye approval first;
 - something only the owner can do, such as a login;
 - a UI direction with no chosen mock: render the mocks, stop once, then build through;
 - a material change to the approved scope or approach (D10);
 - nothing left can proceed.
 
 Anything else: take the recommended option, record it in the plan, report it at the end. Eye
-approval during the build comes once, after the last wave (`CLAUDE.md` `<frontend>`). If an older
+approval during the build comes once, after the last wave (FE-P7, skill `kyant-ui-rules`). If an older
 plan lists it between tasks, move those tasks to the end of the plan and keep building.
 
 A task that fails: first check what it left behind. Retry once, with the error in the brief, only if
@@ -74,5 +74,5 @@ skips (a mock, a video) or when the owner names the agents or criteria.
 ## 6. Report
 
 Use `<reply_format>`. In `Result`, one row per task: task, model, status. Then the decisions taken,
-then what still waits for the owner, only what applies: eye approval (open the main artifact, W18),
+then what still waits for the owner, only what applies: eye approval (open the main artifact, FE-P5),
 push, blocked tasks.
