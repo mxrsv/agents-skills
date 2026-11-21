@@ -262,6 +262,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`prototype`](skills/prototype/SKILL.md)                         | Prototype bỏ được trước khi chốt hướng        |
 | [`kyant-ui-rules`](skills/kyant-ui-rules/SKILL.md) | Bộ luật UI của chủ, đọc trước mọi mock/build/review UI |
 | [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | Liquid Glass iOS 26: SwiftUI, UIKit, WidgetKit |
+| [`design-system`](skills/design-system/SKILL.md) | Rút token ra `DESIGN.md` + preview, chấm UI 10 tiêu chí, soi AI slop |
 | [`quality-gates`](skills/quality-gates/SKILL.md)                 | Gate chất lượng UI + code: study, probe, cài lint gate, primitive, sheet trạng thái, review UI |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | Component shadcn/ui, registry, chat UI        |
 
@@ -291,6 +292,7 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit)               |
 | [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`article-writing`](skills/article-writing/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
+| [`design-system`](skills/design-system/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
