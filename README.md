@@ -265,6 +265,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | Liquid Glass iOS 26: SwiftUI, UIKit, WidgetKit |
 | [`design-system`](skills/design-system/SKILL.md) | Rút token ra `DESIGN.md` + preview, chấm UI 10 tiêu chí, soi AI slop |
 | [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | Chi tiết làm UI mượt: radius lồng nhau, căn quang học, `tabular-nums`, transition, hit area |
+| [`frontend-design-direction`](skills/frontend-design-direction/SKILL.md) | Chốt hướng thiết kế + contract trước khi code UI, gate render với `check-evidence.js` |
 | [`quality-gates`](skills/quality-gates/SKILL.md)                 | Gate chất lượng UI + code: study, probe, cài lint gate, primitive, sheet trạng thái, review UI |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | Component shadcn/ui, registry, chat UI        |
 
@@ -299,6 +300,7 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | [`deployment-patterns`](skills/deployment-patterns/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`production-audit`](skills/production-audit/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
+| [`frontend-design-direction`](skills/frontend-design-direction/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |

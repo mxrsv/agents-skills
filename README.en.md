@@ -262,6 +262,7 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 | [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | iOS 26 Liquid Glass: SwiftUI, UIKit, WidgetKit |
 | [`design-system`](skills/design-system/SKILL.md) | Extract tokens into `DESIGN.md` + preview, score UI on 10 dimensions, flag AI slop |
 | [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | Polish details: concentric radius, optical alignment, `tabular-nums`, transitions, hit areas |
+| [`frontend-design-direction`](skills/frontend-design-direction/SKILL.md) | Design direction + contract before UI code, rendered gate via `check-evidence.js` |
 | [`quality-gates`](skills/quality-gates/SKILL.md)                           | UI + code quality gates: study, probe, lint gates, primitives, state sheets, UI review |
 | [`shadcn`](skills/shadcn/SKILL.md)                                         | shadcn/ui components, registries, chat UI      |
 
@@ -295,6 +296,7 @@ Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The C
 | [`deployment-patterns`](skills/deployment-patterns/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`production-audit`](skills/production-audit/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
+| [`frontend-design-direction`](skills/frontend-design-direction/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
