@@ -1,6 +1,6 @@
 ---
 name: marketing
-description: The owner's marketing standard for every product, plus a router for a vendored bundle (coreyhaines31/marketingskills, trimmed to what is used) — product demo and social videos, launch, positioning, copywriting, CRO, SEO audit, community, competitor profiles, marketing psychology. Use whenever the task is marketing, growth or go-to-market work, including "làm video marketing", "quảng bá" or a demo video; it applies the house method, then picks the matching sub-skill. Not for in-product UI copy such as labels, errors and empty states (follow kyant-ui-rules).
+description: The owner's marketing standard for every product, plus a router for a vendored bundle (coreyhaines31/marketingskills, trimmed to what is used) — product demo and social videos, launch, multi-channel campaigns, positioning, copywriting, CRO, SEO audit, community, competitor profiles, marketing psychology. Use whenever the task is marketing, growth or go-to-market work, including "làm video marketing", "quảng bá" or a demo video; it applies the house method, then picks the matching sub-skill. Not for in-product UI copy such as labels, errors and empty states (follow kyant-ui-rules).
 ---
 
 # Marketing router
@@ -16,6 +16,7 @@ A sub-skill's ID is `<prefix>/<name>` (e.g. `coreyhaines31/copywriting`), so bun
 | Prefix | Repo | Sparse paths |
 |---|---|---|
 | `coreyhaines31` | `https://github.com/coreyhaines31/marketingskills` | `/tools/` `/skills/cro/` `/skills/social/` `/skills/launch/` `/skills/community-marketing/` `/skills/video/` `/skills/seo-audit/` `/skills/product-marketing/` `/skills/competitor-profiling/` `/skills/marketing-psychology/` `/skills/copywriting/` |
+| `affaan-m` | `https://github.com/affaan-m/ecc` | `/skills/marketing-campaign/` |
 
 ## Route
 
