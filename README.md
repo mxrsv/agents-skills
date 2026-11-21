@@ -237,6 +237,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                       | Trước khi build — làm rõ nhu cầu, so hướng làm, chốt spec      |
 | [`planning`](skills/planning/SKILL.md)                                           | Plan thực thi khi phạm vi đã rõ                                |
 | [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                     | Bản đồ kiến trúc nhanh cho repo lạ                             |
+| [`research`](skills/research/SKILL.md) | Agent nền tra nguồn gốc (docs, source, spec), ghi kết quả có trích dẫn ra file Markdown |
 | [`interview-me`](skills/interview-me/SKILL.md)                                   | Phỏng vấn từng câu để moi ý định thật                          |
 | [`kyant-intent`](skills/kyant-intent/SKILL.md)                                   | Khung riêng của `interview-me`: Read → Ask → Dig → Stop → Lock |
 | [`kyant-grill`](skills/kyant-grill/SKILL.md)                                     | `grilling` trả lời nhanh: chốt ý định trước, hỏi bằng hộp chọn |
@@ -302,6 +303,7 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`frontend-design-direction`](skills/frontend-design-direction/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
+| [`research`](skills/research/SKILL.md) | [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
 | [`ponytail-audit`](skills/ponytail-audit/SKILL.md)               | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |

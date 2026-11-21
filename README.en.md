@@ -236,6 +236,7 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 | [`brainstorm`](skills/brainstorm/SKILL.md)                                          | Before building — clarify, compare approaches, lock the spec |
 | [`planning`](skills/planning/SKILL.md) | Execution plan once scope is clear                           |
 | [`codebase-onboarding`](skills/codebase-onboarding/SKILL.md)                        | Fast architecture map for unfamiliar repos                   |
+| [`research`](skills/research/SKILL.md) | Background agent checks primary sources, writes cited findings to a Markdown file |
 | [`interview-me`](skills/interview-me/SKILL.md)                                      | One-question-at-a-time interview to extract real intent      |
 | [`kyant-intent`](skills/kyant-intent/SKILL.md)                                      | `interview-me` in its own frame: Read→Ask→Dig→Stop→Lock      |
 | [`kyant-grill`](skills/kyant-grill/SKILL.md)                                        | `grilling` made quick: intent first, answers via a dialog    |
@@ -298,6 +299,7 @@ Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The C
 | [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`frontend-design-direction`](skills/frontend-design-direction/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
+| [`research`](skills/research/SKILL.md) | [mattpocock/skills](https://github.com/mattpocock/skills) |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
 | [`ponytail-audit`](skills/ponytail-audit/SKILL.md)               | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
