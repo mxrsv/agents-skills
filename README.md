@@ -274,6 +274,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`context-budget`](skills/context-budget/SKILL.md) | Rà token qua agents, skills, MCP, `CLAUDE.md` |
 | [`run-agents`](skills/run-agents/SKILL.md)         | Giao việc cho subagent, build một mạch plan   |
 | [`article-writing`](skills/article-writing/SKILL.md) | Viết bài dài (blog, guide, newsletter) theo giọng mẫu, cấm văn AI sáo rỗng |
+| [`deployment-patterns`](skills/deployment-patterns/SKILL.md) | Chiến lược deploy, Docker multi-stage, CI/CD, health check, rollback, checklist production |
 
 ### Dùng chung với Codex / Cursor
 
@@ -293,6 +294,7 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`article-writing`](skills/article-writing/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`design-system`](skills/design-system/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
+| [`deployment-patterns`](skills/deployment-patterns/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
