@@ -268,6 +268,7 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 | ---------------------------------------------------------------------- | --------------------------------------------------------- |
 | [`hand-off`](skills/hand-off/SKILL.md)                                 | Compact the conversation for another agent                |
 | [`context-budget`](skills/context-budget/SKILL.md)                     | Audit token use across agents, skills, MCP, `CLAUDE.md`   |
+| [`article-writing`](skills/article-writing/SKILL.md) | Long-form articles (blog, guide, newsletter) in a supplied voice, no AI filler |
 
 ### Sharing with Codex / Cursor
 
@@ -285,6 +286,7 @@ Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The C
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | [`frontend-design-audit`](skills/frontend-design-audit/SKILL.md) | [mistyhx/frontend-design-audit](https://github.com/mistyhx/frontend-design-audit)               |
 | [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
+| [`article-writing`](skills/article-writing/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
