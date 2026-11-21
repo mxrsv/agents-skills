@@ -250,6 +250,7 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 | [`security-review`](skills/security-review/SKILL.md)                 | Auth, input, secrets, payments                    |
 | [`docs-drift`](skills/docs-drift/SKILL.md)                           | Docs vs real code behavior (read-only by default) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)                 | Hard bugs and performance regressions             |
+| [`production-audit`](skills/production-audit/SKILL.md) | Score production readiness 0–100 from local evidence: auth, data, webhooks, ops, UX |
 
 ### Frontend & prototyping
 
@@ -260,6 +261,7 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 | [`kyant-ui-rules`](skills/kyant-ui-rules/SKILL.md) | Owner's UI rulebook, read before any UI mock, build or review |
 | [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | iOS 26 Liquid Glass: SwiftUI, UIKit, WidgetKit |
 | [`design-system`](skills/design-system/SKILL.md) | Extract tokens into `DESIGN.md` + preview, score UI on 10 dimensions, flag AI slop |
+| [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | Polish details: concentric radius, optical alignment, `tabular-nums`, transitions, hit areas |
 | [`quality-gates`](skills/quality-gates/SKILL.md)                           | UI + code quality gates: study, probe, lint gates, primitives, state sheets, UI review |
 | [`shadcn`](skills/shadcn/SKILL.md)                                         | shadcn/ui components, registries, chat UI      |
 
@@ -291,6 +293,8 @@ Installed under `~/.agents/skills` and symlinked into Claude Code / Codex. The C
 | [`article-writing`](skills/article-writing/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`design-system`](skills/design-system/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`deployment-patterns`](skills/deployment-patterns/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
+| [`production-audit`](skills/production-audit/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
+| [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |

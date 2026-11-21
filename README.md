@@ -253,6 +253,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md) | Bug khó và tụt hiệu năng                           |
 | [`click-path-audit`](skills/click-path-audit/SKILL.md) | Lần theo từng nút qua chuỗi state, bắt bug các hàm tự triệt tiêu nhau (nút "không làm gì") |
 | [`skill-comply`](skills/skill-comply/SKILL.md)       | Đo agent có thật sự theo một skill/rule không (3 kịch bản, chạy `claude -p`, tốn token) |
+| [`production-audit`](skills/production-audit/SKILL.md) | Chấm độ sẵn sàng lên production 0–100 từ bằng chứng local: auth, dữ liệu, webhook, vận hành, UX |
 
 ### Frontend & prototype
 
@@ -263,6 +264,7 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 | [`kyant-ui-rules`](skills/kyant-ui-rules/SKILL.md) | Bộ luật UI của chủ, đọc trước mọi mock/build/review UI |
 | [`liquid-glass-design`](skills/liquid-glass-design/SKILL.md) | Liquid Glass iOS 26: SwiftUI, UIKit, WidgetKit |
 | [`design-system`](skills/design-system/SKILL.md) | Rút token ra `DESIGN.md` + preview, chấm UI 10 tiêu chí, soi AI slop |
+| [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | Chi tiết làm UI mượt: radius lồng nhau, căn quang học, `tabular-nums`, transition, hit area |
 | [`quality-gates`](skills/quality-gates/SKILL.md)                 | Gate chất lượng UI + code: study, probe, cài lint gate, primitive, sheet trạng thái, review UI |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | Component shadcn/ui, registry, chat UI        |
 
@@ -295,6 +297,8 @@ Cài dưới `~/.agents/skills` rồi symlink vào Claude Code / Codex. CLI mặ
 | [`article-writing`](skills/article-writing/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`design-system`](skills/design-system/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`deployment-patterns`](skills/deployment-patterns/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
+| [`production-audit`](skills/production-audit/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
+| [`make-interfaces-feel-better`](skills/make-interfaces-feel-better/SKILL.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)             | [mattpocock/skills](https://github.com/mattpocock/skills)                                       |
 | [`shadcn`](skills/shadcn/SKILL.md)                               | [shadcn-ui/ui](https://github.com/shadcn-ui/ui)                                                 |
 | [`ponytail-review`](skills/ponytail-review/SKILL.md)             | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           |
