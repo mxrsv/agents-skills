@@ -1,6 +1,6 @@
 ---
 name: performance-optimizer
-description: Performance analysis and optimization specialist. Use PROACTIVELY for identifying bottlenecks, optimizing slow code, reducing bundle sizes, and improving runtime performance. Profiling, memory leaks, render optimization, and algorithmic improvements.
+description: Performance analysis and optimization specialist. Use proactively for identifying bottlenecks, optimizing slow code, reducing bundle sizes, and improving runtime performance. Profiling, memory leaks, render optimization, and algorithmic improvements.
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: inherit
 ---
@@ -418,9 +418,9 @@ const fastCode = ...;
 
 ## When to Run
 
-**ALWAYS:** Before major releases, after adding new features, when users report slowness, during performance regression testing.
+**Run for:** Before major releases, after adding new features, when users report slowness, during performance regression testing.
 
-**IMMEDIATELY:** Lighthouse score drops, bundle size increases >10%, memory usage grows, slow page loads.
+**Run right away:** Lighthouse score drops, bundle size increases >10%, memory usage grows, slow page loads.
 
 ## Red Flags - Act Immediately
 

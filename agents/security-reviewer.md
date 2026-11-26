@@ -1,6 +1,6 @@
 ---
 name: security-reviewer
-description: Security vulnerability detection and remediation specialist. Use PROACTIVELY after writing code that handles user input, authentication, API endpoints, or sensitive data. Flags secrets, SSRF, injection, unsafe crypto, and OWASP Top 10 vulnerabilities.
+description: Security vulnerability detection and remediation specialist. Use proactively after writing code that handles user input, authentication, API endpoints, or sensitive data. Flags secrets, SSRF, injection, unsafe crypto, and OWASP Top 10 vulnerabilities.
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: inherit
 color: red
@@ -81,9 +81,9 @@ If you find a CRITICAL vulnerability, list it first with a detailed report and a
 
 ## When to Run
 
-**ALWAYS:** New API endpoints, auth code changes, user input handling, DB query changes, file uploads, payment code, external API integrations, dependency updates.
+**Run for:** New API endpoints, auth code changes, user input handling, DB query changes, file uploads, payment code, external API integrations, dependency updates.
 
-**IMMEDIATELY:** Production incidents, dependency CVEs, user security reports, before major releases.
+**Run right away:** Production incidents, dependency CVEs, user security reports, before major releases.
 
 ## Reference
 

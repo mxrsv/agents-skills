@@ -39,7 +39,7 @@ const hasError = (name: keyof Fields) => touched[name] && !!errors[name];
 
 ## Lazy useState with external data
 
-ALWAYS lazy-init when state depends on an external source (URL params, props):
+Lazy-init when state depends on an external source (URL params, props):
 
 ```ts
 // CORRECT
@@ -75,8 +75,8 @@ Pure functions (parsing, math) → `lib/`, NOT inside the component folder.
 
 **Dependency flow** (a `lib/` → `components/` import creates a cycle):
 
-- ALWAYS: `components/ → lib/`
-- NEVER: `lib/ → components/`, even type-only imports
+- Allowed: `components/ → lib/`
+- Not allowed: `lib/ → components/`, even type-only imports
 
 **Consumer import path unchanged**: Next.js/TypeScript auto-resolves `name/index.tsx` from `import "name"`.
 
