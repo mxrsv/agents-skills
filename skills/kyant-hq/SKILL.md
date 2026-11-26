@@ -1,7 +1,7 @@
 ---
 name: kyant-hq
 description: Run the owner's one-person company rhythm in the Telegram group "Kyant HQ" — two bots with fixed roles (Hà, CEO; Lan, Customer) send a morning question, an evening check against real data, a Monday goal-setting and a Friday scoring, and the product's HQ note keeps the goal, the log and the weekly numbers. Use when the owner says "standup", "họp HQ", "chấm tuần", "đặt mục tiêu tuần", "nhắn vào group", "kyant-hq", or when a scheduled task calls it with a mode. Not for task notes (kyant-kanban), a deep challenge of one decision (kyant-grill) or marketing work itself (marketing).
-argument-hint: "morning | evening | monday | friday (default: by weekday and hour)"
+argument-hint: "morning | evening | monday | friday | reply (default: by weekday and hour)"
 ---
 
 # Kyant HQ
@@ -63,7 +63,7 @@ Rules for every message:
 With no argument, pick by local time: Monday before noon → `monday`; Friday after noon → `friday`;
 otherwise before noon → `morning`, after → `evening`.
 
-Every mode starts the same way:
+Every mode except `reply` starts the same way:
 
 1. Read the HQ note.
 2. `scripts/telegram-replies.sh` and append what the owner wrote to the note's log, dated, in his words.
@@ -96,6 +96,25 @@ Every mode starts the same way:
 3. Hà scores the week against the goal in the note, in one message: done or not, by how much, then
    one question about the gap. Also asks the secondary number the scripts cannot see (licenses sold).
 4. Write the score and the owner's answer under the week's goal.
+
+### `reply`
+
+Called every few minutes by a scheduled task, so the owner gets an answer in the group without
+opening a session. It does not start with the two shared steps: read the group first.
+
+1. `scripts/telegram-replies.sh`. No output → stop now. Send nothing, read nothing else, write nothing.
+2. Read the HQ note, then append what the owner wrote to its log, dated, in his words.
+3. Decide whether a reply is owed. A bare acknowledgement ("ok", "ừ", a sticker) gets none.
+4. One reply from one role:
+   - Hà, when the owner answered Hà's question, named or changed a goal, or gave a reason for a gap.
+     A goal with an action, a place and a day → Hà confirms it in one line and it goes under
+     `## Mục tiêu tuần`. A goal missing one of the three → Hà asks for the missing part, unless the
+     log shows Hà already asked about this same point; then Hà records it as stated and moves on.
+   - Lan, when the owner asked for a number or a fact. She runs the script for it and reports it.
+5. Log the reply sent, in one line.
+
+`reply` never opens a new topic, never asks the morning or evening question, and never sends a
+second message in the same run.
 
 ## The owner's replies
 

@@ -11,6 +11,9 @@ readonly ENV_FILE="${KYANT_HQ_ENV:-$STATE_DIR/env}"
 readonly OFFSET_FILE="$STATE_DIR/updates-offset"
 readonly API_BASE="https://api.telegram.org"
 readonly TIMEOUT_SECONDS=20
+readonly LOCK_DIR="$STATE_DIR/updates.lock"
+readonly LOCK_WAIT_SECONDS=30
+readonly LOCK_STALE_SECONDS=120 # a lock older than this was left by a killed run
 
 peek=false
 if [ "${1:-}" = "--peek" ]; then
@@ -33,6 +36,27 @@ if [ -z "$token" ] || [ -z "$chat_id" ]; then
   echo "TELEGRAM_BOT_TOKEN_CEO or TELEGRAM_CHAT_ID is empty in $ENV_FILE" >&2
   exit 1
 fi
+
+# Runs can overlap (the 10-minute reply scan and the morning or evening run). The lock makes
+# fetch + mark-read one step, so each message reaches exactly one run.
+acquire_lock() {
+  local waited=0
+  until mkdir "$LOCK_DIR" 2>/dev/null; do
+    local lock_age=$(( $(date +%s) - $(stat -f %m "$LOCK_DIR" 2>/dev/null || date +%s) ))
+    if [ "$lock_age" -gt "$LOCK_STALE_SECONDS" ]; then
+      rmdir "$LOCK_DIR" 2>/dev/null || true
+      continue
+    fi
+    if [ "$waited" -ge "$LOCK_WAIT_SECONDS" ]; then
+      echo "another run is reading the group (lock $LOCK_DIR)" >&2
+      exit 1
+    fi
+    sleep 1
+    waited=$((waited + 1))
+  done
+  trap 'rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT
+}
+acquire_lock
 
 offset=0
 if [ -f "$OFFSET_FILE" ]; then
