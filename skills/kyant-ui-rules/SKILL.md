@@ -172,6 +172,5 @@ region by region, behind a switch that is off outside dev builds, so the old ver
 stays releasable. Before parallel tracks start, extract the blocks several regions share into one set on main; a
 block needed later lands as its own small PR before any region uses it, and no track writes its own copy. A
 region cuts over only after the owner approves it by eye against the reference; that same change deletes the old
-version and the region's switch. A worktree for this work carries one small PR and merges the same day, without
-asking once the owner has approved the track (`CLAUDE.md` `<branching>`). Exception: a replacement that fits one
+version and the region's switch. A worktree for this work carries one small PR. Exception: a replacement that fits one
 reviewable PR needs no switch; a long-lived branch only when the owner asks for one.

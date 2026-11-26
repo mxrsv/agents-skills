@@ -99,8 +99,6 @@ jest --ci                           # Tests (Jest)
 
 ## Reference
 
-For project conventions, follow `~/.claude/rules/typescript/coding-style.md` and `~/.claude/rules/typescript/patterns.md`.
-
 ---
 
 Review with the mindset: "Would this code pass review at a top TypeScript shop or well-maintained open-source project?"

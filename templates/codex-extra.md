@@ -10,7 +10,7 @@ Codex equivalents for Claude Code mechanisms named in the rules above:
 - Skills written as `/name` in these rules → invoke them as `$name`.
 - User-only skills: a skill folder with `agents/openai.yaml` setting `policy.allow_implicit_invocation: false` runs only when invoked as `$name`. Skills that are `off` for Claude are `enabled = false` in `[[skills.config]]`.
 - MCP servers that are off by default: Codex keeps them as `enabled = false` under `[mcp_servers.<name>]` in `~/.codex/config.toml`. When the user names one, set `enabled = true` and restart; set it back afterwards. The `<computer_use>` steps that edit `~/.claude/settings.json` (`deniedMcpServers`, `/mcp`) apply to Claude only. Codex's own `node_repl` and `cua_repl` run its browser and computer-use plugins; leave them on.
-- Path-scoped rules: Codex loads `rules/core/docs.md` and `rules/docs/*.md` always (above). For React/TypeScript work, read `~/.claude/rules/react/patterns.md` and `~/.claude/rules/typescript/*.md` before editing.
+- Path-scoped rules: Codex loads `rules/core/docs.md` and `rules/docs/*.md` always (above).
 - `AskUserQuestion` → put the batched questions in one message.
 - No auto-mode classifier here (approval policy is `never`), so these Claude guards are rules you enforce yourself: never `git push --force` to `windows-mirror` on spacevibe-deck; from spacevibe-deck, ask before editing the sibling repos `spacevibe-api`, `spacevibe-bench`, `spacevibe-hub`, `spacevibe-academy`.
 </codex_parity>

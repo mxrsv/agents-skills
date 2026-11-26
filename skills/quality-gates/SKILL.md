@@ -12,7 +12,7 @@ directly; paths inside a module (`scripts/…`, `assets/…`, `references/…`) 
 module's folder. Never invoke a module through the Skill tool — it is not registered.
 
 The rules these modules serve: FE-K1, FE-K5, FE-K6, FE-SP1, FE-M1, FE-P4 in skill
-`kyant-ui-rules` (summary in `~/.claude/rules/frontend.md`), Q1–Q2 in `~/.claude/rules/quality/code.md`. Which check
+`kyant-ui-rules` (summary in `~/.claude/rules/frontend.md`). Which check
 enforces which rule: [`references/rule-map.md`](references/rule-map.md). Traps already measured:
 [`references/lessons.md`](references/lessons.md) — read it before configuring anything.
 

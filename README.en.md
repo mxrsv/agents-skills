@@ -10,9 +10,7 @@ flowchart TD
     S --> O["output-styles/<br/>reply language"]
     S --> C["rules/core/<br/>F · W · D · C — always loaded"]
     S --> T{"Which file is touched?"}
-    T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
-    T -- "*.tsx / *.jsx" --> R["rules/react/"]
-    T -- "UI, *.css, code" --> Q["rules/frontend.md · rules/quality/<br/>FE0–FE10 · Q1–Q2"]
+    T -- "UI files (*.tsx, *.css, …)" --> Q["rules/frontend.md"]
     T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
     S --> K["skills/<br/>loaded when a task matches"]
     S --> AG["agents/<br/>subagents on demand"]
@@ -325,10 +323,7 @@ Presets write `CLAUDE.md` at the install target. Pair with [`rules/`](rules/) so
 
 | Path                                                               | What                                                                                     |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| [`rules/core/`](rules/core/)                                       | Always-loaded: file creation (F), workflow (W), docs (D), coding style (C) |
-| [`rules/typescript/`](rules/typescript/)                           | Path-scoped for `*.ts/tsx/js/jsx`                                                        |
-| [`rules/react/`](rules/react/)                                     | Path-scoped for `*.tsx/jsx`                                                              |
-| [`rules/quality/`](rules/quality/)                                 | Path-scoped: code (Q1–Q2); UI rules in [`rules/frontend.md`](rules/frontend.md) (always loaded) + skill `kyant-ui-rules`; gates in skill `quality-gates`            |
+| [`rules/core/`](rules/core/)                                       | Workflow (always loaded) and docs rules (path-scoped) |
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Per-project delta rules skeleton                                                         |
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Neutral `CLAUDE.md` starter                                                              |
 | [`templates/project-structure.md`](templates/project-structure.md) | Canonical directory trees                                                                |

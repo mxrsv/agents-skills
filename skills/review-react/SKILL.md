@@ -152,7 +152,6 @@ Always include the file path and line number. Quote the offending snippet when i
 ## Related
 
 - Checklists: `review-typescript` (generic TS/JS, invoked alongside on `.tsx`/`.jsx`), `review-security` (project-wide audit)
-- Rules: `~/.claude/rules/react/patterns.md`
 - Skills: `vercel-react-best-practices`
 
 ---

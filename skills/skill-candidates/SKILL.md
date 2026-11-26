@@ -81,6 +81,4 @@ approval. Project-specific → project `.claude/skills/`; cross-project → `~/.
 run `scripts/sync-agents-skills.sh`. One suggestion per task; a declined idea is not re-suggested
 in the same session. One-off tasks and trivial edits never trigger it.
 
-Recurrence across sessions is invisible from inside one session: this skill's scan finds it. When
-the SessionStart hook `hooks/skill-candidates-due.sh` reports the scan due, the W15 line for the
-first finished task is `💡 Skill scan due: run /skill-candidates`.
+Recurrence across sessions is invisible from inside one session: this skill's scan finds it.

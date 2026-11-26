@@ -10,9 +10,7 @@ flowchart TD
     S --> O["output-styles/<br/>ngôn ngữ trả lời"]
     S --> C["rules/core/<br/>F · W · D · C — luôn nạp"]
     S --> T{"Đang đụng file nào?"}
-    T -- "*.ts / *.tsx / *.js / *.jsx" --> TS["rules/typescript/"]
-    T -- "*.tsx / *.jsx" --> R["rules/react/"]
-    T -- "UI, *.css, code" --> Q["rules/frontend.md · rules/quality/<br/>FE0–FE10 · Q1–Q2"]
+    T -- "UI files (*.tsx, *.css, …)" --> Q["rules/frontend.md"]
     T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
     S --> K["skills/<br/>nạp khi task khớp"]
     S --> AG["agents/<br/>subagent gọi khi cần"]
@@ -331,10 +329,7 @@ Presets ghi `CLAUDE.md` vào target cài. Ghép với [`rules/`](rules/) để l
 
 | Path                                                               | Nội dung                                                                       |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| [`rules/core/`](rules/core/)                                       | Luôn nạp: tạo file (F), workflow (W), docs (D), coding style (C) |
-| [`rules/typescript/`](rules/typescript/)                           | Path-scoped cho `*.ts/tsx/js/jsx`                                              |
-| [`rules/react/`](rules/react/)                                     | Path-scoped cho `*.tsx/jsx`                                                    |
-| [`rules/quality/`](rules/quality/)                                 | Path-scoped: code (Q1–Q2); luật UI ở [`rules/frontend.md`](rules/frontend.md) (luôn nạp) + skill `kyant-ui-rules`; gate ở skill `quality-gates`     |
+| [`rules/core/`](rules/core/)                                       | Workflow (luôn nạp) và luật docs (path-scoped) |
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Skeleton delta rules theo project                                              |
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Starter `CLAUDE.md` trung lập                                                  |
 | [`templates/project-structure.md`](templates/project-structure.md) | Cây thư mục chuẩn                                                              |
