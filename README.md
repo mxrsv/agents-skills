@@ -182,7 +182,7 @@ Claude Code tự nhận agents (`Agent` tool) và skills (`Skill` tool) từ fro
 
 | Path                       | Vai trò                                              |
 | -------------------------- | ---------------------------------------------------- |
-| [`agents/`](agents/)       | Subagent chuyên biệt (review, planning, research…)   |
+| [`agents/`](agents/)       | Subagent chuyên biệt (review, research, docs)        |
 | [`skills/`](skills/)       | Skill — nguồn chuẩn; symlink sang `~/.agents/skills` cho Codex / Cursor |
 | [`rules/`](rules/)         | Rules luôn nạp + theo path                           |
 | [`templates/`](templates/) | Starter `AGENTS.md` / `CLAUDE.md` + cấu trúc project |
@@ -194,37 +194,31 @@ Claude Code tự nhận agents (`Agent` tool) và skills (`Skill` tool) từ fro
 
 Claude Code nhận các agent này qua `Agent` tool (frontmatter `description`). Codex không có cơ chế subagent theo file — agents bị bỏ qua khi cài sang Codex.
 
-### Planning & kiến trúc
+### Agent
 
-| Agent                                      | Mô tả                                                                                  |
-| ------------------------------------------ | -------------------------------------------------------------------------------------- |
-| [`analyst`](agents/analyst.md)             | Nghiên cứu, phân tích thị trường/đối thủ, hỗ trợ brainstorm; trả draft dạng text để người duyệt |
-| [`Explore`](agents/explore.md)             | Ghi đè Explore built-in: tìm kiếm codebase chỉ-đọc, chạy Haiku (`effort: high`) cho rẻ |
-| [`architect`](agents/architect.md)         | Kiến trúc hệ thống và quyết định kỹ thuật cho feature/refactor lớn                     |
-| [`planner`](agents/planner.md)             | Lập plan chi tiết cho feature và refactor phức tạp                                     |
+| Agent | Mô tả |
+| :- | :- |
+| [`code-reviewer`](agents/code-reviewer.md) | Review diff có xếp hạng CRITICAL / HIGH / MEDIUM / LOW; nạp checklist theo loại file |
+| [`read-only-reviewer`](agents/read-only-reviewer.md) | Mắt mới, chỉ đọc: review mock, feature đã build hoặc codebase theo brief |
+| [`Explore`](agents/explore.md) | Ghi đè Explore built-in: tìm kiếm codebase chỉ-đọc, chạy Haiku (`effort: high`) cho rẻ |
+| [`analyst`](agents/analyst.md) | Nghiên cứu, phân tích thị trường/đối thủ, hỗ trợ brainstorm; trả draft dạng text để người duyệt |
+| [`doc-updater`](agents/doc-updater.md) | Đồng bộ docs sống (`README`, `CHANGELOG`, `docs/`) với code |
 
-### Code review & độ tin cậy
+### Checklist review (skill)
 
-| Agent                                                      | Mô tả                                                                     |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------- |
-| [`typescript-reviewer`](agents/typescript-reviewer.md)     | TypeScript/JS sâu: types, async đúng, security                            |
-| [`react-reviewer`](agents/react-reviewer.md)               | React/JSX sâu: hooks, hiệu năng render, a11y                              |
-| [`database-reviewer`](agents/database-reviewer.md)         | PostgreSQL: tối ưu query, schema, thực hành Supabase                      |
-| [`security-reviewer`](agents/security-reviewer.md)         | OWASP Top 10, secrets, injection, SSRF                                    |
-| [`silent-failure-hunter`](agents/silent-failure-hunter.md) | Lỗi bị nuốt, fallback kém, thiếu lan truyền lỗi                           |
-| [`swift-reviewer`](agents/swift-reviewer.md)               | Swift sâu: concurrency, ARC, value semantics, protocol |
-| [`go-reviewer`](agents/go-reviewer.md)                     | Go sâu: xử lý lỗi, goroutine, idiom |
-| [`rust-reviewer`](agents/rust-reviewer.md)                 | Rust sâu: ownership, lifetime, `unsafe`, xử lý lỗi |
-| [`pr-test-analyzer`](agents/pr-test-analyzer.md)           | Chấm test của một thay đổi: có phủ hành vi và bắt được bug thật không |
-| [`type-design-analyzer`](agents/type-design-analyzer.md)   | Chấm type: có chặn được illegal state không (encapsulation, invariant, enforcement) |
+Hai reviewer nạp các skill này qua `skills:` hoặc Skill tool; người dùng không gọi trực tiếp.
 
-### Hiệu năng & bảo trì
-
-| Agent                                                      | Mô tả                                                |
-| ---------------------------------------------------------- | ---------------------------------------------------- |
-| [`performance-optimizer`](agents/performance-optimizer.md) | Tìm nghẽn hiệu năng: bundle, render, memory leak, thuật toán |
-| [`refactor-cleaner`](agents/refactor-cleaner.md)           | Gỡ code chết và trùng lặp bằng `knip` / `depcheck` / `ts-prune`, test sau mỗi đợt |
-| [`doc-updater`](agents/doc-updater.md)                     | Đồng bộ docs sống (`README`, `CHANGELOG`, `docs/`) với code |
+| Skill | Mô tả |
+| :- | :- |
+| [`review-typescript`](skills/review-typescript/SKILL.md) | TypeScript/JS sâu: types, async đúng, security |
+| [`review-react`](skills/review-react/SKILL.md) | React/JSX sâu: hooks, hiệu năng render, a11y |
+| [`review-database`](skills/review-database/SKILL.md) | PostgreSQL: tối ưu query, schema, thực hành Supabase |
+| [`review-security`](skills/review-security/SKILL.md) | OWASP Top 10, secrets, injection, SSRF (review code đã viết; lúc đang viết dùng `security-review`) |
+| [`review-silent-failures`](skills/review-silent-failures/SKILL.md) | Lỗi bị nuốt, fallback kém, thiếu lan truyền lỗi |
+| [`review-swift`](skills/review-swift/SKILL.md) | Swift sâu: concurrency, ARC, value semantics, protocol |
+| [`review-go`](skills/review-go/SKILL.md) | Go sâu: xử lý lỗi, goroutine, idiom |
+| [`review-rust`](skills/review-rust/SKILL.md) | Rust sâu: ownership, lifetime, `unsafe`, xử lý lỗi |
+| [`review-type-design`](skills/review-type-design/SKILL.md) | Chấm type: có chặn được illegal state không (encapsulation, invariant, enforcement) |
 
 ## Skills
 

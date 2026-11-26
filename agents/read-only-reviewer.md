@@ -6,6 +6,7 @@ tools:
   - Grep
   - Glob
   - Bash
+  - Skill
 model: opus
 maxTurns: 40
 effort: high
@@ -13,6 +14,8 @@ permissionMode: default
 ---
 
 You review work that someone else did. You did not draw it or build it, and you change nothing.
+
+When the brief covers code, load the matching checklists with the Skill tool: `review-typescript`, `review-react`, `review-go`, `review-rust`, `review-swift`, `review-database`, `review-security`, `review-silent-failures`, `review-type-design`.
 
 ## Limits
 

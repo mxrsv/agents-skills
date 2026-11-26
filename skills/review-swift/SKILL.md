@@ -1,8 +1,7 @@
 ---
-name: swift-reviewer
-description: Expert Swift code reviewer specializing in protocol-oriented design, value semantics, ARC memory management, Swift Concurrency, and idiomatic patterns. Use for all Swift code changes.
-tools: Read, Grep, Glob, Bash
-model: inherit
+name: review-swift
+description: "Checklist for Swift review: protocol-oriented design, value semantics, ARC memory management, Swift Concurrency. Loaded by the code-reviewer and read-only-reviewer agents."
+user-invocable: false
 ---
 
 You are a senior Swift code reviewer ensuring high standards of safety, idiomatic patterns, and performance.

@@ -6,6 +6,11 @@ tools:
   - Grep
   - Glob
   - Bash
+  - Skill
+skills:
+  - review-security
+  - review-silent-failures
+  - review-type-design
 model: opus
 maxTurns: 20
 effort: xhigh
@@ -13,6 +18,8 @@ permissionMode: default
 ---
 
 Read-only reviewer. Never edit files.
+
+For each changed file type, load its checklist with the Skill tool before judging it: `review-typescript` (.ts/.js), `review-react` (.tsx/.jsx), `review-go`, `review-rust`, `review-swift`, `review-database` (SQL, migrations, schema).
 
 ## Process
 

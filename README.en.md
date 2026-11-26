@@ -182,7 +182,7 @@ Claude Code discovers agents (`Agent` tool) and skills (`Skill` tool) from each 
 
 | Path                       | Role                                                    |
 | -------------------------- | ------------------------------------------------------- |
-| [`agents/`](agents/)       | Specialized subagents (review, planning, research…)     |
+| [`agents/`](agents/)       | Specialized subagents (review, research, docs)          |
 | [`skills/`](skills/)       | Skills — source of truth; symlinked into `~/.agents/skills` for Codex / Cursor |
 | [`rules/`](rules/)         | Always-loaded + path-scoped rules                       |
 | [`templates/`](templates/) | `AGENTS.md` / `CLAUDE.md` starters + project structures |
@@ -194,36 +194,31 @@ Claude Code discovers agents (`Agent` tool) and skills (`Skill` tool) from each 
 
 Claude Code discovers these via the `Agent` tool (frontmatter `description`). Codex has no per-file subagent mechanism — agents are skipped on the Codex target.
 
-### Planning & architecture
+### Agents
 
-| Agent                                      | Description                                                                              |
-| ------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| [`analyst`](agents/analyst.md)             | Research, market/competitive analysis, brainstorming facilitation; returns drafts as text for review |
-| [`Explore`](agents/explore.md)             | Overrides built-in Explore: read-only codebase search on Haiku (`effort: high`) to cut cost |
-| [`architect`](agents/architect.md)         | System architecture and technical decisions for large features/refactors                 |
-| [`planner`](agents/planner.md)             | Detailed planning for complex features and refactors                                     |
+| Agent | Description |
+| :- | :- |
+| [`code-reviewer`](agents/code-reviewer.md) | Severity-ranked diff review (CRITICAL / HIGH / MEDIUM / LOW); loads a checklist per file type |
+| [`read-only-reviewer`](agents/read-only-reviewer.md) | Fresh, read-only eyes on a mock, a built feature or a codebase, driven by a brief |
+| [`Explore`](agents/explore.md) | Overrides built-in Explore: read-only codebase search on Haiku (`effort: high`) to cut cost |
+| [`analyst`](agents/analyst.md) | Research, market/competitive analysis, brainstorming facilitation; returns drafts as text for review |
+| [`doc-updater`](agents/doc-updater.md) | Keeps living docs (`README`, `CHANGELOG`, `docs/`) in line with code |
 
-### Code review & reliability
+### Review checklists (skills)
 
-| Agent                                                      | Description                                                               |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------- |
-| [`typescript-reviewer`](agents/typescript-reviewer.md)     | Deep TypeScript/JS: types, async correctness, security                    |
-| [`react-reviewer`](agents/react-reviewer.md)               | Deep React/JSX: hooks, render performance, a11y                           |
-| [`database-reviewer`](agents/database-reviewer.md)         | PostgreSQL: query optimization, schema, Supabase practices                |
-| [`security-reviewer`](agents/security-reviewer.md)         | OWASP Top 10, secrets, injection, SSRF                                    |
-| [`silent-failure-hunter`](agents/silent-failure-hunter.md) | Swallowed errors, bad fallbacks, missing error propagation                |
-| [`swift-reviewer`](agents/swift-reviewer.md)               | Deep Swift: concurrency, ARC, value semantics, protocols |
-| [`go-reviewer`](agents/go-reviewer.md)                     | Deep Go: error handling, goroutines, idioms |
-| [`rust-reviewer`](agents/rust-reviewer.md)                 | Deep Rust: ownership, lifetimes, `unsafe`, error handling |
-| [`pr-test-analyzer`](agents/pr-test-analyzer.md)           | Grades the tests of a change: behaviour covered, real bugs caught |
+The two reviewers load these through `skills:` or the Skill tool; they are not user-invocable.
 
-### Performance & maintenance
-
-| Agent                                                      | Description                                                |
-| ---------------------------------------------------------- | ---------------------------------------------------------- |
-| [`performance-optimizer`](agents/performance-optimizer.md) | Finds bottlenecks: bundle, render, memory leaks, algorithms |
-| [`refactor-cleaner`](agents/refactor-cleaner.md)           | Removes dead and duplicate code with `knip` / `depcheck` / `ts-prune`, tests after each batch |
-| [`doc-updater`](agents/doc-updater.md)                     | Keeps living docs (`README`, `CHANGELOG`, `docs/`) in line with code |
+| Skill | Description |
+| :- | :- |
+| [`review-typescript`](skills/review-typescript/SKILL.md) | Deep TypeScript/JS: types, async correctness, security |
+| [`review-react`](skills/review-react/SKILL.md) | Deep React/JSX: hooks, render performance, a11y |
+| [`review-database`](skills/review-database/SKILL.md) | PostgreSQL: query optimization, schema, Supabase practices |
+| [`review-security`](skills/review-security/SKILL.md) | OWASP Top 10, secrets, injection, SSRF (finished code; while writing, use `security-review`) |
+| [`review-silent-failures`](skills/review-silent-failures/SKILL.md) | Swallowed errors, bad fallbacks, missing error propagation |
+| [`review-swift`](skills/review-swift/SKILL.md) | Deep Swift: concurrency, ARC, value semantics, protocols |
+| [`review-go`](skills/review-go/SKILL.md) | Deep Go: error handling, goroutines, idioms |
+| [`review-rust`](skills/review-rust/SKILL.md) | Deep Rust: ownership, lifetimes, `unsafe`, error handling |
+| [`review-type-design`](skills/review-type-design/SKILL.md) | Grades types: are illegal states blocked (encapsulation, invariants, enforcement) |
 
 ## Skills
 

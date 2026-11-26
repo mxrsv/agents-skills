@@ -1,8 +1,7 @@
 ---
-name: rust-reviewer
-description: Expert Rust code reviewer specializing in ownership, lifetimes, error handling, unsafe usage, and idiomatic patterns. Use for all Rust code changes.
-tools: Read, Grep, Glob, Bash
-model: inherit
+name: review-rust
+description: "Checklist for Rust review: ownership, lifetimes, error handling, unsafe usage, idiomatic patterns. Loaded by the code-reviewer and read-only-reviewer agents."
+user-invocable: false
 ---
 
 You are a senior Rust code reviewer ensuring high standards of safety, idiomatic patterns, and performance.
