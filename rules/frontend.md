@@ -28,8 +28,8 @@ every product shares. The repo's `AGENTS.md` / `DESIGN.md` win where they say ot
   consequence.
 - **FE8. Little motion.** Smooth transitions, count-ups, filling bars; at most one big moment; no idle loops; no
   scroll-bound effects unless asked.
-- **FE9. Show, check, then ask.** Mocks use `~/.claude/templates/mock-shell.html`, draw every state, worst-case
-  data and secondary screens, and drop unpicked options after a pick. Before inviting the owner: break-test with
+- **FE9. Show, check, then ask.** Mocks use `~/.claude/templates/mock-shell.html`, draw or declare every page × state (how much is drawn scales
+  with the mock's scope: FE-P2/P2b), take icons from the app's real library, and drop unpicked options after a pick. Before inviting the owner: break-test with
   worst-case data, then screenshot the owner's own runtime beside the mock and report per surface. Open the
   artifact yourself. Change exactly what was named. The owner's eye approval comes before push or merge.
 - **FE10. Process rules in the skill.** Redesign (FE-P8), replacing a surface region by region behind a dev-only

@@ -68,7 +68,7 @@ W20 in `~/.claude/rules/core/workflow.md`.
 - **FE-K2. No default skin.** A UI library may be used, but its controls are reshaped (radius, padding, fill,
   structure), not only recoloured. *R2; A12 "các button này trông khá là default ấy, AI".*
 - **FE-K3. One real icon library.** One set, one stroke and weight, licence known. No emoji, no ASCII stand-ins
-  (`>_`, plain arrows). Entities with a logo (agents, tools, providers) show the logo. *R2; A4 ~51 lines.*
+  (`>_`, plain arrows). Entities with a logo (agents, tools, providers) show the logo. A mock draws its icons from that same library and notes the symbol name beside each; a hand-drawn stand-in is labelled as one, so the owner never approves a shape the build cannot ship. *R2; A4 ~51 lines; owner 2026-11-21 "icon bạn để trên đó là đang demo thôi chưa dùng thư viện nào đúng không".*
 - **FE-K4. Icons stand alone.** No permanent box or border around an icon; a small soft background appears only on
   hover of that icon. No stacked hover layers. *R5; A14 "không nên bọc icon trong 1 box".*
 - **FE-K5. No focus ring.** Buttons, rows and items get no ring; keyboard focus looks like hover. Only text inputs get
@@ -123,9 +123,19 @@ W20 in `~/.claude/rules/core/workflow.md`.
   `~/.claude/templates/mock-shell.html` with only its `MOCK` blocks edited; run
   `~/.claude/scripts/check-mock-shell.sh <mock.html>` before showing it. After the owner picks, remove the options
   not picked. Put this rule in every brief that asks a subagent for a mock. *R3; A3 "phải có một format mockUI riêng"; "clean các option không được chọn".*
-- **FE-P2. A mock covers the real flow.** It draws every state of FE-L2, worst-case data (long names, empty, many,
-  huge numbers), the secondary screens the flow reaches, and real motion where the UI moves. *R5; A3 "khi tôi
-  grilling sau đó tạo mock thì tôi không cover đến phần này… đây là vấn đề lớn khi vibe coding".*
+- **FE-P2. A mock draws or declares everything; how much it draws scales with its scope.** Whatever the owner approves
+  on a mock counts as decided, so no cell may stay silent: every page × state the spec lists is either drawn or listed
+  in the mock's "not drawn" list with its intended behaviour. States to cover (FE-L2): pending, empty, error, partial,
+  done, plus worst-case data (long names, empty, one and many, huge numbers) and the secondary screens the flow
+  reaches. How much is drawn: one feature or one or two screens → draw every state (cheap, and a missing state is a
+  large share of it); one area (e.g. all of Smart Clean) → draw the states that change layout, the shared blocks and
+  the paths between screens; the whole app → draw fully one representative page per layout kind, draw the main
+  state of pages that share a frame, and keep a page × state map (drawn / declared / undecided). Always, at any
+  size: icons from the real library (FE-K3), each decision the owner settled traceable to a spec line (W20), lines
+  nobody decided in "Inferred, not decided". Motion, hover, focus, keyboard and system dialogs may be declared
+  instead of drawn. *R5; A3 "khi tôi grilling sau đó tạo mock thì tôi không cover đến phần này… đây là vấn đề lớn khi vibe coding"; owner 2026-11-21 "còn tuỳ loại mock… mock nhiều feat hoặc ít feat", after asking for the Smart Clean cleaning and scanning screens that the spec already listed.*
+- **FE-P2b. A mock is enough when five answers are yes.** (1) Every page × state is drawn or declared. (2) Worst-case data was tried and nothing is cut or shifts. (3) Every visible thing has a real source: library icon, app block or a block marked new, a number the app can compute, illustration marked as such. (4) Every settled decision traces to a spec line and every guess sits in the Inferred list. (5) A fresh agent that did not draw it found no major gap (mock-review). Whole-app mocks add one gate: the real window beside the mock, per page and look (FE-P4).
+
 - **FE-P3. Break it before inviting.** Feed worst-case data to the built UI and fix what breaks before the owner
   looks. *R3.*
 - **FE-P4. Check in the owner's runtime.** Stop older instances, run the owner's own dev command on the checkout they
