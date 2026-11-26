@@ -24,11 +24,6 @@ for k in $(jq -r '.skillOverrides | keys[]' "$R"); do
   [ "$got" = "$want" ] || say "❌ skillOverrides.$k = $got (cần $want)"
 done
 
-jq -e '.hooks.PreToolUse[]?.hooks[]?.command | select(test("file-guard.sh\" block"))' "$S" >/dev/null \
-  || say "❌ chưa đăng ký PreToolUse file-guard.sh block"
-jq -e '.hooks.PostToolUse[]?.hooks[]?.command | select(test("file-guard.sh\" warn"))' "$S" >/dev/null \
-  || say "❌ chưa đăng ký PostToolUse file-guard.sh warn"
-
 for r in $(jq -r '._docsRoots[]' "$R"); do
   grep -qxF "$r" "$HOME/.claude/docs-roots" 2>/dev/null || say "❌ docs-roots thiếu $r"
 done

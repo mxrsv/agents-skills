@@ -68,5 +68,12 @@ has  "cảnh báo docs/review/ còn tồn tại" "$H" "⚠️ docs/review/"
 hasnt "technical plans are not legacy"   "$H" "⚠️ docs/plans/"
 code "thư mục legacy không làm exit 1"   "$H" 0
 
-rm -rf "$A" "$B" "$C" "$D" "$E" "$E2" "$F" "$G" "$H"
+# ~/.claude: CLAUDE.md là file hướng dẫn, không đòi AGENTS.md
+U=$(mktemp -d); mkdir -p "$U/.claude"; printf '# global\n' > "$U/.claude/CLAUDE.md"
+HOME=$U code  "~/.claude chỉ có CLAUDE.md exit 0"      "$U/.claude" 0
+HOME=$U hasnt "~/.claude không báo thiếu AGENTS.md"    "$U/.claude" "AGENTS.md"
+U2=$(mktemp -d); printf '# claude\n' > "$U2/CLAUDE.md"
+HOME=$U code  "repo khác chỉ có CLAUDE.md vẫn exit 1"  "$U2" 1
+
+rm -rf "$U" "$U2" "$A" "$B" "$C" "$D" "$E" "$E2" "$F" "$G" "$H"
 echo "----"; echo "pass=$pass fail=$fail"; [ "$fail" -eq 0 ]

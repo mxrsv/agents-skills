@@ -12,9 +12,14 @@ bad=0
 say() { echo "❌ $1"; bad=1; }
 
 # --- D5: áp cho MỌI repo, kể cả repo có PIPELINE.lock (D2 không miễn D5) ---
-[ -f "$root/AGENTS.md" ] || say "thiếu AGENTS.md (D5)"
+# ~/.claude: CLAUDE.md là file hướng dẫn toàn cục; Claude Code bỏ qua AGENTS.md ở đó, nên không đòi AGENTS.md.
+is_user_dir=0
+if [ -d "$HOME/.claude" ] && [ "$(cd "$root" && pwd -P)" = "$(cd "$HOME/.claude" && pwd -P)" ] && [ -f "$root/CLAUDE.md" ]; then
+  is_user_dir=1
+fi
+[ -f "$root/AGENTS.md" ] || [ $is_user_dir -eq 1 ] || say "thiếu AGENTS.md (D5)"
 # CLAUDE.md là tuỳ chọn (Claude Code v2.1.277+ đọc thẳng AGENTS.md); nếu có mà không import thì AGENTS.md bị che.
-if [ -f "$root/CLAUDE.md" ] && ! grep -qxF '@AGENTS.md' "$root/CLAUDE.md"; then
+if [ $is_user_dir -eq 0 ] && [ -f "$root/CLAUDE.md" ] && ! grep -qxF '@AGENTS.md' "$root/CLAUDE.md"; then
   echo "⚠️ CLAUDE.md không có dòng '@AGENTS.md' — Claude Code sẽ bỏ qua AGENTS.md (D5)"
 fi
 
