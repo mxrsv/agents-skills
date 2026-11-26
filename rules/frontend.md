@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.{tsx,jsx,css,html,swift}"
+  - "**/DESIGN.md"
+---
+
 # Frontend (FE-rules)
 
 Every UI surface: web app, dashboard, landing, desktop native, HTML mock. Written from the owner's
