@@ -240,7 +240,6 @@ Under the [documentation rules](rules/core/docs.md), the conversation supplies g
 
 | Skill                                                                | Description                                       |
 | -------------------------------------------------------------------- | ------------------------------------------------- |
-| [`review`](skills/review/SKILL.md)                                   | Findings-first review of specs, plans, or code    |
 | [`security-review`](skills/security-review/SKILL.md)                 | Auth, input, secrets, payments                    |
 | [`docs-drift`](skills/docs-drift/SKILL.md)                           | Docs vs real code behavior (read-only by default) |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md)                 | Hard bugs and performance regressions             |

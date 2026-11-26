@@ -240,7 +240,6 @@ Theo [quy tắc tài liệu](rules/core/docs.md), bạn giao việc và chốt q
 
 | Skill                                                | Mô tả                                              |
 | ---------------------------------------------------- | -------------------------------------------------- |
-| [`review`](skills/review/SKILL.md)                   | Review spec hoặc plan trước khi code               |
 | [`security-review`](skills/security-review/SKILL.md) | Auth, input, secrets, thanh toán                   |
 | [`docs-drift`](skills/docs-drift/SKILL.md)           | Docs vs hành vi code thật (mặc định chỉ đọc)       |
 | [`diagnosing-bugs`](skills/diagnosing-bugs/SKILL.md) | Bug khó và tụt hiệu năng                           |
