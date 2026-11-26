@@ -139,7 +139,9 @@ skill `decision-traceability`.
   looks. *R3.*
 - **Check in the owner's runtime.** Stop older instances, run the owner's own dev command on the checkout they
   use (not a stray worktree or preview), screenshot each changed surface, put it beside the mock or reference,
-  and report per surface what changed and what did not. *R4 "Bắt buộc"; A9 + A11 ~76 lines "tại sao bạn lại
+  and report per surface what changed and what did not. Launch it with the bundled `/run` skill (model-invocable), which
+  starts the app and checks the change in the running app; the owner types `/verify` for their own pass. The manual steps
+  above stay only where `/run` cannot reach (native windows). *R4 "Bắt buộc"; A9 + A11 ~76 lines "tại sao bạn lại
   chưa build giống mock ?", "đang chạy bản dev tôi không thấy icon update đó".*
 - **Open it yourself.** A mock, image, PDF or screenshot built for the owner is opened as the last step:
   `.html` or URL → `open <path|url>`, image/PDF → `open -a Preview <path>`. A dev-server URL opens only after the
