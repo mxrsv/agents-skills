@@ -12,7 +12,7 @@ Funnel from cheap to expensive: wide reads on small models, one decision on a st
 
 | Mode | Session model | Output |
 | --- | --- | --- |
-| `research` (stages 1–2) | Sonnet; subagents do the reading | Digest file in the session scratchpad, never in a repo (F4) |
+| `research` (stages 1–2) | Sonnet; subagents do the reading | Digest file in the session scratchpad, never in a repo |
 | `decide` (stage 3) | Opus, fresh context | Ranked candidates, then a plan via `planning`, then stop |
 
 Splitting keeps the research context out of the Opus cache. If the session was started on one model, say so and tell the user to open the other mode in a fresh session; do not silently run both.

@@ -1,5 +1,5 @@
-> Generated from `~/.claude/templates/internals-overview.template.md` — a LIVING document, updated in place (D1, D9).
-> Entry point of `docs/internals/` (D5). Keep only what "a maintainer would get wrong without it"; if reading the code answers it, drop it.
+> Generated from `~/.claude/templates/internals-overview.template.md` — a LIVING document, updated in place.
+> Entry point of `docs/internals/`. Keep only what "a maintainer would get wrong without it"; if reading the code answers it, drop it.
 
 > **For maintainers.** This page is about how the system is built and why — not a usage guide.
 
@@ -29,4 +29,4 @@
 
 - {{symptom → cause → related file/command}}
 
-{{When a decision changes → REWRITE the corresponding passage, do not append a second telling (D1). Task progress → the existing task plan; out-of-scope drift → conversation (D4, D7).}}
+{{When a decision changes → REWRITE the corresponding passage, do not append a second telling. Task progress → the existing task plan; out-of-scope drift → conversation.}}

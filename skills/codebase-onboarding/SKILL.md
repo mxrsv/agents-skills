@@ -45,16 +45,16 @@ Map the recon results to the right files per the D-rules:
 | Architecture, request/data flow | `docs/internals/overview.md`                                | `~/.claude/templates/internals-overview.template.md` |
 | —                                            | `docs/README.md` — index pointing to `user/`, `internals/`, `operations/` (omit tiers that do not exist) | — |
 
-"Current status" belongs in the existing task plan's Handoff section, or in chat for small work (D0/D4). Do not create a separate status document or require a tracker.
+"Current status" belongs in the existing task plan's Handoff section, or in chat for small work. Do not create a separate status document or require a tracker.
 
 Rules when generating:
 
-- **NEVER overwrite an existing file.** Already exists → skip it and report "already exists". Fixing an old file to comply with D1/D6 is separate manual work, NOT part of bootstrap.
-- Behavior claims in `AGENTS.md` MUST be markdown links **relative to the file containing the link** (D6). In `docs/internals/*.md`, links out to code → start with `../../`; no label needed.
-- `docs/internals/overview.md` keeps only what "a maintainer would get wrong without it": decisions + rationale, cross-module constraints, traps. No file catalogs, no control-flow retelling (D9).
+- **NEVER overwrite an existing file.** Already exists → skip it and report "already exists". Fixing an old file to comply with the living-docs rules is separate manual work, NOT part of bootstrap.
+- Behavior claims in `AGENTS.md` MUST be markdown links **relative to the file containing the link**. In `docs/internals/*.md`, links out to code → start with `../../`; no label needed.
+- `docs/internals/overview.md` keeps only what "a maintainer would get wrong without it": decisions + rationale, cross-module constraints, traps. No file catalogs, no control-flow retelling.
 - Do not make things up. Cannot verify → write `unknown`.
 - When done, run `bash ~/.claude/scripts/docs-compliance.sh <repo>` and `bash ~/.claude/scripts/docs-anchors.sh <repo>`, and paste the output.
 
 ## Permissions
 
-Bootstrap authorizes creating the missing files above without overwriting existing ones. Routine documentation needs no separate approval; unclear requirements and material decisions follow D10. Staging and committing follow the task's authorization.
+Bootstrap authorizes creating the missing files above without overwriting existing ones. Routine documentation needs no separate approval; unclear requirements and material decisions follow the approval rule in `rules/core/docs.md`. Staging and committing follow the task's authorization.

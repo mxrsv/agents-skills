@@ -13,8 +13,8 @@ the global ID in the project's commit messages or config comments so the two can
 | FE-M1 nothing loops while idle | none | loops, timers, `requestAnimationFrame` | `review` |
 | FE-K6 every interactive element shows its states | none; the shared control or base layer sets cursor and states once | raw handlers without a cursor and hover-only controls on changed lines (`review` §5); hit area and states: the break-test and screenshot pass (break-test and owner-runtime check in `kyant-ui-rules`) | `primitive`, `review` |
 | Owner-runtime check: built UI checked beside the mock | none | computed-style diff against the mock | `review` |
-| Q1 every exception says why | `local/require-suppression-reason`; `oxlint-exemptions.test.ts` keeps named exemptions real | an override comment that names nothing | `gates` |
-| Q2 tests assert behaviour | `local/no-unreasoned-skip` | tests that mirror the implementation | `gates` |
+| Every exception says why | `local/require-suppression-reason`; `oxlint-exemptions.test.ts` keeps named exemptions real | an override comment that names nothing | `gates` |
+| Tests assert behaviour | `local/no-unreasoned-skip` | tests that mirror the implementation | `gates` |
 
 `local/` is the plugin name the project gives `assets/oxlint-plugin/` (rename `meta.name`).
 

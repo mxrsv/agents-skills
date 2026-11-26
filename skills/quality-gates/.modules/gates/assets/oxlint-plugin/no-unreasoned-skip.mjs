@@ -1,4 +1,4 @@
-// Q2: a test that does not run names the issue that tracks it, so a red test is fixed
+// A test that does not run names the issue that tracks it, so a red test is fixed
 // rather than switched off to make a run green. `skipIf` / `runIf` are platform gates,
 // not skips, and stay allowed.
 

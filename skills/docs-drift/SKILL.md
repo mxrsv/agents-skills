@@ -11,7 +11,7 @@ disable-model-invocation: true
 | Command               | Permissions                                                                                                                   |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `/docs-drift`         | **ABSOLUTELY READ-ONLY.** Writes no file, not even the ledger. Prints the report to the screen.                               |
-| `/docs-drift --apply` | Returns the ledger in chat and fixes/deletes verified in-scope drift. Routine corrections need no separate approval; material decisions follow D10. Staging and committing follow the task's authorization. |
+| `/docs-drift --apply` | Returns the ledger in chat and fixes/deletes verified in-scope drift. Routine corrections need no separate approval; material decisions follow the approval rule in `rules/core/docs.md`. Staging and committing follow the task's authorization. |
 
 The default is scan. Switch to apply only when the user explicitly types `--apply`.
 
@@ -23,9 +23,9 @@ Before writing anything in apply mode: run `git status --porcelain` and report i
 
 ## Step 1 — extract claims
 
-Living docs = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root + `docs/README.md`, `docs/DESIGN-LANGUAGE.md`, every file under `docs/{user,internals,operations}/` (+ legacy UPPERCASE `docs/*.md` not yet cleaned up: `ARCHITECTURE.md`, `CONTEXT.md`, `PRD.md`…). Do NOT treat `docs/specs/` or `docs/plans/` as living docs: active specs record approved requirements; linked plans are checked against them and code during plan review. Completed records are frozen history (D1/D7). Retired `review/` and `mockups/` also remain outside this scan.
+Living docs = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root + `docs/README.md`, `docs/DESIGN-LANGUAGE.md`, every file under `docs/{user,internals,operations}/` (+ legacy UPPERCASE `docs/*.md` not yet cleaned up: `ARCHITECTURE.md`, `CONTEXT.md`, `PRD.md`…). Do NOT treat `docs/specs/` or `docs/plans/` as living docs: active specs record approved requirements; linked plans are checked against them and code during plan review. Completed records are frozen history. Retired `review/` and `mockups/` also remain outside this scan.
 
-Living docs carry no intent labels (D6): every behavior claim describes current behavior and is audited. Planned work lives in `docs/plans/`, not in living docs; a passage that marks itself net-new or a gap is drift to fix or delete, not backlog.
+Living docs carry no intent labels: every behavior claim describes current behavior and is audited. Planned work lives in `docs/plans/`, not in living docs; a passage that marks itself net-new or a gap is drift to fix or delete, not backlog.
 
 ## Step 2 — verify with code, not with other docs
 
@@ -46,7 +46,7 @@ Living docs carry no intent labels (D6): every behavior claim describes current 
 
 - Do NOT edit product code.
 - Scan mode: write NO file.
-- Apply mode: return the ledger in chat and fix verified drift within the task's scope (fix or delete in place, do not add a "Chưa khớp thực tế" table). Report out-of-scope findings without editing them; resolve material decisions under D10 before dependent changes.
+- Apply mode: return the ledger in chat and fix verified drift within the task's scope (fix or delete in place, do not add a "Chưa khớp thực tế" table). Report out-of-scope findings without editing them; resolve material decisions under the approval rule before dependent changes.
 - Do NOT infer from doc to doc. Every conclusion must point back to a `file:line` or a git command with output.
 - Cannot verify → `unknown` with the reason. Do NOT guess.
 - Staging and committing follow the task's authorization.
@@ -54,5 +54,5 @@ Living docs carry no intent labels (D6): every behavior claim describes current 
 ## Output with `--apply`
 
 1. Return the ledger in chat: claim, source doc, status, evidence and HEAD sha at audit time. Do not require an issue id, post externally or write a report file.
-2. Drifted passages in the living docs: rewrite verified claims correctly, or delete stale passages within scope (D1, D7). Routine corrections need no separate diff approval.
+2. Drifted passages in the living docs: rewrite verified claims correctly, or delete stale passages within scope. Routine corrections need no separate diff approval.
 3. A list of items needing a human decision, ordered by the risk of leaving them as is; each item is one line in the report. Keep follow-up decisions in chat; do not auto-file them.

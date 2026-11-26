@@ -1,6 +1,6 @@
 ---
 name: gates
-description: Install quality gates in a project — the local oxlint plugin (Q1 suppression reasons, Q2 unreasoned skips, FE-K5 outset focus rings), @shadcn/lint in three scoped tiers, import boundaries, the exemptions test and the AGENTS.md rules that name them.
+description: Install quality gates in a project — the local oxlint plugin (suppression reasons, unreasoned skips, FE-K5 outset focus rings), @shadcn/lint in three scoped tiers, import boundaries, the exemptions test and the AGENTS.md rules that name them.
 ---
 
 # Gates — install the checks
@@ -23,7 +23,7 @@ and legacy code is exempted by name, not by severity. Read `../../references/les
 
 | Module | Adds | Needs |
 | --- | --- | --- |
-| core | Q1 `local/require-suppression-reason`, Q2 `local/no-unreasoned-skip` | nothing |
+| core | `local/require-suppression-reason`, `local/no-unreasoned-skip` | nothing |
 | ui | `@shadcn/lint` tiers, FE-K1 import boundaries, FE-K5 `local/no-outset-state-indicators` | Tailwind v4; oxlint ≥ 1.80 or ESLint ≥ 9.30 |
 
 Adopting `@shadcn/lint` or bumping the linter is a dependency change: confirm it under the
@@ -35,11 +35,11 @@ repo's fork rules before installing. Pin exact versions.
    tiers and the named exemptions.
 2. Copy `assets/oxlint-plugin/` to `scripts/oxlint-plugin/` (or the repo's tooling folder) and
    rename `meta.name` if `local` clashes. Add it to `jsPlugins`.
-3. Write the config from `references/shadcn-tiers.jsonc`: Q1/Q2 repo-wide; primitives get
+3. Write the config from `references/shadcn-tiers.jsonc`: both rules repo-wide; primitives get
    only token checks plus their recorded adaptations; callers get restyle, arbitrary values,
    static classes, raw colours and the focus rule; `no-unknown-classes` only on migrated paths.
    Legacy controls in the controls folder go in `settings.shadcn.ignoreImports` and in the
-   primitives tier's `excludeFiles`. Each exemption line carries a comment (Q1).
+   primitives tier's `excludeFiles`. Each exemption line carries a comment.
 4. Fix the legacy hits the core rules find, with reasons taken from the code or its commit
    (`git blame`, `git log`); never invent one. A directive that suppresses nothing is removed.
 5. Copy `assets/oxlint-exemptions.test.ts` beside the repo's other policy tests and set its

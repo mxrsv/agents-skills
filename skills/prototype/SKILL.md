@@ -27,4 +27,4 @@ The two branches produce very different artifacts — getting this wrong wastes 
 
 ## When done
 
-The _answer_ is the only thing worth keeping from a prototype. Capture it, with the question it was answering, in the task plan (`docs/plans/`, D4) when one exists, otherwise in the commit message that absorbs or deletes the prototype; a durable architectural decision goes where D9 places it. If the user is around, that capture is a quick conversation; if not, record the open verdict in the plan's handoff so it is settled before the prototype is deleted.
+The _answer_ is the only thing worth keeping from a prototype. Capture it, with the question it was answering, in the task plan (`docs/plans/`) when one exists, otherwise in the commit message that absorbs or deletes the prototype; a durable architectural decision goes where the docs rules place it. If the user is around, that capture is a quick conversation; if not, record the open verdict in the plan's handoff so it is settled before the prototype is deleted.

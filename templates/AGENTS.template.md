@@ -43,12 +43,12 @@ The index is [docs/README.md](docs/README.md) `current`.
   the new behaviour. Keep a local explanation in a code comment; use an internal page only
   when the reasoning crosses boundaries.
 - Specs in `docs/specs/` own requirements and acceptance criteria. Plans in `docs/plans/`
-  link to specs and own technical tasks, progress, verification and handoff (D0/D4).
+  link to specs and own technical tasks, progress, verification and handoff.
   Retain completed records as history. Small work
   needs neither document. Reviews stay in chat or an explicitly requested PR; raw
   research artifacts stay in scratchpad. No external tracker is required.
 
-{{Delete the tiers the repo does not have (a CLI repo has no user/ …). This section does NOT name the tracker tool — choosing the tool is the user's call, and the global rules D0/D4 already cover it.}}
+{{Delete the tiers the repo does not have (a CLI repo has no user/ …). This section does NOT name the tracker tool — choosing the tool is the user's call, and the global docs rules already cover it.}}
 
 ## Repo-specific rules (R-rules — only the delta from the global standard)
 

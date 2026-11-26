@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 /**
- * Lint config exempts legacy files by name while a migration moves them (Q1). A name that no
+ * Lint config exempts legacy files by name while a migration moves them. A name that no
  * longer exists exempts nothing and hides that the list should have shrunk, so every named
  * exemption must still point at a file. Copy to `scripts/` and set the two constants.
  */

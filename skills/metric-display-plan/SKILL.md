@@ -62,7 +62,7 @@ Kinds, briefly — they drive the form:
 - **status** (pressure Normal, connected): a word.
 
 If the data cannot be known (macOS gives no byte threshold for memory pressure, say), the sheet says so and
-the form must not invent it (FE-D3).
+the form must not invent it ("a number shown is a number delivered" in `kyant-ui-rules`).
 
 ## Step 3 — Choose a form per element
 

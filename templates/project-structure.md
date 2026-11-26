@@ -1,6 +1,6 @@
 # Standard project structure
 
-Reference for L2/F2: when planning a new file structure or unsure where a file belongs.
+Reference: when planning a new file structure or unsure where a file belongs.
 The repo's `AGENTS.md` (if any) ALWAYS wins over this document.
 
 ## 1. Next.js App Router
@@ -19,16 +19,16 @@ src/
 e2e/                        # Playwright specs
 docs/                       # documentation (D-rules) — three living reader tiers plus specs and plans
   README.md                 #   index
-  internals/overview.md     #   living — architecture, decisions + reasons, constraints, traps (entry point, D5)
+  internals/overview.md     #   living — architecture, decisions + reasons, constraints, traps (entry point)
   internals/<topic>.md      #   only when "a maintainer would get it wrong without it"
   user/<task>.md            #   usage guides, product voice, no implementation detail
   operations/<runbook>.md   #   setup, release, debug for maintainers
   DESIGN-LANGUAGE.md        #   only for repos with codified design rules
-  specs/YYYY-MM-DD-<slug>.md # requirements, scope, design decisions, acceptance criteria (D0/D4)
-  plans/YYYY-MM-DD-<slug>.md # link to spec; technical tasks, progress, evidence, handoff (D0/D4)
+  specs/YYYY-MM-DD-<slug>.md # requirements, scope, design decisions, acceptance criteria
+  plans/YYYY-MM-DD-<slug>.md # link to spec; technical tasks, progress, evidence, handoff
   # review → chat or explicitly requested PR; evidence → scratchpad/requested artifacts
   # NO review/, superpowers/ or .planning/; small work needs neither spec nor plan
-AGENTS.md                   # repo-specific rules — required (D5)
+AGENTS.md                   # repo-specific rules — required
 ```
 
 - One-way dependency: `components/ → lib/`; NEVER `lib/ → components/` (even type-only).
@@ -67,7 +67,7 @@ scripts/                    # build / pipeline scripts
 
 ## Every project type
 
-- File with no obvious home → ASK before creating it (F2), propose a location with a reason.
+- File with no obvious home → ASK before creating it, propose a location with a reason.
 - Project type not in the list above (Python pipeline, extension, notes…) → follow the repo's existing convention; empty repo → propose the structure in the plan for approval first.
 
 ## Required by product type

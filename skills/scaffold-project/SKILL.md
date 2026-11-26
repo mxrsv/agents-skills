@@ -6,7 +6,7 @@ argument-hint: "<project-name> [one-line purpose]"
 
 # Scaffold project
 
-Turns an empty target into a repo that already passes lint, typecheck and build, and already obeys the global rules (D5, F-rules, `templates/project-structure.md`). Every command below was run end to end before it was written here; change a flag only after re-running the chain.
+Turns an empty target into a repo that already passes lint, typecheck and build, and already obeys the global rules (`AGENTS.md`, `templates/project-structure.md`). Every command below was run end to end before it was written here; change a flag only after re-running the chain.
 
 ## Inputs
 
@@ -23,10 +23,10 @@ Turns an empty target into a repo that already passes lint, typecheck and build,
 4. `AGENTS.md` from `~/.claude/templates/AGENTS.template.md`, stamped with today's date:
    - Keep the generator's `<!-- BEGIN:nextjs-agent-rules -->…<!-- END:nextjs-agent-rules -->` block verbatim at the top; `next dev` re-adds it when missing.
    - Commands table: `pnpm dev`, `pnpm lint`, `pnpm format`, `pnpm typecheck`, `pnpm build`.
-   - Structure deltas: `src/lib/utils.ts` is shadcn's generated `cn()` entry, kept despite F5 because `components.json` points shadcn's imports at that path.
+   - Structure deltas: `src/lib/utils.ts` is shadcn's generated `cn()` entry, kept despite the no-`utils` naming rule because `components.json` points shadcn's imports at that path.
    - Language: docs/comments follow the active Output Style; commits in English, conventional format.
    - Drop template sections and doc tiers the repo does not have yet; no placeholder left in the file.
-5. Do not create empty folders (`hooks/`, `types/`, `e2e/`, `docs/…`) or a `CLAUDE.md` (D5); they appear with their first real file.
+5. Do not create empty folders (`hooks/`, `types/`, `e2e/`, `docs/…`) or a `CLAUDE.md`; they appear with their first real file.
 6. Verify in the project, all must pass: `pnpm run lint`, `pnpm run typecheck`, `pnpm run build`, `bash ~/.claude/scripts/docs-compliance.sh .`
 7. `git init -b main`, then `git add -- . && git commit -m "chore(scaffold): bootstrap Next.js app"` — the brand-new tree is entirely this task's output.
 

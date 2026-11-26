@@ -116,7 +116,7 @@ A bare yes confirms what the user wants, not that work starts now. Stopping ther
 
 ## Output
 
-The deliverable is the **confirmed statement of intent**: the restate with an explicit yes. Specs, plans and task lists are downstream and consume it. When the work needs a durable record, put the intent in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md` (D0/D4); a plan links to that spec instead of copying it. Otherwise return it in chat. To stress-test a decision once it exists, use `grilling`.
+The deliverable is the **confirmed statement of intent**: the restate with an explicit yes. Specs, plans and task lists are downstream and consume it. When the work needs a durable record, put the intent in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md`; a plan links to that spec instead of copying it. Otherwise return it in chat. To stress-test a decision once it exists, use `grilling`.
 
 ## Real run
 

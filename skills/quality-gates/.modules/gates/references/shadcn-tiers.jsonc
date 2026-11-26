@@ -15,7 +15,7 @@
     }
   },
   "rules": {
-    // Q1, Q2: repo-wide.
+    // Suppression reasons and unreasoned skips: repo-wide.
     "local/require-suppression-reason": "error",
     "local/no-unreasoned-skip": "error"
   },

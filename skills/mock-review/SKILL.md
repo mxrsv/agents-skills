@@ -20,7 +20,7 @@ seven lines.
 | Bad data | always | Empty, loading, error, long text: drawn, or declared in `notShown` with the intended behaviour? |
 | Consistency | always | Which blocks, words and meanings does the app already have, and where does the mock invent a second one? |
 | Decisions | always | Which lines are the owner's quoted approvals, and which are inference (skill `decision-traceability`)? |
-| Numbers | a figure is shown | Meaning, source and direction against the real samples; without samples, unverified (FE-D3). |
+| Numbers | a figure is shown | Meaning, source and direction against the real samples; without samples, unverified ("a number shown is a number delivered" in `kyant-ui-rules`). |
 | Safety | an action changes or runs something | Targets, defaults, consent and recovery, against what the engine can do. |
 | Progress | long or live work | How progress, cancel and refresh rate show; what will need measuring. |
 | Platform | it depends on something outside the screen | What it needs (a permission, a login, a network, a screen size) and what shows without it; which checks remain for the build. |

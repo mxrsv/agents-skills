@@ -50,7 +50,7 @@ Stop only for:
 - a dev-switch cut-over: removing a switch or an old surface needs their eye approval first;
 - something only the owner can do, such as a login;
 - a UI direction with no chosen mock: render the mocks, stop once, then build through;
-- a material change to the approved scope or approach (D10);
+- a material change to the approved scope or approach;
 - nothing left can proceed.
 
 Anything else: take the recommended option, record it in the plan, report it at the end. Eye

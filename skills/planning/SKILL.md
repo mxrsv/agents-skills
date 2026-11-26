@@ -17,12 +17,12 @@ Run inline. This skill does not itself dispatch a subagent.
 1. **Read context.** Read the user's request, relevant decisions, repo instructions and any supplied spec or plan. Inspect the checkout/branch and affected code. Search both `docs/specs/` and `docs/plans/` before creating a plan, including older names; reuse its path across sessions and PRs. Resolve conflicting or missing requirements in chat only when they materially change the outcome.
 2. **Prepare the execution record.** Use the template below, proportional to the task. If brainstorm already wrote a spec, link to it and map tasks to its acceptance criteria; keep implementation detail in the separate plan. Check ignore rules so the plan can be versioned. Keep relevant research and rejected alternatives with reasons, not raw logs or transcripts. Never invent requirements or verification evidence.
 3. **Verify the plan.** Re-read the file and affected code. Map acceptance criteria and failure modes to tasks and concrete checks. Check existing paths, symbols, ordering and dependencies; mark proposed files as new. State unresolved decisions and which tasks they block. Run an independent review only when requested or required by an applicable workflow.
-4. **Present the concrete approach.** Show the path, approach and material tradeoffs. Wait only for approval not already given; a previously approved approach does not need approval again because it was saved (D10). Routine in-scope updates need no separate approval. Commit, merge, deploy and release follow the task's authorization.
+4. **Present the concrete approach.** Show the path, approach and material tradeoffs. Wait only for approval not already given; a previously approved approach does not need approval again because it was saved. Routine in-scope updates need no separate approval. Commit, merge, deploy and release follow the task's authorization.
 5. **Execute when authorized.** Update task checkboxes, actual verification and the latest handoff in the same file. Material scope, approach or risk changes return to the user; routine choices remain yours. Update the owning spec if approved requirements change; do not create duplicate specs, checklists, issues or progress documents.
 
 ## Template
 
-Body and headings are English (D4), independent of Output Style. The date is the task's start date, not a new filename for each session.
+Body and headings are English, independent of Output Style. The date is the task's start date, not a new filename for each session.
 
 ```markdown
 # <Task title>
@@ -65,4 +65,4 @@ Omit empty optional sections until needed. Add material risks and unresolved dec
 - Keep one checklist across multiple PRs. For cross-repo tasks, name each checkout in the owning plan; do not duplicate progress across repos unless the user requests separate plans.
 - Rewrite the latest handoff in place. Include evidence, uncommitted work and any ongoing process the next agent needs to know about. Do not append daily journals.
 - Only after acceptance criteria and required approvals are met, set `Record: Historical — not current behavior`, add the completion date as `YYYY-MM-DD` and relevant implementation commits/PR links when available, and retain the file. A merge alone is not completion. If acceptance happens after merge, record the historical marker in a subsequent authorized commit.
-- Extract durable constraints, decisions and traps into living docs (D9). Historical plans are excluded from current-code drift maintenance; new follow-up work gets its own task instead of rewriting past intent.
+- Extract durable constraints, decisions and traps into living docs. Historical plans are excluded from current-code drift maintenance; new follow-up work gets its own task instead of rewriting past intent.

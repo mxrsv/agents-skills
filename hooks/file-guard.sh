@@ -16,7 +16,7 @@ file_path=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty' 2>/dev
 [ -z "$file_path" ] && exit 0
 base=$(basename "$file_path")
 
-WORKFLOW_HINT="requirements + acceptance criteria → docs/specs/YYYY-MM-DD-<slug>.md; implementation + verification + handoff → docs/plans/YYYY-MM-DD-<slug>.md (link to spec); review → chat or an explicitly requested PR (D4)"
+WORKFLOW_HINT="requirements + acceptance criteria → docs/specs/YYYY-MM-DD-<slug>.md; implementation + verification + handoff → docs/plans/YYYY-MM-DD-<slug>.md (link to spec); review → chat or an explicitly requested PR"
 
 # Documentation root = tổ tiên gần nhất có `docs/` là con trực tiếp VÀ có marker.
 # KHÔNG dùng git: PreToolUse chạy TRƯỚC khi Write tạo thư mục cha, nên

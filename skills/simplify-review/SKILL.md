@@ -18,7 +18,7 @@ evidence rule.
 - **Render command:** the repo's snapshot or story script. None → source only.
 - **Taste:** three to seven one-line rules from memory and the design doc. What follows them is not
   a finding; what breaks them is.
-- **Output:** `~/scratch/<repo>/<YYYY-MM-DD>-simplify-review/` (F4). The agent returns the report as
+- **Output:** `~/scratch/<repo>/<YYYY-MM-DD>-simplify-review/`. The agent returns the report as
   text (the harness refuses its file); save it unchanged as `report.md`.
 
 ## 2. Spawn

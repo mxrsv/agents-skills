@@ -2,14 +2,14 @@
 
 Copy the ones the project enforces into its repo rules, renumber them after the existing
 ones, and replace `<…>`. Each names its check; never write a rule whose check does not exist
-yet (skill `write-rule`). Keep the global ID (FE-K1, Q1…) in the commit that adds it.
+yet (skill `write-rule`). Keep the global rule name in the commit that adds it.
 
 ```md
-- **R<n>. Every exception says why.** (Q1) A lint or type suppression ends with `-- reason` or
+- **R<n>. Every exception says why.** A lint or type suppression ends with `-- reason` or
   sits under a comment that gives one; `local/require-suppression-reason` fails without it. An
   override, allowlist entry or exempt path in `.oxlintrc.json` carries a comment naming what it
   protects. A change that adds or widens one says so in its PR, for the owner to accept.
-- **R<n>. Tests assert behaviour.** (Q2) Drive the code the way the user or caller would and
+- **R<n>. Tests assert behaviour.** Drive the code the way the user or caller would and
   assert what they see. A skipped, focused or `todo` test names its issue on the line above
   (`// skip: #123 <why>`), checked by `local/no-unreasoned-skip`; `skipIf`/`runIf` platform
   gates need none.

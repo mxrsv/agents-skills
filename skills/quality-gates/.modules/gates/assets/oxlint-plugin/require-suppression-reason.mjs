@@ -1,4 +1,4 @@
-// Q1: a suppressed lint or type error says why, so the next reader can tell a
+// A suppressed lint or type error says why, so the next reader can tell a
 // deliberate exception from a silenced bug. The reason is the directive's own
 // `-- reason`, or a comment on its own line directly above it.
 
