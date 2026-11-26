@@ -211,7 +211,7 @@ The two reviewers load these through `skills:` or the Skill tool; they are not u
 | [`review-typescript`](skills/review-typescript/SKILL.md) | Deep TypeScript/JS: types, async correctness, security |
 | [`review-react`](skills/review-react/SKILL.md) | Deep React/JSX: hooks, render performance, a11y |
 | [`review-database`](skills/review-database/SKILL.md) | PostgreSQL: query optimization, schema, Supabase practices |
-| [`review-security`](skills/review-security/SKILL.md) | OWASP Top 10, secrets, injection, SSRF (finished code; while writing, use `security-review`) |
+| [`review-security-checklist`](skills/review-security-checklist/SKILL.md) | OWASP Top 10, secrets, injection, SSRF (finished code; while writing, use `security-review`) |
 | [`review-silent-failures`](skills/review-silent-failures/SKILL.md) | Swallowed errors, bad fallbacks, missing error propagation |
 | [`review-swift`](skills/review-swift/SKILL.md) | Deep Swift: concurrency, ARC, value semantics, protocols |
 | [`review-go`](skills/review-go/SKILL.md) | Deep Go: error handling, goroutines, idioms |

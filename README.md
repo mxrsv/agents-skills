@@ -211,7 +211,7 @@ Hai reviewer nạp các skill này qua `skills:` hoặc Skill tool; người dù
 | [`review-typescript`](skills/review-typescript/SKILL.md) | TypeScript/JS sâu: types, async đúng, security |
 | [`review-react`](skills/review-react/SKILL.md) | React/JSX sâu: hooks, hiệu năng render, a11y |
 | [`review-database`](skills/review-database/SKILL.md) | PostgreSQL: tối ưu query, schema, thực hành Supabase |
-| [`review-security`](skills/review-security/SKILL.md) | OWASP Top 10, secrets, injection, SSRF (review code đã viết; lúc đang viết dùng `security-review`) |
+| [`review-security-checklist`](skills/review-security-checklist/SKILL.md) | OWASP Top 10, secrets, injection, SSRF (review code đã viết; lúc đang viết dùng `security-review`) |
 | [`review-silent-failures`](skills/review-silent-failures/SKILL.md) | Lỗi bị nuốt, fallback kém, thiếu lan truyền lỗi |
 | [`review-swift`](skills/review-swift/SKILL.md) | Swift sâu: concurrency, ARC, value semantics, protocol |
 | [`review-go`](skills/review-go/SKILL.md) | Go sâu: xử lý lỗi, goroutine, idiom |

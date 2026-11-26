@@ -1,5 +1,5 @@
 ---
-name: review-security
+name: review-security-checklist
 description: "Checklist for Security review of finished code: secrets, SSRF, injection, unsafe crypto, OWASP Top 10. For the build-time checklist while writing sensitive code, use security-review. Loaded by the code-reviewer and read-only-reviewer agents."
 user-invocable: false
 ---

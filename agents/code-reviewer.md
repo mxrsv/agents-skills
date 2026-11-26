@@ -8,7 +8,7 @@ tools:
   - Bash
   - Skill
 skills:
-  - review-security
+  - review-security-checklist
   - review-silent-failures
   - review-type-design
 model: opus
