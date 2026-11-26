@@ -46,7 +46,7 @@ Living docs carry no intent labels (D6): every behavior claim describes current 
 
 - Do NOT edit product code.
 - Scan mode: write NO file.
-- Apply mode: return the ledger in chat and fix verified drift within the task's scope (D7: fix or delete in place, do NOT add a "Chưa khớp thực tế" table). Report out-of-scope findings without editing them (W3); resolve material decisions under D10 before dependent changes.
+- Apply mode: return the ledger in chat and fix verified drift within the task's scope (fix or delete in place, do not add a "Chưa khớp thực tế" table). Report out-of-scope findings without editing them; resolve material decisions under D10 before dependent changes.
 - Do NOT infer from doc to doc. Every conclusion must point back to a `file:line` or a git command with output.
 - Cannot verify → `unknown` with the reason. Do NOT guess.
 - Staging and committing follow the task's authorization.

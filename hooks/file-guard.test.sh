@@ -36,7 +36,7 @@ check "warn: debug-* trong repo"       2 warn  '{"tool_input":{"file_path":"/rep
 check "warn: debug-* trong scratchpad OK" 0 warn '{"tool_input":{"file_path":"/private/tmp/claude-501/x/scratchpad/debug-probe.js","content":"x"}}'
 check "warn: *.log trong repo"         2 warn  '{"tool_input":{"file_path":"/repo/out.log","content":"x"}}'
 
-# D3/D4: separate specs and plans are allowed; review/ledger directories stay blocked.
+# docs/ layout: separate specs and plans are allowed; review/ledger directories stay blocked.
 FIX=$(mktemp -d)
 mkdir -p "$FIX/repo/.git" "$FIX/repo/docs/specs" "$FIX/repo/docs/plans" \
          "$FIX/repo/docs/review/assets" "$FIX/repo/docs/internals" \

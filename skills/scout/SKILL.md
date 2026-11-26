@@ -51,5 +51,5 @@ Rank, then hand the top slice to the `planning` skill (spec for requirements if 
 
 - **Ideas, not code.** Record each reference's license in the digest; copy no code. A public target repo must not absorb incompatible-license code.
 - **Evidence labels survive to the end.** An `inferred` claim cannot be the sole basis for `adopt`.
-- **Digest and clones stay out of repos**; delete the clones when research ends (W8).
+- **Digest and clones stay out of repos**; delete the clones when research ends.
 - Final reply follows the output style's reply format: result, evidence (what was verified, what was inferred), and the decision needed.

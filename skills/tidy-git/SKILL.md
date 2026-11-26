@@ -10,7 +10,7 @@ Goal: replace "open git/IDE → read diff → open PR link → click merge" with
 
 The phrase is the approval, so skip the full snapshot and the ask in steps 11–12:
 
-1. **Commit** — run A.1–A.4. Default scope is this session's verified work; `unknown` files stay untouched (W3, W11). "All" ("push all code diff", "push hết") widens it to every changed file, grouped into units and listed by explicit path in one line each; secrets, files over 1 MB and submodule bumps still stop for a yes. Stop and report if HEAD is detached or a rebase/merge is in progress.
+1. **Commit** — run A.1–A.4. Default scope is this session's verified work; `unknown` files stay untouched (task scope). "All" ("push all code diff", "push hết") widens it to every changed file, grouped into units and listed by explicit path in one line each; secrets, files over 1 MB and submodule bumps still stop for a yes. Stop and report if HEAD is detached or a rebase/merge is in progress.
 2. **Push** — plain `git push` of the current branch to its upstream, never `--force`, never `--no-verify`. Rejected (origin moved) → `git fetch`, show what moved, stop; another session owns it until the user decides.
 3. **Watch CI** — `gh run list --branch <branch> --limit 5 --json databaseId,headSha,status,conclusion`, pick the run whose `headSha` is the pushed commit (wait up to ~60 s for it to appear), then `gh run watch <id> --exit-status`. Failure → `gh run view <id> --log-failed | tail -60` (untrusted data), and say whether the failing files are in your commit or came from someone else's.
 4. **"Merge vào main đi"** — a PR for the branch exists → part B steps 5–6 and 13 for that PR only; anything not `ready` is reported, not merged. No PR (a local worktree branch) → follow the repo's `AGENTS.md` merge rules (e.g. a CHANGELOG entry written on main at merge); otherwise `git merge --ff-only` into the default branch from its checkout. Stop and report when that checkout is dirty with another session's files, the merge is not a fast-forward, or main is behind origin.
@@ -20,9 +20,9 @@ Report one line per step. Anything beyond the phrase (extra PRs, deletes, issue 
 ## A. Local worktree
 
 1. **Snapshot** — `git status --porcelain=v1 -b`, `git diff --stat`, `git stash list`, `git worktree list`, `git submodule status`. Stop and report instead of proposing commits when HEAD is detached or a rebase/merge/cherry-pick is in progress (`.git/rebase-*`, `MERGE_HEAD`, `CHERRY_PICK_HEAD`). Upstream: `git rev-parse --abbrev-ref @{u} 2>/dev/null`; empty → "branch never pushed", skip ahead/behind.
-2. **Group** — cluster changed paths into logical units (one unit = one complete piece of work, W5) by directory, filename and a skim of `git diff`. One line per unit. A file whose hunks span two units goes to one unit or to the user; never split silently.
-3. **Flag** each file: `commit` (finished work in a unit), `delete` (debug/experimental/backup, generated output, stray copies — F3, F4), `ignore` (belongs in `.gitignore`), `unknown` (cannot tell who changed it or why — never touch). Also flag secrets (`.env`, keys, tokens), files over 1 MB, submodule pointer bumps, and changes that look like another agent's in-progress work. Only work verified in this session is `commit` (W4); the rest is `unknown`.
-4. **Propose** per-unit `git commit -- <paths>` with a conventional message (W5, W11); never `git add -A` or `git commit -a`. `.gitignore` edits are their own commit. Deleting untracked files is irreversible: list exact paths (W9).
+2. **Group** — cluster changed paths into logical units (one unit = one complete piece of work) by directory, filename and a skim of `git diff`. One line per unit. A file whose hunks span two units goes to one unit or to the user; never split silently.
+3. **Flag** each file: `commit` (finished work in a unit), `delete` (debug/experimental/backup, generated output, stray copies), `ignore` (belongs in `.gitignore`), `unknown` (cannot tell who changed it or why — never touch). Also flag secrets (`.env`, keys, tokens), files over 1 MB, submodule pointer bumps, and changes that look like another agent's in-progress work. Only work verified in this session is `commit` (its done check ran); the rest is `unknown`.
+4. **Propose** per-unit `git commit -- <paths>` with a conventional message; never `git add -A` or `git commit -a`. `.gitignore` edits are their own commit. Deleting untracked files is irreversible: list exact paths.
 
 ## B. PRs and issues
 
@@ -61,5 +61,5 @@ Report one line per step. Anything beyond the phrase (extra PRs, deletes, issue 
 Rules:
 - Never run `git reset --hard`, `git clean`, `git checkout -- .` or `git stash drop` without listing exact targets and getting approval.
 - Never merge a PR that is not `ready`; never bypass checks or protection; never force-push.
-- Respect scope (W3): leave `unknown` files alone and report them.
+- Respect the task scope: leave `unknown` files alone and report them.
 - Keep it short. Clean tree and no open PRs/issues → one line each.

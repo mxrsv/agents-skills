@@ -1,12 +1,12 @@
 ---
 name: skill-candidates
-description: Find work that recurs ACROSS Claude Code sessions — repeated command sequences, repeated requests — and propose it as a new skill or as an edit to an existing one. Use when the owner asks for skill ideas or "skill candidates", or when the SessionStart reminder says the scan is due. Not for repeats inside one session (W15 handles those inline) and not for creating the skill (that needs approval).
+description: Find work that recurs ACROSS Claude Code sessions — repeated command sequences, repeated requests — and propose it as a new skill or as an edit to an existing one. Use when the owner asks for skill ideas or "skill candidates". Not for repeats inside one session and not for creating the skill (that needs approval).
 argument-hint: "[--days 14] [--min-sessions 3] [--project <substr>]"
 ---
 
 # Skill candidates — what keeps coming back?
 
-W15 sees one session. The procedures worth a skill recur across sessions, days apart, and no
+One session sees only itself. The procedures worth a skill recur across sessions, days apart, and no
 single session can see that. This skill reads the transcripts and finds them.
 
 Transcripts hold secrets, private paths and client text. The report stays in chat: quote at most
@@ -59,26 +59,8 @@ Create nothing. The owner picks; building a skill is a separate, approved task.
 mkdir -p ~/.claude/state && touch ~/.claude/state/skill-candidates-last-run
 ```
 
-The SessionStart reminder reads that file's age. End the report with `Not checked:` (sessions
+End the report with `Not checked:` (sessions
 that failed to parse, projects filtered out) and `Skill gaps:` (edits this skill needs; suggest
 only).
-
-## W15: inline suggestion at task end
-
-Rule `W15` in `rules/core/workflow.md` points here. At the end of a task (never mid-task), if a
-procedure looks reusable, append ONE line at the end of `Result`/`Kết quả`:
-`💡 Skill candidate: <name> — <trigger> → <what it saves>`. Triggers:
-
-- (a) The same multi-step procedure ran ≥2 times in this session, the user says it recurs, or
-  memory/plans show it ran in earlier sessions.
-- (b) The user corrected the same behavior ≥2 times.
-- (c) A project-specific procedure (deploy, release, data import, debug recipe) was re-derived
-  from scratch and took many steps.
-
-Before suggesting, check existing skills (`~/.claude/skills`, project `.claude/skills`). If one
-covers it, suggest improving that skill instead. Suggest only; do NOT create the skill without
-approval. Project-specific → project `.claude/skills/`; cross-project → `~/.claude/skills/`, then
-run `scripts/sync-agents-skills.sh`. One suggestion per task; a declined idea is not re-suggested
-in the same session. One-off tasks and trivial edits never trigger it.
 
 Recurrence across sessions is invisible from inside one session: this skill's scan finds it.

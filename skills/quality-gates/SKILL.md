@@ -11,7 +11,7 @@ costs context. Read the chosen module's `SKILL.md` in full and follow it as if i
 directly; paths inside a module (`scripts/…`, `assets/…`, `references/…`) are relative to that
 module's folder. Never invoke a module through the Skill tool — it is not registered.
 
-The rules these modules serve: FE-K1, FE-K5, FE-K6, FE-SP1, FE-M1, FE-P4 in skill
+The rules these modules serve: repo controls, no focus ring, interactive states, one scale, little motion and the owner-runtime check in skill
 `kyant-ui-rules` (summary in `~/.claude/rules/frontend.md`). Which check
 enforces which rule: [`references/rule-map.md`](references/rule-map.md). Traps already measured:
 [`references/lessons.md`](references/lessons.md) — read it before configuring anything.
@@ -33,7 +33,7 @@ one at a time. Name the chosen module(s) to the user in one line.
 ## Flows
 
 - **New project or preset adoption:** `study` (optional) → `probe` → `gates`.
-- **New or reshaped control:** `primitive` → `states` → `review` → owner's eye (FE-P7).
+- **New or reshaped control:** `primitive` → `states` → `review` → owner's eye (eye approval in `kyant-ui-rules`).
 - **A mistake made twice:** skill `write-rule` picks the tier; a lint tier goes `probe` →
   `gates`, and the new check gets a row in `references/rule-map.md`.
 - **Before a UI commit:** the repo's lint (installed by `gates`) → `review`.

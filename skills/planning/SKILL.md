@@ -8,7 +8,7 @@ argument-hint: "[task description or plan path]"
 
 ## One execution record, linked requirements
 
-The conversation supplies goals and approvals. When a plan is needed under W2, use one file at `docs/plans/YYYY-MM-DD-<slug>.md` for technical approach, tasks, progress, verification and handoff. Requirements and acceptance criteria belong in the linked `docs/specs/` record when one exists; do not duplicate them in the plan. A plan can reference agreed conversation requirements when no spec is needed. No tracker, issue key, claim or remote update is required. Small, clear work proceeds directly unless the user requests a plan.
+The conversation supplies goals and approvals. When a plan is needed (plan threshold in `rules/core/workflow.md`), use one file at `docs/plans/YYYY-MM-DD-<slug>.md` for technical approach, tasks, progress, verification and handoff. Requirements and acceptance criteria belong in the linked `docs/specs/` record when one exists; do not duplicate them in the plan. A plan can reference agreed conversation requirements when no spec is needed. No tracker, issue key, claim or remote update is required. Small, clear work proceeds directly unless the user requests a plan.
 
 Run inline. This skill does not itself dispatch a subagent.
 
@@ -64,5 +64,5 @@ Omit empty optional sections until needed. Add material risks and unresolved dec
 - Read the linked spec, plan and latest conversation decisions, then check the actual code and git state before resuming. A checked box does not establish current verification. Coordinate overlapping edits and preserve other work; no external claim protocol.
 - Keep one checklist across multiple PRs. For cross-repo tasks, name each checkout in the owning plan; do not duplicate progress across repos unless the user requests separate plans.
 - Rewrite the latest handoff in place. Include evidence, uncommitted work and any ongoing process the next agent needs to know about. Do not append daily journals.
-- Only after acceptance criteria and required approvals are met (W14), set `Record: Historical — not current behavior`, add the completion date as `YYYY-MM-DD` and relevant implementation commits/PR links when available, and retain the file. A merge alone is not completion. If acceptance happens after merge, record the historical marker in a subsequent authorized commit.
+- Only after acceptance criteria and required approvals are met, set `Record: Historical — not current behavior`, add the completion date as `YYYY-MM-DD` and relevant implementation commits/PR links when available, and retain the file. A merge alone is not completion. If acceptance happens after merge, record the historical marker in a subsequent authorized commit.
 - Extract durable constraints, decisions and traps into living docs (D9). Historical plans are excluded from current-code drift maintenance; new follow-up work gets its own task instead of rewriting past intent.

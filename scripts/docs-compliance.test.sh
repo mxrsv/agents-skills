@@ -24,7 +24,7 @@ printf '# a\n' > "$B/AGENTS.md"
 printf '# claude\n' > "$B/CLAUDE.md"
 has "báo CLAUDE.md thiếu @AGENTS.md" "$B" "@AGENTS.md"
 
-# cặp AGENTS.md + CLAUDE.md là đủ D5 — không cần docs/ gì cả, không cần mục drift
+# cặp AGENTS.md + CLAUDE.md là đủ — không cần docs/ gì cả, không cần mục drift
 C=$(mktemp -d)
 printf '# a\n' > "$C/AGENTS.md"
 printf '@AGENTS.md\n' > "$C/CLAUDE.md"
@@ -36,7 +36,7 @@ printf '# a\n[x](src/y.ts)\n' > "$D/AGENTS.md"
 printf '@AGENTS.md\n' > "$D/CLAUDE.md"
 printf '# overview\n[z](../../src/y.ts)\n' > "$D/docs/internals/overview.md"
 hasnt "link không nhãn KHÔNG còn bị báo"        "$D" "nhãn ý định"
-code  "AGENTS+CLAUDE đủ D5 exit 0"              "$D" 0
+code  "AGENTS+CLAUDE đủ exit 0"              "$D" 0
 
 E=$(mktemp -d); mkdir -p "$E/docs/user" "$E/docs/internals" "$E/docs/operations"
 printf '# a\n[x](src/y.ts) `current`\n' > "$E/AGENTS.md"
@@ -48,16 +48,16 @@ code "repo ba tầng đủ hết exit 0" "$E" 0
 E2=$(mktemp -d)
 printf '# a\n[x](y.md)\n`current`\n' > "$E2/AGENTS.md"
 printf '@AGENTS.md\n' > "$E2/CLAUDE.md"
-code "nhãn D6 ở dòng kế tiếp exit 0" "$E2" 0
+code "nhãn link ở dòng kế tiếp exit 0" "$E2" 0
 
 F=$(mktemp -d); mkdir -p "$F/docs/review"; : > "$F/PIPELINE.lock"
 printf '# a\n[x](y.md)\n' > "$F/AGENTS.md"
 printf '@AGENTS.md\n' > "$F/CLAUDE.md"
-code  "PIPELINE.lock đủ D5 exit 0"       "$F" 0
-hasnt "PIPELINE.lock bỏ qua cảnh báo D3" "$F" "docs/review/"
+code  "PIPELINE.lock đủ AGENTS.md exit 0"       "$F" 0
+hasnt "PIPELINE.lock bỏ qua cảnh báo docs/" "$F" "docs/review/"
 
 G=$(mktemp -d); mkdir -p "$G/docs"; : > "$G/PIPELINE.lock"
-code "PIPELINE.lock KHÔNG miễn D5" "$G" 1
+code "PIPELINE.lock không miễn AGENTS.md" "$G" 1
 
 # thư mục legacy: cảnh báo, không đổi exit — repo dọn theo issue riêng
 H=$(mktemp -d); mkdir -p "$H/docs/specs" "$H/docs/review" "$H/docs/internals" "$H/docs/plans"

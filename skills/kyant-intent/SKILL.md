@@ -1,6 +1,6 @@
 ---
 name: kyant-intent
-description: Find out what the user actually wants before any plan, spec or code exists, when an ask hits a W1 threshold with unclear intent or the user calls /kyant-intent. Runs Read → Ask → Dig → Stop → Lock, one question per turn with a guess attached, until ~95% confidence; ends in a restate the user confirms. Pre-decision only; to stress-test a plan or decision that already exists, use grilling.
+description: Find out what the user actually wants before any plan, spec or code exists, when an ask hits the spec threshold with unclear intent or the user calls /kyant-intent. Runs Read → Ask → Dig → Stop → Lock, one question per turn with a guess attached, until ~95% confidence; ends in a restate the user confirms. Pre-decision only; to stress-test a plan or decision that already exists, use grilling.
 ---
 
 # Kyant Intent
@@ -9,7 +9,7 @@ A short ask goes in; a confirmed statement of intent comes out. What people ask 
 
 ## When to call
 
-- **Call** when a W1 threshold is hit and the intent is unclear: the ask is missing at least one of **who** the user is, **why** they want it, what **success** looks like, or the binding **constraint**. Also when the user invokes it: `/kyant-intent`, "interview me", "before we start, are we sure?"
+- **Call** when the spec threshold is hit and the intent is unclear: the ask is missing at least one of **who** the user is, **why** they want it, what **success** looks like, or the binding **constraint**. Also when the user invokes it: `/kyant-intent`, "interview me", "before we start, are we sure?"
 - **Don't call** when the ask is unambiguous and self-contained ("rename this variable", "fix this typo"), the user asked for speed over verification, it is a pure information request ("how does X work?"), it is a mechanical operation (renames, formats, file moves), or you already have ≥95% confidence (run the Stop test before assuming you don't).
 - **Live user only.** Never run in CI pipelines, scheduled runs, `/loop` or autonomous loops. There, flag the underspecified ask as a blocker instead of guessing.
 
@@ -110,7 +110,7 @@ If they correct you, fold the correction in and restate. Loop until the yes is e
 1. Deliver the confirmed statement of intent, with any last corrections folded in.
 2. Read the yes:
    - **Yes plus a go-ahead** ("yes, làm luôn đi", "approve, build it"): the work is authorized. Continue into it in the same turn; do not ask again.
-   - **Bare yes** ("yes", "đúng", "ok"): offer the next step in one line (implement now, or write the spec in `docs/specs/` first when W1/W2 applies) and **stop the turn**. Do not invoke tools or start downstream work until the user picks.
+   - **Bare yes** ("yes", "đúng", "ok"): offer the next step in one line (implement now, or write the spec in `docs/specs/` first when the spec or plan threshold applies) and **stop the turn**. Do not invoke tools or start downstream work until the user picks.
 
 A bare yes confirms what the user wants, not that work starts now. Stopping there gives one checkpoint before files change; stopping after a go-ahead only adds a round trip.
 

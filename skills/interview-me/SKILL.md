@@ -1,6 +1,6 @@
 ---
 name: interview-me
-description: Extracts what the user actually wants when an ask hits a W1 threshold (several readings with materially different outcomes, or an architecture, data-model or public-contract change) and the intent is unclear, or when the user says "interview me". One-question-at-a-time interview until ~95% confidence about the underlying intent. Pre-decision only; to stress-test a plan or decision that already exists, use grilling.
+description: Extracts what the user actually wants when an ask hits the spec threshold (several readings with materially different outcomes, or an architecture, data-model or public-contract change) and the intent is unclear, or when the user says "interview me". One-question-at-a-time interview until ~95% confidence about the underlying intent. Pre-decision only; to stress-test a plan or decision that already exists, use grilling.
 ---
 
 # Interview Me
@@ -11,13 +11,13 @@ What people ask for and what they actually want are different things. They ask f
 
 The cheapest moment to find this gap is before any plan, spec, or code exists. Once you've started building, switching costs are real, and the user will rationalize the wrong thing into a "good enough" thing. The misfit gets locked in.
 
-This skill closes the gap before it costs anything. Interview-me is pre-decision only. It hands off to `brainstorm` or `planning` when W1 or W2 applies; `grilling` stress-tests a plan after it exists. Interview-me is the part before all of those, where you ask one question at a time, with your best guess attached, until you can predict what the user is going to say before they say it.
+This skill closes the gap before it costs anything. Interview-me is pre-decision only. It hands off to `brainstorm` or `planning` when the spec or plan threshold applies; `grilling` stress-tests a plan after it exists. Interview-me is the part before all of those, where you ask one question at a time, with your best guess attached, until you can predict what the user is going to say before they say it.
 
 ## When to Use
 
 Apply this skill when:
 
-- A W1 threshold is hit and the outcome is unclear: the ask is missing at least one of **who** the user is, **why** they want it, what **success** looks like, what the binding **constraint** is
+- The spec threshold is hit and the outcome is unclear: the ask is missing at least one of **who** the user is, **why** they want it, what **success** looks like, what the binding **constraint** is
 - The user explicitly invokes: "interview me", "before we start, are we sure?"
 
 **When NOT to use:**
@@ -125,7 +125,7 @@ When the user confirms the restate with an explicit yes:
 1. **Deliver the confirmed statement of intent**, with any last corrections folded in.
 2. **Read the yes:**
    - **Yes plus a go-ahead** ("yes, làm luôn đi", "approve, build it"): the work is authorized. Continue into it in the same turn; do not ask again.
-   - **Bare yes** ("yes", "đúng", "ok"): offer the next step in one line (implement now, or write the spec in `docs/specs/` first when W1/W2 applies) and **stop the turn**. Do not invoke tools or start downstream work until the user picks.
+   - **Bare yes** ("yes", "đúng", "ok"): offer the next step in one line (implement now, or write the spec in `docs/specs/` first when the spec or plan threshold applies) and **stop the turn**. Do not invoke tools or start downstream work until the user picks.
 
 A bare yes confirms what the user wants, not that work starts now. Stopping there gives one checkpoint before files change; stopping after a go-ahead only adds a round trip.
 

@@ -10,7 +10,7 @@ Clarify what to build before choosing how. The conversation is the decision surf
 
 ## When to use
 
-Apply W1: ambiguous outcomes, architecture/data-model/public-contract changes, or an explicit request. Do not force brainstorming for small, clear edits. Existing approved decisions are inputs, not questions to reopen.
+Apply the spec threshold in `rules/core/workflow.md`: ambiguous outcomes, architecture/data-model/public-contract changes, or an explicit request. Do not force brainstorming for small, clear edits. Existing approved decisions are inputs, not questions to reopen.
 
 ## Process
 
@@ -19,7 +19,7 @@ Apply W1: ambiguous outcomes, architecture/data-model/public-contract changes, o
 3. Settle the goal, scope/exclusions, user flow or API/CLI behavior as applicable, constraints, error cases and acceptance criteria. Product decisions belong to the user; implementation details can be left to planning.
 4. Present the concrete proposed requirements and approach in chat. Ask for approval only where not already provided. Do not begin dependent implementation while material decisions remain open.
 5. When a spec is requested or material requirements need a durable record, write `docs/specs/YYYY-MM-DD-<slug>.md`. Include goal, scope/exclusions, approved decisions, behavior/error cases, acceptance criteria, constraints and open questions. Body/headings are English (D4). Keep technical tasks and progress out of the spec. For small work, keep the decision in chat unless a spec was requested; a spec does not require a plan.
-6. Re-read the artifact for missing acceptance criteria, contradictions and assumptions. Clearly distinguish approved decisions from unresolved questions. If implementation was authorized, continue: use [planning](../planning/SKILL.md) to create or update a separate plan linked to the spec when W2 applies, otherwise implement directly. Do not require another approval because the requirement moved from chat into a file.
+6. Re-read the artifact for missing acceptance criteria, contradictions and assumptions. Clearly distinguish approved decisions from unresolved questions. If implementation was authorized, continue: use [planning](../planning/SKILL.md) to create or update a separate plan linked to the spec when the plan threshold applies, otherwise implement directly. Do not require another approval because the requirement moved from chat into a file.
 
 ## Boundaries
 

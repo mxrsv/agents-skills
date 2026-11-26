@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# docs-anchors.sh <doc-root> — kiểm anchor chết trong TÀI LIỆU SỐNG (D6).
+# docs-anchors.sh <doc-root> — kiểm anchor chết trong TÀI LIỆU SỐNG (luật link trong rules/docs/living-docs.md).
 # Chỉ xét markdown link tường minh; mọi inline code khác KHÔNG phải anchor.
 # Path trong link tính tương đối từ CHÍNH FILE chứa link (ngữ nghĩa markdown chuẩn).
-# Tài liệu sống (D1, 2026-09-07): AGENTS.md README.md CHANGELOG.md ở gốc; docs/*.md viết HOA
+# Tài liệu sống (2026-09-07): AGENTS.md README.md CHANGELOG.md ở gốc; docs/*.md viết HOA
 # (README.md, DESIGN-LANGUAGE.md — và file HOA legacy còn chưa dọn); docs/{user,internals,operations}/**.
 # docs/specs/ and docs/plans/ contain design/execution records; validate active records during review.
 # Frozen specs/plans and retired docs/review… are outside the living-doc scan.

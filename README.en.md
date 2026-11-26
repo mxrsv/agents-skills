@@ -6,9 +6,9 @@ How rules load in a session:
 
 ```mermaid
 flowchart TD
-    S([Claude Code session]) --> A["CLAUDE.md<br/>from presets/ or templates/<br/>communication · reply format · hard rules L1–L10"]
-    S --> O["output-styles/<br/>reply language"]
-    S --> C["rules/core/<br/>F · W · D · C — always loaded"]
+    S([Claude Code session]) --> A["CLAUDE.md<br/>from presets/ or templates/<br/>working method · UI · Computer Use"]
+    S --> O["output-styles/<br/>reply voice, length, format"]
+    S --> C["rules/core/<br/>workflow — always loaded"]
     S --> T{"Which file is touched?"}
     T -- "UI files (*.tsx, *.css, …)" --> Q["rules/frontend.md"]
     T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
@@ -33,10 +33,10 @@ How a task moves through the workflow:
 flowchart TD
     R([Task]) --> B{"Bug?"}
     B -- "yes" --> DB["diagnosing-bugs<br/>evidence before the fix"]
-    B -- "no" --> W1{"W1 threshold?"}
-    W1 -- "ambiguous · architecture · asked" --> SP["Spec<br/>docs/specs/"]
+    B -- "no" --> TH{"Spec threshold?"}
+    TH -- "ambiguous · architecture · asked" --> SP["Spec<br/>docs/specs/"]
     SP -- "spans sessions" --> PL["Plan<br/>docs/plans/"]
-    W1 -- "clear task" --> I["Implement in scope<br/>git status first"]
+    TH -- "clear task" --> I["Implement in scope<br/>git status first"]
     DB --> I
     SP -- "one session" --> I
     PL --> I

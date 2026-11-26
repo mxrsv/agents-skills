@@ -7,7 +7,7 @@ description: Investigate reported bugs, failing tests, unexpected behavior, and 
 
 Adapted from [Matt Pocock's diagnosing-bugs](https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md) for the shared Claude Code/Codex workflow.
 
-Use this as the primary debugging workflow. Do not also run `systematic-debugging`. Follow the shared W13 evidence standard even when no fix is requested. Scale the work to the uncertainty and consequence: a small deterministic bug may need one focused check, while an intermittent or cross-system failure needs deeper investigation. Do not turn routine debugging into mandatory planning.
+Use this as the primary debugging workflow. Do not also run `systematic-debugging`. Keep the evidence standard below even when no fix is requested. Scale the work to the uncertainty and consequence: a small deterministic bug may need one focused check, while an intermittent or cross-system failure needs deeper investigation. Do not turn routine debugging into mandatory planning.
 
 Read the relevant project instructions, issue decisions, and existing architecture notes before interpreting behavior. Follow the project's documentation paths; do not create a parallel spec or incident journal.
 

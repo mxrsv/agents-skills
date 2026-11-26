@@ -3,7 +3,7 @@
 # Đăng ký trong ~/.claude/settings.json:
 #   PostToolUse (Write) → file-guard.sh warn    # đang đăng ký; exit 2 = nhắc agent (tool đã chạy, không chặn)
 #   PreToolUse  (Write) → file-guard.sh block   # script hỗ trợ nhưng CHƯA đăng ký (exit 2 sẽ chặn Write)
-# Từ 2026-07-27: CÓ kiểm vị trí + tên tài liệu (D3/D4). Lý do đảo chủ đích cũ: F2 dạng
+# Từ 2026-07-27: CÓ kiểm vị trí + tên tài liệu (luật docs/ layout). Lý do đảo chủ đích cũ: luật vị trí file dạng
 # văn bản đã thất bại — 4 đường dẫn song song, 21 file bị .gitignore chôn ở deck.
 # Since 2026-10-03: docs/ allows three living tiers plus separate specs/ and plans/.
 # Specs own requirements; plans own execution. Reviews default to chat.
@@ -27,20 +27,20 @@ docs_path_violation() { # $1 = file_path; in lý do chặn ra stdout, rỗng = c
   root="${p%/docs/*}"
   [ -e "$root/.git" ] || [ -f "$root/AGENTS.md" ] \
     || grep -qxF "$root" "$HOME/.claude/docs-roots" 2>/dev/null || return 0
-  [ -f "$root/PIPELINE.lock" ] && return 0   # D2 — miễn D3/D4
+  [ -f "$root/PIPELINE.lock" ] && return 0   # pipeline riêng — miễn luật docs/ layout
   [ -e "$p" ] && return 0                    # chỉ chặn TẠO FILE MỚI (doc legacy vẫn sửa được)
   rel="${p#"$root"/}"
   case "$rel" in
-    docs/user/*|docs/internals/*|docs/operations/*|docs/specs/*|docs/plans/*) ;; # D3/D4
+    docs/user/*|docs/internals/*|docs/operations/*|docs/specs/*|docs/plans/*) ;; # docs/ layout
     docs/review/*|docs/superpowers/*|docs/intent/*|docs/decisions/*|docs/daily/*|docs/archive/*|docs/mockups/*)
-      echo "⛔ D4: '$rel' — do not create review/ledger files in the repo: $WORKFLOW_HINT. Evidence → scratchpad or a requested artifact destination." ;;
+      echo "⛔ docs: '$rel' — do not create review/ledger files in the repo: $WORKFLOW_HINT. Evidence → scratchpad or a requested artifact destination." ;;
     docs/*/*)
-      echo "⛔ D3: allowed docs/ directories: user/, internals/, operations/, specs/, plans/ — got '$rel'. Requirements → docs/specs/; implementation and handoff → docs/plans/." ;;
+      echo "⛔ docs: allowed docs/ directories: user/, internals/, operations/, specs/, plans/ — got '$rel'. Requirements → docs/specs/; implementation and handoff → docs/plans/." ;;
     docs/*)
       base="${rel#docs/}"
       case "$base" in
         README.md|DESIGN-LANGUAGE.md) ;;
-        *) echo "⛔ D3: file thẳng trong docs/ chỉ được là README.md (index) hoặc DESIGN-LANGUAGE.md — nhận '$base'. Kiến trúc/quyết định → docs/internals/, task progress → docs/plans/." ;;
+        *) echo "⛔ docs: file thẳng trong docs/ chỉ được là README.md (index) hoặc DESIGN-LANGUAGE.md — nhận '$base'. Kiến trúc/quyết định → docs/internals/, task progress → docs/plans/." ;;
       esac ;;
   esac
   return 0
@@ -49,7 +49,7 @@ docs_path_violation() { # $1 = file_path; in lý do chặn ra stdout, rỗng = c
 if [ "$mode" = "block" ]; then
   case "$base" in
     *.bak|*.old|*.orig|*-v2.*|*-v3.*|*-final.*|*-copy.*)
-      echo "⛔ F3/L3: tên file '$base' thuộc pattern cấm (.bak/.old/.orig/-v2/-v3/-final/-copy). Sửa trực tiếp file gốc — git giữ lịch sử; bản nháp/thí nghiệm → scratchpad." >&2
+      echo "⛔ tên file '$base' thuộc pattern cấm (.bak/.old/.orig/-v2/-v3/-final/-copy). Sửa trực tiếp file gốc — git giữ lịch sử; bản nháp/thí nghiệm → scratchpad." >&2
       exit 2
       ;;
   esac
@@ -62,18 +62,18 @@ fi
 warn=""
 lines=$(printf '%s' "$input" | jq -r '.tool_input.content // empty' 2>/dev/null | wc -l | tr -d ' ')
 if [ "${lines:-0}" -gt 800 ]; then
-  warn="⚠️ F8: file '$base' dài ${lines} dòng (>800). Tách module theo rules của ngôn ngữ tương ứng."
+  warn="⚠️ file '$base' dài ${lines} dòng (>800). Tách module theo rules của ngôn ngữ tương ứng."
 fi
 case "$base" in
   debug-*|tmp-*|scratch-*|*.log)
     case "$file_path" in
       */scratchpad/*|/tmp/*|/private/tmp/*) ;;
-      *) warn="${warn}${warn:+ }⚠️ F4/L4: '$base' có vẻ là file tạm/debug nhưng nằm ngoài scratchpad." ;;
+      *) warn="${warn}${warn:+ }⚠️ '$base' có vẻ là file tạm/debug nhưng nằm ngoài scratchpad." ;;
     esac
     ;;
 esac
 case "$file_path" in
-  */.planning/*) warn="${warn}${warn:+ }⚠️ D4: '.planning/' không còn dùng — $WORKFLOW_HINT." ;;
+  */.planning/*) warn="${warn}${warn:+ }⚠️ '.planning/' không còn dùng — $WORKFLOW_HINT." ;;
 esac
 if [ -n "$warn" ]; then
   echo "$warn" >&2

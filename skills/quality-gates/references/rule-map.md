@@ -11,8 +11,8 @@ the global ID in the project's commit messages or config comments so the two can
 | FE-SP1 style from tokens | `shadcn/no-raw-colors`, `shadcn/no-arbitrary-values` (`allow: ["layout"]`), `shadcn/require-static-classes`, `shadcn/no-unknown-classes` on migrated paths | new global CSS, static inline `style`, hand-written `.dark` selectors | `gates`, `review` |
 | FE-K5 no outset ring; selection stays visible | `local/no-outset-state-indicators` | whether the indicator is actually visible: a state sheet | `states`, `gates` |
 | FE-M1 nothing loops while idle | none | loops, timers, `requestAnimationFrame` | `review` |
-| FE-K6 every interactive element shows its states | none; the shared control or base layer sets cursor and states once | raw handlers without a cursor and hover-only controls on changed lines (`review` §5); hit area and states: the break-test and screenshot pass (FE-P3, FE-P4) | `primitive`, `review` |
-| FE-P4 built UI checked beside the mock | none | computed-style diff against the mock | `review` |
+| FE-K6 every interactive element shows its states | none; the shared control or base layer sets cursor and states once | raw handlers without a cursor and hover-only controls on changed lines (`review` §5); hit area and states: the break-test and screenshot pass (break-test and owner-runtime check in `kyant-ui-rules`) | `primitive`, `review` |
+| Owner-runtime check: built UI checked beside the mock | none | computed-style diff against the mock | `review` |
 | Q1 every exception says why | `local/require-suppression-reason`; `oxlint-exemptions.test.ts` keeps named exemptions real | an override comment that names nothing | `gates` |
 | Q2 tests assert behaviour | `local/no-unreasoned-skip` | tests that mirror the implementation | `gates` |
 

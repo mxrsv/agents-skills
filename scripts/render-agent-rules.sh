@@ -15,12 +15,12 @@ if [ "${1:-}" = "--cloud" ]; then
   TARGET=cloud
   GENERATED_NOTE="--cloud on the owner's machine — do NOT edit here."
   PLATFORM_NOTE="> **Platform limit:** a cloud session only receives the TEXT layer. Hooks from the owner's
-> \`~/.claude/settings.json\` (e.g. \`file-guard.sh\`) do not run here. Follow the D-rules below by discipline."
+> \`~/.claude/settings.json\` (e.g. \`file-guard.sh\`) do not run here. Follow the docs rules below by discipline."
 else
   TARGET=codex
   GENERATED_NOTE="— do NOT edit by hand."
   PLATFORM_NOTE="> **Platform limit:** Codex only receives the TEXT layer. Claude Code's \`file-guard.sh\` hook
-> does not run here. Follow the D-rules below by discipline, not by enforcement."
+> does not run here. Follow the docs rules below by discipline, not by enforcement."
 fi
 EXTRA="$SRC/templates/$TARGET-extra.md"
 OUT="$HOME/.codex/AGENTS.md"

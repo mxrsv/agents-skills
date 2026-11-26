@@ -93,7 +93,7 @@ you did not get to.
 
 ## 3. Report, then stop once
 
-Save the report, then open the `path:line` of every item you will call safe to remove (W13). Tell
+Save the report, then open the `path:line` of every item you will call safe to remove. Tell
 the owner, in their language, in this order:
 
 1. **Remove now:** small, provable, no decision involved.
@@ -112,12 +112,12 @@ When the owner asks to see the picks, spawn one `sonnet` agent:
   uncommitted (unused members, copy and tests stay); then "after". No render command → show the
   diff per item instead.
 - **It views every pair** and keeps any line that is the only place a consequence is stated.
-- **The page** is a copy of `~/.claude/templates/mock-shell.html` (FE-P1) in the output folder: axis
+- **The page** is a copy of `~/.claude/templates/mock-shell.html` (the one mock shell) in the output folder: axis
   `item`, axis `view` (`after` | `before`), presets the full recommendation, then `Trước` and `Sau`
   naming only `view`, `notShown` for items with no visible change, the render plus a 2× crop of the
   changed region.
 
-View the "after" of each judgement item yourself, open the page (FE-P5), list per item what goes and
+View the "after" of each judgement item yourself, open the page yourself, list per item what goes and
 what information goes with it, and ask which items stay.
 
 ## 5. Land
@@ -126,8 +126,8 @@ what information goes with it, and ask which items stay.
   the removed text and the user docs, note the approval in the spec or ledger, run the repo's gate,
   `git commit -- <paths>`.
 - **Not approved:** restore those hunks.
-- **Waiting on a cut-over (FE-P9) or an eye approval:** leave it and report its task. An "Owner
-  decision" item changes only on an explicit yes (W20).
+- **Waiting on a dev-switch cut-over or an eye approval:** leave it and report its task. An "Owner
+  decision" item changes only on an explicit yes (skill `decision-traceability`).
 
-Renders are not the running app: check the changed screens in the owner's dev runtime (FE-P4), or say
+Renders are not the running app: check the changed screens in the owner's dev runtime (owner-runtime check), or say
 that only renders were checked.

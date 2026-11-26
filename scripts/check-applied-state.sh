@@ -2,7 +2,6 @@
 # Kiểm tra ~/.claude đã ở trạng thái mong muốn chưa:
 #   - settings.json khớp templates/settings.reference.json
 #   - output-styles/*.md có frontmatter hợp lệ
-#   - presets/kyant-vibe/CLAUDE.md không trôi khỏi CLAUDE.md
 # Chạy: bash ~/.claude/scripts/check-applied-state.sh
 set -u
 S="$HOME/.claude/settings.json"
@@ -14,9 +13,9 @@ say() { echo "$1"; bad=1; }
 jq -e . "$S" >/dev/null 2>&1 || { echo "❌ $S không phải JSON hợp lệ"; exit 1; }
 
 # Keep the global plansDirectory override unset. The planning skill owns canonical
-# dated repo task plans (D4); native planning scratch files are not that artifact.
+# dated repo task plans; native planning scratch files are not that artifact.
 [ -z "$(jq -r '.plansDirectory // empty' "$S")" ] \
-  || say "❌ plansDirectory còn đặt ($(jq -r '.plansDirectory' "$S")) — remove the global override; canonical repo plans are managed by the planning skill (D4)"
+  || say "❌ plansDirectory còn đặt ($(jq -r '.plansDirectory' "$S")) — remove the global override; canonical repo plans are managed by the planning skill"
 
 for k in $(jq -r '.skillOverrides | keys[]' "$R"); do
   want=$(jq -r --arg k "$k" '.skillOverrides[$k]' "$R")
@@ -57,15 +56,5 @@ if [ -n "$want_style" ]; then
   esac
 fi
 
-# --- preset không trôi khỏi CLAUDE.md ---
-# <communication> + <conciseness> là phần dùng chung; lệch nghĩa là preset public đang ship luật cũ.
-SRC="$HOME/.claude/CLAUDE.md"
-PRESET="$HOME/.claude/presets/kyant-vibe/CLAUDE.md"
-if [ -f "$SRC" ] && [ -f "$PRESET" ]; then
-  blk() { sed -n '/<communication>/,/<\/conciseness>/p' "$1"; }
-  diff -q <(blk "$SRC") <(blk "$PRESET") >/dev/null 2>&1 \
-    || say "❌ presets/kyant-vibe/CLAUDE.md lệch CLAUDE.md ở <communication>/<conciseness> — chạy 'diff <(sed -n \'/<communication>/,/<\/conciseness>/p\' CLAUDE.md) <(sed -n \'/<communication>/,/<\/conciseness>/p\' presets/kyant-vibe/CLAUDE.md)' để xem"
-fi
-
-[ $bad -eq 0 ] && echo "✅ settings, output-styles và preset đều khớp"
+[ $bad -eq 0 ] && echo "✅ settings và output-styles đều khớp"
 exit $bad

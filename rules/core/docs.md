@@ -6,36 +6,64 @@ paths:
   - "**/CHANGELOG.md"
 ---
 
-# Docs, specifications and task plans (D-rules)
+# Docs, specifications and task plans
 
 ## Separate requirements from execution
 
-- **D0.** The conversation is where the user sets goals and approves decisions. Specifications in `docs/specs/` own requirements, scope, product/design decisions and acceptance criteria. Implementation plans in `docs/plans/` own technical approach, tasks, progress, verification evidence and handoff; link to the relevant spec instead of copying its requirements. A newer user decision updates the owning document and any affected plan. Small, clear work can stay in the conversation. Use an external tracker only when the user explicitly asks for it in that task.
-- Create a spec when explicitly requested or when material requirements need a durable record; create a plan only under W2. Neither document automatically requires the other. Keep one canonical spec per scope and one execution checklist per task, not duplicate specs, checkpoints, daily logs or journals. Existing combined records and historical files may remain until an explicit split is requested; when splitting, move requirements into the spec and replace them with a link in the plan.
+- The conversation is where the user sets goals and approves decisions. A newer user decision updates the owning document and any affected plan.
+- Specs in `docs/specs/` own requirements, scope, product and design decisions, and acceptance criteria.
+- Plans in `docs/plans/` own technical approach, tasks, progress, verification evidence and handoff; they link the spec instead of copying its requirements.
+- Small, clear work can stay in the conversation. Use an external tracker only when the user explicitly asks for it in that task.
+- Create a spec when explicitly requested or when material requirements need a durable record; create a plan only under the workflow rule for plans. Neither requires the other.
+- Keep one canonical spec per scope and one execution checklist per task: no duplicate specs, checkpoints, daily logs or journals.
+- Existing combined records and historical files may stay until a split is requested; when splitting, move requirements into the spec and replace them with a link in the plan.
 
 ## Living documentation and task history
 
-- **D1.** Living = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root; `docs/README.md`, `docs/DESIGN-LANGUAGE.md` and every file under `docs/{user,internals,operations}/`. Rewrite or delete outdated passages in place. Specs and plans are design/execution records, not claims of shipped behavior: update active records in place across sessions and PRs. After acceptance criteria and required approvals are met, mark the plan historical with a completion date and relevant implementation commits/PR links when available; freeze the spec only when its full scope is accepted or explicitly superseded. Retain both in git; do not delete them in the closing PR or maintain them as descriptions of current behavior. Extract durable knowledge into living docs (D9). Raw logs, experiments and intermediate artifacts stay in scratchpad.
-- **D2.** A repo with `PIPELINE.lock` follows that pipeline's convention: D3, D4 and D6 are waived. D5 is not waived. A pipeline does not imply permission to use external services.
+- Living docs are `AGENTS.md`, `README.md` and `CHANGELOG.md` at the root, `docs/README.md`, `docs/DESIGN-LANGUAGE.md`, and every file under `docs/{user,internals,operations}/`. Rewrite or delete outdated passages in place.
+- Specs and plans are design and execution records, not claims of shipped behavior: update active records in place across sessions and PRs.
+- After acceptance criteria and required approvals are met, mark the plan historical with a completion date and the implementation commits or PR links. Freeze the spec only when its full scope is accepted or explicitly superseded.
+- Keep finished specs and plans in git; do not delete them in the closing PR or maintain them as descriptions of current behavior. Extract durable knowledge into living docs.
+- Raw logs, experiments and intermediate artifacts stay in the scratchpad.
+- A repo with `PIPELINE.lock` follows that pipeline's convention, which replaces the directory, naming and spec/plan rules here; it still needs `AGENTS.md`. A pipeline does not imply permission to use external services.
 
 ## Location and naming
 
-- **D3.** Valid `docs/` subdirectories: `user/` (using the product), `internals/` (architecture, constraints and traps), `operations/` (maintainer runbooks), `specs/` (requirements and acceptance criteria), and `plans/` (implementation records). The only root-level `.md` files in `docs/` are `README.md` and, when applicable, `DESIGN-LANGUAGE.md`. Add living docs only when the reader would otherwise get something wrong. Need another directory → ask. Do not create `docs/review/`, `docs/superpowers/` or `.planning/`.
-- **D4.** Use `docs/specs/YYYY-MM-DD-<slug>.md` for a spec and `docs/plans/YYYY-MM-DD-<slug>.md` for a plan, dated when each record starts; keep paths when resuming. Search both directories first and update the owning record instead of duplicating it. A plan links to its spec and maps tasks/checks to the relevant acceptance criteria; if no spec is needed, reference the agreed conversation requirements with a brief scope summary. Specs and plans use English body/headings independent of Output Style. Reviews are returned in chat by default, or posted to a specific PR when requested; do not auto-create report files or post externally. Record actionable review outcomes in the owning spec or plan when revisions are authorized, without changing a read-only review into an edit. Evidence files stay in scratchpad or a user-requested artifact destination. For cross-repo work, use one owning spec where needed and one owning plan with explicit repo/checkout paths unless the user requests separate plans; do not keep duplicate requirements or checklists. Put owner eye approval in one final task, never between tasks; the only earlier stops are picking the direction on a mock before code and an FE-P9 cut-over (`rules/frontend.md`). End every new plan file with a ready-to-paste `/goal` line built from its acceptance criteria.
-- **D5.** Every repo needs `AGENTS.md`. Claude Code (v2.1.277+) and Codex/Cursor read it directly, so do not add a `CLAUDE.md` that only imports it. Add `CLAUDE.md` only for Claude-specific rules; it then takes precedence and `AGENTS.md` is skipped unless it starts with `@AGENTS.md`. A `CLAUDE.md` in a parent directory also hides `AGENTS.md`. Architecture and constraints belong in `docs/internals/` (entry: `docs/internals/overview.md`). Task progress belongs in the plan, not a separate architecture/context journal.
+- Valid `docs/` subdirectories: `user/` (using the product), `internals/` (architecture, constraints and traps), `operations/` (maintainer runbooks), `specs/` (requirements and acceptance criteria) and `plans/` (implementation records).
+- The only root-level `.md` files in `docs/` are `README.md` and, when applicable, `DESIGN-LANGUAGE.md`. Add living docs only when the reader would otherwise get something wrong.
+- Another directory → ask. Do not create `docs/review/`, `docs/superpowers/` or `.planning/`.
+- Use `docs/specs/YYYY-MM-DD-<slug>.md` for a spec and `docs/plans/YYYY-MM-DD-<slug>.md` for a plan, dated when each record starts; keep paths when resuming. Search both directories first and update the owning record.
+- A plan links its spec and maps tasks and checks to its acceptance criteria; with no spec, it references the agreed conversation requirements with a brief scope summary.
+- Specs and plans use English body and headings, independent of the output style.
+- Reviews are returned in chat by default, or posted to a specific PR when requested; do not auto-create report files or post externally.
+- Record actionable review outcomes in the owning spec or plan when revisions are authorized, without turning a read-only review into an edit. Evidence files stay in the scratchpad or a user-requested destination.
+- Cross-repo work uses one owning spec where needed and one owning plan with explicit repo and checkout paths, unless the user asks for separate plans.
+- Owner eye approval goes in one final task, never between tasks; the only earlier stops are picking a mock direction before code and a dev-switch cut-over (skill `kyant-ui-rules`).
+- End every new plan file with a ready-to-paste `/goal` line built from its acceptance criteria.
+
+## AGENTS.md and CLAUDE.md
+
+- Every repo needs `AGENTS.md`. Claude Code (v2.1.277+) and Codex/Cursor read it directly, so do not add a `CLAUDE.md` that only imports it.
+- Add `CLAUDE.md` only for Claude-specific rules; it then takes precedence and `AGENTS.md` is skipped unless it starts with `@AGENTS.md`. A `CLAUDE.md` in a parent directory also hides `AGENTS.md`.
+- Architecture and constraints belong in `docs/internals/` (entry: `docs/internals/overview.md`). Task progress belongs in the plan, not a separate architecture or context journal.
 
 ## Preventing drift
 
-- **D7.** Fix in-scope drift in living docs when found; raise out-of-scope findings in conversation with `file:line` evidence, without filing an external issue. Active specs must reflect approved requirements; linked plans must reflect those requirements and actual progress. Planned work is not a claim of current behavior. Frozen historical specs and plans are excluded from current-code drift maintenance. Do not keep a drift backlog inside living docs.
-- **D8.** Removing/renaming a module or feature requires updating its living-doc anchors in the same task.
-- **D9.** Document architectural decisions, cross-module constraints or traps in `docs/internals/`; usage changes in `docs/user/`; runbook changes in `docs/operations/`. Only write what a reader would otherwise get wrong. Do not create file catalogs, control-flow retellings or duplicate PR summaries.
+- Fix in-scope drift in living docs when found; raise out-of-scope findings in conversation with `file:line` evidence, without filing an external issue.
+- Active specs reflect approved requirements; linked plans reflect those requirements and actual progress. Planned work is not a claim of current behavior.
+- Frozen specs and plans are excluded from current-code drift maintenance. Do not keep a drift backlog inside living docs.
+- Removing or renaming a module or feature updates its living-doc anchors in the same task.
+- Architectural decisions, cross-module constraints and traps go in `docs/internals/`; usage changes in `docs/user/`; runbook changes in `docs/operations/`.
+- Write only what a reader would otherwise get wrong: no file catalogs, control-flow retellings or duplicate PR summaries.
 
 ## Approval and completion
 
-- **D10.** Ask for approval only when requirements are unclear in a way that leads to materially different, hard-to-reverse outcomes, or before an irreversible or outward-facing action; otherwise pick the recommended option, state it and continue. The conversation's existing decisions count; do not ask for duplicate approval because they were written into a plan. When a plan is needed, present its concrete approach before implementation unless that approach is already approved. Routine in-scope implementation choices remain the agent's responsibility.
-- **D12.** A change in public behavior (API, CLI, UI flow) requires updating existing `README.md`/`CHANGELOG.md` where relevant.
-- **D13.** Use absolute dates `YYYY-MM-DD`, not relative dates.
+- Ask for approval only when requirements are unclear in a way that leads to materially different, hard-to-reverse outcomes, or before an irreversible or outward-facing action; otherwise pick the recommended option, state it and continue.
+- Decisions already made in the conversation count; do not ask for duplicate approval because they were written into a plan.
+- When a plan is needed, present its concrete approach before implementation unless that approach is already approved. Routine in-scope implementation choices stay the agent's call.
+- A change in public behavior (API, CLI, UI flow) updates the existing `README.md` and `CHANGELOG.md` where relevant.
+- Use absolute dates `YYYY-MM-DD`, not relative dates.
 
 ## While editing docs
 
-- D6, D11, D15 and the writing checklist live in `~/.claude/rules/docs/living-docs.md`.
+- Link checks, duplicate checks, doc language and the writing checklist live in [living-docs.md](../docs/living-docs.md).

@@ -6,7 +6,7 @@ argument-hint: "<feature or plan> [model]"
 
 # Build review: can it be broken?
 
-The builder already checks its own work (W4, FE-P4, FE-D3). This covers what a builder does not see in
+The builder already checks its own work (the done check, the owner-runtime check and "a number shown is a number delivered" in `kyant-ui-rules`). This covers what a builder does not see in
 its own code: one run of agent `read-only-reviewer` with `effort: "xhigh"`, never the session
 that built; a model or effort the owner names wins.
 
@@ -31,7 +31,7 @@ Read each row in the product's own terms:
   migration, a missing secret, a quota, a third party that is down.
 
 It reads code and runs the existing tests; it does not launch the app. So a finding is one of three
-(W13): **confirmed** (trigger, `path:line`, wrong result), **hypothesis** (with the check that
+(evidence before conclusions): **confirmed** (trigger, `path:line`, wrong result), **hypothesis** (with the check that
 settles it), or **runtime check outstanding** (whatever only the running product shows).
 
 The builder fixes what is confirmed and re-runs the gate. Then ask for the owner's eye, hypotheses

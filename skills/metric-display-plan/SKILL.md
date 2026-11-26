@@ -27,7 +27,7 @@ The failure has three roots, and each step below closes one:
 ## When to run it
 
 Before the first mock or mock brief of any surface with two or more data elements, including a redesign,
-a new direction round (FE-S1, FE-P8) and a `run-agents` mock wave. Run it again when
+a new direction round (reference first, redesign in `kyant-ui-rules`) and a `run-agents` mock wave. Run it again when
 the owner says a mock feels samey or limited. It takes one pass over the element list; it is not a
 replacement for the owner's decisions, it feeds them.
 
@@ -88,7 +88,7 @@ Before arranging anything, write at least three **organising ideas** — what th
 it is tiled. Examples from the TinySift round: *headroom* (everything as what is left), *a status sentence*
 (one generated line, details below), *today's digest* (what happened since morning), *two budgets* (machine
 vs account). Then, for the chosen idea(s), produce layout directions that differ in structure and
-storytelling (FE-P8). A direction that only rearranges the same element forms is not a new direction.
+storytelling (redesign in `kyant-ui-rules`). A direction that only rearranges the same element forms is not a new direction.
 
 ## Step 6 — Hand it on
 

@@ -4,7 +4,7 @@ description: Compact the current conversation into a handoff document for anothe
 argument-hint: "What will the next session be used for?"
 ---
 
-Summarize the current state so a fresh agent can continue. If the task has a plan, update its Handoff section in place (D4/W14); do not create a second document. Otherwise return the handoff in chat, and create a scratchpad handoff file only when the user asks for a portable file. No external tracker is required. Include the checkout/branch/PR if any, scope and decisions, observed verification, uncommitted work, active processes, blockers and the next action.
+Summarize the current state so a fresh agent can continue. If the task has a plan, update its Handoff section in place (plan and handoff rules in `rules/core/workflow.md`); do not create a second document. Otherwise return the handoff in chat, and create a scratchpad handoff file only when the user asks for a portable file. No external tracker is required. Include the checkout/branch/PR if any, scope and decisions, observed verification, uncommitted work, active processes, blockers and the next action.
 
 Include a "suggested skills" section in the document, which suggests skills that the agent should invoke.
 

@@ -24,7 +24,7 @@ Turns an empty target into a repo that already passes lint, typecheck and build,
    - Keep the generator's `<!-- BEGIN:nextjs-agent-rules -->…<!-- END:nextjs-agent-rules -->` block verbatim at the top; `next dev` re-adds it when missing.
    - Commands table: `pnpm dev`, `pnpm lint`, `pnpm format`, `pnpm typecheck`, `pnpm build`.
    - Structure deltas: `src/lib/utils.ts` is shadcn's generated `cn()` entry, kept despite F5 because `components.json` points shadcn's imports at that path.
-   - Language: docs/comments follow the active Output Style; commits English conventional (W5).
+   - Language: docs/comments follow the active Output Style; commits in English, conventional format.
    - Drop template sections and doc tiers the repo does not have yet; no placeholder left in the file.
 5. Do not create empty folders (`hooks/`, `types/`, `e2e/`, `docs/…`) or a `CLAUDE.md` (D5); they appear with their first real file.
 6. Verify in the project, all must pass: `pnpm run lint`, `pnpm run typecheck`, `pnpm run build`, `bash ~/.claude/scripts/docs-compliance.sh .`

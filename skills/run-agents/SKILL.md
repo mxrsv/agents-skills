@@ -13,7 +13,7 @@ Their words win: a named model, agent count or order overrides every default bel
 
 Take the tasks from the plan or spec they named (read both when both exist), else the plan just
 agreed, else the conversation. Do not redo a settled brainstorm, spec or plan. If one is still
-required, W1, W2 and D10 decide; otherwise start. No work to split → ask one question.
+required, the spec and plan thresholds in `rules/core/workflow.md` decide; otherwise start. No work to split → ask one question.
 
 ## 2. Pick the model
 
@@ -32,29 +32,29 @@ Record `git rev-parse HEAD` as the baseline before the first wave; section 5 nee
 - **Same wave, same message:** tasks with no dependency and no shared file. At most 5 per wave
   unless the owner gives a number; the rest go in the next wave.
 - **Later wave:** a task that needs another's result or edits the same file. No worktree unless the
-  owner asks or a PR needs one (`CLAUDE.md` `<branching>`).
+  owner asks or a PR needs one.
 - **Brief:** goal, files it owns, files it must not touch, the check to run. A mock of a data-bearing
   screen also carries the element sheet from skill `metric-display-plan`, one form per element. A subagent knows nothing
   else. It does not commit: parallel commits collide on the shared git index.
 
 ## 4. Build through
 
-After each wave, in the same turn: run the repo's checks yourself (W4), read each task's diff, commit
+After each wave, in the same turn: run the repo's checks yourself (the done check), read each task's diff, commit
 only verified work with `git commit -- <paths>` (it takes the whole file, so nothing unverified may
 sit in those paths), tick the plan, start the next wave. Waiting for agents is not a stop.
 
 Stop only for:
 
 - an irreversible or outward-facing action not already authorized, such as push, merge, release,
-  publish or deleting the owner's data. An FE-P9 track they approved counts; temp files you made do not;
-- an FE-P9 cut-over: removing a switch or an old surface needs their eye approval first;
+  publish or deleting the owner's data. A dev-switch track they approved counts; temp files you made do not;
+- a dev-switch cut-over: removing a switch or an old surface needs their eye approval first;
 - something only the owner can do, such as a login;
 - a UI direction with no chosen mock: render the mocks, stop once, then build through;
 - a material change to the approved scope or approach (D10);
 - nothing left can proceed.
 
 Anything else: take the recommended option, record it in the plan, report it at the end. Eye
-approval during the build comes once, after the last wave (FE-P7, skill `kyant-ui-rules`). If an older
+approval during the build comes once, after the last wave (eye approval in skill `kyant-ui-rules`). If an older
 plan lists it between tasks, move those tasks to the end of the plan and keep building.
 
 A task that fails: first check what it left behind. Retry once, with the error in the brief, only if
@@ -74,5 +74,5 @@ skips (a mock, a video) or when the owner names the agents or criteria.
 ## 6. Report
 
 Use the output style's reply format. In `Result`, one row per task: task, model, status. Then the decisions taken,
-then what still waits for the owner, only what applies: eye approval (open the main artifact, FE-P5),
+then what still waits for the owner, only what applies: eye approval (open the main artifact yourself),
 push, blocked tasks.

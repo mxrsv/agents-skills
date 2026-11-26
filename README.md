@@ -6,9 +6,9 @@ Luật được nạp thế nào trong một phiên:
 
 ```mermaid
 flowchart TD
-    S([Phiên Claude Code]) --> A["CLAUDE.md<br/>từ presets/ hoặc templates/<br/>giao tiếp · format trả lời · hard rules L1–L10"]
-    S --> O["output-styles/<br/>ngôn ngữ trả lời"]
-    S --> C["rules/core/<br/>F · W · D · C — luôn nạp"]
+    S([Phiên Claude Code]) --> A["CLAUDE.md<br/>từ presets/ hoặc templates/<br/>cách làm việc · UI · Computer Use"]
+    S --> O["output-styles/<br/>giọng, độ dài, format trả lời"]
+    S --> C["rules/core/<br/>workflow — luôn nạp"]
     S --> T{"Đang đụng file nào?"}
     T -- "UI files (*.tsx, *.css, …)" --> Q["rules/frontend.md"]
     T -- "docs/**, README, AGENTS, CHANGELOG" --> D["rules/docs/"]
@@ -33,10 +33,10 @@ Một task đi qua workflow thế nào:
 flowchart TD
     R([Task]) --> B{"Bug?"}
     B -- "có" --> DB["diagnosing-bugs<br/>bằng chứng trước khi sửa"]
-    B -- "không" --> W1{"Ngưỡng W1?"}
-    W1 -- "mơ hồ · kiến trúc · được yêu cầu" --> SP["Spec<br/>docs/specs/"]
+    B -- "không" --> TH{"Đến ngưỡng spec?"}
+    TH -- "mơ hồ · kiến trúc · được yêu cầu" --> SP["Spec<br/>docs/specs/"]
     SP -- "kéo dài nhiều phiên" --> PL["Plan<br/>docs/plans/"]
-    W1 -- "task rõ ràng" --> I["Làm đúng scope<br/>git status trước"]
+    TH -- "task rõ ràng" --> I["Làm đúng scope<br/>git status trước"]
     DB --> I
     SP -- "trong một phiên" --> I
     PL --> I
@@ -333,5 +333,5 @@ Presets ghi `CLAUDE.md` vào target cài. Ghép với [`rules/`](rules/) để l
 | [`templates/AGENTS.template.md`](templates/AGENTS.template.md)     | Skeleton delta rules theo project                                              |
 | [`templates/CLAUDE.template.md`](templates/CLAUDE.template.md)     | Starter `CLAUDE.md` trung lập                                                  |
 | [`templates/project-structure.md`](templates/project-structure.md) | Cây thư mục chuẩn                                                              |
-| [`templates/mock-shell.html`](templates/mock-shell.html)           | Khung chung cho mọi mock HTML có lựa chọn (FE-P1); kiểm bằng [`scripts/check-mock-shell.sh`](scripts/check-mock-shell.sh) |
+| [`templates/mock-shell.html`](templates/mock-shell.html)           | Khung chung cho mọi mock HTML có lựa chọn; kiểm bằng [`scripts/check-mock-shell.sh`](scripts/check-mock-shell.sh) |
 | [`hooks/file-guard.sh`](hooks/file-guard.sh)                       | Cảnh báo (PostToolUse) tên file junk, file quá lớn, sai chỗ; chế độ `block` chưa đăng ký |
