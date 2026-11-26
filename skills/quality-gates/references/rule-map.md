@@ -6,12 +6,12 @@ the global ID in the project's commit messages or config comments so the two can
 
 | Rule | Lint / test (installed by `gates`) | Left to review or eye | Modules |
 | --- | --- | --- | --- |
-| FE-K1 only the repo's controls; callers never restyle | `shadcn/no-restyle` with `allow: ["layout"]`, off inside the controls directory | height and size overrides (`h-*`, `size-*`) pass as layout; copied control markup | `primitive`, `review` |
-| FE-K1 reuse before you add | `no-restricted-imports`: `*Variants` recipes, the headless library, the icon package outside the controls directory | a raw element dressed as a control | `primitive`, `review` |
-| FE-SP1 style from tokens | `shadcn/no-raw-colors`, `shadcn/no-arbitrary-values` (`allow: ["layout"]`), `shadcn/require-static-classes`, `shadcn/no-unknown-classes` on migrated paths | new global CSS, static inline `style`, hand-written `.dark` selectors | `gates`, `review` |
-| FE-K5 no outset ring; selection stays visible | `local/no-outset-state-indicators` | whether the indicator is actually visible: a state sheet | `states`, `gates` |
-| FE-M1 nothing loops while idle | none | loops, timers, `requestAnimationFrame` | `review` |
-| FE-K6 every interactive element shows its states | none; the shared control or base layer sets cursor and states once | raw handlers without a cursor and hover-only controls on changed lines (`review` §5); hit area and states: the break-test and screenshot pass (break-test and owner-runtime check in `kyant-ui-rules`) | `primitive`, `review` |
+| Only the repo's controls; callers never restyle | `shadcn/no-restyle` with `allow: ["layout"]`, off inside the controls directory | height and size overrides (`h-*`, `size-*`) pass as layout; copied control markup | `primitive`, `review` |
+| Reuse before you add | `no-restricted-imports`: `*Variants` recipes, the headless library, the icon package outside the controls directory | a raw element dressed as a control | `primitive`, `review` |
+| Style from tokens | `shadcn/no-raw-colors`, `shadcn/no-arbitrary-values` (`allow: ["layout"]`), `shadcn/require-static-classes`, `shadcn/no-unknown-classes` on migrated paths | new global CSS, static inline `style`, hand-written `.dark` selectors | `gates`, `review` |
+| No outset ring; selection stays visible | `local/no-outset-state-indicators` | whether the indicator is actually visible: a state sheet | `states`, `gates` |
+| Nothing loops while idle | none | loops, timers, `requestAnimationFrame` | `review` |
+| Every interactive element shows its states | none; the shared control or base layer sets cursor and states once | raw handlers without a cursor and hover-only controls on changed lines (`review` §5); hit area and states: the break-test and screenshot pass (break-test and owner-runtime check in `kyant-ui-rules`) | `primitive`, `review` |
 | Owner-runtime check: built UI checked beside the mock | none | computed-style diff against the mock | `review` |
 | Every exception says why | `local/require-suppression-reason`; `oxlint-exemptions.test.ts` keeps named exemptions real | an override comment that names nothing | `gates` |
 | Tests assert behaviour | `local/no-unreasoned-skip` | tests that mirror the implementation | `gates` |
@@ -24,8 +24,8 @@ Port these when their trigger appears, measured with `probe` first.
 
 | Check | Trigger |
 | --- | --- |
-| no native `title` tooltip on intrinsic elements | the project has a Tooltip primitive |
-| centred scroller needs `scrollbar-gutter` | the project has a ScrollArea primitive or Tailwind scrollers |
-| unanchored `:has()` in Tailwind arbitrary variants | the first `[…:has(…)]` variant appears |
-| no wall-clock reads or real sleeps in tests | the suite runs on fake timers; tests that drive real processes keep their timeouts |
-| report unused disable directives | the existing unused directives are cleaned up first |
+| No native `title` tooltip on intrinsic elements | the project has a Tooltip primitive |
+| Centred scroller needs `scrollbar-gutter` | the project has a ScrollArea primitive or Tailwind scrollers |
+| Unanchored `:has()` in Tailwind arbitrary variants | the first `[…:has(…)]` variant appears |
+| No wall-clock reads or real sleeps in tests | the suite runs on fake timers; tests that drive real processes keep their timeouts |
+| Report unused disable directives | the existing unused directives are cleaned up first |

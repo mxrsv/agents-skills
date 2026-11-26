@@ -20,7 +20,7 @@ there is no finding.
 - Run the repo's linter on the changed files. Report its output as it is; do not repeat what
   it already caught.
 
-## 1. Controls come from the controls folder (FE-K1)
+## 1. Controls come from the controls folder ("Only the repo's controls" in `kyant-ui-rules`)
 
 - Flag a bare `<button>`, `<input>`, `<select>` or `<textarea>` styled to look like a control
   the folder provides.
@@ -29,7 +29,7 @@ there is no finding.
 - Do not flag raw elements that are not a control by design: rows, tabs, resize handles,
   swatches, terminal and editor surfaces, and the repo's own carve-outs.
 
-## 2. Styling lives on the component that renders it (FE-SP1)
+## 2. Styling lives on the component that renders it ("One scale per app" in `kyant-ui-rules`)
 
 - Flag new rules in a stylesheet that classes on the owning component could express. Global
   CSS is right for generated markup (rendered markdown), third-party hosts (terminal, editor),
@@ -37,7 +37,7 @@ there is no finding.
 - Flag a new `style={{ … }}` carrying a static value a class covers; runtime values are fine.
 - Flag a hand-written `.dark` selector where the theme provides a `dark` variant.
 
-## 3. Compose, do not copy (FE-K1)
+## 3. Compose, do not copy ("Only the repo's controls" in `kyant-ui-rules`)
 
 - Flag a new component that copies a primitive's markup and classes instead of composing it.
 - Flag a long class string that repeats a treatment another call site already uses: the fix
@@ -45,13 +45,13 @@ there is no finding.
 - Flag a new member of a slot family (banner, row, card) that hand-builds its row, icon
   column or actions instead of using the slots.
 
-## 4. Motion (FE-M1)
+## 4. Motion ("Little, purposeful motion" in `kyant-ui-rules`)
 
 - Flag a new infinite animation, `requestAnimationFrame` loop or interval that drives visuals
   while nothing changes, unless it runs only while its state exists and stops under reduced
   motion.
 
-## 5. Actionable states (FE-K6)
+## 5. Actionable states ("Every interactive element shows it" in `kyant-ui-rules`)
 
 - Flag a new raw element with a click or drag handler (`onClick`, `role="button"`, a resize
   handle) that sets no matching cursor, and a control the user needs that shows only on hover
