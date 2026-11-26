@@ -25,7 +25,7 @@ fi
 EXTRA="$SRC/templates/$TARGET-extra.md"
 OUT="$HOME/.codex/AGENTS.md"
 # File luật nhắc tới bằng path nhưng không nối vào CLAUDE.md (template, rules nạp theo path) — chép nguyên vào VM.
-CLOUD_FILES="templates/project-structure.md templates/AGENTS.template.md skills/kyant-ui-rules/SKILL.md templates/mock-shell.html scripts/check-mock-shell.sh"
+CLOUD_FILES="templates/project-structure.md templates/AGENTS.template.md skills/kyant-ui-rules/SKILL.md skills/decision-traceability/SKILL.md skills/task-workflow/SKILL.md templates/mock-shell.html scripts/check-mock-shell.sh"
 EOF_MARK="__AGENT_RULES_EOF__"
 # Output style đang bật (settings.json → outputStyle, khớp với `name:` trong output-styles/*.md).
 # Codex và cloud session không đọc output style của máy này nên thân style được nối thẳng vào bộ luật.
