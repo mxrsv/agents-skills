@@ -73,6 +73,6 @@ skips (a mock, a video) or when the owner names the agents or criteria.
 
 ## 6. Report
 
-Use `<reply_format>`. In `Result`, one row per task: task, model, status. Then the decisions taken,
+Use the output style's reply format. In `Result`, one row per task: task, model, status. Then the decisions taken,
 then what still waits for the owner, only what applies: eye approval (open the main artifact, FE-P5),
 push, blocked tasks.
