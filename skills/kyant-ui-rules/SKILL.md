@@ -143,10 +143,13 @@ skill `decision-traceability`.
   starts the app and checks the change in the running app; the owner types `/verify` for their own pass. The manual steps
   above stay only where `/run` cannot reach (native windows). *R4 "Bắt buộc"; A9 + A11 ~76 lines "tại sao bạn lại
   chưa build giống mock ?", "đang chạy bản dev tôi không thấy icon update đó".*
-- **Open it yourself.** A mock, image, PDF or screenshot built for the owner is opened as the last step:
-  `.html` or URL → `open <path|url>`, image/PDF → `open -a Preview <path>`. A dev-server URL opens only after the
-  port answers. Several files → open the main one. Skip when nobody is at the machine (`claude -p`, subagents,
-  night shift): put the path in the result. *R5; A15 ~22 lines "mở mock tôi xem".*
+- **Open it yourself.** Every turn that leaves a mock, image, PDF or screenshot for the owner to look at, new
+  or changed (by you, a script or a subagent), ends by opening it, after the last edit, with the preset or page to
+  look at: `.html` or URL → `open <path|url>`, image/PDF → `open -a Preview <path>`. A dev-server URL opens only
+  after the port answers. Several files → open the main one. Skip when nobody is at the machine (`claude -p`,
+  subagents, night shift): put the path in the result, and the session talking to the owner opens it. *R5; A15
+  ~22 lines "mở mock tôi xem"; 2026-11-28 transcript check: of 59 "mở mock" requests, 11 came with no `open`
+  run earlier in the session and 12 after a script had edited the mock since the last `open`.*
 - **Change exactly what was named.** Edit the element and the aspect the owner named. When several elements
   match, name the one you will change first. A "redesign" changes structure, not only position or colour.
   *R5; A16 "text này chứ không phải Button", "gần như mới thay đổi vị trí, button vẫn giữ nguyên style".*

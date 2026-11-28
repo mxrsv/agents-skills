@@ -8,7 +8,7 @@ tools:
   - Bash
   - Skill
 model: opus
-maxTurns: 40
+maxTurns: 80
 effort: high
 permissionMode: default
 ---
@@ -36,6 +36,9 @@ When the brief covers code, load the matching checklists with the Skill tool: `r
   reconsider?". A line with no owner quote behind it is "Inferred".
 
 ## Report
+
+The run ends at a hard turn ceiling without warning, and a run that ends before the report returns
+nothing. Batch several reads per turn and by about turn 50 stop reading and write the report.
 
 Return the report as text, in English: the findings ranked by what they cost the user, then what
 you could not verify and what you did not get to. Follow the brief's angles and say which you
