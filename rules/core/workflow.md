@@ -1,13 +1,13 @@
 # Workflow
 
-## When to spec or plan
+## When to write a spec
 
-- Default to doing the work directly. Brainstorm or write a spec only when one of these holds:
+- Brainstorm or write a spec only when one of these holds:
   - the request has several readings that lead to materially different, hard-to-reverse outcomes (otherwise pick the likeliest and state it);
   - it changes the architecture, the data model or an existing public contract (API, CLI), or changes or removes an existing UI flow (adding a new flow does not count);
+  - the work spans several sessions;
   - the user explicitly asks.
-- Write a plan when the work spans several sessions or commits, or the user asks for one. A small, clear task needs no plan even if a spec exists; single-session work uses plan mode instead of a plan file.
-- Specs in `docs/specs/` own requirements; plans in `docs/plans/` own execution and link the spec. Neither requires the other.
+- No plan files. The approach lives in plan mode or the chat; present it before editing when it is hard to undo.
 - On a bug, use skill `diagnosing-bugs` before fixing (not `systematic-debugging`), and scale the investigation to the bug.
 
 ## Done check
@@ -32,8 +32,9 @@
 
 ## Resume and handoff
 
-- Resume from the spec's requirements and the plan's approach, verification and latest handoff, then inspect the actual checkout before editing. Preserve other agents' changes.
-- At handoff, record progress, checkout/branch/PR, observed verification, remaining work and blockers in the same plan.
+- Resume from the spec (requirements, decisions, `## Status`), then inspect the checkout, branch and PR before editing. Preserve other agents' changes.
+- At handoff, update the spec's `## Status`: done, remaining, checkout/branch/PR, checks run with results, blockers.
+- A legacy plan in `docs/plans/` that is still active: on the next touch, move its status into the spec's `## Status` and mark the plan historical.
 - A merge is not acceptance: mark a task complete only when acceptance criteria and required approvals are met, and report unrun gates. Merge, deploy and release need the user's authorization.
 
 ## References and decisions
@@ -43,5 +44,5 @@
 - When putting options to the owner, mark each one reversible or hard to reverse and say in one clause what undoing it costs, so the owner sees which choice needs thought and which can be picked fast.
 - Before recommending on strategy, product or UX (advice, not code), name the 2–3 assumptions about audience, resources and constraints that would most change the answer; ask the owner about the ones the conversation and repo cannot settle, then give one pick and say what would reverse it.
 - Before saying something does not exist (a feature, project, file), search every repo on the machine that could hold it (`find ~ -maxdepth 4 -name .git`), not only the current checkout, and say where you looked.
-- Owner decisions survive every handoff (spec, plan, build prompt, acceptance): follow skill `decision-traceability`.
+- Owner decisions survive every handoff (spec, build prompt, acceptance): follow skill `decision-traceability`.
 - Risky features pass skill `build-review` and flow-changing mocks pass `mock-review` before the owner looks; triggers in skill `decision-traceability`.

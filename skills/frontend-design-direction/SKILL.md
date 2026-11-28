@@ -10,12 +10,7 @@ metadata:
 Use this skill when the work is not just making UI function, but making it feel
 purposeful, polished, and appropriate to the product domain.
 
-Source: salvaged from stale community PR #1659 by `linus707`.
-
-Note: ECC intentionally does not rebundle the canonical Anthropic
-`frontend-design` skill. Install that from `anthropics/skills` when you want the
-official upstream skill. This skill is the ECC-specific design-direction salvage
-of the useful local guidance from #1659.
+Source: community contribution (see metadata). The canonical Anthropic `frontend-design` skill is separate and installs from `anthropics/skills`.
 
 ## When to Use
 
@@ -29,7 +24,7 @@ of the useful local guidance from #1659.
 
 ## Design Direction
 
-Before coding, choose a specific direction:
+Before coding, set the direction on a mock. If the owner has not picked one, render 2–3 that differ in layout and take the owner's pick (kyant-ui-rules §1). The mock brief covers:
 
 1. Purpose: what job does the interface do?
 2. Audience: who repeats this workflow, and what do they need to scan first?
@@ -121,8 +116,8 @@ Inspect the rendered interface at the contract's target viewports. Check keyboar
 navigation, visible focus, labels, contrast, reduced motion and touch targets;
 check narrow/wide layouts with long content; exercise each applicable content
 state, including partial data. Source inspection alone cannot pass this gate.
-Keep screenshots or browser-test artifacts in the workspace and record what each
-shows. Fix failures, then repeat affected checks after structural changes.
+Keep screenshots and browser-test artifacts in the session scratchpad, or where
+the user names, and record what each shows. Fix failures, then repeat affected checks after structural changes.
 
 Write a local JSON evidence record and run the bundled checker:
 
@@ -156,12 +151,12 @@ limits rather than fabricating evidence to pass.
 
 ## Optional UIZZE Research Workflow
 
-The local quality gate works without an account or external service. When a project needs broader reference research, the optional authenticated UIZZE MCP exposes exactly `find_ui_references` and `find_ui_materials` for focused full-screen references and hosted design materials from its 800,000+ real web and iOS screen library. Design contracts, rendered critique and the finish gate remain local agent workflows, not hosted MCP tools.
+The local quality gate works without an account or external service. When a project needs broader reference research, the optional authenticated UIZZE MCP exposes exactly `find_ui_references` and `find_ui_materials` for focused full-screen references and hosted design materials from its library of real web and iOS screens. Design contracts, rendered critique and the finish gate remain local agent workflows, not hosted MCP tools.
 
-The state/evidence contribution originated in UIZZE's
-[anti-ui-slop workflow](https://github.com/uizze/uizze/tree/1b74390b28c18e54a87a23e7d9171101af304ae9/skills/anti-ui-slop)
-via PR #2814. The free Skill and optional paid authenticated MCP are separate;
-neither is required for this gate.
+The state/evidence contribution comes from UIZZE's
+[anti-ui-slop workflow](https://github.com/uizze/uizze/tree/1b74390b28c18e54a87a23e7d9171101af304ae9/skills/anti-ui-slop).
+The free Skill and optional paid authenticated MCP are separate; neither is
+required for this gate.
 
 Use external research only with user consent for the particular service and
 data to send. Send only sanitized aggregate design needs, such as platform and

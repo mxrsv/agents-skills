@@ -36,7 +36,7 @@ When controls come from a generator (shadcn preset, a registry), the source is u
 - Pin the generator and dependency versions; when a control is regenerated, diff it against
   the committed source and record upstream drift.
 - An **adaptation** (renderer glue such as `forwardRef`, an inset focus ring) is a deliberate
-  edit recorded in the project's plan or spec, and linted on the primitives so regeneration
+  edit recorded in the project's spec, and linted on the primitives so regeneration
   cannot silently drop it.
 - Lint tiers: primitives get token checks only, never restyle or arbitrary-value checks on
   their own classes (module `gates`).

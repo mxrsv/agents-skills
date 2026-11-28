@@ -5,7 +5,7 @@ description: Measure whether agents actually follow a skill, rule or agent defin
 
 # skill-comply
 
-Source: ECC `skill-comply` (affaan-m/ECC), tests and fixtures dropped; the 220 upstream tests passed on the copy before it was trimmed.
+Source: ECC `skill-comply` (affaan-m/ECC), tests and fixtures dropped.
 
 ## Run
 

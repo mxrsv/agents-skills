@@ -17,7 +17,7 @@ Your knowledge of web performance metrics, thresholds, and tooling APIs may be o
 
 ## FIRST: Verify MCP Tools Available
 
-**Run this before starting.** Try calling `navigate_page` or `performance_start_trace`. If unavailable, STOP—the chrome-devtools MCP server isn't configured.
+**Run this before starting.** Try calling `navigate_page` or `performance_start_trace`. If unavailable, stop: the chrome-devtools MCP server isn't configured.
 
 Ask the user to add this to their MCP config:
 
@@ -100,14 +100,7 @@ Example:
 performance_analyze_insight(insightSetId: "<id-from-trace>", insightName: "LCPBreakdown")
 ```
 
-**Key thresholds (good/needs-improvement/poor):**
-- TTFB: < 800ms / < 1.8s / > 1.8s
-- FCP: < 1.8s / < 3s / > 3s
-- LCP: < 2.5s / < 4s / > 4s
-- INP: < 200ms / < 500ms / > 500ms
-- TBT: < 200ms / < 600ms / > 600ms
-- CLS: < 0.1 / < 0.25 / > 0.25
-- Speed Index: < 3.4s / < 5.8s / > 5.8s
+Thresholds: fetch current values from https://web.dev/articles/vitals before citing them.
 
 ### Phase 3: Network Analysis
 

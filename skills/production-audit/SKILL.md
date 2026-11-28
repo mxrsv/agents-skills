@@ -8,10 +8,8 @@ metadata:
 # Production Audit
 
 Use this skill when the user asks whether an application is ready to ship, what
-could break in production, or what must be fixed before a launch. This is a
-maintainer-safe rewrite of the stale community production-audit idea: it keeps
-the useful production-readiness lens and removes unpinned external execution and
-third-party data sharing.
+could break in production, or what must be fixed before a launch. It runs no
+unpinned external code and shares no data with third parties.
 
 ## When to Use
 
@@ -202,6 +200,3 @@ Next action: Want me to patch webhook idempotency first?
 
 - Skill: `security-review`
 - Skill: `deployment-patterns`
-- Skill: `e2e-testing`
-- Skill: `tdd-workflow`
-- Skill: `verification-loop`

@@ -116,30 +116,7 @@ A bare yes confirms what the user wants, not that work starts now. Stopping ther
 
 ## Output
 
-The deliverable is the **confirmed statement of intent**: the restate with an explicit yes. Specs, plans and task lists are downstream and consume it. When the work needs a durable record, put the intent in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md`; a plan links to that spec instead of copying it. Otherwise return it in chat. To stress-test a decision once it exists, use `grilling`.
-
-## Real run
-
-TinySift, 2026-10-22, condensed. The ask: "xử lý vấn đề về performance khi tinysift chạy nó chiếm khá nhiều CPU và RAM, cần điều tra tinysift đang run trên máy tôi trước". The user asked for an investigation first, so the agent measured before the first question: ~21% of one core with the window open, a spike on every 2 s refresh, and a hidden window that still refreshed its list.
-
-```
-Q:     When you saw the cost, were you looking at TinySift or working in another app?
-GUESS: another app. Then the fix is to stop reading and redrawing when you are not looking.
-User:  ngừng đọc khi không focus app đúng không
-Agent: Not quite: stop when the window is not visible (hidden, minimized, fully covered,
-       another Space), not on focus loss; on a second monitor you are still reading it.
-       CONFIDENCE: ~65% — missing: the trade-off on return, and what counts as fixed.
-Q:     Stopping while hidden leaves a gap in the 5-minute chart. Acceptable?
-GUESS: yes; you open it to see the machine now, not five minutes ago.
-User:  chấp nhận, ẩn thì ngừng hẳn
-Q:     Also cut the redraw cost while the window is visible, or only the hidden case for now?
-GUESS: hidden case only; the visible redraw cost is a separate, riskier UI job.
-User:  theo guess
-Agent: <restate; Out of scope: redraw cost while visible>
-User:  yes làm luôn đi        ← yes plus a go-ahead: build in the same turn
-```
-
-Hidden CPU dropped from ~21% to 0.7% of one core and RAM from ~205 MB to 56 MB. The scope cut and the focus-vs-visibility correction both landed before any code changed.
+The deliverable is the **confirmed statement of intent**: the restate with an explicit yes. Specs, plans and task lists are downstream and consume it. When the work needs a durable record, put the intent in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md`. Otherwise return it in chat. To stress-test a decision once it exists, use `grilling`.
 
 ## Traps
 

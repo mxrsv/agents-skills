@@ -1,16 +1,16 @@
 ---
 name: decision-traceability
-description: Keep every decision the owner settled alive from the conversation through spec, plan, build prompt and acceptance, and route risky features and flow-changing mocks through an outside review. Use when writing or committing a spec from owner decisions, writing a plan, a build prompt or a subagent brief, defining acceptance for "make it like X", or before asking the owner to look at a feature that changes data, auth, money, permissions or how a task is reached.
+description: Keep every decision the owner settled alive from the conversation through spec, build prompt and acceptance, and route risky features and flow-changing mocks through an outside review. Use when writing or committing a spec from owner decisions, writing a build prompt or a subagent brief, defining acceptance for "make it like X", or before asking the owner to look at a feature that changes data, auth, money, permissions or how a task is reached.
 ---
 
 # Decision traceability
 
 A decision the owner settled (in an intent interview, a grilling round or chat) must survive every handoff:
-decision → spec → plan → build prompt → acceptance.
+decision → spec → build prompt → acceptance.
 
 ## Before committing the spec
 
-- The spec carries a traceability table: each row has the decision, quoted, then its requirement ID, then its acceptance check.
+- The spec carries a traceability table (`## Decisions` in `~/.claude/templates/spec.template.md`): each row has the decision, quoted, then its requirement ID, then its acceptance check.
 - A decision with no row is a defect.
 - Check every Out-of-scope line against the decisions. A line that narrows a decision needs the owner's explicit yes.
 

@@ -70,7 +70,7 @@ RECOMMENDATION (draft — requires human review):
 
 - Separate **Facts** (sourced) from **Interpretations** (analysis)
 - Include source credibility and confidence levels
-- Return the draft as text. Relevant research, approved decisions and rejected alternatives belong in the caller's task plan under `docs/plans/`; do not create a separate research document. Raw exploratory notes stay in scratchpad. Without a task plan, return findings in conversation; do not require or create a tracker issue.
+- Return the draft as text. Relevant research, approved decisions and rejected alternatives belong in the caller's spec under `docs/specs/`; do not create a separate research document. Raw exploratory notes stay in scratchpad. Without a spec, return findings in conversation; do not require or create a tracker issue.
 - Return one draft that states its assumptions and gaps; the caller decides whether to continue
 
 ## Domain Expertise

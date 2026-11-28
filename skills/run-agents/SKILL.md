@@ -11,9 +11,9 @@ Their words win: a named model, agent count or order overrides every default bel
 
 ## 1. Find the work
 
-Take the tasks from the plan or spec they named (read both when both exist), else the plan just
-agreed, else the conversation. Do not redo a settled brainstorm, spec or plan. If one is still
-required, the spec and plan thresholds in `rules/core/workflow.md` decide; otherwise start. No work to split → ask one question.
+Take the tasks from the spec they named (and any legacy plan), else the approach just
+agreed in plan mode or chat, else the conversation. Do not redo a settled brainstorm or spec. If one is still
+required, the spec threshold in `rules/core/workflow.md` decides; otherwise start. No work to split → ask one question.
 
 ## 2. Pick the model
 
@@ -41,7 +41,7 @@ Record `git rev-parse HEAD` as the baseline before the first wave; section 5 nee
 
 After each wave, in the same turn: run the repo's checks yourself (the done check), read each task's diff, commit
 only verified work with `git commit -- <paths>` (it takes the whole file, so nothing unverified may
-sit in those paths), tick the plan, start the next wave. Waiting for agents is not a stop.
+sit in those paths), update the spec's `## Status`, start the next wave. Waiting for agents is not a stop.
 
 Stop only for:
 
@@ -53,9 +53,9 @@ Stop only for:
 - a material change to the approved scope or approach;
 - nothing left can proceed.
 
-Anything else: take the recommended option, record it in the plan, report it at the end. Eye
+Anything else: take the recommended option, record it in the spec, report it at the end. Eye
 approval during the build comes once, after the last wave (eye approval in skill `kyant-ui-rules`). If an older
-plan lists it between tasks, move those tasks to the end of the plan and keep building.
+spec or plan lists it between tasks, move those tasks to the end and keep building.
 
 A task that fails: first check what it left behind. Retry once, with the error in the brief, only if
 running it again is safe. Otherwise, or if it fails again, mark it blocked. Tasks that depend on it

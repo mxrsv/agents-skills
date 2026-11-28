@@ -35,4 +35,4 @@ It reads code and runs the existing tests; it does not launch the app. So a find
 settles it), or **runtime check outstanding** (whatever only the running product shows).
 
 The builder fixes what is confirmed and re-runs the gate. Then ask for the owner's eye, hypotheses
-and outstanding runtime checks first, and tick the plan with the commit.
+and outstanding runtime checks first, and update the spec's `## Status` with the commit.

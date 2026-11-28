@@ -5,8 +5,8 @@
 #   PreToolUse  (Write) → file-guard.sh block   # script hỗ trợ nhưng CHƯA đăng ký (exit 2 sẽ chặn Write)
 # Từ 2026-07-27: CÓ kiểm vị trí + tên tài liệu (luật docs/ layout). Lý do đảo chủ đích cũ: luật vị trí file dạng
 # văn bản đã thất bại — 4 đường dẫn song song, 21 file bị .gitignore chôn ở deck.
-# Since 2026-10-03: docs/ allows three living tiers plus separate specs/ and plans/.
-# Specs own requirements; plans own execution. Reviews default to chat.
+# Since 2026-10-03: docs/ allows three living tiers plus specs/. Since 2026-11-28: no plan files;
+# the spec's ## Status carries handoff. docs/plans/ stays allowed for legacy records. Reviews default to chat.
 # Documentation root xác định KHÔNG qua git (xem docs_path_violation).
 set -u
 
@@ -16,7 +16,7 @@ file_path=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty' 2>/dev
 [ -z "$file_path" ] && exit 0
 base=$(basename "$file_path")
 
-WORKFLOW_HINT="requirements + acceptance criteria → docs/specs/YYYY-MM-DD-<slug>.md; implementation + verification + handoff → docs/plans/YYYY-MM-DD-<slug>.md (link to spec); review → chat or an explicitly requested PR"
+WORKFLOW_HINT="requirements + decisions + acceptance criteria + handoff status → docs/specs/YYYY-MM-DD-<slug>.md (## Status); approach → plan mode or chat; no plan files; review → chat or an explicitly requested PR"
 
 # Documentation root = tổ tiên gần nhất có `docs/` là con trực tiếp VÀ có marker.
 # KHÔNG dùng git: PreToolUse chạy TRƯỚC khi Write tạo thư mục cha, nên
@@ -35,12 +35,12 @@ docs_path_violation() { # $1 = file_path; in lý do chặn ra stdout, rỗng = c
     docs/review/*|docs/superpowers/*|docs/intent/*|docs/decisions/*|docs/daily/*|docs/archive/*|docs/mockups/*)
       echo "⛔ docs: '$rel' — do not create review/ledger files in the repo: $WORKFLOW_HINT. Evidence → scratchpad or a requested artifact destination." ;;
     docs/*/*)
-      echo "⛔ docs: allowed docs/ directories: user/, internals/, operations/, specs/, plans/ — got '$rel'. Requirements → docs/specs/; implementation and handoff → docs/plans/." ;;
+      echo "⛔ docs: allowed docs/ directories: user/, internals/, operations/, specs/ (plans/ legacy only) — got '$rel'. Requirements and handoff status → docs/specs/." ;;
     docs/*)
       base="${rel#docs/}"
       case "$base" in
         README.md|DESIGN-LANGUAGE.md) ;;
-        *) echo "⛔ docs: file thẳng trong docs/ chỉ được là README.md (index) hoặc DESIGN-LANGUAGE.md — nhận '$base'. Kiến trúc/quyết định → docs/internals/, task progress → docs/plans/." ;;
+        *) echo "⛔ docs: file thẳng trong docs/ chỉ được là README.md (index) hoặc DESIGN-LANGUAGE.md — nhận '$base'. Kiến trúc/quyết định → docs/internals/, task progress → ## Status trong spec ở docs/specs/." ;;
       esac ;;
   esac
   return 0

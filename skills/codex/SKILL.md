@@ -63,7 +63,7 @@ Codex produces **no intermediate output** — it writes the result only at compl
 | `ultra` | 1800s |
 
 ## Following Up
-- After every `codex` command, immediately use `AskUserQuestion` to confirm next steps, collect clarifications, or decide whether to resume with `codex exec resume --last`.
+- After a codex run, report the result and the recommended next step. Ask only when the next step is irreversible or outward-facing, or the user must choose between materially different outcomes.
 - When resuming, apply step 4's skip-flag gate and pipe the new prompt via stdin: `echo "new prompt" | codex exec resume --last 2>/dev/null` (inside Git by default). The resumed session automatically uses the same model, reasoning effort, and sandbox mode from the original session.
 - Restate the chosen model, reasoning effort, and sandbox mode when proposing follow-up actions.
 

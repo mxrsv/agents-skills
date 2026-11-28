@@ -29,4 +29,4 @@
 
 - {{symptom → cause → related file/command}}
 
-{{When a decision changes → REWRITE the corresponding passage, do not append a second telling. Task progress → the existing task plan; out-of-scope drift → conversation.}}
+{{When a decision changes → REWRITE the corresponding passage, do not append a second telling. Task progress → the spec's ## Status; out-of-scope drift → conversation.}}

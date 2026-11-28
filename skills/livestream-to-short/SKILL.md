@@ -1,6 +1,6 @@
 ---
 name: livestream-to-short
-description: Turn one of the owner's YouTube livestreams into a vertical 9:16 Short under 60 s — download 1080p with yt-dlp, transcribe with whisper.cpp, rank topics from transcript + live chat, then cut, zoom into screen regions, stack the facecam below, burn captions and loudness-normalise with ffmpeg. Use whenever the owner pastes a YouTube live/video link and wants a Short, clip or highlight from it ("làm short từ live này", "cắt short", "dựng video short dọc", "tải livestream 1080p rồi phân tích", "make a short from my stream"), or asks to redo/tweak a Short built this way. Stops for topic choice and never uploads.
+description: Turn one of the owner's YouTube livestreams into a vertical 9:16 Short under 60 s — download 1080p with yt-dlp, transcribe with whisper.cpp, rank topics from transcript + live chat, then cut, zoom into screen regions, stack the facecam below, burn captions and loudness-normalise with ffmpeg. Use when the owner pastes a YouTube live or video link and wants a Short, clip or highlight cut from it, or asks to redo or tweak a Short built this way, in Vietnamese or English. Stops for topic choice and never uploads.
 ---
 
 # Livestream → Short

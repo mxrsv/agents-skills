@@ -14,13 +14,13 @@ Each row follows a section of the Claude Code best-practices page; the link is t
 
 ## Single session
 
-- Use plan mode instead of a plan file.
+- Use plan mode; no plan file.
 - Run `/clear` between unrelated tasks, and after two failed corrections clear and write a better prompt instead of a third correction.
 - Source: [Steer the session](https://code.claude.com/docs/en/best-practices#steer-the-session), [Keep cost and context down](https://code.claude.com/docs/en/best-practices#keep-cost-and-context-down).
 
 ## Multi-session
 
-- Write the spec in `docs/specs/`, then the plan in `docs/plans/`, and end the plan with a `/goal` line built from the acceptance criteria.
+- Write the spec in `docs/specs/` with a `## Status` updated at each handoff, and end it with a `/goal` line built from the acceptance criteria. No plan file.
 - Source: [Give Claude a check to run](https://code.claude.com/docs/en/best-practices#give-claude-a-check-to-run) (`/goal`), [Brainstorm with Claude first](https://code.claude.com/docs/en/best-practices#brainstorm-with-claude-first).
 
 ## Idea work

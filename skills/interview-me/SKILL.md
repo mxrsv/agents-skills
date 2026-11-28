@@ -11,7 +11,7 @@ What people ask for and what they actually want are different things. They ask f
 
 The cheapest moment to find this gap is before any plan, spec, or code exists. Once you've started building, switching costs are real, and the user will rationalize the wrong thing into a "good enough" thing. The misfit gets locked in.
 
-This skill closes the gap before it costs anything. Interview-me is pre-decision only. It hands off to `brainstorm` or `planning` when the spec or plan threshold applies; `grilling` stress-tests a plan after it exists. Interview-me is the part before all of those, where you ask one question at a time, with your best guess attached, until you can predict what the user is going to say before they say it.
+This skill closes the gap before it costs anything. Interview-me is pre-decision only. It hands off to `brainstorm` when the spec threshold applies; `grilling` stress-tests a plan after it exists. Interview-me is the part before all of those, where you ask one question at a time, with your best guess attached, until you can predict what the user is going to say before they say it.
 
 ## When to Use
 
@@ -143,7 +143,7 @@ This is a checkable test, not a vibe. It also has a floor: if you've gone severa
 
 The output of this skill is a **confirmed statement of intent**: the restate from Step 4, with an explicit yes from Step 5. That's the deliverable. Specs, plans, and task lists are downstream; they consume the intent this skill produces.
 
-For work that needs a persistent record, put the confirmed intent in the linked spec `docs/specs/YYYY-MM-DD-<slug>.md`; a plan links to that spec and does not copy it. Otherwise return it in chat.
+For work that needs a persistent record, put the confirmed intent in the spec `docs/specs/YYYY-MM-DD-<slug>.md`. Otherwise return it in chat.
 
 ## Example
 
@@ -188,7 +188,6 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 ## Interaction with Other Skills
 
 - **`brainstorm`**: downstream — settles requirements and approach from the confirmed intent.
-- **`planning`**: downstream of brainstorm — writes the task plan.
 - **`grilling`**: opposite end — stress-tests a decided plan. Interview-me is pre-decision intent extraction; grilling is post-decision review.
 
 ## Common Rationalizations

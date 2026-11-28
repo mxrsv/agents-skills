@@ -31,16 +31,9 @@ Do not duplicate a second style-analysis pass here unless the user explicitly as
 
 If no voice references are given, default to a sharp operator voice: concrete, unsentimental, useful.
 
-## Banned Patterns
+## Style
 
-Delete and rewrite any of these:
-- "In today's rapidly evolving landscape"
-- "game-changer", "cutting-edge", "revolutionary"
-- "here's why this matters" as a standalone bridge
-- fake vulnerability arcs
-- a closing question added only to juice engagement
-- biography padding that does not move the argument
-- generic AI throat-clearing that delays the point
+Write plain declaratives. Open each section with proof, an artifact, a number or a concrete example. Cut transitions that only announce the next point, biography that does not move the argument, generic throat-clearing, and closing questions that exist to chase engagement.
 
 ## Writing Process
 

@@ -82,12 +82,12 @@ Read-only in every repo: no edits, commits, stash or branch changes; other sessi
 uncommitted work there. Write only under <a /tmp folder for renders and scripts>.
 
 ## Deliverable (return it as text, in English)
-1. A ranked list, at most 25, ordered by payoff for the user divided by cost to remove. Each row:
+1. A ranked list of the findings that matter most, ordered by payoff for the user divided by cost to remove. Each row:
    title, class, tag, evidence, the removal in one or two sentences, rough size, risk.
 2. Per-screen notes for what fell below the cut.
 3. Unverified leads.
 4. One paragraph on the habits that keep producing the excess.
-End with the count per class and the top 10 as one line each with `path:line`. Be plain about what
+End with the count per class and the most important ones as one line each with `path:line`. Be plain about what
 you did not get to.
 ```
 

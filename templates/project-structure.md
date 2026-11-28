@@ -17,17 +17,16 @@ src/
 ├─ hooks/                   # shared hooks: use-*.ts
 └─ types/                   # shared types
 e2e/                        # Playwright specs
-docs/                       # documentation (D-rules) — three living reader tiers plus specs and plans
+docs/                       # documentation (D-rules) — three living reader tiers plus specs
   README.md                 #   index
   internals/overview.md     #   living — architecture, decisions + reasons, constraints, traps (entry point)
   internals/<topic>.md      #   only when "a maintainer would get it wrong without it"
   user/<task>.md            #   usage guides, product voice, no implementation detail
   operations/<runbook>.md   #   setup, release, debug for maintainers
   DESIGN-LANGUAGE.md        #   only for repos with codified design rules
-  specs/YYYY-MM-DD-<slug>.md # requirements, scope, design decisions, acceptance criteria
-  plans/YYYY-MM-DD-<slug>.md # link to spec; technical tasks, progress, evidence, handoff
+  specs/YYYY-MM-DD-<slug>.md # requirements, scope, design decisions, acceptance criteria, ## Status (from templates/spec.template.md)
   # review → chat or explicitly requested PR; evidence → scratchpad/requested artifacts
-  # NO review/, superpowers/ or .planning/; small work needs neither spec nor plan
+  # NO review/, superpowers/ or .planning/; no plans/ (2026-11-28); small work needs no spec
 AGENTS.md                   # repo-specific rules — required
 ```
 

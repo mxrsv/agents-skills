@@ -13,7 +13,7 @@ Funnel from cheap to expensive: wide reads on small models, one decision on a st
 | Mode | Session model | Output |
 | --- | --- | --- |
 | `research` (stages 1–2) | Sonnet; subagents do the reading | Digest file in the session scratchpad, never in a repo |
-| `decide` (stage 3) | Opus, fresh context | Ranked candidates, then a plan via `planning`, then stop |
+| `decide` (stage 3) | Opus, fresh context | Ranked candidates, then a proposed approach in chat, then stop |
 
 Splitting keeps the research context out of the Opus cache. If the session was started on one model, say so and tell the user to open the other mode in a fresh session; do not silently run both.
 
@@ -45,7 +45,7 @@ Read the digest and the target repo (not the source repos again). For each candi
 - **Cost / risk:** surfaces touched; check the target's fork rules (e.g. PTY, updater, design invariants) and mark candidates that need owner approval.
 - **Verdict:** `adopt`, `adapt` or `skip`, with one sentence of reason. Skip anything that exists only because the reference has it.
 
-Rank, then hand the top slice to the `planning` skill (spec for requirements if material, plan for execution). Present the approach and **wait for approval**; do not start implementing.
+Rank, then hand the top slice to a spec in `docs/specs/` when requirements are material; the approach goes to plan mode or the chat. Present the approach and **wait for approval**; do not start implementing.
 
 ## Rules
 

@@ -34,7 +34,7 @@ Keep a trap entry under ~8 lines. If it needs more, it is a design: move it to a
 
 - File catalogs, field or method lists, control-flow retellings, PR summaries.
 - A second account of a changed decision: rewrite or delete the old text.
-- Planned work or "gaps" in a living doc; those live in a plan.
+- Planned work or "gaps" in a living doc; those live in a spec.
 - The names of studied outside projects, if the repo forbids it.
 
 ## 5. Keep it true
@@ -45,4 +45,4 @@ Removing or renaming a module means editing its page in the same change.
 ## 6. Split of homes
 
 User task help → user guide; reason or constraint → this page; setup/release steps → runbook;
-requirement or acceptance → spec; progress → plan.
+requirement, acceptance and task progress → the spec (progress in its `## Status`).

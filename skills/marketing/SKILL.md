@@ -36,7 +36,7 @@ A sub-skill's ID is `<prefix>/<name>` (e.g. `coreyhaines31/copywriting`), so bun
 
 ## Guardrails
 
-- `.vendor/coreyhaines31/tools/integrations/` includes paid partners of the upstream repo (`partners.json`). Never present one as the default; name it alongside at least one alternative.
+- `.vendor/coreyhaines31/tools/integrations/` includes paid partners of the upstream repo (`tools/PARTNERS.md`). Never present one as the default; name it alongside at least one alternative.
 - Update: `git -C .vendor/<prefix> pull` (never edit files under `.vendor/`; changes are lost on pull).
 - Only sub-skills that past sessions opened are checked out, because step 2 lists every one on each use. Need another: add its path to the row and run `git -C .vendor/<prefix> sparse-checkout add /skills/<name>/`.
 - Add a bundle: one table row, prefix = the repo owner (`<owner>-<repo>` if that owner already has a row), then step 1. Bundles of another domain get their own router named after the domain, not a row here.

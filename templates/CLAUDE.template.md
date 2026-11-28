@@ -35,9 +35,9 @@ Details live in `{{~/.claude/rules/core/}}` (or your rules path).
 - Temp, experiment and debug files go in the scratchpad, never the repo.
 - Never claim "done / fixed / passing" without running verification and pasting evidence.
 - Stay in task scope; call out out-of-scope work instead of doing it silently.
-- Default is to take the task and do it; brainstorm, spec or plan only when a workflow threshold is hit (ambiguous outcome, architecture/data-model/public-contract change, explicit request).
+- Brainstorm or write a spec only when a workflow threshold is hit (ambiguous outcome, architecture/data-model/public-contract change, multi-session work, explicit request). No plan files.
 - Commits: conventional commits with a scope; one commit, one concern.
-- Specs, plans and docs follow your docs rules.
+- Specs and docs follow your docs rules.
 - A repo without `AGENTS.md` gets one generated from the AGENTS template, recording only deltas from the global baseline.
 
 ## Branching

@@ -46,7 +46,7 @@ Also prefer a script, alias, hook or one rule line when it does the job with no 
 
 ## 4. Propose
 
-At most five, ranked by sessions × steps saved. One line each, then its evidence:
+Propose only candidates that clear the bar, ranked by sessions × steps saved. One line each, then its evidence:
 
 `💡 <name> — <trigger> → <what it saves>` · scope `project` (`<repo>/.claude/skills/`) or
 `global` (`~/.claude/skills/`, then `scripts/sync-agents-skills.sh`) · sessions, projects, label.

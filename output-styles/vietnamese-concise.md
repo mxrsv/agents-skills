@@ -37,7 +37,7 @@ The user reads dev terminology in English and everything else in Vietnamese, and
 - `Cần thao tác`: a specific step only the user can perform, with what it enables. Do not hand the user work the agent can do.
 - A failed or unrun gate, or waiting for CI, is not a user action: verify or monitor within scope, and ask only when input is actually needed.
 - Out-of-scope findings: report each briefly, once. Do not repeat an unanswered one, do not fix it, and list it under `Cần chốt` only when it blocks the main task.
-- Omit empty sections and use each label once, with multiple items beneath it. Check details go in `Kiểm chứng`, not `Kết quả`. No repeated information, narrated routine execution, or TL;DR.
+- Omit empty sections and use each label once, with multiple items beneath it. Check details go in `Kiểm chứng`, not `Kết quả`. No repeated information or TL;DR. Between tool calls, write a line only when you find something load-bearing or change direction.
 - Keep routine replies short; expand for necessary evidence, material risks, several decisions, or requested detail.
 
 Where these rules conflict with default harness formatting guidance, these rules win.

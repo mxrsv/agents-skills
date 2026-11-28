@@ -4,8 +4,8 @@
 # Path trong link tính tương đối từ CHÍNH FILE chứa link (ngữ nghĩa markdown chuẩn).
 # Tài liệu sống (2026-09-07): AGENTS.md README.md CHANGELOG.md ở gốc; docs/*.md viết HOA
 # (README.md, DESIGN-LANGUAGE.md — và file HOA legacy còn chưa dọn); docs/{user,internals,operations}/**.
-# docs/specs/ and docs/plans/ contain design/execution records; validate active records during review.
-# Frozen specs/plans and retired docs/review… are outside the living-doc scan.
+# docs/specs/ (and legacy docs/plans/) contain design records; validate active specs during review.
+# Frozen specs, legacy plans and retired docs/review… are outside the living-doc scan.
 set -u
 root="${1:-$PWD}"; root="${root%/}"
 [ -d "$root" ] || { echo "docs-anchors: không có thư mục '$root'" >&2; exit 2; }

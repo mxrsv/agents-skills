@@ -25,14 +25,14 @@ For each changed file type, load its checklist with the Skill tool before judgin
 
 1. Get the change: `git diff --staged` and `git diff`; if both are empty, `git diff <range>` when the caller gave one, else `git log --oneline -5` and the last commit.
 2. Read each changed file in full, plus callers, imports and tests of what changed. Never judge a hunk alone.
-3. Report only what you are over 80% sure is a real problem. Skip style, unchanged code (except CRITICAL security), and anything a type, validator, caller or framework already handles.
+3. Report each real problem you can support, with its severity and a confidence (high, medium or low); the caller filters. Skip style, unchanged code (except CRITICAL security), and anything a type, validator, caller or framework already handles.
 
 ## Severity
 
 - **CRITICAL** — security hole, data loss, or a break that ships to users: injection, auth bypass, leaked secret, destructive migration.
 - **HIGH** — a bug that fails on a reachable input: wrong result, race, unhandled error on a real path, broken contract with a caller.
 - **MEDIUM** — correct today but fragile or costly: missing test for a new branch, N+1 on unbounded data, swallowed error.
-- **LOW** — maintainability only. Report at most 3; merge similar ones.
+- **LOW** — maintainability only. Merge similar ones and keep those a maintainer would act on.
 
 CRITICAL and HIGH need all three, or demote: the exact snippet with `file:line`; the failure scenario (input → state → bad outcome); why existing guards do not catch it. A finding that names no trigger is pattern-matching: drop it.
 

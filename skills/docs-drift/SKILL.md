@@ -23,9 +23,9 @@ Before writing anything in apply mode: run `git status --porcelain` and report i
 
 ## Step 1 — extract claims
 
-Living docs = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root + `docs/README.md`, `docs/DESIGN-LANGUAGE.md`, every file under `docs/{user,internals,operations}/` (+ legacy UPPERCASE `docs/*.md` not yet cleaned up: `ARCHITECTURE.md`, `CONTEXT.md`, `PRD.md`…). Do NOT treat `docs/specs/` or `docs/plans/` as living docs: active specs record approved requirements; linked plans are checked against them and code during plan review. Completed records are frozen history. Retired `review/` and `mockups/` also remain outside this scan.
+Living docs = `AGENTS.md`, `README.md`, `CHANGELOG.md` at the root + `docs/README.md`, `docs/DESIGN-LANGUAGE.md`, every file under `docs/{user,internals,operations}/` (+ legacy UPPERCASE `docs/*.md` not yet cleaned up: `ARCHITECTURE.md`, `CONTEXT.md`, `PRD.md`…). Do NOT treat `docs/specs/` or legacy `docs/plans/` as living docs: active specs record approved requirements and status. Completed records are frozen history. Retired `review/` and `mockups/` also remain outside this scan.
 
-Living docs carry no intent labels: every behavior claim describes current behavior and is audited. Planned work lives in `docs/plans/`, not in living docs; a passage that marks itself net-new or a gap is drift to fix or delete, not backlog.
+Living docs carry no intent labels: every behavior claim describes current behavior and is audited. Planned work lives in specs, not in living docs; a passage that marks itself net-new or a gap is drift to fix or delete, not backlog.
 
 ## Step 2 — verify with code, not with other docs
 

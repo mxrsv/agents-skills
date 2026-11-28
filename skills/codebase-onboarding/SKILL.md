@@ -45,7 +45,7 @@ Map the recon results to the right files per the D-rules:
 | Architecture, request/data flow | `docs/internals/overview.md`                                | `~/.claude/templates/internals-overview.template.md` |
 | —                                            | `docs/README.md` — index pointing to `user/`, `internals/`, `operations/` (omit tiers that do not exist) | — |
 
-"Current status" belongs in the existing task plan's Handoff section, or in chat for small work. Do not create a separate status document or require a tracker.
+"Current status" belongs in the existing spec's `## Status`, or in chat for small work. Do not create a separate status document or require a tracker.
 
 Rules when generating:
 

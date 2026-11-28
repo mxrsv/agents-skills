@@ -5,7 +5,7 @@
 
 <codex_parity>
 Codex equivalents for Claude Code mechanisms named in the rules above:
-- "plan mode" → Codex Plan mode. A plan's closing `/goal` line → a Codex goal with the same condition.
+- "plan mode" → Codex Plan mode. A spec's closing `/goal` line → a Codex goal with the same condition.
 - `EnterWorktree` / `claude --worktree` → `git worktree add <path> -b <branch> origin/<default-branch>`, then work in that path.
 - Skills written as `/name` in these rules → invoke them as `$name`.
 - User-only skills: a skill folder with `agents/openai.yaml` setting `policy.allow_implicit_invocation: false` runs only when invoked as `$name`. Skills that are `off` for Claude are `enabled = false` in `[[skills.config]]`.

@@ -12,12 +12,7 @@ question and the data's nature decide each element's form *before* anyone mocks,
 
 ## Why this exists
 
-On 2026-11-06 the TinySift Overview showed CPU, RAM, Network, Disk and Battery as the same tile: a number
-over a 1-hour area chart. Nobody chose that on purpose. The data source returned a time series for each,
-the agent proposed "each with a 1 h sparkline" in a grilling round, and five mock subagents built exactly
-that, three layouts deep. The owner broke it with one example: Disk changes over days, so a 1 h chart is a
-flat line; what they want is "61 GB free, ↓ 3.2 GB in 24 h". Layout variety had hidden that the *content*
-had no variety. Full case: `references/worked-example.md`.
+One form repeated across a screen usually means nobody chose it: the data source's shape picked it. Layout variety can hide that the content has none. Decide the form per element. A worked case: `references/worked-example.md`.
 
 The failure has three roots, and each step below closes one:
 - Thinking from the data source instead of the user's question (step 2).

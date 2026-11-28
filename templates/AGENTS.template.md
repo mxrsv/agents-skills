@@ -13,6 +13,10 @@
 | `{{pnpm typecheck}}` | {{tsc --noEmit}}           |
 | `{{pnpm build}}`     | {{production build}}       |
 
+## Verification
+
+Agents verify their own changes with the repo skill `.claude/skills/verify/` (built from `~/.claude/templates/verify-skill.template.md`): boot, drive the main flows in the background, report evidence. {{Delete this section only if the repo has nothing to run (a docs-only repo).}}
+
 ## Directory structure
 
 ```
@@ -42,10 +46,9 @@ The index is [docs/README.md](docs/README.md) `current`.
   documented decision changes, rewrite or remove the text; never append a second account of
   the new behaviour. Keep a local explanation in a code comment; use an internal page only
   when the reasoning crosses boundaries.
-- Specs in `docs/specs/` own requirements and acceptance criteria. Plans in `docs/plans/`
-  link to specs and own technical tasks, progress, verification and handoff.
-  Retain completed records as history. Small work
-  needs neither document. Reviews stay in chat or an explicitly requested PR; raw
+- Specs in `docs/specs/` own requirements, decisions, acceptance criteria and a short
+  `## Status` for handoff. No plan files; legacy `docs/plans/` stays as history.
+  Small work needs no spec. Reviews stay in chat or an explicitly requested PR; raw
   research artifacts stay in scratchpad. No external tracker is required.
 
 {{Delete the tiers the repo does not have (a CLI repo has no user/ …). This section does NOT name the tracker tool — choosing the tool is the user's call, and the global docs rules already cover it.}}

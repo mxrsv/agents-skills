@@ -36,7 +36,7 @@ check "warn: debug-* trong repo"       2 warn  '{"tool_input":{"file_path":"/rep
 check "warn: debug-* trong scratchpad OK" 0 warn '{"tool_input":{"file_path":"/private/tmp/claude-501/x/scratchpad/debug-probe.js","content":"x"}}'
 check "warn: *.log trong repo"         2 warn  '{"tool_input":{"file_path":"/repo/out.log","content":"x"}}'
 
-# docs/ layout: separate specs and plans are allowed; review/ledger directories stay blocked.
+# docs/ layout: specs (and legacy plans) are allowed; review/ledger directories stay blocked.
 FIX=$(mktemp -d)
 mkdir -p "$FIX/repo/.git" "$FIX/repo/docs/specs" "$FIX/repo/docs/plans" \
          "$FIX/repo/docs/review/assets" "$FIX/repo/docs/internals" \
@@ -66,7 +66,7 @@ check "docs: intent/ bị chặn"                   2 block "$(jp "$FIX/repo/doc
 check "docs: decisions/ bị chặn"                2 block "$(jp "$FIX/repo/docs/decisions/0030-x.md")"
 check "docs: mockups/ bị chặn"                  2 block "$(jp "$FIX/repo/docs/mockups/2026-09-07-x.html")"
 says  "docs: blocked review points to specs" block "$(jp "$FIX/repo/docs/review/2026-10-03-export-csv.md")" "docs/specs/YYYY-MM-DD-<slug>.md"
-says  "docs: blocked review points to plans" block "$(jp "$FIX/repo/docs/review/2026-10-03-export-csv.md")" "docs/plans/YYYY-MM-DD-<slug>.md"
+says  "docs: blocked review says no plan files" block "$(jp "$FIX/repo/docs/review/2026-10-03-export-csv.md")" "no plan files"
 # tầng lạ, file HOA cũ
 check "docs: thư mục lạ bị chặn"                2 block "$(jp "$FIX/repo/docs/guides/x.md")"
 check "docs: CONTEXT.md MỚI bị chặn"            2 block "$(jp "$FIX/repo/docs/CONTEXT.md")"
@@ -79,7 +79,7 @@ check "docs: spec legacy đã tồn tại cho qua"    0 block "$(jp "$FIX/repo/d
 check "docs: PIPELINE.lock miễn trừ"            0 block "$(jp "$FIX/pipeline/docs/intent/x.md")"
 check "docs: docs trong src cho qua"            0 block "$(jp "$FIX/plainsrc/apps/web/src/docs/foo.md")"
 check "warn: .planning nhắc chuyển"             2 warn  '{"tool_input":{"file_path":"/repo/.planning/x.md","content":"x"}}'
-says  "warn: .planning points to local task plan" warn '{"tool_input":{"file_path":"/repo/.planning/x.md","content":"x"}}' "docs/plans/YYYY-MM-DD-<slug>.md"
+says  "warn: .planning points to the spec" warn '{"tool_input":{"file_path":"/repo/.planning/x.md","content":"x"}}' "docs/specs/YYYY-MM-DD-<slug>.md"
 rm -rf "$FIX"
 
 echo "----"

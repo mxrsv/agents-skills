@@ -79,8 +79,7 @@ Prefer an existing `rea` CLI. When none is installed and REA package acquisition
 is within the authorized scope, use `npx -y rea-agents@6.5.0` in its place.
 Configuration repair starts with a read-only setup plan; show paths, backups and
 skill replacement before applying authorized changes. Preserve existing approval
-and target-execution boundaries. REA setup never installs or upgrades unrelated
-software, including Node.js, npm, Homebrew, Java, Ghidra, IDA, JADX, Binwalk or Unblob.
+and target-execution boundaries.
 
 ## Route the target first
 
