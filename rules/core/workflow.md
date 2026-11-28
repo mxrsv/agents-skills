@@ -21,6 +21,10 @@
 
 - Commands that change state in hard-to-reverse ways (delete, DB reset, deploy, migrate): re-check that the evidence supports that specific action; unsure → ask.
 - For changes with material data-loss, security or operational risk, present the approach, verification and recovery plan before editing, and get approval unless that scope is already approved.
+- Make a hard-to-reverse step reversible first where that is cheap (back up before a migration, move to Trash instead of `rm`, work on a branch, release to a few users first), so a wrong call costs a restore instead of the data. What stays hard to reverse still needs the re-check and approval above.
+- Before the first edit, check that the working directory is the repo the task is about; if it is another project, stop and say so instead of editing.
+- Before restarting or killing an app or process, name it and check that no other session or pane depends on it. Measure CPU or RAM on a separate prod build, never on the owner's running dev app.
+- CI lookups (`gh run watch`, `gh run list --commit`) take the full SHA from `git rev-parse HEAD`, not a short one.
 - Before editing the first file, run `git status --porcelain`. Work on the current checkout and branch by default, even with `M`/`??` files, and leave changes outside the task untouched.
 - Do not create or switch to a worktree just because the checkout has uncommitted changes.
 - When verification fails, check whether the failure belongs to the task's changes before concluding.
@@ -36,5 +40,8 @@
 
 - A reference that fits more than one thing ("yesterday's video", "the landing page"): list the candidates (path or element, date, one line each) with a recommended pick.
 - Local and reversible → act on the pick and name it in one line. Outward-facing or costly (deploy, publish, delete, push), or candidates that differ materially → wait for the choice.
+- When putting options to the owner, mark each one reversible or hard to reverse and say in one clause what undoing it costs, so the owner sees which choice needs thought and which can be picked fast.
+- Before recommending on strategy, product or UX (advice, not code), name the 2–3 assumptions about audience, resources and constraints that would most change the answer; ask the owner about the ones the conversation and repo cannot settle, then give one pick and say what would reverse it.
+- Before saying something does not exist (a feature, project, file), search every repo on the machine that could hold it (`find ~ -maxdepth 4 -name .git`), not only the current checkout, and say where you looked.
 - Owner decisions survive every handoff (spec, plan, build prompt, acceptance): follow skill `decision-traceability`.
 - Risky features pass skill `build-review` and flow-changing mocks pass `mock-review` before the owner looks; triggers in skill `decision-traceability`.
